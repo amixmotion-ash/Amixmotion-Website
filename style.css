@@ -54,11 +54,6 @@ header {
 .hero-content h1 { font-size: 4em; }
 .hero-content p { font-size: 1.2em; }
 
-/* --- GENERAL PAGE CONTENT (Mainly for other pages) --- */
-main {
-    /* This empty rule is okay, it's a placeholder */
-}
-
 /* --- MISSION SECTION --- */
 .mission-section {
     padding: 120px 0;
@@ -119,28 +114,14 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 
 /* --- RESPONSIVE MEDIA QUERIES --- */
 @media (max-width: 900px) {
-    .mission-grid {
-        grid-template-columns: 1fr;
-    }
-    .mission-text {
-        grid-row: 1;
-    }
-    .mission-image {
-        grid-row: 2;
-    }
+    .mission-grid { grid-template-columns: 1fr; }
+    .mission-text { grid-row: 1; }
+    .mission-image { grid-row: 2; }
 }
-
 @media (max-width: 1024px) {
-    .portfolio-grid-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    .portfolio-grid-container { grid-template-columns: repeat(2, 1fr); }
 }
-
 @media (max-width: 600px) {
-    .portfolio-grid-container {
-        grid-template-columns: 1fr;
-    }
-    .portfolio-grid-section {
-        padding: 60px 20px;
-    }
+    .portfolio-grid-container { grid-template-columns: 1fr; }
+    .portfolio-grid-section { padding: 60px 20px; }
 }
