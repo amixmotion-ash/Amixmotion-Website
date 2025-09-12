@@ -3,10 +3,10 @@ body {
     background-color: #ffffff;
     color: #222222;
     font-family: Arial, sans-serif;
-    margin: 0; /* << ADD THIS LINE */
+    margin: 0;
 }
 
-/* --- NEW DEFINITIVE HEADER STYLES --- */
+/* --- HEADER STYLES --- */
 header {
     width: 100%;
     padding: 25px 40px;
@@ -19,282 +19,43 @@ header {
     align-items: center;
     box-sizing: border-box;
 }
-
-/* Column 1: The Menu Button */
-.nav-toggle {
-    grid-column: 1 / 2;
-    justify-self: start;
-    font-size: 1em;
-    font-weight: bold;
-    color: #222;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-/* Column 2: The Logo */
-.logo {
-    grid-column: 2 / 3;
-    text-align: center;
-}
-/* --- Styles for the Logo --- */
-.logo a {
-    text-decoration: none; /* Removes the underline from the link */
-}
-
-.logo img {
-    height: 50px; /* << ADJUST THIS VALUE */
-    width: auto; /* Keeps the aspect ratio correct */
-    display: block; /* Helps with alignment */
-}
-
-/* Column 3: The "WORK +" Link */
-.desktop-nav {
-    grid-column: 3 / 4;
-    justify-self: end;
-}
-.desktop-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-.desktop-nav a {
-    color: #222;
-    background-color: transparent; /* Explicitly no background */
-    text-decoration: none;
-    font-weight: bold;
-    padding: 0; /* No extra padding or boxes */
-}
-
-/* --- SLIDE-OUT MOBILE MENU --- */
-.main-nav {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 300px;
-    height: 100vh;
-    background: #eee;
-    z-index: 900;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-    padding: 80px 40px;
-    text-align: center;
-}
-.main-nav.nav-open {
-    transform: translateX(0);
-}
-.main-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.main-nav ul li {
-    margin-bottom: 30px;
-}
-.main-nav ul li a {
-    color: #222;
-    text-decoration: none;
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-/* --- GENERAL PAGE CONTENT STYLES --- */
-main {
-    padding-top: 100px; /* Pushes content down below the absolute header */
-}
-
-section {
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 20px;
-    text-align: center;
-}
-
-h1 { font-size: 3em; }
-
-/* --- PORTFOLIO & GALLERY STYLES --- */
-.portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
-    text-align: left;
-}
-.video-embed {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    overflow: hidden;
-    margin-bottom: 15px;
-}
-.video-embed iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-.video-item h3 { margin: 0; }
-.video-item p { margin-top: 5px; color: #aaa; }
-
-/* --- ABOUT PAGE --- */
-.about-me img {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 20px;
-}
-
-/* --- CONTACT FORM --- */
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 30px;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.contact-form label { font-weight: bold; }
-.contact-form input, .contact-form textarea {
-    padding: 12px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    color: #222;
-    border-radius: 5px;
-    font-size: 1em;
-}
-.contact-form button {
-    padding: 15px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-.contact-form button:hover {
-    background-color: #0056b3;
-}
-
-/* --- FOOTER --- */
-footer {
-    margin-top: 50px;
-    padding: 20px;
-    background-color: #f7f7f7;
-    color: #555;
-    text-align: center;
-}
-/* --- CLASSIC FAILSAFE HERO VIDEO --- */
-
-/* This is the container for the video and the text */
-.hero-video {
-    position: relative;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    /* --- ADD THESE THREE LINES --- */
-    max-width: none;  /* This removes the 1100px limit */
-    padding: 0;       /* This removes any unwanted side spacing */
-    margin: 0;        /* This removes any unwanted top/bottom spacing */
-}
-
-/* This is the text that sits on top */
-.hero-content {
-    /* We use z-index to make sure it's on top */
-    position: relative;
-    z-index: 1;
-    color: white;
-    text-align: center;
-    padding: 20px;
-}
-
-.hero-content h1 {
-    font-size: 4em;
-    margin-bottom: 0.2em;
-}
-
-.hero-content p {
-    font-size: 1.2em;
-}
-
-
-/* This is the video itself */
-#bgvideo {
-    /* This is the most important part */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* THIS IS THE MAGIC LINE */
-    z-index: -1; /* This pushes it behind the .hero-content */
-}
-/* --- HOMEPAGE-SPECIFIC HEADER COLORS --- */
-
 .homepage header .nav-toggle,
 .homepage header .logo a,
 .homepage header .desktop-nav a {
     color: #ffffff;
 }
-/* --- SIMPLE PORTFOLIO GRID --- */
-.simple-grid-container {
-    padding: 100px 5vw;
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-}
+.nav-toggle { grid-column: 1 / 2; justify-self: start; font-size: 1em; font-weight: bold; color: #222; background: none; border: none; cursor: pointer; }
+.logo { grid-column: 2 / 3; text-align: center; }
+.logo a { text-decoration: none; }
+.logo img { height: 50px; width: auto; display: block; }
+.desktop-nav { grid-column: 3 / 4; justify-self: end; }
+.desktop-nav ul { list-style: none; margin: 0; padding: 0; }
+.desktop-nav a { color: #222; background-color: transparent; text-decoration: none; font-weight: bold; padding: 0; }
 
-.simple-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-    margin-top: 40px;
-    text-align: left;
-}
+/* --- SLIDE-OUT MOBILE MENU --- */
+.main-nav { position: fixed; top: 0; right: 0; width: 300px; height: 100vh; background: #eee; z-index: 900; transform: translateX(100%); transition: transform 0.3s ease-in-out; padding: 80px 40px; text-align: center; }
+.main-nav.nav-open { transform: translateX(0); }
+.main-nav ul { list-style: none; padding: 0; margin: 0; }
+.main-nav ul li { margin-bottom: 30px; }
+.main-nav ul li a { color: #222; text-decoration: none; font-size: 1.5em; font-weight: bold; }
 
-/* --- STYLES FOR THE PROJECT CARDS (can be reused) --- */
-.project-card {
-    display: block;
-    text-decoration: none;
-    color: #222;
-}
-.project-image-container {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 15px;
-}
-.project-image-container img {
-    width: 100%;
-    display: block;
-    transition: transform 0.4s ease;
-}
-.project-card:hover .project-image-container img {
-    transform: scale(1.05);
-}
-.project-overlay {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: black;
-    color: white;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-.project-card:hover .project-overlay {
-    opacity: 1;
-}
-.project-title {
-    font-weight: bold;
-}
+/* --- HERO VIDEO SECTION --- */
+.hero-video { position: relative; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; max-width: none; padding: 0; margin: 0; }
+#bgvideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+.hero-content { position: relative; z-index: 1; color: white; text-align: center; padding: 20px; }
+.hero-content h1 { font-size: 4em; }
+.hero-content p { font-size: 1.2em; }
+
+/* --- GENERAL PAGE CONTENT --- */
+main { padding-top: 100px; }
+section { max-width: 1200px; margin: 40px auto; padding: 20px; }
+
+/* --- PORTFOLIO PREVIEW SECTION --- */
+.portfolio-preview { text-align: center; }
+.simple-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 40px; text-align: left; }
+.project-card { text-decoration: none; color: #222; }
+.project-image-container img { width: 100%; display: block; }
+.project-title { font-weight: bold; margin-top: 15px; }
+
+/* --- FOOTER --- */
+footer { text-align: center; margin-top: 50px; padding: 20px; background-color: #f7f7f7; color: #555; }

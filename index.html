@@ -31,35 +31,40 @@
         </ul>
     </nav>
 
-    <!-- The Hero Video sits at the top level, right after the header/nav -->
- <!-- Simple Portfolio Grid -->
-<section class="simple-grid-container">
-    <h2>Latest Work</h2>
-    <div class="simple-grid">
-        <a href="portfolio.html" class="project-card">
-            <div class="project-image-container">
-                <img src="images/thumbnail1.jpg" alt="Project 1">
-                <div class="project-overlay">View</div>
+    <section class="hero-video">
+        <video playsinline autoplay muted loop id="bgvideo">
+            <source src="videos/hero-video.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1>Cinematic Storytelling</h1>
+            <p>Your story, beautifully captured.</p>
+        </div>
+    </section>
+
+    <main>
+        <section class="portfolio-preview">
+            <h3>Latest Work</h3>
+            <div class="simple-grid">
+                <a href="portfolio.html" class="project-card">
+                    <div class="project-image-container">
+                        <img src="images/thumbnail1.jpg" alt="Project 1">
+                    </div>
+                    <div class="project-title">Project Title One</div>
+                </a>
+                <a href="portfolio.html" class="project-card">
+                    <div class="project-image-container">
+                        <img src="images/thumbnail2.jpg" alt="Project 2">
+                    </div>
+                    <div class="project-title">Project Title Two</div>
+                </a>
+                <a href="portfolio.html" class="project-card">
+                    <div class="project-image-container">
+                        <img src="images/thumbnail3.jpg" alt="Project 3">
+                    </div>
+                    <div class="project-title">Project Title Three</div>
+                </a>
             </div>
-            <div class="project-title">Project Title One</div>
-        </a>
-        <a href="portfolio.html" class="project-card">
-            <div class="project-image-container">
-                <img src="images/thumbnail2.jpg" alt="Project 2">
-                <div class="project-overlay">View</div>
-            </div>
-            <div class="project-title">Project Title Two</div>
-        </a>
-        <a href="portfolio.html" class="project-card">
-            <div class="project-image-container">
-                <img src="images/thumbnail3.jpg" alt="Project 3">
-                <div class="project-overlay">View</div>
-            </div>
-            <div class="project-title">Project Title Three</div>
-        </a>
-        <!-- Add more cards as needed -->
-    </div>
-</section>
+        </section>
     </main>
 
     <footer>
