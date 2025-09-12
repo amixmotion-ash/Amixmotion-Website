@@ -71,11 +71,19 @@ section { max-width: 1200px; margin: 40px auto; padding: 20px; }
     overflow: hidden; /* Hides the part of the image that zooms out */
 }
 
+.grid-item-image {
+    /* This is the new rule for the container */
+    height: 70vh; /* Set a fixed height based on 70% of the viewport height */
+    overflow: hidden; /* This is important to contain the image */
+}
+
 .grid-item-image img {
+    /* This is the modified rule for the image */
     width: 100%;
-    height: auto;
-    display: block; /* Removes any extra space below the image */
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth zoom */
+    height: 100%; /* Make the image fill the container's height */
+    object-fit: cover; /* THIS IS THE MAGIC LINE */
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* A subtle zoom-out effect on hover */
