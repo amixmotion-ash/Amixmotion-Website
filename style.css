@@ -190,12 +190,16 @@ footer {
 
 /* This is the container for the video and the text */
 .hero-video {
-    position: relative; /* This is the anchor for the content inside */
+    position: relative;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    /* --- ADD THESE THREE LINES --- */
+    max-width: none;  /* This removes the 1100px limit */
+    padding: 0;       /* This removes any unwanted side spacing */
+    margin: 0;        /* This removes any unwanted top/bottom spacing */
 }
 
 /* This is the text that sits on top */
