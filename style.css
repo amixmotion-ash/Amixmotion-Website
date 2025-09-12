@@ -186,19 +186,35 @@ footer {
     color: #555;
     text-align: center;
 }
-/* --- HERO VIDEO STYLES --- */
+/* --- NEW HERO VIDEO STYLES --- */
 
 .hero-video {
-    height: 100vh; /* Makes the section fill the full height of the screen */
+    height: 100vh; /* Full screen height */
+    width: 100%;  /* Full screen width */
     position: relative;
+    overflow: hidden; /* CRITICAL: Prevents video from showing scrollbars */
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    overflow: hidden; /* Prevents anything from spilling out */
 }
 
-/* The dark overlay to help text stand out */
+#bgvideo {
+    position: absolute; /* Takes the video out of the normal flow */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers the video perfectly */
+
+    /* CRITICAL: The magic part for responsiveness */
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    
+    z-index: -1; /* Pushes the video behind EVERYTHING else in this section */
+}
+
+/* Add a dark overlay to help text stand out */
 .hero-video::after {
     content: '';
     position: absolute;
@@ -206,26 +222,14 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); /* Black with 40% opacity */
-    z-index: 1;
-}
-
-.hero-video video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: -1; /* Sits on top of the video, but behind the text */
 }
 
 .hero-content {
-    position: relative; /* Sits on top of the overlay */
-    z-index: 2;
-    color: #ffffff; /* Makes the text white */
+    /* No z-index needed as it's a normal element sitting on top of the background */
+    color: #ffffff;
+    padding: 20px; /* Adds some space so text doesn't touch the edges */
 }
 
 .hero-content h1 {
