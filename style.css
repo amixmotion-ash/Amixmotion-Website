@@ -29,12 +29,10 @@ nav ul li a {
 
 /* --- 1. General Header & Logo Styles (For All Screens) --- */
 /* --- NEW HEADER STYLES --- */
-/* --- NEW DEFINITIVE HEADER STYLES --- */
-
 header {
     width: 100%;
-    padding: 25px 40px; /* A bit more spacing */
-    position: absolute;
+    padding: 20px 30px;
+    position: absolute; /* Overlays on top of page content */
     top: 0;
     left: 0;
     z-index: 100;
@@ -42,13 +40,16 @@ header {
     display: grid;
     grid-template-columns: 1fr auto 1fr; /* 3 columns: Left | Center | Right */
     align-items: center;
-    box-sizing: border-box; /* Ensures padding is included in the width */
 }
 
-/* Column 1: The Menu Button */
+.logo {
+    grid-column: 2 / 3; /* Place the logo in the center column */
+    text-align: center;
+}
+
 .nav-toggle {
-    grid-column: 1 / 2;
-    justify-self: start; /* Align to the far left */
+    grid-column: 1 / 2; /* Place the menu button in the left column */
+    justify-self: start; /* Align it to the very left */
     font-size: 1em;
     font-weight: bold;
     color: #222;
@@ -57,37 +58,28 @@ header {
     cursor: pointer;
 }
 
-/* Column 2: The Logo */
-.logo {
-    grid-column: 2 / 3;
-    text-align: center;
-}
-.logo a {
-    color: #222;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.5em;
+nav {
+    grid-column: 3 / 4; /* Place the nav in the right column */
+    justify-self: end; /* Align it to the very right */
 }
 
-/* Column 3: The "WORK +" Link */
-.desktop-nav {
-    grid-column: 3 / 4;
-    justify-self: end; /* Align to the far right */
-}
-
-.desktop-nav ul {
+nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.desktop-nav a {
+.work-link {
+    display: block;
+    padding: 8px 16px;
+    background-color: #cce0ff; /* Light blue from example */
     color: #222;
-    background-color: transparent; /* Explicitly no background */
+    border-radius: 4px;
     text-decoration: none;
     font-weight: bold;
-    padding: 0; /* No extra padding or boxes */
 }
+
+
 /* --- NEW MOBILE/SLIDE-OUT MENU --- */
 
 /* The hamburger button now just says "MENU" but we need the icon for the slide out */
