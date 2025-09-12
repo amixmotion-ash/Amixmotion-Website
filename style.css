@@ -186,46 +186,26 @@ footer {
     color: #555;
     text-align: center;
 }
-/* --- FINAL HERO VIDEO STYLES --- */
+/* --- CLASSIC FAILSAFE HERO VIDEO --- */
 
+/* This is the container for the video and the text */
 .hero-video {
+    position: relative; /* This is the anchor for the content inside */
     height: 100vh;
-    width: 100%;
-    position: relative; /* Establishes the boundary for its children */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
-    background-color: #000; /* A fallback color if the video fails to load */
 }
 
-.hero-video video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: 1; /* Sits at the bottom layer of this section */
-}
-
-/* The dark overlay */
-.hero-video::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 2; /* Sits on top of the video */
-}
-
+/* This is the text that sits on top */
 .hero-content {
-    position: relative; /* Use 'relative' so it respects the flow */
-    z-index: 3; /* Sits on top of the overlay */
-    color: #ffffff;
-    padding: 20px;
+    /* We use z-index to make sure it's on top */
+    position: relative;
+    z-index: 1;
+    color: white;
     text-align: center;
+    padding: 20px;
 }
 
 .hero-content h1 {
@@ -235,4 +215,17 @@ footer {
 
 .hero-content p {
     font-size: 1.2em;
+}
+
+
+/* This is the video itself */
+#bgvideo {
+    /* This is the most important part */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* THIS IS THE MAGIC LINE */
+    z-index: -1; /* This pushes it behind the .hero-content */
 }
