@@ -117,3 +117,26 @@ section { max-width: 1200px; margin: 40px auto; padding: 20px; }
 
 /* --- FOOTER --- */
 footer { text-align: center; margin-top: 50px; padding: 20px; background-color: #f7f7f7; color: #555; }
+/* --- MEDIA QUERIES FOR RESPONSIVE GRID --- */
+
+/* 1. Tablet View: On screens 1024px wide or smaller */
+@media (max-width: 1024px) {
+    .portfolio-grid-container {
+        /* Change the grid to have two columns */
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* 2. Mobile View: On screens 600px wide or smaller */
+@media (max-width: 600px) {
+    .portfolio-grid-container {
+        /* Change the grid to have only one column */
+        grid-template-columns: 1fr;
+    }
+
+    .portfolio-grid-section {
+        /* Optional: Reduce padding even more on small phones */
+        padding: 60px 20px;
+    }
+}
