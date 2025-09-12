@@ -3,6 +3,7 @@ body {
     background-color: #ffffff;
     color: #222222;
     font-family: Arial, sans-serif;
+    margin: 0; /* << ADD THIS LINE */
 }
 
 /* --- NEW DEFINITIVE HEADER STYLES --- */

@@ -6,8 +6,59 @@
     <title>Your Name | Videography</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body> 
-    <body>
+<body>
+    <header>
+        <button class="nav-toggle" aria-label="toggle navigation">
+            MENU
+        </button>
+        <div class="logo">
+            <a href="index.html"><img src="logo.png" alt="Your Company Name Logo"></a>
+        </div>
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="portfolio.html">WORK +</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <nav class="main-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- The Hero Video is NOW OUTSIDE of main -->
+    <section class="hero-video">
+        <video playsinline autoplay muted loop id="bgvideo">
+            <source src="videos/hero-video.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1>Cinematic Storytelling</h1>
+            <p>Your story, beautifully captured.</p>
+        </div>
+    </section>
+
+    <!-- The rest of your content is INSIDE main -->
+    <main>
+        <section class="portfolio-preview">
+            <h3>Latest Work</h3>
+            <div class="gallery">
+                <div class="gallery-item">Video 1</div>
+                <div class="gallery-item">Video 2</div>
+                <div class="gallery-item">Video 3</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Your Name Videography</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
 
     <header>
     <button class="nav-toggle" aria-label="toggle navigation">
