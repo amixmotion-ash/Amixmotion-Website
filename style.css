@@ -11,7 +11,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 40px;
-    box-sizing: border-box; /* Ensures padding is included in the width */
+    box-sizing: border-box;
 }
 
 /* --- HEADER STYLES --- */
@@ -38,7 +38,7 @@ header {
 .logo img { height: 50px; width: auto; display: block; }
 .desktop-nav { grid-column: 3 / 4; justify-self: end; }
 .desktop-nav ul { list-style: none; margin: 0; padding: 0; }
-.desktop-nav a { color: #222; background-color: transparent; text-decoration: none; font-weight: bold; padding: 0; }
+.desktop-nav a { color: #222; text-decoration: none; font-weight: bold; }
 
 /* --- SLIDE-OUT MOBILE MENU --- */
 .main-nav { position: fixed; top: 0; right: 0; width: 300px; height: 100vh; background: #eee; z-index: 900; transform: translateX(100%); transition: transform 0.3s ease-in-out; padding: 80px 40px; text-align: center; }
@@ -54,16 +54,14 @@ header {
 .hero-content h1 { font-size: 4em; }
 .hero-content p { font-size: 1.2em; }
 
-/* --- GENERAL PAGE CONTENT --- */
+/* --- GENERAL PAGE CONTENT (Mainly for other pages) --- */
 main {
-    /* No special positioning, just padding for other pages */
-    padding-top: 100px;
+    /* This empty rule is okay, it's a placeholder */
 }
 
 /* --- MISSION SECTION --- */
 .mission-section {
     padding: 120px 0;
-    background-color: #ffffff;
 }
 .mission-headline {
     font-size: clamp(2.5rem, 8vw, 6rem);
@@ -114,7 +112,6 @@ main {
 .grid-item:hover .grid-item-image img { transform: scale(1.1); }
 .grid-item-caption { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #e0e0e0; font-weight: bold; }
 .caption-title { display: flex; align-items: center; }
-.caption-title .dot { margin-right: 8px; display: none; }
 .caption-year { font-weight: normal; color: #888; margin-left: auto; }
 
 /* --- FOOTER --- */
@@ -122,14 +119,28 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 
 /* --- RESPONSIVE MEDIA QUERIES --- */
 @media (max-width: 900px) {
-    .mission-grid { grid-template-columns: 1fr; }
-    .mission-text { grid-row: 1; }
-    .mission-image { grid-row: 2; }
+    .mission-grid {
+        grid-template-columns: 1fr;
+    }
+    .mission-text {
+        grid-row: 1;
+    }
+    .mission-image {
+        grid-row: 2;
+    }
 }
+
 @media (max-width: 1024px) {
-    .portfolio-grid-container { grid-template-columns: repeat(2, 1fr); }
+    .portfolio-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
+
 @media (max-width: 600px) {
-    .portfolio-grid-container { grid-template-columns: 1fr; }
-    .portfolio-grid-section { padding: 60px 20px; }
+    .portfolio-grid-container {
+        grid-template-columns: 1fr;
+    }
+    .portfolio-grid-section {
+        padding: 60px 20px;
+    }
 }
