@@ -127,11 +127,11 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 }
 
 .mission-headline {
-    font-size: 5vw; /* Font size scales with the browser width */
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: bold;
     text-align: center;
     margin-bottom: 100px;
-    letter-spacing: -2px; /* A common high-end design touch */
+    letter-spacing: -2px;
 }
 
 .mission-grid {
@@ -201,10 +201,15 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
     .mission-grid {
         grid-template-columns: 1fr; /* Stack to a single column */
     }
-    .mission-text {
-        /* On mobile, we want the text to appear first */
-        grid-row: 1;
-    }
+.mission-text {
+    grid-row: 1; /* Text is in the first row */
+}
+.mission-image {
+    grid-row: 2; /* Image is in the second row */
+}
+.mission-image {
+    grid-row: 2; /* Image is in the second row */
+}
 }
 
 
