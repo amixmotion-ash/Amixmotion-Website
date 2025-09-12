@@ -1,3 +1,4 @@
+/* --- GLOBAL STYLES --- */
 body {
     background-color: #ffffff;
     color: #222222;
@@ -47,26 +48,22 @@ header {
 .main-nav ul li a { color: #222; text-decoration: none; font-size: 1.5em; font-weight: bold; }
 
 /* --- HERO VIDEO SECTION --- */
-.hero-video { position: relative; height: 100vh; z-index: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; max-width: none; padding: 0; margin: 0; }
+.hero-video { position: relative; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; max-width: none; padding: 0; margin: 0; }
 #bgvideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
 .hero-content { position: relative; z-index: 1; color: white; text-align: center; padding: 20px; }
 .hero-content h1 { font-size: 4em; }
 .hero-content p { font-size: 1.2em; }
 
-/* --- GENERAL PAGE CONTENT (Used by other pages) --- */
+/* --- GENERAL PAGE CONTENT --- */
 main {
-    position: relative; /* Must be relative for z-index */
-    z-index: 2; /* Higher than the hero video */
-    background-color: #ffffff; /* The color that will mask the video */
+    /* No special positioning, just padding for other pages */
+    padding-top: 100px;
 }
-section { max-width: 1200px; margin: 40px auto; padding: 20px; }
 
 /* --- MISSION SECTION --- */
 .mission-section {
     padding: 120px 0;
-    position: relative; /* Must be relative for z-index to work */
-    z-index: 2; /* << This places it ON TOP of the hero video */
-    background-color: #ffffff; /* Explicitly set the background to white */
+    background-color: #ffffff;
 }
 .mission-headline {
     font-size: clamp(2.5rem, 8vw, 6rem);
@@ -82,7 +79,7 @@ section { max-width: 1200px; margin: 40px auto; padding: 20px; }
     align-items: center;
 }
 .mission-image {
-    min-width: 0; /* Failsafe for grid bugs */
+    min-width: 0;
 }
 .mission-image img {
     width: 100%;
@@ -95,124 +92,44 @@ section { max-width: 1200px; margin: 40px auto; padding: 20px; }
     align-items: flex-start;
     text-align: left;
 }
-.mission-text .pre-title {
-    font-size: 0.9em;
-    font-weight: bold;
-    color: #555;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-}
-.mission-text .mission-statement {
-    font-size: 1.5em;
-    line-height: 1.6;
-    color: #333;
-    font-weight: 500;
-    margin: 0;
-}
-.button-outline {
-    display: inline-block;
-    margin-top: 40px;
-    padding: 12px 24px;
-    border: 1px solid #222;
-    border-radius: 4px;
-    color: #222;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-.button-outline:hover {
-    background-color: #222;
-    color: #fff;
-}
+.mission-text .pre-title { font-size: 0.9em; font-weight: bold; color: #555; letter-spacing: 1px; margin-bottom: 20px; }
+.mission-text .mission-statement { font-size: 1.5em; line-height: 1.6; color: #333; font-weight: 500; margin: 0; }
+.button-outline { display: inline-block; margin-top: 40px; padding: 12px 24px; border: 1px solid #222; border-radius: 4px; color: #222; text-decoration: none; font-weight: bold; transition: all 0.3s ease; }
+.button-outline:hover { background-color: #222; color: #fff; }
 
 /* --- PORTFOLIO GRID SECTION --- */
 .portfolio-grid-section {
     padding: 100px 40px;
     max-width: none;
     box-sizing: border-box;
-    position: sticky;
-    top: 0;
-    z-index: 3; /* Ensure it's on top of everything */
-    background-color: #ffffff; /* Give it a solid white background */
 }
 .portfolio-grid-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
-.grid-item {
-    display: block;
-    text-decoration: none;
-    color: #222;
-    position: relative;
-    overflow: hidden;
-}
-.grid-item-image {
-    height: 70vh;
-    overflow: hidden;
-}
-.grid-item-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.grid-item:hover .grid-item-image img {
-    transform: scale(1.1);
-}
-.grid-item-caption {
-    display: flex;
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid #e0e0e0;
-    font-weight: bold;
-}
-.caption-title {
-    display: flex;
-    align-items: center;
-}
-.caption-title .dot {
-    margin-right: 8px;
-    display: none;
-}
-.caption-year {
-    font-weight: normal;
-    color: #888;
-    margin-left: auto;
-}
+.grid-item { display: block; text-decoration: none; color: #222; position: relative; overflow: hidden; }
+.grid-item-image { height: 70vh; overflow: hidden; }
+.grid-item-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.grid-item:hover .grid-item-image img { transform: scale(1.1); }
+.grid-item-caption { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #e0e0e0; font-weight: bold; }
+.caption-title { display: flex; align-items: center; }
+.caption-title .dot { margin-right: 8px; display: none; }
+.caption-year { font-weight: normal; color: #888; margin-left: auto; }
 
 /* --- FOOTER --- */
 footer { text-align: center; margin-top: 50px; padding: 20px; background-color: #f7f7f7; color: #555; }
 
 /* --- RESPONSIVE MEDIA QUERIES --- */
-
-/* For Mission Section (stacking) */
 @media (max-width: 900px) {
-    .mission-grid {
-        grid-template-columns: 1fr;
-    }
-    .mission-text {
-        grid-row: 1;
-    }
-    .mission-image {
-        grid-row: 2;
-    }
+    .mission-grid { grid-template-columns: 1fr; }
+    .mission-text { grid-row: 1; }
+    .mission-image { grid-row: 2; }
 }
-
-/* For Portfolio Grid (tablet) */
 @media (max-width: 1024px) {
-    .portfolio-grid-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    .portfolio-grid-container { grid-template-columns: repeat(2, 1fr); }
 }
-
-/* For Portfolio Grid (mobile) */
 @media (max-width: 600px) {
-    .portfolio-grid-container {
-        grid-template-columns: 1fr;
-    }
-    .portfolio-grid-section {
-        padding: 60px 20px;
-    }
+    .portfolio-grid-container { grid-template-columns: 1fr; }
+    .portfolio-grid-section { padding: 60px 20px; }
 }
