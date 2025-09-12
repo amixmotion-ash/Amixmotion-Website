@@ -1,11 +1,9 @@
 body {
-    background-color: #121212;
-    color: #ffffff;
+    background-color: #ffffff; /* Changed to white */
+    color: #222222; /* Changed to a soft black */
     font-family: Arial, sans-serif;
-    text-align: center;
-    margin-top: 50px;
+    /* We will remove text-align and margin-top as the new header will control this */
 }
-
 h1 {
     font-size: 3em; /* 'em' is a unit relative to the parent font size */
 }
@@ -30,53 +28,105 @@ nav ul li a {
 }
 
 /* --- 1. General Header & Logo Styles (For All Screens) --- */
+/* --- NEW HEADER STYLES --- */
 header {
-    display: flex;
-    justify-content: space-between; /* Pushes logo and nav to opposite ends */
+    width: 100%;
+    padding: 20px 30px;
+    position: absolute; /* Overlays on top of page content */
+    top: 0;
+    left: 0;
+    z-index: 100;
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; /* 3 columns: Left | Center | Right */
     align-items: center;
-    padding: 15px 30px;
-    background-color: #1c1c1c;
-    position: relative; /* Important for positioning the mobile menu */
+}
+
+.logo {
+    grid-column: 2 / 3; /* Place the logo in the center column */
+    text-align: center;
+}
+
+.nav-toggle {
+    grid-column: 1 / 2; /* Place the menu button in the left column */
+    justify-self: start; /* Align it to the very left */
+    font-size: 1em;
+    font-weight: bold;
+    color: #222;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+nav {
+    grid-column: 3 / 4; /* Place the nav in the right column */
+    justify-self: end; /* Align it to the very right */
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.work-link {
+    display: block;
+    padding: 8px 16px;
+    background-color: #cce0ff; /* Light blue from example */
+    color: #222;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+/* --- NEW MOBILE/SLIDE-OUT MENU --- */
+
+/* The hamburger button now just says "MENU" but we need the icon for the slide out */
+.hamburger { display: none; } /* Hide the old hamburger icon bars */
+
+/* The actual slide-out menu, hidden by default */
+.main-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100vh;
+    background: #eee;
+    z-index: 900;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    padding: 80px 40px;
+    text-align: center;
+}
+
+.main-nav.nav-open {
+    transform: translateX(0);
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-nav ul li {
+    margin-bottom: 30px;
+}
+
+.main-nav ul li a {
+    color: #222;
+    text-decoration: none;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 .logo a {
-    color: #ffffff;
+    color: #222222;
     text-decoration: none;
     font-weight: bold;
     font-size: 1.5em;
 }
-/* --- 2. Desktop Navigation Styles --- */
-
-/* Hide the hamburger button on desktop screens */
-.nav-toggle {
-    display: none;
-}
-
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex; /* This is the key fix for left-alignment! */
-}
-
-nav ul li {
-    margin: 0 15px; /* Adds space between menu items */
-}
-
-nav ul li a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 1.2em;
-    padding: 5px; /* Adds a little clickable area */
-}
-
-
-
-
-
-
-
-
 
 /* Hero Section */
 .hero {
@@ -105,7 +155,7 @@ nav ul li a {
 footer {
     margin-top: 50px;
     padding: 20px;
-    background-color: #1c1c1c;
+    background-color: #ffffff;
 }
 /* Portfolio Page Styling */
 .portfolio-full {
@@ -181,9 +231,9 @@ footer {
 
 .contact-form input, .contact-form textarea {
     padding: 12px;
-    background-color: #333;
-    border: 1px solid #555;
-    color: #fff;
+    background-color: #f0f0f0; /* Light grey background */
+    border: 1px solid #ccc; /* Lighter border */
+    color: #222; /* Dark text */
     border-radius: 5px;
     font-size: 1em;
 }
@@ -209,22 +259,12 @@ footer {
 
 @media (max-width: 768px) {
 
-    /* Show the hamburger button on mobile */
-    .nav-toggle {
-        display: block;
-        background: transparent;
-        border: 0;
-        cursor: pointer;
-        padding: 0;
-        z-index: 1000; /* Ensure it's on top of everything */
-    }
-
     .hamburger {
         display: block;
         position: relative;
         width: 1.75em; /* A slightly smaller hamburger */
         height: 3px;
-        background: white;
+        background: #222222;
         transition: all 0.2s ease-in-out;
     }
 
@@ -235,7 +275,7 @@ footer {
         left: 0;
         width: 100%;
         height: 3px;
-        background: white;
+        background: #222222;
         transition: all 0.2s ease-in-out;
     }
 
@@ -288,3 +328,5 @@ footer {
     transform: rotate(-45deg);
 }
 }
+
+
