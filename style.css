@@ -70,13 +70,14 @@ nav ul {
 }
 
 .work-link {
-    display: block;
-    padding: 8px 16px;
-    background-color: #cce0ff; /* Light blue from example */
     color: #222;
-    border-radius: 4px;
     text-decoration: none;
     font-weight: bold;
+    transition: color 0.2s ease-in-out; /* Optional: smooth color change on hover */
+}
+
+.work-link:hover {
+    color: #888; /* Optional: Makes the link grey when you hover over it */
 }
 
 
