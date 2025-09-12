@@ -122,25 +122,28 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 /* --- NEW VALUE PROPOSITION SECTION --- */
 /* --- NEW MISSION SECTION --- */
 
+/* A reusable container for centered content */
+.container {
+    max-width: 1200px; /* The maximum width for our content */
+    margin: 0 auto; /* This centers the container */
+    padding: 0 40px; /* This adds side padding, matching the header */
+}
+
 .mission-section {
-    padding: 120px 40px;
+    padding: 120px 0; /* Vertical padding is on the section */
 }
 
 .mission-headline {
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 100px;
-    letter-spacing: -2px;
+    /* ... existing styles ... */
+    text-align: left; /* Align headline to the left of the container */
 }
 
 .mission-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-template-columns: 1fr 1fr;
     gap: 60px;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
+    /* max-width and margin are now handled by the .container */
 }
 
 .mission-image img {
@@ -195,21 +198,19 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 /* --- RESPONSIVE STYLES FOR MISSION SECTION --- */
 @media (max-width: 900px) {
     .mission-headline {
-        font-size: 8vw; /* Make headline larger on smaller screens */
+        font-size: 8vw;
         margin-bottom: 60px;
     }
     .mission-grid {
         grid-template-columns: 1fr; /* Stack to a single column */
     }
-.mission-text {
-    grid-row: 1; /* Text is in the first row */
-}
-.mission-image {
-    grid-row: 2; /* Image is in the second row */
-}
-.mission-image {
-    grid-row: 2; /* Image is in the second row */
-}
+
+    .mission-image {
+        grid-row: 1; /* This is the key: forces the image to the first row */
+    }
+    .mission-text {
+        grid-row: 2; /* This forces the text to the second row */
+    }
 }
 
 
