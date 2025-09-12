@@ -53,14 +53,15 @@ section { max-width: 1200px; margin: 40px auto; padding: 20px; }
 /* --- NEW PORTFOLIO GRID --- */
 
 .portfolio-grid-section {
-    /* This section will have no internal padding, so the images go edge-to-edge */
-    padding: 0;
-    max-width: none; /* Override the global max-width to go full screen */
+    padding: 100px 40px; /* Top/Bottom padding of 100px, Left/Right of 40px */
+    max-width: none;
+    box-sizing: border-box; /* Ensures padding is included in the width calculation */
 }
 
 .portfolio-grid-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* The 4-column layout */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px; /* << ADD THIS LINE (Adjust the value as needed) */
 }
 
 .grid-item {
