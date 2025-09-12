@@ -1,55 +1,28 @@
+/* --- GLOBAL STYLES --- */
 body {
-    background-color: #ffffff; /* Changed to white */
-    color: #222222; /* Changed to a soft black */
+    background-color: #ffffff;
+    color: #222222;
     font-family: Arial, sans-serif;
-    /* We will remove text-align and margin-top as the new header will control this */
-}
-h1 {
-    font-size: 3em; /* 'em' is a unit relative to the parent font size */
-}
-/* Navigation Bar */
-nav ul {
-    list-style-type: none; /* Removes bullet points */
-    padding: 0;
-    display: flex; /* This activates Flexbox! */
-    justify-content: center; /* Centers the items horizontally */
-    background-color: #1c1c1c;
-    padding: 15px 0;
 }
 
-nav ul li {
-    margin: 0 20px; /* Adds space between menu items */
-}
-
-nav ul li a {
-    color: #ffffff;
-    text-decoration: none; /* Removes the underline from links */
-    font-size: 1.2em;
-}
-
-/* --- 1. General Header & Logo Styles (For All Screens) --- */
-/* --- NEW HEADER STYLES --- */
+/* --- NEW DEFINITIVE HEADER STYLES --- */
 header {
     width: 100%;
-    padding: 20px 30px;
-    position: absolute; /* Overlays on top of page content */
+    padding: 25px 40px;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 100;
-
     display: grid;
-    grid-template-columns: 1fr auto 1fr; /* 3 columns: Left | Center | Right */
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
+    box-sizing: border-box;
 }
 
-.logo {
-    grid-column: 2 / 3; /* Place the logo in the center column */
-    text-align: center;
-}
-
+/* Column 1: The Menu Button */
 .nav-toggle {
-    grid-column: 1 / 2; /* Place the menu button in the left column */
-    justify-self: start; /* Align it to the very left */
+    grid-column: 1 / 2;
+    justify-self: start;
     font-size: 1em;
     font-weight: bold;
     color: #222;
@@ -58,34 +31,37 @@ header {
     cursor: pointer;
 }
 
-nav {
-    grid-column: 3 / 4; /* Place the nav in the right column */
-    justify-self: end; /* Align it to the very right */
+/* Column 2: The Logo */
+.logo {
+    grid-column: 2 / 3;
+    text-align: center;
+}
+.logo a {
+    color: #222;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.5em;
 }
 
-nav ul {
+/* Column 3: The "WORK +" Link */
+.desktop-nav {
+    grid-column: 3 / 4;
+    justify-self: end;
+}
+.desktop-nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
-
-.work-link {
-    display: block;
-    padding: 8px 16px;
-    background-color: #cce0ff; /* Light blue from example */
+.desktop-nav a {
     color: #222;
-    border-radius: 4px;
+    background-color: transparent; /* Explicitly no background */
     text-decoration: none;
     font-weight: bold;
+    padding: 0; /* No extra padding or boxes */
 }
 
-
-/* --- NEW MOBILE/SLIDE-OUT MENU --- */
-
-/* The hamburger button now just says "MENU" but we need the icon for the slide out */
-.hamburger { display: none; } /* Hide the old hamburger icon bars */
-
-/* The actual slide-out menu, hidden by default */
+/* --- SLIDE-OUT MOBILE MENU --- */
 .main-nav {
     position: fixed;
     top: 0;
@@ -99,21 +75,17 @@ nav ul {
     padding: 80px 40px;
     text-align: center;
 }
-
 .main-nav.nav-open {
     transform: translateX(0);
 }
-
 .main-nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-
 .main-nav ul li {
     margin-bottom: 30px;
 }
-
 .main-nav ul li a {
     color: #222;
     text-decoration: none;
@@ -121,64 +93,35 @@ nav ul {
     font-weight: bold;
 }
 
-.logo a {
-    color: #222222;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.5em;
+/* --- GENERAL PAGE CONTENT STYLES --- */
+main {
+    padding-top: 100px; /* Pushes content down below the absolute header */
 }
 
-/* Hero Section */
-.hero {
-    padding: 100px 20px;
-    text-align: center;
-}
-
-/* Portfolio Preview Gallery */
-.gallery {
-    display: flex;
-    justify-content: center;
-    gap: 20px; /* Adds space between gallery items */
-    margin-top: 30px;
-}
-
-.gallery-item {
-    background-color: #333;
-    width: 300px;
-    height: 170px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Footer */
-footer {
-    margin-top: 50px;
+section {
+    max-width: 1100px;
+    margin: 40px auto;
     padding: 20px;
-    background-color: #ffffff;
-}
-/* Portfolio Page Styling */
-.portfolio-full {
     text-align: center;
-    padding: 40px 20px;
 }
 
+h1 { font-size: 3em; }
+
+/* --- PORTFOLIO & GALLERY STYLES --- */
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Magic line! */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 30px;
     margin-top: 40px;
     text-align: left;
 }
-
 .video-embed {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
     margin-bottom: 15px;
 }
-
 .video-embed iframe {
     position: absolute;
     top: 0;
@@ -186,61 +129,40 @@ footer {
     width: 100%;
     height: 100%;
 }
+.video-item h3 { margin: 0; }
+.video-item p { margin-top: 5px; color: #aaa; }
 
-.video-item h3 {
-    margin: 0;
-}
-
-.video-item p {
-    margin-top: 5px;
-    color: #aaa;
-}
-/* About Page Styling */
-.about-me {
-    max-width: 900px;
-    margin: 40px auto; /* Center the container */
-    padding: 20px;
-    text-align: center;
-}
-
+/* --- ABOUT PAGE --- */
 .about-me img {
     width: 200px;
     height: 200px;
-    border-radius: 50%; /* Makes the image a circle */
-    object-fit: cover; /* Prevents image from stretching */
+    border-radius: 50%;
+    object-fit: cover;
     margin-bottom: 20px;
 }
 
-/* Contact Form Styling */
-.contact-section {
-    max-width: 700px;
-    margin: 40px auto;
-    padding: 20px;
-}
-
+/* --- CONTACT FORM --- */
 .contact-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
     margin-top: 30px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 }
-
-.contact-form label {
-    font-weight: bold;
-}
-
+.contact-form label { font-weight: bold; }
 .contact-form input, .contact-form textarea {
     padding: 12px;
-    background-color: #f0f0f0; /* Light grey background */
-    border: 1px solid #ccc; /* Lighter border */
-    color: #222; /* Dark text */
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #222;
     border-radius: 5px;
     font-size: 1em;
 }
-
 .contact-form button {
     padding: 15px;
-    background-color: #007BFF; /* A nice call-to-action blue */
+    background-color: #007BFF;
     color: white;
     border: none;
     border-radius: 5px;
@@ -248,85 +170,15 @@ footer {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
 .contact-form button:hover {
     background-color: #0056b3;
 }
-/* ======================== */
-/* --- MEDIA QUERIES --- */
-/* ======================== */
-/* --- 3. Mobile Navigation & Hamburger Styles --- */
 
-@media (max-width: 768px) {
-
-    .hamburger {
-        display: block;
-        position: relative;
-        width: 1.75em; /* A slightly smaller hamburger */
-        height: 3px;
-        background: #222222;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .hamburger::before,
-    .hamburger::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: #222222;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .hamburger::before { top: -7px; }
-    .hamburger::after { bottom: -7px; }
-
-
-    /* This is the mobile menu itself */
-    nav {
-        display: none; /* Hide the nav container by default */
-        position: absolute;
-        top: 100%; /* Position it right below the header */
-        right: 0;
-        background: #1c1c1c;
-        width: 100%;
-        text-align: center;
-    }
-    
-    /* When the menu is open, show the nav container */
-    nav.nav-open {
-        display: block;
-    }
-    
-    /* On mobile, the flex layout is vertical */
-    nav ul {
-        flex-direction: column;
-        padding: 20px 0;
-    }
-
-    nav ul li {
-        margin: 15px 0; /* Space out the vertical links */
-    }
-
-  /* --- CORRECTED 'X' Animation --- */
-
-/* When the menu is open, make the middle bar disappear */
-.nav-open .hamburger {
-    background-color: transparent;
+/* --- FOOTER --- */
+footer {
+    margin-top: 50px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    color: #555;
+    text-align: center;
 }
-
-/* Move the top bar down and rotate it */
-.nav-open .hamburger::before {
-    top: 0;
-    transform: rotate(45deg);
-}
-
-/* Move the bottom bar up and rotate it the other way */
-.nav-open .hamburger::after {
-    bottom: 0;
-    transform: rotate(-45deg);
-}
-}
-
-
