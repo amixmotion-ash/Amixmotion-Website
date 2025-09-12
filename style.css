@@ -93,11 +93,10 @@ section { max-width: 1200px; margin: 40px auto; padding: 20px; }
 }
 
 .grid-item-caption {
-    display: flex;
-    justify-content: space-between; /* Pushes title and year to opposite ends */
+    display: flex; /* We will still use flexbox */
     align-items: center;
-    padding: 15px 10px;
-    border-top: 1px solid #e0e0e0; /* The thin line above the caption */
+    padding: 15px 0; /* No left/right padding */
+    border-bottom: 1px solid #e0e0e0; /* The keyline is now at the bottom */
     font-weight: bold;
 }
 
@@ -107,12 +106,14 @@ section { max-width: 1200px; margin: 40px auto; padding: 20px; }
 }
 
 .caption-title .dot {
-    margin-right: 8px; /* Space between the dot and the title */
+    margin-right: 8px;
+    display: none; /* << ADD THIS LINE */
 }
 
 .caption-year {
     font-weight: normal;
     color: #888;
+    margin-left: auto; /* << THIS IS THE MAGIC LINE */
 }
 
 /* --- FOOTER --- */
