@@ -120,22 +120,44 @@ section { max-width: 1200px; margin: 40px auto; padding: 20px; }
 footer { text-align: center; margin-top: 50px; padding: 20px; background-color: #f7f7f7; color: #555; }
 
 /* --- NEW VALUE PROPOSITION SECTION --- */
+/* --- NEW MISSION SECTION --- */
 
-.value-prop-section {
-    background-color: #ffffff; /* Ensure a clean white background */
-    padding: 120px 40px; /* Generous padding on top and bottom */
+.mission-section {
+    padding: 120px 40px;
 }
 
-.value-prop-grid {
+.mission-headline {
+    font-size: 5vw; /* Font size scales with the browser width */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 100px;
+    letter-spacing: -2px; /* A common high-end design touch */
+}
+
+.mission-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Create the two equal columns */
-    gap: 60px; /* Space between the text and the image */
-    align-items: center; /* Vertically align the content in the middle */
-    max-width: 1200px; /* Constrain the width for better readability */
-    margin: 0 auto; /* Center the grid on the page */
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 60px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.value-prop-text .pre-title {
+.mission-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* We use flexbox here to control the text alignment */
+.mission-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns all items to the left */
+    text-align: left;
+}
+
+.mission-text .pre-title {
     font-size: 0.9em;
     font-weight: bold;
     color: #555;
@@ -143,25 +165,20 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
     margin-bottom: 20px;
 }
 
-.value-prop-text h2 {
-    font-size: 2.8em; /* The big, bold heading */
-    line-height: 1.3;
-    font-weight: bold;
-    margin: 0 0 20px 0;
-}
-
-.value-prop-text p {
-    font-size: 1.1em;
+.mission-text .mission-statement {
+    font-size: 1.5em; /* Larger paragraph text */
     line-height: 1.6;
     color: #333;
+    font-weight: 500; /* A medium weight, not quite bold */
+    margin: 0;
 }
 
-/* Style for the button */
+/* Button styling from before, slightly adjusted */
 .button-outline {
     display: inline-block;
-    margin-top: 30px;
+    margin-top: 40px;
     padding: 12px 24px;
-    border: 1px solid #222; /* Black border */
+    border: 1px solid #222;
     border-radius: 4px;
     color: #222;
     text-decoration: none;
@@ -170,37 +187,23 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 }
 
 .button-outline:hover {
-    background-color: #222; /* Black background on hover */
-    color: #fff; /* White text on hover */
+    background-color: #222;
+    color: #fff;
 }
 
-/* Style for the image */
-.value-prop-image img {
-    width: 100%;
-    height: auto;
-    display: block; /* Removes any extra space below the image */
-}
 
-/* --- MEDIA QUERY FOR THIS SECTION --- */
-@media (max-width: 800px) {
-    .value-prop-grid {
-        /* On smaller screens, stack the columns */
-        grid-template-columns: 1fr;
+/* --- RESPONSIVE STYLES FOR MISSION SECTION --- */
+@media (max-width: 900px) {
+    .mission-headline {
+        font-size: 8vw; /* Make headline larger on smaller screens */
+        margin-bottom: 60px;
     }
-
-    .value-prop-image {
-        /* On mobile, we want the image to appear first */
-        grid-row: 1; /* Move the image to the first row */
+    .mission-grid {
+        grid-template-columns: 1fr; /* Stack to a single column */
     }
-}
-
-/* --- MEDIA QUERIES FOR RESPONSIVE GRID --- */
-
-/* 1. Tablet View: On screens 1024px wide or smaller */
-@media (max-width: 1024px) {
-    .portfolio-grid-container {
-        /* Change the grid to have two columns */
-        grid-template-columns: repeat(2, 1fr);
+    .mission-text {
+        /* On mobile, we want the text to appear first */
+        grid-row: 1;
     }
 }
 
