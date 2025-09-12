@@ -36,11 +36,15 @@ header {
     grid-column: 2 / 3;
     text-align: center;
 }
+/* --- Styles for the Logo --- */
 .logo a {
-    color: #222;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.5em;
+    text-decoration: none; /* Removes the underline from the link */
+}
+
+.logo img {
+    height: 50px; /* << ADJUST THIS VALUE */
+    width: auto; /* Keeps the aspect ratio correct */
+    display: block; /* Helps with alignment */
 }
 
 /* Column 3: The "WORK +" Link */
