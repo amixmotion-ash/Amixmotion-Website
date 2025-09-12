@@ -234,3 +234,10 @@ footer {
     object-fit: cover; /* THIS IS THE MAGIC LINE */
     z-index: -1; /* This pushes it behind the .hero-content */
 }
+/* --- HOMEPAGE-SPECIFIC HEADER COLORS --- */
+
+.homepage header .nav-toggle,
+.homepage header .logo a,
+.homepage header .desktop-nav a {
+    color: #ffffff;
+}
