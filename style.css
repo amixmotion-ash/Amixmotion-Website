@@ -1,9 +1,16 @@
-/* --- GLOBAL STYLES --- */
 body {
     background-color: #ffffff;
     color: #222222;
     font-family: Arial, sans-serif;
     margin: 0;
+}
+
+/* --- REUSABLE CONTAINER --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    box-sizing: border-box; /* Ensures padding is included in the width */
 }
 
 /* --- HEADER STYLES --- */
@@ -46,120 +53,41 @@ header {
 .hero-content h1 { font-size: 4em; }
 .hero-content p { font-size: 1.2em; }
 
-/* --- GENERAL PAGE CONTENT --- */
+/* --- GENERAL PAGE CONTENT (Used by other pages) --- */
 main { padding-top: 100px; }
 section { max-width: 1200px; margin: 40px auto; padding: 20px; }
 
-/* --- NEW PORTFOLIO GRID --- */
-
-.portfolio-grid-section {
-    padding: 100px 40px; /* Top/Bottom padding of 100px, Left/Right of 40px */
-    max-width: none;
-    box-sizing: border-box; /* Ensures padding is included in the width calculation */
-}
-
-.portfolio-grid-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px; /* << ADD THIS LINE (Adjust the value as needed) */
-}
-
-.grid-item {
-    display: block;
-    text-decoration: none;
-    color: #222;
-    position: relative; /* For the image zoom effect */
-    overflow: hidden; /* Hides the part of the image that zooms out */
-}
-
-.grid-item-image {
-    /* This is the new rule for the container */
-    height: 70vh; /* Set a fixed height based on 70% of the viewport height */
-    overflow: hidden; /* This is important to contain the image */
-}
-
-.grid-item-image img {
-    /* This is the modified rule for the image */
-    width: 100%;
-    height: 100%; /* Make the image fill the container's height */
-    object-fit: cover; /* THIS IS THE MAGIC LINE */
-    display: block;
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* A subtle zoom-out effect on hover */
-.grid-item:hover .grid-item-image img {
-    transform: scale(1.1);
-}
-
-.grid-item-caption {
-    display: flex; /* We will still use flexbox */
-    align-items: center;
-    padding: 15px 0; /* No left/right padding */
-    border-bottom: 1px solid #e0e0e0; /* The keyline is now at the bottom */
-    font-weight: bold;
-}
-
-.caption-title {
-    display: flex;
-    align-items: center;
-}
-
-.caption-title .dot {
-    margin-right: 8px;
-    display: none; /* << ADD THIS LINE */
-}
-
-.caption-year {
-    font-weight: normal;
-    color: #888;
-    margin-left: auto; /* << THIS IS THE MAGIC LINE */
-}
-
-/* --- FOOTER --- */
-footer { text-align: center; margin-top: 50px; padding: 20px; background-color: #f7f7f7; color: #555; }
-
-/* --- NEW VALUE PROPOSITION SECTION --- */
-/* --- NEW MISSION SECTION --- */
-
-/* A reusable container for centered content */
-.container {
-    max-width: 1200px; /* The maximum width for our content */
-    margin: 0 auto; /* This centers the container */
-    padding: 0 40px; /* This adds side padding, matching the header */
-}
-
+/* --- MISSION SECTION --- */
 .mission-section {
-    padding: 120px 0; /* Vertical padding is on the section */
+    padding: 120px 0;
 }
-
 .mission-headline {
-    /* ... existing styles ... */
-    text-align: left; /* Align headline to the left of the container */
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 100px;
+    letter-spacing: -2px;
 }
-
 .mission-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
     align-items: center;
-    /* max-width and margin are now handled by the .container */
 }
-
+.mission-image {
+    min-width: 0; /* Failsafe for grid bugs */
+}
 .mission-image img {
     width: 100%;
     height: auto;
     display: block;
 }
-
-/* We use flexbox here to control the text alignment */
 .mission-text {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Aligns all items to the left */
+    align-items: flex-start;
     text-align: left;
 }
-
 .mission-text .pre-title {
     font-size: 0.9em;
     font-weight: bold;
@@ -167,16 +95,13 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
     letter-spacing: 1px;
     margin-bottom: 20px;
 }
-
 .mission-text .mission-statement {
-    font-size: 1.5em; /* Larger paragraph text */
+    font-size: 1.5em;
     line-height: 1.6;
     color: #333;
-    font-weight: 500; /* A medium weight, not quite bold */
+    font-weight: 500;
     margin: 0;
 }
-
-/* Button styling from before, slightly adjusted */
 .button-outline {
     display: inline-block;
     margin-top: 40px;
@@ -188,41 +113,95 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
     font-weight: bold;
     transition: all 0.3s ease;
 }
-
 .button-outline:hover {
     background-color: #222;
     color: #fff;
 }
 
+/* --- PORTFOLIO GRID SECTION --- */
+.portfolio-grid-section {
+    padding: 100px 40px;
+    max-width: none;
+    box-sizing: border-box;
+}
+.portfolio-grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+.grid-item {
+    display: block;
+    text-decoration: none;
+    color: #222;
+    position: relative;
+    overflow: hidden;
+}
+.grid-item-image {
+    height: 70vh;
+    overflow: hidden;
+}
+.grid-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.grid-item:hover .grid-item-image img {
+    transform: scale(1.1);
+}
+.grid-item-caption {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: bold;
+}
+.caption-title {
+    display: flex;
+    align-items: center;
+}
+.caption-title .dot {
+    margin-right: 8px;
+    display: none;
+}
+.caption-year {
+    font-weight: normal;
+    color: #888;
+    margin-left: auto;
+}
 
-/* --- RESPONSIVE STYLES FOR MISSION SECTION --- */
+/* --- FOOTER --- */
+footer { text-align: center; margin-top: 50px; padding: 20px; background-color: #f7f7f7; color: #555; }
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+
+/* For Mission Section (stacking) */
 @media (max-width: 900px) {
-    .mission-headline {
-        font-size: 8vw;
-        margin-bottom: 60px;
-    }
     .mission-grid {
-        grid-template-columns: 1fr; /* Stack to a single column */
-    }
-
-    .mission-image {
-        grid-row: 1; /* This is the key: forces the image to the first row */
+        grid-template-columns: 1fr;
     }
     .mission-text {
-        grid-row: 2; /* This forces the text to the second row */
+        grid-row: 1;
+    }
+    .mission-image {
+        grid-row: 2;
     }
 }
 
+/* For Portfolio Grid (tablet) */
+@media (max-width: 1024px) {
+    .portfolio-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 
-/* 2. Mobile View: On screens 600px wide or smaller */
+/* For Portfolio Grid (mobile) */
 @media (max-width: 600px) {
     .portfolio-grid-container {
-        /* Change the grid to have only one column */
         grid-template-columns: 1fr;
     }
-
     .portfolio-grid-section {
-        /* Optional: Reduce padding even more on small phones */
         padding: 60px 20px;
     }
 }
