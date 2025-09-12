@@ -47,19 +47,26 @@ header {
 .main-nav ul li a { color: #222; text-decoration: none; font-size: 1.5em; font-weight: bold; }
 
 /* --- HERO VIDEO SECTION --- */
-.hero-video { position: relative; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; max-width: none; padding: 0; margin: 0; }
+.hero-video { position: relative; height: 100vh; z-index: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; max-width: none; padding: 0; margin: 0; }
 #bgvideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
 .hero-content { position: relative; z-index: 1; color: white; text-align: center; padding: 20px; }
 .hero-content h1 { font-size: 4em; }
 .hero-content p { font-size: 1.2em; }
 
 /* --- GENERAL PAGE CONTENT (Used by other pages) --- */
-main { padding-top: 100px; }
+main {
+    position: relative; /* Must be relative for z-index */
+    z-index: 2; /* Higher than the hero video */
+    background-color: #ffffff; /* The color that will mask the video */
+}
 section { max-width: 1200px; margin: 40px auto; padding: 20px; }
 
 /* --- MISSION SECTION --- */
 .mission-section {
     padding: 120px 0;
+    position: relative; /* Must be relative for z-index to work */
+    z-index: 2; /* << This places it ON TOP of the hero video */
+    background-color: #ffffff; /* Explicitly set the background to white */
 }
 .mission-headline {
     font-size: clamp(2.5rem, 8vw, 6rem);
@@ -123,6 +130,10 @@ section { max-width: 1200px; margin: 40px auto; padding: 20px; }
     padding: 100px 40px;
     max-width: none;
     box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 3; /* Ensure it's on top of everything */
+    background-color: #ffffff; /* Give it a solid white background */
 }
 .portfolio-grid-container {
     display: grid;
