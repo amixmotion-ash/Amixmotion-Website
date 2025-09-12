@@ -118,6 +118,82 @@ section { max-width: 1200px; margin: 40px auto; padding: 20px; }
 
 /* --- FOOTER --- */
 footer { text-align: center; margin-top: 50px; padding: 20px; background-color: #f7f7f7; color: #555; }
+
+/* --- NEW VALUE PROPOSITION SECTION --- */
+
+.value-prop-section {
+    background-color: #ffffff; /* Ensure a clean white background */
+    padding: 120px 40px; /* Generous padding on top and bottom */
+}
+
+.value-prop-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Create the two equal columns */
+    gap: 60px; /* Space between the text and the image */
+    align-items: center; /* Vertically align the content in the middle */
+    max-width: 1200px; /* Constrain the width for better readability */
+    margin: 0 auto; /* Center the grid on the page */
+}
+
+.value-prop-text .pre-title {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #555;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.value-prop-text h2 {
+    font-size: 2.8em; /* The big, bold heading */
+    line-height: 1.3;
+    font-weight: bold;
+    margin: 0 0 20px 0;
+}
+
+.value-prop-text p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Style for the button */
+.button-outline {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 24px;
+    border: 1px solid #222; /* Black border */
+    border-radius: 4px;
+    color: #222;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.button-outline:hover {
+    background-color: #222; /* Black background on hover */
+    color: #fff; /* White text on hover */
+}
+
+/* Style for the image */
+.value-prop-image img {
+    width: 100%;
+    height: auto;
+    display: block; /* Removes any extra space below the image */
+}
+
+/* --- MEDIA QUERY FOR THIS SECTION --- */
+@media (max-width: 800px) {
+    .value-prop-grid {
+        /* On smaller screens, stack the columns */
+        grid-template-columns: 1fr;
+    }
+
+    .value-prop-image {
+        /* On mobile, we want the image to appear first */
+        grid-row: 1; /* Move the image to the first row */
+    }
+}
+
 /* --- MEDIA QUERIES FOR RESPONSIVE GRID --- */
 
 /* 1. Tablet View: On screens 1024px wide or smaller */
