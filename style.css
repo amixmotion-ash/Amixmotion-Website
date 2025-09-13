@@ -238,8 +238,8 @@ header {
 .portfolio-grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .grid-item { display: block; text-decoration: none; color: #222; position: relative; overflow: hidden; }
 .grid-item-image { 
-    /* This tells the browser to maintain a 16:9 widescreen aspect ratio */
-    aspect-ratio: 16 / 9;
+    /* This 8:9 ratio is twice as tall as the previous 16:9 ratio */
+    aspect-ratio: 8 / 9;
     overflow: hidden; 
 }
 .grid-item-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }

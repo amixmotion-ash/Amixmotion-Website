@@ -80,7 +80,7 @@ if (lightbox) {
     });
 }
 // --- Initialize Rellax for Parallax Scrolling ---
-if (typeof Rellax !== 'undefined' && window.innerWidth > 1024) {
+if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
     var rellax = new Rellax('.rellax', {
         // This is the crucial new line. It tells Rellax to make the 
         // elements perfectly aligned when they are in the vertical center of the screen.
