@@ -306,18 +306,15 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 .button-submit:hover {
     background-color: #555;
 }
-/* --- CLIENT SCROLLER SECTION (FINAL RESPONSIVE VERSION) --- */
+/* --- CLIENT SCROLLER SECTION (TRUE BREAKOUT VERSION) --- */
 .client-scroller {
     padding: 60px 0;
 }
 
+/* On standard screens, we align it with the rest of the site's content. */
 .scroller-container {
-    /* This combination is the key to the final solution */
-    max-width: 1600px; /* A larger max-width for bigger screens */
-    margin: 0 auto;    /* This keeps it centered */
-    padding: 0 40px;   /* This ensures there's always space on the sides, even on ultra-wide */
-    box-sizing: border-box; /* Includes padding in the element's total width/height */
-    
+    max-width: 1200px;
+    margin: 0 auto;
     overflow: hidden;
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
@@ -325,7 +322,7 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 
 .scroller-track {
     display: flex;
-    /* Increased default logo size for more impact on desktop */
+    /* Default logo size for standard desktops */
     --logo-width: 240px; 
     
     width: calc(var(--logo-width) * 10);
@@ -355,7 +352,7 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
     height: auto;
 }
 
-/* --- RESPONSIVE MEDIA QUERIES FOR SCROLLER --- */
+/* --- RESPONSIVE MEDIA QUERIES --- */
 
 /* For tablets and smaller laptops */
 @media (max-width: 1024px) {
@@ -367,14 +364,25 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 
 /* For mobile phones */
 @media (max-width: 600px) {
-    .scroller-container {
-        padding: 0 20px; /* Reduce side padding on mobile */
-    }
     .scroller-track {
         --logo-width: 280px;
         animation-duration: 35s;
     }
     .client-logo {
         padding: 0 30px;
+    }
+}
+
+/* For ULTRA-WIDE screens (screens wider than 1400px) */
+@media (min-width: 1401px) {
+    /* STEP 1: Let the container break free and become full-width */
+    .scroller-container {
+        max-width: none; /* This removes the 1200px limit */
+    }
+    
+    /* STEP 2: Make the logos get bigger on these wider screens */
+    .scroller-track {
+        --logo-width: 300px; /* Increase the logo size */
+        animation-duration: 50s; /* Slow down the scroll to feel more epic */
     }
 }
