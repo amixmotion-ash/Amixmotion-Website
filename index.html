@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name | Videography</title>
+    <title>Amixmotion | Videography</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="homepage">
@@ -13,7 +13,7 @@
             MENU
         </button>
         <div class="logo">
-            <a href="index.html"><img src="logo.png" alt="Your Company Name Logo"></a>
+            <a href="index.html"><img src="logo.png" alt="Amixmotion Logo"></a>
         </div>
         <nav class="desktop-nav">
             <ul>
@@ -31,34 +31,90 @@
         </ul>
     </nav>
 
-    <!-- The hero-video section contains BOTH the video AND its text content -->
+    <!-- The hero-video is the sticky background layer. It contains NO text. -->
     <section class="hero-video">
         <video playsinline autoplay muted loop id="bgvideo">
             <source src="Videos/hero-video.mp4" type="video/mp4">
         </video>
-        <div class="hero-content">
-            <h1>TURNING VISIONS<br>INTO VISUALS</h1>
-            <a href="contact.html" class="button-outline">CONTACT</a>
-        </div>
     </section>
 
-    <!-- This is the container for ALL content that scrolls ON TOP of the video -->
+    <!-- This is the wrapper for all content that scrolls OVER the video -->
     <div class="scroll-content-wrapper">
         <main>
-            <!-- All your other sections (Mission, Clients, Portfolio) go here -->
+            <!-- Mission Section -->
             <section class="mission-section">
-                <!-- ... your mission section content ... -->
+                <div class="container">
+                    <div class="mission-grid">
+                        <div class="mission-image">
+                            <img src="images/me-filming.jpeg" alt="Filmmaker at work">
+                        </div>
+                        <div class="mission-text">
+                            <p class="pre-title">/ CREATE OPPORTUNITY</p>
+                            <div class="mission-statement-animated">
+                                <div class="animated-line"><span>Driven to achieve excellence in both</span></div>
+                                <div class="animated-line"><span>strategic thinking & design innovation,</span></div>
+                                <div class="animated-line"><span>we aim to unlock new opportunities and</span></div>
+                                <div class="animated-line"><span>the highest of value for our esteemed clients.</span></div>
+                            </div>
+                            <a href="about.html" class="button-outline">+ ABOUT ME</a>
+                        </div>
+                    </div>
+                </div>
             </section>
-            <!-- ... etc ... -->
+            
+            <!-- Client Scroller Section -->
+            <section class="client-scroller">
+                <div class="scroller-container">
+                    <div class="scroller-track">
+                        <div class="client-logo"><img src="images/client-logo-1.png" alt="Client Logo 1"></div>
+                        <div class="client-logo"><img src="images/client-logo-2.png" alt="Client Logo 2"></div>
+                        <div class="client-logo"><img src="images/client-logo-3.png" alt="Client Logo 3"></div>
+                        <div class="client-logo"><img src="images/client-logo-4.png" alt="Client Logo 4"></div>
+                        <div class="client-logo"><img src="images/client-logo-5.png" alt="Client Logo 5"></div>
+                        <div class="client-logo"><img src="images/client-logo-1.png" alt="Client Logo 1"></div>
+                        <div class="client-logo"><img src="images/client-logo-2.png" alt="Client Logo 2"></div>
+                        <div class="client-logo"><img src="images/client-logo-3.png" alt="Client Logo 3"></div>
+                        <div class="client-logo"><img src="images/client-logo-4.png" alt="Client Logo 4"></div>
+                        <div class="client-logo"><img src="images/client-logo-5.png" alt="Client Logo 5"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Portfolio Grid Section -->
+            <section class="portfolio-grid-section">
+                <div class="portfolio-grid-container">
+                    <a href="#" class="grid-item" data-video-src="videos/myokine-preview.mp4">
+                        <div class="grid-item-image"><img src="images/thumbnail1.png" alt="Project 1"></div>
+                        <div class="grid-item-caption"><span class="caption-title">MYOKINE</span><span class="caption-year">(2024)</span></div>
+                    </a>
+                    <a href="#" class="grid-item" data-video-src="videos/cerrar-preview.mp4">
+                        <div class="grid-item-image"><img src="images/thumbnail2.jpg" alt="Project 2"></div>
+                        <div class="grid-item-caption"><span class="caption-title">CERRAR LAUNCH EVENT</span><span class="caption-year">(2025)</span></div>
+                    </a>
+                    <a href="#" class="grid-item" data-video-src="videos/yoono-preview.mp4">
+                        <div class="grid-item-image"><img src="images/thumbnail3.png" alt="Project 3"></div>
+                        <div class="grid-item-caption"><span class="caption-title">YOONO IHR RECRUITMENT EVENT</span><span class="caption-year">(2025)</span></div>
+                    </a>
+                    <a href="#" class="grid-item" data-video-src="videos/aston-martin-preview.mp4">
+                        <div class="grid-item-image"><img src="images/thumbnail4.png" alt="Project 4"></div>
+                        <div class="grid-item-caption"><span class="caption-title">ASTON MARTIN</span><span class="caption-year">(2024)</span></div>
+                    </a>
+                </div>
+            </section>
         </main>
+
         <footer>
-            <!-- ... your footer ... -->
+            <p>&copy; 2025 Amixmotion</p>
         </footer>
     </div>
 
     <!-- Video Lightbox Structure -->
     <div class="video-lightbox">
-        <!-- ... your lightbox content ... -->
+        <div class="lightbox-overlay"></div>
+        <div class="lightbox-content">
+            <button class="lightbox-close" aria-label="Close video preview">&times;</button>
+            <video class="lightbox-video" controls autoplay playsinline></video>
+        </div>
     </div>
 
     <script src="script.js"></script>
