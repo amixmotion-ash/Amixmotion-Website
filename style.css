@@ -268,6 +268,7 @@ footer { text-align: center; padding: 20px; background-color: #f7f7f7; color: #5
 .lightbox-content { position: relative; width: 90%; max-width: 1200px; aspect-ratio: 16 / 9; }
 .lightbox-video { width: 100%; height: 100%; display: block; }
 .lightbox-close { position: absolute; top: -40px; right: 0; background: none; border: none; color: #ffffff; font-size: 3em; font-weight: 100; cursor: pointer; line-height: 1; }
+
 /* --- CUSTOM CURSOR STYLES --- */
 
 /* This is the style for our custom cursor element */
@@ -292,7 +293,7 @@ footer { text-align: center; padding: 20px; background-color: #f7f7f7; color: #5
     
     /* Default state: it's hidden, scaled down, and can't be clicked */
     opacity: 0;
-    transform: scale(0.5) translate(-50%, -50%);
+    transform: scale(0.5) translate(0, -50%);
     transform-origin: 0 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -300,9 +301,10 @@ footer { text-align: center; padding: 20px; background-color: #f7f7f7; color: #5
 
 /* This is the ACTIVE state. We trigger it with JavaScript. */
 body.cursor-hover .custom-cursor {
-    opacity: 1; /* Make it visible */
-    transform: scale(1) translate(-50%, -50%); /* Scale it up to full size */
+    opacity: 1;
+    transform: scale(1) translate(0, -50%); /* Scale up and center vertically */
 }
+
 
 /* When the cursor is active, this rule hides the default system cursor */
 body.cursor-hover {
