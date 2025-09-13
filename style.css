@@ -306,14 +306,16 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 .button-submit:hover {
     background-color: #555;
 }
-/* --- CLIENT SCROLLER SECTION (ULTRA-WIDE & MOBILE-FOCUSED) --- */
+/* --- CLIENT SCROLLER SECTION (CENTERED & RESIZED) --- */
 .client-scroller {
     padding: 60px 0;
 }
 
 .scroller-container {
-    /* CHANGE 1: Remove max-width and margin to allow for full-width on large screens. */
-    /* The mask-image now handles the fading at the edges gracefully. */
+    /* CHANGE 1: Re-center the scroller to align with your other content */
+    max-width: 1200px;
+    margin: 0 auto;
+    
     overflow: hidden;
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
@@ -321,9 +323,11 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 
 .scroller-track {
     display: flex;
-    --logo-width: 200px; /* Default logo size for standard desktops */
+    /* CHANGE 2: Increase the default logo size for more impact on desktop */
+    --logo-width: 240px; 
+    
     width: calc(var(--logo-width) * 10);
-    animation: scroll 40s linear infinite; /* Increased default duration for a slower, smoother scroll */
+    animation: scroll 40s linear infinite;
 }
 
 @keyframes scroll {
@@ -347,7 +351,6 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 .client-logo img {
     max-width: 100%;
     height: auto;
-    /* The filter, opacity, and transition properties have been removed to show the original image */
 }
 
 /* --- RESPONSIVE MEDIA QUERIES FOR SCROLLER --- */
@@ -355,19 +358,18 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 /* For tablets and smaller laptops - logos get slightly smaller */
 @media (max-width: 1024px) {
     .scroller-track {
-        --logo-width: 180px; 
+        --logo-width: 200px; /* A good size for tablets */
         animation-duration: 35s;
     }
 }
 
-/* For mobile phones */
+/* For mobile phones - logos get bigger */
 @media (max-width: 600px) {
     .scroller-track {
-        /* CHANGE 2: Make logos BIGGER on mobile to feature 1-2 at a time. */
         --logo-width: 280px;
-        animation-duration: 35s; /* Keep it slow and majestic */
+        animation-duration: 35s;
     }
     .client-logo {
-        padding: 0 30px; /* Adjust padding for the larger logo */
+        padding: 0 30px;
     }
 }
