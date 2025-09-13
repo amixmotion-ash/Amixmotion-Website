@@ -293,7 +293,7 @@ footer { text-align: center; padding: 20px; background-color: #f7f7f7; color: #5
     
     /* Default state: it's hidden, scaled down, and can't be clicked */
     opacity: 0;
-    transform: scale(0.5) translate(0, -50%);
+    transform: scale(0.5) translate(20px, -50%);
     transform-origin: 0 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -302,7 +302,7 @@ footer { text-align: center; padding: 20px; background-color: #f7f7f7; color: #5
 /* This is the ACTIVE state. We trigger it with JavaScript. */
 body.cursor-hover .custom-cursor {
     opacity: 1;
-    transform: scale(1) translate(0, -50%); /* Scale up and center vertically */
+    transform: scale(1) translate(20px, -50%); /* Added 20px horizontal offset */
 }
 
 
