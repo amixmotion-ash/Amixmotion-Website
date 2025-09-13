@@ -3,76 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name | Videography</title>
+    <title>Portfolio | Your Name</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body> 
-    <body>
+<body>
 
-<header>
-    <button class="nav-toggle" aria-label="toggle navigation">
-        MENU
-    </button>
+    <!-- This is the same header from your other pages for consistency -->
+    <header>
+        <button class="nav-toggle" aria-label="toggle navigation">
+            MENU
+        </button>
+        <div class="logo">
+            <a href="index.html"><img src="logo.png" alt="Your Company Name Logo"></a>
+        </div>
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="portfolio.html">WORK +</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <div class="logo">
-        <a href="index.html">
-    <img src="logo.png" alt="Your Company Name Logo">
-</a>
-    </div>
-
-    <nav class="desktop-nav">
+    <!-- This is the same slide-out menu -->
+    <nav class="main-nav">
         <ul>
-            <li><a href="portfolio.html">WORK +</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
     </nav>
-</header>
-<nav class="main-nav">
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="portfolio.html">Portfolio</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-    </ul>
-</nav>
 
-    <main>
-        <section class="portfolio-full">
-        <h1>Our Work</h1>
-        <p>A selection of our favorite projects.</p>
+    <main class="portfolio-page-main">
+        <!-- This section uses the exact same classes as your homepage grid -->
+        <section class="portfolio-grid-section">
+            <div class="portfolio-grid-container">
+                
+                <!-- Project 1 -->
+                <a href="#" class="grid-item">
+                    <div class="grid-item-image"><img src="images/thumbnail1.png" alt="Project 1"></div>
+                    <div class="grid-item-caption">
+                        <span class="caption-title">MYOKINE</span>
+                        <span class="caption-year">(2024)</span>
+                    </div>
+                </a>
 
-        <div class="portfolio-grid">
-            <!-- Video 1 -->
-            <div class="video-item">
-                <div class="video-embed">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/QRV6iMjM95M?si=4G5MYvqK-xKIO7bD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <h3>Project Title One</h3>
-                <p>A short description of the project, the client, or the style of the video.</p>
+                <!-- Project 2 -->
+                <a href="#" class="grid-item">
+                    <div class="grid-item-image"><img src="images/thumbnail2.jpg" alt="Project 2"></div>
+                    <div class="grid-item-caption">
+                        <span class="caption-title">CERRAR LAUNCH EVENT</span>
+                        <span class="caption-year">(2025)</span>
+                    </div>
+                </a>
+
+                <!-- Project 3 -->
+                <a href="#" class="grid-item">
+                    <div class="grid-item-image"><img src="images/thumbnail3.png" alt="Project 3"></div>
+                    <div class="grid-item-caption">
+                        <span class="caption-title">YOONO IHR RECRUITMENT</span>
+                        <span class="caption-year">(2025)</span>
+                    </div>
+                </a>
+
+                <!-- Project 4 -->
+                <a href="#" class="grid-item">
+                    <div class="grid-item-image"><img src="images/thumbnail4.png" alt="Project 4"></div>
+                    <div class="grid-item-caption">
+                        <span class="caption-title">ASTON MARTIN</span>
+                        <span class="caption-year">(2024)</span>
+                    </div>
+                </a>
+
+                <!-- Project 5 -->
+                <a href="#" class="grid-item">
+                    <div class="grid-item-image"><img src="images/placeholder.png" alt="Project 5"></div>
+                    <div class="grid-item-caption">
+                        <span class="caption-title">PROJECT FIVE</span>
+                        <span class="caption-year">(2025)</span>
+                    </div>
+                </a>
+
+                <!-- Project 6 -->
+                <a href="#" class="grid-item">
+                    <div class="grid-item-image"><img src="images/placeholder.png" alt="Project 6"></div>
+                    <div class="grid-item-caption">
+                        <span class="caption-title">PROJECT SIX</span>
+                        <span class="caption-year">(2025)</span>
+                    </div>
+                </a>
+
+                <!-- Project 7 -->
+                <a href="#" class="grid-item">
+                    <div class="grid-item-image"><img src="images/placeholder.png" alt="Project 7"></div>
+                    <div class="grid-item-caption">
+                        <span class="caption-title">PROJECT SEVEN</span>
+                        <span class="caption-year">(2025)</span>
+                    </div>
+                </a>
+
+                <!-- Project 8 -->
+                <a href="#" class="grid-item">
+                    <div class="grid-item-image"><img src="images/placeholder.png" alt="Project 8"></div>
+                    <div class="grid-item-caption">
+                        <span class="caption-title">PROJECT EIGHT</span>
+                        <span class="caption-year">(2025)</span>
+                    </div>
+                </a>
+
             </div>
-
-            <!-- Video 2 -->
-            <div class="video-item">
-                <div class="video-embed">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Q-O9TSjvUFM?si=fE66a9mg3vE3P9jP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID_HERE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <h3>Project Title Two</h3>
-                <p>A short description of the project, the client, or the style of the video.</p>
-            </div>
-            
-            <!-- Add more video-item divs for more videos -->
-
-        </div>
-    </section>
+        </section>
     </main>
 
+    <!-- This is the same footer -->
     <footer>
         <p>&copy; 2025 Your Name Videography</p>
     </footer>
-   <script src="script.js"></script>
-</body>
-</html>
-</body>
+
+    <script src="script.js"></script>
+
 </body>
 </html>

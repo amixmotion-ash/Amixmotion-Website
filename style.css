@@ -149,6 +149,10 @@ header {
 
 /* --- FOOTER --- */
 footer { text-align: center; margin-top: 50px; padding: 20px; background-color: #f7f7f7; color: #555; }
+/* --- PORTFOLIO PAGE STYLES --- */
+.portfolio-page-main {
+    padding-top: 150px; /* Adjust this value if you change your header's height */
+}
 
 /* --- RESPONSIVE MEDIA QUERIES --- */
 @media (max-width: 900px) {
