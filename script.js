@@ -63,3 +63,45 @@ if (animatedSection) {
 
     observer.observe(animatedSection);
 }
+// --- Video Lightbox Functionality ---
+
+const lightbox = document.querySelector('.video-lightbox');
+const lightboxVideo = lightbox.querySelector('.lightbox-video');
+const closeButton = lightbox.querySelector('.lightbox-close');
+const portfolioItems = document.querySelectorAll('.portfolio-grid-section .grid-item');
+
+// Function to open the lightbox
+function openLightbox(videoSrc) {
+    if (videoSrc) {
+        lightboxVideo.src = videoSrc;
+        lightbox.classList.add('is-visible');
+    }
+}
+
+// Function to close the lightbox
+function closeLightbox() {
+    lightbox.classList.remove('is-visible');
+    // Important: Pause the video and clear the source to stop it from playing in the background
+    lightboxVideo.pause();
+    lightboxVideo.src = '';
+}
+
+// Add click listeners to all portfolio items
+portfolioItems.forEach(item => {
+    item.addEventListener('click', (event) => {
+        event.preventDefault(); // Stop the link from trying to navigate
+        const videoSrc = item.dataset.videoSrc;
+        openLightbox(videoSrc);
+    });
+});
+
+// Add click listener to the close button
+closeButton.addEventListener('click', closeLightbox);
+
+// Add click listener to the overlay to also close the lightbox
+lightbox.addEventListener('click', (event) => {
+    // Only close if the click is on the overlay itself, not the video
+    if (event.target === lightbox) {
+        closeLightbox();
+    }
+});

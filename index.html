@@ -103,32 +103,63 @@
         <section class="portfolio-grid-section">
             <!-- ... -->
 
-            <section class="portfolio-grid-section">
-                <div class="portfolio-grid-container">
-                     <a href="portfolio.html" class="grid-item">
-                        <div class="grid-item-image"><img src="images/thumbnail1.png" alt="Project 1"></div>
-                        <div class="grid-item-caption"><span class="caption-title">MYOKINE</span><span class="caption-year">(2024)</span></div>
-                    </a>
-                    <a href="portfolio.html" class="grid-item">
-                        <div class="grid-item-image"><img src="images/thumbnail2.jpg" alt="Project 2"></div>
-                        <div class="grid-item-caption"><span class="caption-title">CERRAR LAUNCH EVENT</span><span class="caption-year">(2025)</span></div>
-                    </a>
-                    <a href="portfolio.html" class="grid-item">
-                        <div class="grid-item-image"><img src="images/thumbnail3.png" alt="Project 3"></div>
-                        <div class="grid-item-caption"><span class="caption-title">YOONO IHR RECRUITMENT EVENT</span><span class="caption-year">(2025)</span></div>
-                    </a>
-                    <a href="portfolio.html" class="grid-item">
-                        <div class="grid-item-image"><img src="images/thumbnail4.png" alt="Project 4"></div>
-                        <div class="grid-item-caption"><span class="caption-title">ASTON MARTIN</span><span class="caption-year">(2024)</span></div>
-                    </a>
-                </div>
-            </section>
+           <!-- Portfolio Grid Section -->
+<section class="portfolio-grid-section">
+    <div class="portfolio-grid-container">
+        <!-- Project 1 -->
+        <a href="#" class="grid-item" data-video-src="Videos/myokine-preview.mp4">
+            <div class="grid-item-image"><img src="images/thumbnail1.png" alt="Project 1"></div>
+            <div class="grid-item-caption">
+                <span class="caption-title">MYOKINE</span>
+                <span class="caption-year">(2024)</span>
+            </div>
+        </a>
+        <!-- Project 2 -->
+        <a href="#" class="grid-item" data-video-src="Videos/cerrar-preview.mp4">
+            <div class="grid-item-image"><img src="images/thumbnail2.jpg" alt="Project 2"></div>
+            <div class="grid-item-caption">
+                <span class="caption-title">CERRAR LAUNCH EVENT</span>
+                <span class="caption-year">(2025)</span>
+            </div>
+        </a>
+        <!-- Project 3 -->
+        <a href="#" class="grid-item" data-video-src="Videos/yoono-preview.mp4">
+            <div class="grid-item-image"><img src="images/thumbnail3.png" alt="Project 3"></div>
+            <div class="grid-item-caption">
+                <span class="caption-title">YOONO IHR RECRUITMENT EVENT</span>
+                <span class="caption-year">(2025)</span>
+            </div>
+        </a>
+        <!-- Project 4 -->
+        <a href="#" class="grid-item" data-video-src="Videos/aston-martin-preview.mp4">
+            <div class="grid-item-image"><img src="images/thumbnail4.png" alt="Project 4"></div>
+            <div class="grid-item-caption">
+                <span class="caption-title">ASTON MARTIN</span>
+                <span class="caption-year">(2024)</span>
+            </div>
+        </a>
+    </div>
+</section>
         </main>
         <footer>
             <p>&copy; 2025 Your Name Videography</p>
         </footer>
     </div>
+    <!-- ... your footer ends here ... -->
+    </footer>
+</div>
 
+<!-- START: Video Lightbox Structure -->
+<div class="video-lightbox">
+    <div class="lightbox-overlay"></div>
+    <div class="lightbox-content">
+        <button class="lightbox-close" aria-label="Close video preview">&times;</button>
+        <video class="lightbox-video" controls autoplay playsinline></video>
+    </div>
+</div>
+<!-- END: Video Lightbox Structure -->
+
+<script src="script.js"></script>
     <script src="script.js"></script>
 
 </body>
