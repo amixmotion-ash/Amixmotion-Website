@@ -308,10 +308,7 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 }
 /* --- CLIENT SCROLLER SECTION --- */
 .client-scroller {
-    padding: 60px 0;
-    background-color: #f7f7f7; /* A slightly off-white background */
-    border-top: 1px solid #e0e0e0;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 60px 0; /* Keeps the spacing, removes unnecessary background/borders */
 }
 
 .scroller-container {
