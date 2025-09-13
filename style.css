@@ -230,27 +230,106 @@ header {
     }
 }
 
-/* --- PORTFOLIO GRID SECTION --- */
+
+/* --- PORTFOLIO GRID SECTION (FINAL RESPONSIVE VERSION) --- */
 .portfolio-grid-section {
-    padding: 100px 40px;
+    /* We remove the side padding from the section itself */
+    padding: 100px 0; 
     background-color: #ffffff;
 }
-.portfolio-grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-.grid-item { display: block; text-decoration: none; color: #222; position: relative; overflow: hidden; }
-.grid-item-image { 
-    /* This 8:9 ratio is twice as tall as the previous 16:9 ratio */
-    aspect-ratio: 8 / 9;
-    overflow: hidden; 
-}
-.grid-item-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-.grid-item:hover .grid-item-image img { transform: scale(1.1); will-change: transform; } 
-.grid-item-caption { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #e0e0e0; font-weight: bold; }
-.caption-title { display: flex; align-items: center; }
-.caption-year { font-weight: normal; color: #888; margin-left: auto; }
 
+.portfolio-grid-container {
+    /* This is the key: we constrain and center the grid */
+    max-width: 1200px;
+    margin: 0 auto; /* This centers the container */
+    
+    /* This adds the side padding back, acting as a safety margin on smaller screens */
+    padding: 0 40px; 
+    box-sizing: border-box; /* Ensures padding is included in the width calculation */
+    
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.grid-item {
+    display: block;
+    text-decoration: none;
+    color: #222;
+    position: relative;
+    overflow: hidden;
+}
+
+.grid-item-image {
+    aspect-ratio: 8 / 9; /* The taller aspect ratio */
+    overflow: hidden;
+}
+
+.grid-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+}
+
+.grid-item:hover .grid-item-image img {
+    transform: scale(1.1);
+}
+
+.grid-item-caption {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: bold;
+    /* This prevents the text from wrapping on any screen size */
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.caption-title {
+    display: flex;
+    align-items: center;
+    /* If text is too long, it will fade out with '...' */
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.caption-year {
+    font-weight: normal;
+    color: #888;
+    margin-left: auto;
+    padding-left: 10px; /* Adds space so it doesn't touch the title */
+}
+
+
+/* --- RESPONSIVE MEDIA QUERIES FOR PORTFOLIO --- */
+
+/* For TABLETS (screens between 601px and 1024px) */
+@media (max-width: 1024px) {
+    .grid-item-caption {
+        /* Reduce the font size on tablets to prevent crowding */
+        font-size: 0.8em;
+    }
+}
+
+/* For MOBILE (screens 600px or narrower) */
 @media (max-width: 600px) {
-    .portfolio-grid-container { grid-template-columns: 1fr; }
-    .portfolio-grid-section { padding: 60px 20px; }
+    .portfolio-grid-section {
+        padding: 60px 20px;
+    }
+
+    .portfolio-grid-container {
+        grid-template-columns: 1fr; /* Switch to 1 column */
+        gap: 40px; /* We can increase the vertical gap on mobile */
+    }
+
+    /* THIS IS THE KEY: We force the parallax items back to their original position */
+    .grid-item.rellax {
+        transform: translate(0) !important;
+    }
 }
 
 /* --- FOOTER --- */
