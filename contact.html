@@ -3,67 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name | Videography</title>
+    <title>Contact | Your Name</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body> 
-    <body>
+<body>
 
+    <!-- Consistent Header -->
     <header>
-    <button class="nav-toggle" aria-label="toggle navigation">
-        MENU
-    </button>
+        <button class="nav-toggle" aria-label="toggle navigation">
+            MENU
+        </button>
+        <div class="logo">
+            <a href="index.html"><img src="logo.png" alt="Your Company Name Logo"></a>
+        </div>
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="portfolio.html">WORK +</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <div class="logo">
-        <a href="index.html">
-    <img src="logo.png" alt="Your Company Name Logo">
-</a>
-    </div>
-
-    <nav class="desktop-nav">
+    <!-- Consistent Slide-out Menu -->
+    <nav class="main-nav">
         <ul>
-            <li><a href="portfolio.html">WORK +</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
     </nav>
-</header>
-<nav class="main-nav">
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="portfolio.html">Portfolio</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-    </ul>
-</nav>
 
-    <main>
-    <section class="contact-section">
-        <h1>Get In Touch</h1>
-        <p>Have a project in mind? I'd love to hear from you. Fill out the form below or email me directly at <a href="mailto:your.email@example.com">your.email@example.com</a>.</p>
-        
-        <form class="contact-form">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" rows="6" required></textarea>
-            
-            <button type="submit">Send Message</button>
-        </form>
-    </section>
-</main>
+    <main class="contact-page-main">
+        <div class="container">
+            <div class="contact-content">
+                <h1 class="contact-headline">Let's Create Together</h1>
+                <p class="contact-subheadline">Have a project in mind? I'd love to hear about it. Fill out the form below and I'll get back to you as soon as possible.</p>
 
+                <!-- FORM BEGINS HERE -->
+                <!-- 
+                    IMPORTANT: 
+                    1. Go to formspree.io and create a new form.
+                    2. Copy your unique URL.
+                    3. Paste it into the `action` attribute below, replacing the placeholder.
+                -->
+                <form class="contact-form" action="https://formspree.io/f/mjkezjao" method="POST">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="6" required></textarea>
+                    </div>
+                    <button type="submit" class="button-submit">Send Message</button>
+                </form>
+                <!-- FORM ENDS HERE -->
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Consistent Footer -->
     <footer>
         <p>&copy; 2025 Your Name Videography</p>
     </footer>
-   <script src="script.js"></script>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
-</body>
-</body>
-</html>
-
-
-
