@@ -306,35 +306,36 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 .button-submit:hover {
     background-color: #555;
 }
-/* --- CLIENT SCROLLER SECTION --- */
+/* --- CLIENT SCROLLER SECTION (NOW FULLY RESPONSIVE) --- */
 .client-scroller {
-    padding: 60px 0; /* Keeps the spacing, removes unnecessary background/borders */
+    padding: 60px 0;
 }
 
 .scroller-container {
     max-width: 1200px;
     margin: 0 auto;
-    overflow: hidden; /* This is the key to creating the "window" effect */
-    /* This creates a soft fade on the left and right edges */
+    overflow: hidden;
     -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
     mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
 }
 
 .scroller-track {
     display: flex;
-    /* This tells the track to be twice as wide as the number of logos */
-    /* Adjust width if you have more or fewer logos */
-    width: calc(200px * 10); /* 200px per logo, 5 logos x 2 = 10 total items */
+    /* 1. We define the logo width as a variable. Default is 200px. */
+    --logo-width: 200px; 
+    
+    /* The track width and animation are now based on the variable */
+    width: calc(var(--logo-width) * 10);
     animation: scroll 30s linear infinite;
 }
 
+/* This animation now uses the variable for perfect looping */
 @keyframes scroll {
     from {
         transform: translateX(0);
     }
     to {
-        /* This moves the track to the left by the width of the first set of logos */
-        transform: translateX(calc(-200px * 5)); /* 200px per logo, 5 logos */
+        transform: translateX(calc(var(--logo-width) * -5));
     }
 }
 
@@ -342,7 +343,8 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 200px; /* Fixed width for each logo container */
+    /* The logo container width is also based on the variable */
+    width: var(--logo-width); 
     padding: 0 40px;
     box-sizing: border-box;
 }
@@ -350,17 +352,39 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 .client-logo img {
     max-width: 100%;
     height: auto;
-    filter: grayscale(1); /* Makes all logos black and white for consistency */
+    filter: grayscale(1);
     opacity: 0.6;
     transition: all 0.3s ease;
 }
 
 .scroller-track:hover {
-    animation-play-state: paused; /* Pause the animation on hover */
+    animation-play-state: paused;
 }
 
 .client-logo img:hover {
-    filter: grayscale(0); /* Adds color back on hover */
+    filter: grayscale(0);
     opacity: 1;
 }
 
+/* --- RESPONSIVE MEDIA QUERIES FOR SCROLLER --- */
+
+/* For tablets and smaller laptops */
+@media (max-width: 1024px) {
+    .scroller-track {
+        /* 2. We just change the variable's value. Everything else updates automatically. */
+        --logo-width: 180px; 
+        animation-duration: 25s; /* Optional: speed up animation slightly */
+    }
+}
+
+/* For mobile phones */
+@media (max-width: 600px) {
+    .scroller-track {
+        /* 3. We make the logos even smaller for mobile. */
+        --logo-width: 150px;
+        animation-duration: 20s; /* Optional: speed up animation more */
+    }
+    .client-logo {
+        padding: 0 25px; /* Reduce padding on mobile to fit more */
+    }
+}
