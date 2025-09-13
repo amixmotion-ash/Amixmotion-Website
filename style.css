@@ -112,7 +112,7 @@ header {
 
 /* --- MISSION SECTION (ANIMATED DARK THEME) --- */
 .mission-section {
-    padding: 160px 0 0 0; /* Changed padding */
+    padding: 160px 0 100px 0; /* Changed padding */
     background-color: #000000;
     color: #e0e0e0;
     overflow: hidden;
