@@ -139,10 +139,53 @@ header {
     object-fit: cover;
 }
 
-.hero-content {
-    position: relative;
-    color: white;
+/* --- SCROLLING TEXT MARQUEE AT BOTTOM OF HERO --- */
+
+.scrolling-text-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden; /* This creates the "window" for the text to scroll through */
+    padding: 2rem 0; /* Gives some space from the bottom edge */
+    z-index: 1; /* Ensures it's above the video but below the header */
 }
+
+.scrolling-text-track {
+    display: flex;
+    width: max-content; /* The track's width is determined by its content */
+    
+    /* This uses the bulletproof percentage-based animation for a perfect loop */
+    animation: scroll-text 25s linear infinite;
+}
+
+@keyframes scroll-text {
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.scrolling-text-track p {
+    margin: 0;
+    padding: 0 2rem; /* Adds space between the repeating phrases */
+    font-size: clamp(3rem, 10vw, 7rem); /* Big, responsive font size */
+    font-weight: bold;
+    color: #ffffff;
+    text-transform: uppercase; /* Makes the text all caps, like the example */
+    white-space: nowrap; /* This is CRUCIAL - prevents the text from ever line-breaking */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* Adds a subtle shadow for readability */
+}
+
+/* --- Optional: Slow down the animation on larger screens for a more epic feel --- */
+@media (min-width: 1200px) {
+    .scrolling-text-track {
+        animation-duration: 40s;
+    }
+}
+
 
 /* --- SCROLLING CONTENT WRAPPER --- */
 .scroll-content-wrapper {
