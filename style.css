@@ -306,30 +306,26 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 .button-submit:hover {
     background-color: #555;
 }
-/* --- CLIENT SCROLLER SECTION (NOW FULLY RESPONSIVE) --- */
+/* --- CLIENT SCROLLER SECTION (ULTRA-WIDE & MOBILE-FOCUSED) --- */
 .client-scroller {
     padding: 60px 0;
 }
 
 .scroller-container {
-    max-width: 1200px;
-    margin: 0 auto;
+    /* CHANGE 1: Remove max-width and margin to allow for full-width on large screens. */
+    /* The mask-image now handles the fading at the edges gracefully. */
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
-    mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
 .scroller-track {
     display: flex;
-    /* 1. We define the logo width as a variable. Default is 200px. */
-    --logo-width: 200px; 
-    
-    /* The track width and animation are now based on the variable */
+    --logo-width: 200px; /* Default logo size for standard desktops */
     width: calc(var(--logo-width) * 10);
-    animation: scroll 30s linear infinite;
+    animation: scroll 40s linear infinite; /* Increased default duration for a slower, smoother scroll */
 }
 
-/* This animation now uses the variable for perfect looping */
 @keyframes scroll {
     from {
         transform: translateX(0);
@@ -343,8 +339,7 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
     display: flex;
     align-items: center;
     justify-content: center;
-    /* The logo container width is also based on the variable */
-    width: var(--logo-width); 
+    width: var(--logo-width);
     padding: 0 40px;
     box-sizing: border-box;
 }
@@ -352,39 +347,27 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 .client-logo img {
     max-width: 100%;
     height: auto;
-    filter: grayscale(1);
-    opacity: 0.6;
-    transition: all 0.3s ease;
-}
-
-.scroller-track:hover {
-    animation-play-state: paused;
-}
-
-.client-logo img:hover {
-    filter: grayscale(0);
-    opacity: 1;
+    /* The filter, opacity, and transition properties have been removed to show the original image */
 }
 
 /* --- RESPONSIVE MEDIA QUERIES FOR SCROLLER --- */
 
-/* For tablets and smaller laptops */
+/* For tablets and smaller laptops - logos get slightly smaller */
 @media (max-width: 1024px) {
     .scroller-track {
-        /* 2. We just change the variable's value. Everything else updates automatically. */
         --logo-width: 180px; 
-        animation-duration: 25s; /* Optional: speed up animation slightly */
+        animation-duration: 35s;
     }
 }
 
 /* For mobile phones */
 @media (max-width: 600px) {
     .scroller-track {
-        /* 3. We make the logos even smaller for mobile. */
-        --logo-width: 150px;
-        animation-duration: 20s; /* Optional: speed up animation more */
+        /* CHANGE 2: Make logos BIGGER on mobile to feature 1-2 at a time. */
+        --logo-width: 280px;
+        animation-duration: 35s; /* Keep it slow and majestic */
     }
     .client-logo {
-        padding: 0 25px; /* Reduce padding on mobile to fit more */
+        padding: 0 30px; /* Adjust padding for the larger logo */
     }
 }
