@@ -8,6 +8,7 @@
 </head>
 <body class="homepage">
 
+    <!-- The header and nav live OUTSIDE the main scrolling container -->
     <header>
         <button class="nav-toggle" aria-label="toggle navigation">
             MENU
@@ -31,44 +32,73 @@
         </ul>
     </nav>
 
-    <!-- ... (your header and nav sections are still above this) ... -->
+    <!-- START: This is the wrapper for the entire scrolling effect -->
+    <div class="site-container">
 
-    <section class="hero-video">
-        <video playsinline autoplay muted loop id="bgvideo">
-            <source src="Videos/hero-video.mp4" type="video/mp4">
-        </video>
-        <div class="hero-content">
-            <h1>Cinematic Storytelling</h1>
-            <p>Your story, beautifully captured.</p>
+        <!-- The Hero Video Section is the first layer inside the container -->
+        <section class="hero-video">
+            <video playsinline autoplay muted loop id="bgvideo">
+                <source src="Videos/hero-video.mp4" type="video/mp4">
+            </video>
+            <div class="hero-content">
+                <h1>Cinematic Storytelling</h1>
+                <p>Your story, beautifully captured.</p>
+            </div>
+        </section>
+
+        <!-- The Content Wrapper is the second (top) layer inside the container -->
+        <div class="scroll-content-wrapper">
+            <main>
+                <!-- Mission Section -->
+                <section class="mission-section">
+                    <div class="container">
+                        <h1 class="mission-headline">Who is Amixmotion?&gt;</h1>
+                        <div class="mission-grid">
+                            <div class="mission-image">
+                                <img src="images/me-filming.jpeg" alt="A compelling image of you or your work">
+                            </div>
+                            <div class="mission-text">
+                                <p class="pre-title">/ CREATE OPPORTUNITY</p>
+                                <p class="mission-statement">Driven to achieve excellence in both strategic thinking & design innovation, we aim to unlock new opportunities and the highest of value for our esteemed clients.</p>
+                                <a href="about.html" class="button-outline">+ ABOUT ME</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Portfolio Grid Section -->
+                <section class="portfolio-grid-section">
+                    <div class="portfolio-grid-container">
+                        <a href="portfolio.html" class="grid-item">
+                            <div class="grid-item-image"><img src="images/thumbnail1.png" alt="Project 1"></div>
+                            <div class="grid-item-caption"><span class="caption-title">MYOKINE</span><span class="caption-year">(2024)</span></div>
+                        </a>
+                        <a href="portfolio.html" class="grid-item">
+                            <div class="grid-item-image"><img src="images/thumbnail2.jpg" alt="Project 2"></div>
+                            <div class="grid-item-caption"><span class="caption-title">CERRAR LAUNCH EVENT</span><span class="caption-year">(2025)</span></div>
+                        </a>
+                        <a href="portfolio.html" class="grid-item">
+                            <div class="grid-item-image"><img src="images/thumbnail3.png" alt="Project 3"></div>
+                            <div class="grid-item-caption"><span class="caption-title">YOONO IHR RECRUITMENT EVENT</span><span class="caption-year">(2025)</span></div>
+                        </a>
+                        <a href="portfolio.html" class="grid-item">
+                            <div class="grid-item-image"><img src="images/thumbnail4.png" alt="Project 4"></div>
+                            <div class="grid-item-caption"><span class="caption-title">ASTON MARTIN</span><span class="caption-year">(2024)</span></div>
+                        </a>
+                    </div>
+                </section>
+            </main>
+
+            <footer>
+                <p>&copy; 2025 Your Name Videography</p>
+            </footer>
         </div>
-    </section>
-
-    <!-- START: Add this new line right here -->
-    <div class="scroll-content-wrapper">
-
-        <main>
-            <!-- Mission Section -->
-            <section class="mission-section">
-                <!-- ... your mission section content ... -->
-            </section>
-
-            <!-- Portfolio Grid Section -->
-            <section class="portfolio-grid-section">
-                <!-- ... your portfolio grid content ... -->
-            </section>
-        </main>
-
-        <footer>
-            <p>&copy; 2025 Your Name Videography</p>
-        </footer>
+        <!-- End of scroll-content-wrapper -->
 
     </div>
-    <!-- END: Add this new line right here -->
+    <!-- END: End of site-container -->
 
     <script src="script.js"></script>
-
-</body>
-</html>
 
 </body>
 </html>

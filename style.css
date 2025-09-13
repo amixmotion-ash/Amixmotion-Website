@@ -49,45 +49,49 @@ header {
 
 /* --- HERO VIDEO SECTION --- */
 
-/* First, we take the video itself and fix it to the background */
-#bgvideo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1; /* This sends it to the very back layer of the page */
+/* We create a grid container that takes up the whole screen */
+.site-container {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    height: 100vh; /* Full screen height */
+    overflow: hidden; /* Prevents the whole page from scrolling */
 }
 
-/* Next, we use the hero-video section as a simple spacer */
-.hero-video {
-    /* Its only job is to take up the full height of the screen */
-    height: 100vh;
-    position: relative; /* This is a container for the hero text */
+/* We place BOTH the hero and the content into the SAME grid cell */
+.hero-video,
+.scroll-content-wrapper {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
 
-    /* These lines center your "Cinematic Storytelling" text */
+/* Style the hero section to be the bottom layer */
+.hero-video {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Ensure the hero text is visible on top of the video */
+#bgvideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .hero-content {
     position: relative;
     color: white;
-    text-align: center;
-    padding: 20px;
 }
 
-/* --- SCROLLING CONTENT WRAPPER --- */
+/* Style the content wrapper to be the top, SCROLLING layer */
 .scroll-content-wrapper {
-    /* This content has a white background to create the scroll-over mask */
-    background-color: #ffffff;
-
-    /* And we position it so it correctly layers on top of the background video */
-    position: relative;
-    z-index: 1;
+    background-color: #ffffff; /* This creates the white mask */
+    overflow-y: auto; /* THIS IS THE KEY: Makes ONLY this layer scrollable */
+    position: relative; /* Ensures it layers on top */
 }
 
 
