@@ -28,9 +28,13 @@ header {
     box-sizing: border-box;
 }
 /* --- New Styles for Scrolled Header --- */
-header.header-scrolled .nav-toggle,
-header.header-scrolled .desktop-nav a {
-    color: #222222; /* This is your site's dark text color */
+.nav-toggle,
+.desktop-nav a {
+    transition: color 0.3s ease-in-out;
+}
+.homepage header.header-scrolled .nav-toggle,
+.homepage header.header-scrolled .desktop-nav a {
+    color: #222222; /* Your site's dark text color */
 }
 .homepage header .nav-toggle,
 .homepage header .logo a,
