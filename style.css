@@ -21,7 +21,7 @@ header {
     position: fixed; /* <-- This is the only change needed */
     top: 0;
     left: 0;
-    z-index: 100;
+    z-index: 901;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
@@ -48,6 +48,21 @@ header {
 .desktop-nav { grid-column: 3 / 4; justify-self: end; }
 .desktop-nav ul { list-style: none; margin: 0; padding: 0; }
 .desktop-nav a { color: #222; text-decoration: none; font-weight: bold; transition: color 0.3s ease; }
+
+/* --- Styles for Header When Menu is Open --- */
+
+/* This targets the header text only on the homepage when the menu is open */
+.homepage.body-no-scroll header .nav-toggle,
+.homepage.body-no-scroll header .desktop-nav a {
+    color: #222222; /* Set text color to black */
+}
+
+/* This targets the white logo and inverts its color to black */
+/* It will apply when the menu is open OR when you've scrolled down */
+.homepage.body-no-scroll header .logo img,
+.homepage header.header-scrolled .logo img {
+    filter: invert(1);
+}
 
 /* --- FULL-SCREEN OVERLAY MENU --- */
 
