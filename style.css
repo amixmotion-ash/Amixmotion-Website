@@ -116,7 +116,22 @@ header {
     overflow: hidden;
 }
 .mission-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-.mission-image img { width: 100%; height: auto; display: block; }
+.mission-image {
+    /* This forces the container to be a perfect square */
+    aspect-ratio: 1 / 1;
+    /* This rounds the corners of the square container into a circle */
+    border-radius: 50%;
+    /* This hides any part of the image that spills out of the circular shape */
+    overflow: hidden;
+}
+
+.mission-image img {
+    /* This makes the image fill the container */
+    width: 100%;
+    height: 100%;
+    /* This is the key: it crops the image to fit, rather than squishing or stretching it */
+    object-fit: cover;
+}
 .mission-text { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
 .mission-text .pre-title { font-size: 0.9em; font-weight: bold; color: #888; letter-spacing: 1px; margin-bottom: 20px; }
 .mission-statement-animated { font-size: 2.2em; line-height: 1.4; font-weight: 500; margin: 0; }
