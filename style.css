@@ -48,11 +48,31 @@ header {
 .main-nav ul li a { color: #222; text-decoration: none; font-size: 1.5em; font-weight: bold; }
 
 /* --- HERO VIDEO SECTION --- */
-.hero-video { position: relative; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; max-width: none; padding: 0; margin: 0; }
+.hero-video {
+    height: 100vh;
+    position: -webkit-sticky; /* This is for Safari browser compatibility */
+    position: sticky;
+    top: 0;
+}
 #bgvideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
 .hero-content { position: relative; z-index: 1; color: white; text-align: center; padding: 20px; }
 .hero-content h1 { font-size: 4em; }
 .hero-content p { font-size: 1.2em; }
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* --- NEW: SCROLLING CONTENT WRAPPER --- */
+.scroll-content-wrapper {
+    position: relative;
+    z-index: 2; /* A higher number means it's "closer" to you, or on top */
+    background-color: #ffffff; /* This makes the box solid white */
+}
 
 /* --- MISSION SECTION --- */
 .mission-section {
