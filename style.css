@@ -160,7 +160,7 @@ header {
 .mission-headline {
     font-size: clamp(2.5rem, 8vw, 6rem);
     font-weight: bold;
-    text-align: left; /* Explicitly left-aligned */
+    text-align: center; /* Explicitly left-aligned */
     margin-bottom: 100px;
     letter-spacing: -2px;
 }
