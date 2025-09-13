@@ -243,9 +243,7 @@ header {
 .grid-item-caption { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #e0e0e0; font-weight: bold; }
 .caption-title { display: flex; align-items: center; }
 .caption-year { font-weight: normal; color: #888; margin-left: auto; }
-@media (max-width: 1024px) {
-    .portfolio-grid-container { grid-template-columns: repeat(2, 1fr); }
-}
+
 @media (max-width: 600px) {
     .portfolio-grid-container { grid-template-columns: 1fr; }
     .portfolio-grid-section { padding: 60px 20px; }
