@@ -49,42 +49,48 @@ header {
 
 /* --- HERO VIDEO SECTION --- */
 .hero-video {
-    /* This makes the section stick to the top as you scroll */
+    /* STEP 1: Make the video container stick to the top */
     position: -webkit-sticky;
     position: sticky;
     top: 0;
-
-    /* Keep all the original properties to maintain layout */
     height: 100vh;
+
+    /* STEP 2: Define this container as the bottom layer */
+    z-index: 1;
+
+    /* These are for centering the hero text */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #bgvideo {
+    /* This positions the video to fill the entire .hero-video container */
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -1; /* Puts video BEHIND the hero text */
+    /* No z-index needed here. It's inside Layer 1 */
 }
 
 .hero-content {
+    /* This ensures the hero text appears on top of the video */
     position: relative;
-    z-index: 1; /* Puts text IN FRONT of the video */
-    color: white;
-    text-align: center;
-    padding: 20px;
 }
 
 /* --- SCROLLING CONTENT WRAPPER --- */
 .scroll-content-wrapper {
-    /* This is the crucial part that makes the white content scroll on top */
     position: relative;
-    background-color: #ffffff; /* This makes it a solid white "sheet" */
+
+    /* STEP 3: Define this content as the top layer */
+    z-index: 2;
+
+    /* STEP 4: Give the top layer a solid white background to create the mask */
+    background-color: #ffffff;
 }
+
 
 /* --- MISSION SECTION --- */
 .mission-section {
