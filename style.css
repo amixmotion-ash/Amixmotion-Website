@@ -143,16 +143,19 @@ header {
     object-fit: cover;
 }
 
-/* --- SCROLLING TEXT MARQUEE AT BOTTOM OF HERO --- */
-
+/* --- SCROLLING TEXT MARQUEE (CORRECTED POSITIONING) --- */
 .scrolling-text-container {
+    /* This takes the marquee out of the normal flow */
     position: absolute;
-    bottom: 0;
+    /* This positions it relative to the top of its parent (the scroll-content-wrapper) */
+    top: 0;
     left: 0;
     width: 100%;
-    overflow: hidden; /* This creates the "window" for the text to scroll through */
-    padding: 2rem 0; /* Gives some space from the bottom edge */
-    z-index: 1; /* Ensures it's above the video but below the header */
+    /* This pulls the marquee UP by its own height, so it sits above the black section */
+    transform: translateY(-100%);
+    
+    pointer-events: none; /* Prevents the text from blocking mouse clicks */
+    z-index: 1;
 }
 
 .scrolling-text-track {
@@ -174,13 +177,14 @@ header {
 
 .scrolling-text-track p {
     margin: 0;
-    padding: 0 2rem; /* Adds space between the repeating phrases */
-    font-size: clamp(3rem, 10vw, 7rem); /* Big, responsive font size */
-    font-weight: bold;
+    padding: 0 2rem;
+    font-family: 'Saira Condensed', sans-serif; /* Applies the new font */
+    font-weight: 900; /* Uses the extra-bold weight we imported */
+    font-size: clamp(3rem, 10vw, 7rem);
     color: #ffffff;
-    text-transform: uppercase; /* Makes the text all caps, like the example */
-    white-space: nowrap; /* This is CRUCIAL - prevents the text from ever line-breaking */
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* Adds a subtle shadow for readability */
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 /* --- Optional: Slow down the animation on larger screens for a more epic feel --- */
