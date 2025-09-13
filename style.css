@@ -203,9 +203,23 @@ header {
 /* --- SCROLLING CONTENT WRAPPER --- */
 .scroll-content-wrapper {
     position: relative;
-    z-index: 2; /* This is Layer 2, so it sits ON TOP of Layer 1 */
-    background-color: #ffffff; /* The white background creates the mask */
+    z-index: 2;
+    /* The background-color has been REMOVED from here */
 }
+
+/* This new rule applies the white background ONLY to the actual content sections */
+main,
+footer {
+    background-color: #ffffff;
+}
+
+/* --- STATIC HERO CONTENT STYLES (FINAL VERSION) --- */
+/* This section remains exactly as it was in the last step */
+.hero-content-spacer {
+    height: 100vh;
+    position: relative;
+}
+/* ... the rest of your hero-content styles ... */
 
 /* --- MISSION SECTION (ANIMATED DARK THEME) --- */
 .mission-section {
