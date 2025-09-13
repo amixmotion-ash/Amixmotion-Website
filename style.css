@@ -218,10 +218,36 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 
 /* --- RESPONSIVE MEDIA QUERIES --- */
 @media (max-width: 900px) {
-    .mission-grid { grid-template-columns: 1fr; }
-    .mission-text { grid-row: 1; }
-    .mission-image { grid-row: 2; }
+    /* --- Mission Section on Mobile --- */
+
+    /* 1. Stack the grid into a single column */
+    .mission-grid { 
+        grid-template-columns: 1fr; 
+    }
+    
+    /* 
+       By removing the old "grid-row" rules, the grid items will now 
+       stack in their natural HTML order: Image first, then Text Block.
+    */
+
+    /* 2. Style the headline for the new mobile layout */
+    .mission-headline {
+        text-align: center; /* Center the now-stacked headline */
+        margin-bottom: 60px; /* Adjust spacing for the new layout */
+    }
+
+    /* 3. This is the key to the two-line headline */
+    .mission-headline span {
+        display: block; /* Forces "Amixmotion?>" onto its own line */
+    }
+
+    .mission-text {
+        /* Center the text and button on mobile */
+        align-items: center;
+        text-align: center;
+    }
 }
+
 @media (max-width: 1024px) {
     .portfolio-grid-container { grid-template-columns: repeat(2, 1fr); }
 }
