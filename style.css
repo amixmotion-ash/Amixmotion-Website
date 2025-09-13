@@ -122,16 +122,20 @@ header {
     overflow: hidden;
 }
 
-/* --- HERO VIDEO SECTION --- */
+/* --- HERO VIDEO SECTION (FINAL, CORRECT VERSION) --- */
+
 .hero-video {
+    height: 100vh; /* 1. The hero is exactly the height of the screen */
     position: -webkit-sticky;
     position: sticky;
     top: 0;
-    height: 100vh;
-    z-index: 1; /* This is Layer 1 (the bottom layer) */
+    
+    /* This establishes the hero as the BOTTOM layer */
+    z-index: 1; 
+
+    /* These are for positioning the text inside */
     display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: center; /* This vertically centers the text */
 }
 
 #bgvideo {
@@ -141,25 +145,14 @@ header {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* No z-index needed here, it's just the background of its parent */
 }
 
-/* --- STATIC HERO CONTENT STYLES (FINAL VERSION) --- */
-
-/* This spacer is a full-screen block that pushes the main content down */
-.hero-content-spacer {
-    height: 100vh;
-    position: relative; /* This is the positioning parent for the hero-content */
-}
-
-/* We position the hero-content absolutely, inside the spacer */
 .hero-content {
-    position: absolute;
-    bottom: 8%;
-    left: 5%;
+    position: relative; /* Appears on top of the sibling video element */
+    padding-left: 5%; /* 2. This left-aligns the text with some padding */
     width: 90%;
-    max-width: 500px; /* Give it a max-width for better text wrapping */
-    z-index: 2;
-    text-align: left;
+    max-width: 600px; /* Controls max width of the text block */
 }
 
 .hero-content h1 {
@@ -184,42 +177,18 @@ header {
     color: #000000;
 }
 
-/* --- Responsive Styles for Hero Content --- */
-@media (max-width: 768px) {
-    .hero-content {
-        left: 50%;
-        transform: translateX(-50%); /* The correct way to center absolute elements */
-        bottom: 10%;
-        max-width: 90%;
-        text-align: center;
-    }
-
-    .hero-content h1 {
-        font-size: clamp(2.5rem, 10vw, 3.5rem);
-    }
-}
-
-
 /* --- SCROLLING CONTENT WRAPPER --- */
+
 .scroll-content-wrapper {
     position: relative;
+    /* This establishes the scrolling content as the TOP layer */
     z-index: 2;
-    /* The background-color has been REMOVED from here */
 }
 
-/* This new rule applies the white background ONLY to the actual content sections */
-main,
-footer {
+/* We re-apply the background color to the actual content sections */
+main, footer {
     background-color: #ffffff;
 }
-
-/* --- STATIC HERO CONTENT STYLES (FINAL VERSION) --- */
-/* This section remains exactly as it was in the last step */
-.hero-content-spacer {
-    height: 100vh;
-    position: relative;
-}
-/* ... the rest of your hero-content styles ... */
 
 /* --- MISSION SECTION (ANIMATED DARK THEME) --- */
 .mission-section {
