@@ -143,57 +143,55 @@ header {
     object-fit: cover;
 }
 
-/* --- SCROLLING TEXT MARQUEE (CORRECTED POSITIONING) --- */
-.scrolling-text-container {
-    /* This takes the marquee out of the normal flow */
+/* --- STATIC HERO CONTENT STYLES --- */
+
+/* This container positions the text block in the bottom left */
+.hero-content {
     position: absolute;
-    /* This positions it relative to the top of its parent (the scroll-content-wrapper) */
-    top: 0;
-    left: 0;
-    width: 100%;
-    /* This pulls the marquee UP by its own height, so it sits above the black section */
-    transform: translateY(-100%);
-    
-    pointer-events: none; /* Prevents the text from blocking mouse clicks */
+    bottom: 8%; /* Adjust for vertical position */
+    left: 5%;  /* Adjust for horizontal position */
+    max-width: 50%; /* Prevents text from getting too wide */
     z-index: 1;
+    text-align: left;
 }
 
-.scrolling-text-track {
-    display: flex;
-    width: max-content; /* The track's width is determined by its content */
-    
-    /* This uses the bulletproof percentage-based animation for a perfect loop */
-    animation: scroll-text 25s linear infinite;
-}
-
-@keyframes scroll-text {
-    from {
-        transform: translateX(0%);
-    }
-    to {
-        transform: translateX(-50%);
-    }
-}
-
-.scrolling-text-track p {
-    margin: 0;
-    padding: 0 2rem;
-    font-family: 'Saira Condensed', sans-serif;
+.hero-content h1 {
+    font-family: 'Saira Condensed', sans-serif; /* Using your new font */
     font-weight: 900;
-    /* 1. We've doubled all the values inside clamp() to make it twice as big */
-    font-size: clamp(6rem, 20vw, 14rem);
+    font-size: clamp(2rem, 6vw, 5rem); /* Responsive font size */
     color: #ffffff;
-    /* 2. We've added the opacity property for 50% transparency */
-    opacity: 0.5;
-    text-transform: uppercase;
-    white-space: nowrap;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    line-height: 1.1;
+    margin: 0 0 2rem 0; /* Space between headline and button */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); /* For readability */
 }
 
-/* --- Optional: Slow down the animation on larger screens for a more epic feel --- */
-@media (min-width: 1200px) {
-    .scrolling-text-track {
-        animation-duration: 40s;
+/* Style the button specifically for the hero section */
+.hero-content .button-outline {
+    border-color: #ffffff;
+    color: #ffffff;
+    padding: 10px 30px; /* Adjust padding for desired size */
+    transition: all 0.3s ease; /* Ensure transition is present */
+}
+
+.hero-content .button-outline:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+
+/* --- Responsive Styles for Hero Content --- */
+@media (max-width: 768px) {
+    .hero-content {
+        /* On mobile, center the content and spread it out */
+        left: 5%;
+        right: 5%;
+        bottom: 10%;
+        max-width: 90%;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(2.5rem, 10vw, 3.5rem);
     }
 }
 
