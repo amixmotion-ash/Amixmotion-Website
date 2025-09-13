@@ -48,26 +48,12 @@ header {
 .main-nav ul li a { color: #222; text-decoration: none; font-size: 1.5em; font-weight: bold; }
 
 /* --- HERO VIDEO SECTION --- */
-
-/* We create a grid container that takes up the whole screen */
-.site-container {
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 100%;
-    height: 100vh; /* Full screen height */
-    overflow: hidden; /* Prevents the whole page from scrolling */
-}
-
-/* We place BOTH the hero and the content into the SAME grid cell */
-.hero-video,
-.scroll-content-wrapper {
-    overflow-y: auto;
-    position: relative;
-}
-
-/* Style the hero section to be the bottom layer */
 .hero-video {
-    position: relative;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 1; /* This is Layer 1 (the bottom layer) */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -87,11 +73,11 @@ header {
     color: white;
 }
 
-/* Style the content wrapper to be the top, SCROLLING layer */
+/* --- SCROLLING CONTENT WRAPPER --- */
 .scroll-content-wrapper {
-    background-color: #ffffff; /* This creates the white mask */
-    overflow-y: auto; /* THIS IS THE KEY: Makes ONLY this layer scrollable */
-    position: relative; /* Ensures it layers on top */
+    position: relative;
+    z-index: 2; /* This is Layer 2, so it sits ON TOP of Layer 1 */
+    background-color: #ffffff; /* The white background creates the mask */
 }
 
 
