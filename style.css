@@ -18,10 +18,10 @@ body {
 header {
     width: 100%;
     padding: 25px 40px;
-    position: absolute; /* This is crucial */
+    position: fixed; /* <-- This is the only change needed */
     top: 0;
     left: 0;
-    z-index: 100; /* This makes it the highest layer */
+    z-index: 100;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
