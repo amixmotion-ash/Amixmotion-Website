@@ -239,7 +239,7 @@ header {
 .grid-item { display: block; text-decoration: none; color: #222; position: relative; overflow: hidden; }
 .grid-item-image { height: 70vh; overflow: hidden; }
 .grid-item-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-.grid-item:hover .grid-item-image img { transform: scale(1.1); }
+.grid-item:hover .grid-item-image img { transform: scale(1.1); will-change: transform; } 
 .grid-item-caption { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #e0e0e0; font-weight: bold; }
 .caption-title { display: flex; align-items: center; }
 .caption-year { font-weight: normal; color: #888; margin-left: auto; }
