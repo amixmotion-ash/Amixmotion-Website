@@ -85,3 +85,37 @@ if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
         center: true
     });
 }
+// --- Custom Cursor Functionality (Homepage Only) ---
+
+const bodyForCursor = document.querySelector('body');
+
+// This is a gate: it checks if the body has the 'homepage' class.
+// This ensures the code ONLY runs on your homepage.
+if (bodyForCursor && bodyForCursor.classList.contains('homepage')) {
+    
+    // If we are on the homepage, find the elements we need
+    const customCursor = document.querySelector('.custom-cursor');
+    const portfolioItemsForCursor = document.querySelectorAll('.portfolio-grid-section .grid-item');
+
+    // Make sure the elements actually exist before running the code
+    if (customCursor && portfolioItemsForCursor.length > 0) {
+        
+        // This function makes the custom cursor follow the real mouse
+        window.addEventListener('mousemove', (e) => {
+            customCursor.style.left = e.clientX + 'px';
+            customCursor.style.top = e.clientY + 'px';
+        });
+
+        // This function detects when the mouse enters or leaves a portfolio panel
+        portfolioItemsForCursor.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                // When mouse enters, add a class to the body to activate our CSS styles
+                bodyForCursor.classList.add('cursor-hover');
+            });
+            item.addEventListener('mouseleave', () => {
+                // When mouse leaves, remove the class to go back to the default state
+                bodyForCursor.classList.remove('cursor-hover');
+            });
+        });
+    }
+}
