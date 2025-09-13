@@ -306,4 +306,64 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 .button-submit:hover {
     background-color: #555;
 }
+/* --- CLIENT SCROLLER SECTION --- */
+.client-scroller {
+    padding: 60px 0;
+    background-color: #f7f7f7; /* A slightly off-white background */
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.scroller-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden; /* This is the key to creating the "window" effect */
+    /* This creates a soft fade on the left and right edges */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+}
+
+.scroller-track {
+    display: flex;
+    /* This tells the track to be twice as wide as the number of logos */
+    /* Adjust width if you have more or fewer logos */
+    width: calc(200px * 10); /* 200px per logo, 5 logos x 2 = 10 total items */
+    animation: scroll 30s linear infinite;
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        /* This moves the track to the left by the width of the first set of logos */
+        transform: translateX(calc(-200px * 5)); /* 200px per logo, 5 logos */
+    }
+}
+
+.client-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px; /* Fixed width for each logo container */
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+.client-logo img {
+    max-width: 100%;
+    height: auto;
+    filter: grayscale(1); /* Makes all logos black and white for consistency */
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.scroller-track:hover {
+    animation-play-state: paused; /* Pause the animation on hover */
+}
+
+.client-logo img:hover {
+    filter: grayscale(0); /* Adds color back on hover */
+    opacity: 1;
+}
 
