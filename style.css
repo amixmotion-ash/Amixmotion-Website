@@ -49,45 +49,48 @@ header {
 
 /* --- HERO VIDEO SECTION --- */
 .hero-video {
-    /* STEP 1: Make the video container stick to the top */
+    /* 1. This makes the entire section stick to the top of the screen */
     position: -webkit-sticky;
     position: sticky;
     top: 0;
     height: 100vh;
 
-    /* STEP 2: Define this container as the bottom layer */
+    /* 2. We explicitly define this entire section as Layer 1 */
     z-index: 1;
 
-    /* These are for centering the hero text */
+    /* These are for centering your hero text, as you had originally */
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 #bgvideo {
-    /* This positions the video to fill the entire .hero-video container */
+    /* This makes the video element fill its parent container */
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* No z-index needed here. It's inside Layer 1 */
+    /* We DO NOT use z-index here. This was the source of all the problems. */
 }
 
 .hero-content {
-    /* This ensures the hero text appears on top of the video */
+    /* This makes sure the text appears ON TOP of the video within Layer 1 */
     position: relative;
+    color: white; /* This fixes the text color issue */
+    text-align: center;
+    padding: 20px;
 }
 
 /* --- SCROLLING CONTENT WRAPPER --- */
 .scroll-content-wrapper {
     position: relative;
-
-    /* STEP 3: Define this content as the top layer */
+    /* 3. We explicitly define the scrolling content as Layer 2 */
     z-index: 2;
 
-    /* STEP 4: Give the top layer a solid white background to create the mask */
+    /* 4. The white background creates the "masking" effect over Layer 1 */
     background-color: #ffffff;
 }
 
