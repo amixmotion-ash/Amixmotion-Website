@@ -178,10 +178,13 @@ header {
 .scrolling-text-track p {
     margin: 0;
     padding: 0 2rem;
-    font-family: 'Saira Condensed', sans-serif; /* Applies the new font */
-    font-weight: 900; /* Uses the extra-bold weight we imported */
-    font-size: clamp(3rem, 10vw, 7rem);
+    font-family: 'Saira Condensed', sans-serif;
+    font-weight: 900;
+    /* 1. We've doubled all the values inside clamp() to make it twice as big */
+    font-size: clamp(6rem, 20vw, 14rem);
     color: #ffffff;
+    /* 2. We've added the opacity property for 50% transparency */
+    opacity: 0.5;
     text-transform: uppercase;
     white-space: nowrap;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
