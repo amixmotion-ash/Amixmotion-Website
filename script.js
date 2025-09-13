@@ -45,3 +45,21 @@ if (header) {
     }
   });
 }
+// --- Animation Trigger on Scroll ---
+
+const animatedSection = document.querySelector('.mission-section');
+
+if (animatedSection) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target); // Stop observing once it's visible
+            }
+        });
+    }, {
+        threshold: 0.4 // Trigger when 40% of the section is visible
+    });
+
+    observer.observe(animatedSection);
+}

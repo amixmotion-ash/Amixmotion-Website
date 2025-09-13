@@ -151,35 +151,24 @@ header {
     background-color: #ffffff; /* The white background creates the mask */
 }
 
-/* --- MISSION SECTION --- */
+/* --- MISSION SECTION (ANIMATED DARK THEME) --- */
 .mission-section {
-    padding: 120px 0;
+    padding: 160px 40px; /* More vertical padding */
+    background-color: #000000; /* Solid black background */
+    color: #e0e0e0; /* Off-white/light grey text */
+    overflow: hidden; /* This is crucial for the animation */
 }
 
-/* Base style for the headline on DESKTOP and TABLET */
+/* We don't need the headline anymore for this design */
 .mission-headline {
-    font-size: clamp(2.5rem, 8vw, 6rem);
-    font-weight: bold;
-    text-align: center; /* Explicitly left-aligned */
-    margin-bottom: 100px;
-    letter-spacing: -2px;
+    display: none;
 }
 
-/* On DESKTOP and TABLET, the span is inline, keeping the headline on one line */
-.mission-headline span {
-    display: inline;
-}
-
-/* Base style for the grid on DESKTOP and TABLET */
 .mission-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
     align-items: center;
-}
-
-.mission-image {
-    min-width: 0;
 }
 
 .mission-image img {
@@ -188,45 +177,79 @@ header {
     display: block;
 }
 
-/* Base style for the text block on DESKTOP and TABLET */
 .mission-text {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Explicitly left-aligned */
-    text-align: left;        /* Explicitly left-aligned */
+    align-items: flex-start;
+    text-align: left;
 }
 
 .mission-text .pre-title {
     font-size: 0.9em;
     font-weight: bold;
-    color: #555;
+    color: #888; /* Darker grey for the pre-title */
     letter-spacing: 1px;
     margin-bottom: 20px;
 }
 
-.mission-text .mission-statement {
-    font-size: 1.5em;
-    line-height: 1.6;
-    color: #333;
+.mission-statement-animated {
+    font-size: 2.2em; /* Larger font size */
+    line-height: 1.4;
     font-weight: 500;
     margin: 0;
 }
 
+/* This is the container for each line of text */
+.animated-line {
+    overflow: hidden; /* Hides the span before it animates up */
+}
+
+/* The actual text that will slide up */
+.animated-line span {
+    display: block;
+    opacity: 0; /* Hidden by default */
+    transform: translateY(100%); /* Starts below its final position */
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease;
+}
+
+/* This is the key: When the section becomes visible, we trigger the animation */
+.mission-section.is-visible .animated-line span {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* This creates the staggered delay effect */
+.mission-section.is-visible .animated-line:nth-child(2) span { transition-delay: 0.1s; }
+.mission-section.is-visible .animated-line:nth-child(3) span { transition-delay: 0.2s; }
+.mission-section.is-visible .animated-line:nth-child(4) span { transition-delay: 0.3s; }
+
+
 .button-outline {
-    display: inline-block;
     margin-top: 40px;
     padding: 12px 24px;
-    border: 1px solid #222;
-    border-radius: 4px;
-    color: #222;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0; /* Light border */
+    color: #e0e0e0; /* Light text */
+    /* ... rest of your button styles ... */
 }
 
 .button-outline:hover {
-    background-color: #222;
-    color: #fff;
+    background-color: #e0e0e0; /* Invert colors on hover */
+    color: #000000;
+}
+
+/* --- Mobile Styles for the new Mission Section --- */
+@media (max-width: 900px) {
+    .mission-grid { 
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .mission-statement-animated {
+        font-size: 1.8em; /* Slightly smaller font on mobile */
+    }
+    .mission-text {
+        align-items: center;
+        text-align: center;
+    }
 }
 
 /* --- PORTFOLIO GRID SECTION --- */
