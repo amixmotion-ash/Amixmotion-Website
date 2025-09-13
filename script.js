@@ -80,15 +80,10 @@ if (lightbox) {
     });
 }
 // --- Initialize Rellax for Parallax Scrolling ---
-
-// This checks if the Rellax library has been loaded successfully.
-// It also checks if the browser window is wider than 1024 pixels.
-// This prevents the effect from running on tablets and mobile phones.
 if (typeof Rellax !== 'undefined' && window.innerWidth > 1024) {
-    // If both checks pass, we create a new Rellax instance.
-    // The '.rellax' selector tells it which elements on the page to animate.
     var rellax = new Rellax('.rellax', {
-        // Optional: you can add settings here if needed in the future.
-        // For now, the defaults are perfect.
+        // This is the crucial new line. It tells Rellax to make the 
+        // elements perfectly aligned when they are in the vertical center of the screen.
+        center: true
     });
 }
