@@ -306,15 +306,13 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 .button-submit:hover {
     background-color: #555;
 }
-/* --- CLIENT SCROLLER SECTION (TRUE BREAKOUT VERSION) --- */
+/* --- CLIENT SCROLLER SECTION (FINAL, BULLETPROOF VERSION) --- */
 .client-scroller {
     padding: 60px 0;
 }
 
-/* On standard screens, we align it with the rest of the site's content. */
+/* This container is now always full-width, which fixes the fade effect */
 .scroller-container {
-    max-width: 1200px;
-    margin: 0 auto;
     overflow: hidden;
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
@@ -322,19 +320,21 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 
 .scroller-track {
     display: flex;
-    /* Default logo size for standard desktops */
-    --logo-width: 240px; 
+    /* This tells the track to calculate its own width based on its content */
+    width: max-content; 
     
-    width: calc(var(--logo-width) * 10);
+    /* This animation now uses percentages for a perfect loop */
     animation: scroll 40s linear infinite;
 }
 
+/* THIS IS THE KEY TO THE SEAMLESS LOOP */
 @keyframes scroll {
     from {
-        transform: translateX(0);
+        transform: translateX(0%);
     }
     to {
-        transform: translateX(calc(var(--logo-width) * -5));
+        /* It moves exactly half the track's width, which is the length of one full set of logos */
+        transform: translateX(-50%);
     }
 }
 
@@ -342,6 +342,8 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
     display: flex;
     align-items: center;
     justify-content: center;
+    /* We still use a variable for responsive sizing */
+    --logo-width: 240px; 
     width: var(--logo-width);
     padding: 0 40px;
     box-sizing: border-box;
@@ -354,35 +356,32 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 
 /* --- RESPONSIVE MEDIA QUERIES --- */
 
+/* For ultra-wide screens, logos get bigger */
+@media (min-width: 1401px) {
+    .client-logo {
+        --logo-width: 300px;
+    }
+    .scroller-track {
+        animation-duration: 50s; /* Slow down for a more epic feel */
+    }
+}
+
 /* For tablets and smaller laptops */
 @media (max-width: 1024px) {
-    .scroller-track {
+    .client-logo {
         --logo-width: 200px;
+    }
+    .scroller-track {
         animation-duration: 35s;
     }
 }
 
 /* For mobile phones */
 @media (max-width: 600px) {
-    .scroller-track {
-        --logo-width: 280px;
-        animation-duration: 35s;
-    }
     .client-logo {
-        padding: 0 30px;
+        --logo-width: 280px;
     }
-}
-
-/* For ULTRA-WIDE screens (screens wider than 1400px) */
-@media (min-width: 1401px) {
-    /* STEP 1: Let the container break free and become full-width */
-    .scroller-container {
-        max-width: none; /* This removes the 1200px limit */
-    }
-    
-    /* STEP 2: Make the logos get bigger on these wider screens */
     .scroller-track {
-        --logo-width: 300px; /* Increase the logo size */
-        animation-duration: 50s; /* Slow down the scroll to feel more epic */
+        animation-duration: 35s;
     }
 }
