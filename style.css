@@ -306,34 +306,34 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 .button-submit:hover {
     background-color: #555;
 }
-/* --- CLIENT SCROLLER SECTION (FINAL, BULLETPROOF VERSION) --- */
+/* --- CLIENT SCROLLER SECTION (FINAL CSS-ONLY VERSION) --- */
 .client-scroller {
     padding: 60px 0;
 }
 
-/* This container is now always full-width, which fixes the fade effect */
+/* The container is always full-width, which fixes the fade effect permanently */
 .scroller-container {
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
 }
 
 .scroller-track {
     display: flex;
-    /* This tells the track to calculate its own width based on its content */
+    /* Let the track's width be determined by its content (the 10 logos) */
     width: max-content; 
     
-    /* This animation now uses percentages for a perfect loop */
+    /* The animation will now be flawless */
     animation: scroll 40s linear infinite;
 }
 
-/* THIS IS THE KEY TO THE SEAMLESS LOOP */
+/* THIS IS THE KEY: A PERFECT, PERCENTAGE-BASED LOOP */
 @keyframes scroll {
     from {
         transform: translateX(0%);
     }
     to {
-        /* It moves exactly half the track's width, which is the length of one full set of logos */
+        /* Move the track exactly -50% of its own width. This is a perfect loop. */
         transform: translateX(-50%);
     }
 }
@@ -342,8 +342,7 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
     display: flex;
     align-items: center;
     justify-content: center;
-    /* We still use a variable for responsive sizing */
-    --logo-width: 240px; 
+    --logo-width: 240px; /* Default size for standard desktops */
     width: var(--logo-width);
     padding: 0 40px;
     box-sizing: border-box;
@@ -356,13 +355,14 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 
 /* --- RESPONSIVE MEDIA QUERIES --- */
 
-/* For ultra-wide screens, logos get bigger */
-@media (min-width: 1401px) {
+/* For ULTRA-WIDE screens (wider than 1600px) */
+@media (min-width: 1601px) {
     .client-logo {
-        --logo-width: 300px;
+        /* Make logos significantly bigger for impact */
+        --logo-width: 380px; 
     }
     .scroller-track {
-        animation-duration: 50s; /* Slow down for a more epic feel */
+        animation-duration: 60s; /* Slow down the animation */
     }
 }
 
