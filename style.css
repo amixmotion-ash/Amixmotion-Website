@@ -306,15 +306,17 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 .button-submit:hover {
     background-color: #555;
 }
-/* --- CLIENT SCROLLER SECTION (CENTERED & RESIZED) --- */
+/* --- CLIENT SCROLLER SECTION (FINAL RESPONSIVE VERSION) --- */
 .client-scroller {
     padding: 60px 0;
 }
 
 .scroller-container {
-    /* CHANGE 1: Re-center the scroller to align with your other content */
-    max-width: 1200px;
-    margin: 0 auto;
+    /* This combination is the key to the final solution */
+    max-width: 1600px; /* A larger max-width for bigger screens */
+    margin: 0 auto;    /* This keeps it centered */
+    padding: 0 40px;   /* This ensures there's always space on the sides, even on ultra-wide */
+    box-sizing: border-box; /* Includes padding in the element's total width/height */
     
     overflow: hidden;
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
@@ -323,7 +325,7 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 
 .scroller-track {
     display: flex;
-    /* CHANGE 2: Increase the default logo size for more impact on desktop */
+    /* Increased default logo size for more impact on desktop */
     --logo-width: 240px; 
     
     width: calc(var(--logo-width) * 10);
@@ -355,16 +357,19 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 
 /* --- RESPONSIVE MEDIA QUERIES FOR SCROLLER --- */
 
-/* For tablets and smaller laptops - logos get slightly smaller */
+/* For tablets and smaller laptops */
 @media (max-width: 1024px) {
     .scroller-track {
-        --logo-width: 200px; /* A good size for tablets */
+        --logo-width: 200px;
         animation-duration: 35s;
     }
 }
 
-/* For mobile phones - logos get bigger */
+/* For mobile phones */
 @media (max-width: 600px) {
+    .scroller-container {
+        padding: 0 20px; /* Reduce side padding on mobile */
+    }
     .scroller-track {
         --logo-width: 280px;
         animation-duration: 35s;
