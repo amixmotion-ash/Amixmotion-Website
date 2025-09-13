@@ -151,43 +151,83 @@ header {
     background-color: #ffffff; /* The white background creates the mask */
 }
 
-
 /* --- MISSION SECTION --- */
 .mission-section {
     padding: 120px 0;
-    background-color: #ffffff; 
 }
+
+/* Base style for the headline on DESKTOP and TABLET */
 .mission-headline {
     font-size: clamp(2.5rem, 8vw, 6rem);
     font-weight: bold;
-    text-align: left;
+    text-align: left; /* Explicitly left-aligned */
     margin-bottom: 100px;
     letter-spacing: -2px;
 }
+
+/* On DESKTOP and TABLET, the span is inline, keeping the headline on one line */
+.mission-headline span {
+    display: inline;
+}
+
+/* Base style for the grid on DESKTOP and TABLET */
 .mission-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
     align-items: center;
 }
+
 .mission-image {
     min-width: 0;
 }
+
 .mission-image img {
     width: 100%;
     height: auto;
     display: block;
 }
+
+/* Base style for the text block on DESKTOP and TABLET */
 .mission-text {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
+    align-items: flex-start; /* Explicitly left-aligned */
+    text-align: left;        /* Explicitly left-aligned */
 }
-.mission-text .pre-title { font-size: 0.9em; font-weight: bold; color: #555; letter-spacing: 1px; margin-bottom: 20px; }
-.mission-text .mission-statement { font-size: 1.5em; line-height: 1.6; color: #333; font-weight: 500; margin: 0; }
-.button-outline { display: inline-block; margin-top: 40px; padding: 12px 24px; border: 1px solid #222; border-radius: 4px; color: #222; text-decoration: none; font-weight: bold; transition: all 0.3s ease; }
-.button-outline:hover { background-color: #222; color: #fff; }
+
+.mission-text .pre-title {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #555;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.mission-text .mission-statement {
+    font-size: 1.5em;
+    line-height: 1.6;
+    color: #333;
+    font-weight: 500;
+    margin: 0;
+}
+
+.button-outline {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 12px 24px;
+    border: 1px solid #222;
+    border-radius: 4px;
+    color: #222;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.button-outline:hover {
+    background-color: #222;
+    color: #fff;
+}
 
 /* --- PORTFOLIO GRID SECTION --- */
 .portfolio-grid-section {
@@ -218,33 +258,32 @@ footer { text-align: center; margin-top: 50px; padding: 20px; background-color: 
 
 /* --- RESPONSIVE MEDIA QUERIES --- */
 @media (max-width: 900px) {
-    /* --- Mission Section on Mobile --- */
+    /* --- Styles ONLY for screens 900px or narrower --- */
 
-    /* 1. Stack the grid into a single column */
+    /* Override for the headline on MOBILE */
+    .mission-headline {
+        text-align: center; /* Change to center-aligned */
+        margin-bottom: 60px;
+    }
+
+    /* Override for the span on MOBILE to force a line break */
+    .mission-headline span {
+        display: block;
+    }
+
+    /* Override for the grid on MOBILE */
     .mission-grid { 
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr; /* Change to a single column */
     }
     
-    /* 
-       By removing the old "grid-row" rules, the grid items will now 
-       stack in their natural HTML order: Image first, then Text Block.
-    */
-
-    /* 2. Style the headline for the new mobile layout */
-    .mission-headline {
-        text-align: center; /* Center the now-stacked headline */
-        margin-bottom: 60px; /* Adjust spacing for the new layout */
-    }
-
-    /* 3. This is the key to the two-line headline */
-    .mission-headline span {
-        display: block; /* Forces "Amixmotion?>" onto its own line */
-    }
-
+    /* These rules are now REMOVED, so the grid stacks in natural HTML order: Image, then Text */
+    /* .mission-text { grid-row: 1; }  <-- DELETE THIS */
+    /* .mission-image { grid-row: 2; } <-- DELETE THIS */
+    
+    /* Override for the text block on MOBILE */
     .mission-text {
-        /* Center the text and button on mobile */
-        align-items: center;
-        text-align: center;
+        align-items: center; /* Change to center-aligned */
+        text-align: center;    /* Change to center-aligned */
     }
 }
 
