@@ -183,25 +183,39 @@ header {
     .portfolio-grid-container { grid-template-columns: 1fr; gap: 40px; }
     .grid-item.rellax { transform: translate(0) !important; }
 }
-/* --- PORTFOLIO CALL-TO-ACTION BUTTON --- */
+/* --- BUTTON STYLES --- */
 
-.portfolio-cta-container {
-    /* This creates the space between the grid and the button */
-    padding-top: 100px;
-    /* This centers the button horizontally */
-    text-align: center;
+/* This is the BASE style for all outline buttons (shape, font, etc.) */
+.button-outline {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin-top: 40px;
+    padding: 12px 24px;
+    border: 1px solid; /* Border color will be set by the modifier */
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
-/* This targets the button ONLY when it's in a white section */
-.scroll-content-wrapper .button-outline {
-    border-color: #222222; /* Black border */
-    color: #222222;       /* Black text */
-    background-color: transparent; /* Ensure background is clear */
+/* This is the MODIFIER for the LIGHT button (white on dark) */
+.button-light {
+    border-color: #e0e0e0;
+    color: #e0e0e0;
+}
+.button-light:hover {
+    background-color: #e0e0e0;
+    color: #000000;
 }
 
-.scroll-content-wrapper .button-outline:hover {
-    background-color: #222222; /* Black background on hover */
-    color: #ffffff;           /* White text on hover */
+/* This is the MODIFIER for the DARK button (black on white) */
+.button-dark {
+    border-color: #222222;
+    color: #222222;
+}
+.button-dark:hover {
+    background-color: #222222;
+    color: #ffffff;
 }
 
 /* --- FOOTER --- */
