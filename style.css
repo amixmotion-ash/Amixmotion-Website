@@ -142,27 +142,34 @@ header {
     object-fit: cover;
 }
 
+/* --- Corrected Mission Text Styles --- */
+
 .mission-text {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    text-align: left;
 }
 
-/* --- Typography from your spec --- */
+/* This wrapper uses Flexbox to align the title and statement side-by-side */
+.statement-wrapper {
+    display: flex;
+    align-items: flex-start; /* Aligns items to their tops */
+    gap: 20px; /* Creates the space between the line and the main text */
+}
 
 .mission-text .pre-title {
     font-family: 'Inter', sans-serif;
     font-weight: 400; /* Regular */
     font-size: 18px;
     color: #888;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
+    white-space: nowrap; /* Prevents "Who is Amixmotion" from breaking */
+    margin: 0; /* Resets default paragraph margin */
+    
+    /* These styles create the horizontal line */
     display: flex;
     align-items: center;
 }
 
-/* This creates the horizontal line after the title */
 .mission-text .pre-title::after {
     content: '';
     display: inline-block;
@@ -177,7 +184,7 @@ header {
     font-weight: 300; /* Light */
     font-size: 33px;
     line-height: 1.4;
-    margin: 0;
+    margin: 0; /* Resets default paragraph margin */
 }
 
 .button-outline {
@@ -190,7 +197,7 @@ header {
     color: #e0e0e0;
     text-decoration: none;
     transition: all 0.3s ease;
-    background-color: transparent; /* Ensure it's transparent by default */
+    background-color: transparent;
 }
 
 .button-outline:hover {
@@ -200,6 +207,33 @@ header {
 
 /* --- Responsive styles for the new mission section --- */
 @media (max-width: 900px) {
+    .mission-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        justify-items: center;
+    }
+
+    .mission-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    .mission-text {
+        align-items: center;
+    }
+
+    /* On mobile, we stack the text instead of having it side-by-side */
+    .statement-wrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 30px; /* Adjust vertical gap for mobile */
+    }
+    
+    .mission-statement {
+        font-size: 24px;
+    }
+}@media (max-width: 900px) {
     .mission-grid {
         grid-template-columns: 1fr; /* Stack into a single column on mobile */
         gap: 40px;
