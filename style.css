@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
 /* --- GLOBAL STYLES --- */
 body {
     background-color: #ffffff;
     color: #222222;
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
     margin: 0;
 }
 .body-no-scroll {
@@ -110,34 +110,115 @@ header {
 }
 
 
-/* --- MISSION SECTION (ANIMATED DARK THEME) --- */
+/* --- MISSION SECTION (NEW 2025 DESIGN) --- */
 .mission-section {
-    padding: 160px 0 0 0; /* Changed padding */
+    padding: 160px 0 0 0;
     background-color: #000000;
     color: #e0e0e0;
-    overflow: hidden;
+    overflow: hidden; /* Ensures no weird overlaps */
 }
+
 .mission-section .container {
     padding: 0 40px;
 }
-.mission-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-.mission-image { aspect-ratio: 1 / 1; border-radius: 50%; overflow: hidden; }
-.mission-image img { width: 100%; height: 100%; object-fit: cover; }
-.mission-text { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
-.mission-text .pre-title { font-size: 0.9em; font-weight: bold; color: #888; letter-spacing: 1px; margin-bottom: 20px; }
-.mission-statement-animated { font-size: 2.2em; line-height: 1.4; font-weight: 500; margin: 0; }
-.animated-line { overflow: hidden; }
-.animated-line span { display: block; opacity: 0; transform: translateY(100%); transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease; }
-.mission-section.is-visible .animated-line span { opacity: 1; transform: translateY(0); }
-.mission-section.is-visible .animated-line:nth-child(2) span { transition-delay: 0.1s; }
-.mission-section.is-visible .animated-line:nth-child(3) span { transition-delay: 0.2s; }
-.mission-section.is-visible .animated-line:nth-child(4) span { transition-delay: 0.3s; }
-.button-outline { margin-top: 40px; padding: 12px 24px; border: 1px solid #e0e0e0; color: #e0e0e0; text-decoration: none; font-weight: bold; transition: all 0.3s ease; }
-.button-outline:hover { background-color: #e0e0e0; color: #000000; }
+
+.mission-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr; /* Fixed size for image, rest for text */
+    gap: 60px;
+    align-items: center;
+}
+
+.mission-image {
+    width: 300px; /* Explicit width */
+    height: 300px; /* Explicit height */
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.mission-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mission-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+/* --- Typography from your spec --- */
+
+.mission-text .pre-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400; /* Regular */
+    font-size: 18px;
+    color: #888;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+/* This creates the horizontal line after the title */
+.mission-text .pre-title::after {
+    content: '';
+    display: inline-block;
+    width: 80px;
+    height: 1px;
+    background-color: #555;
+    margin-left: 20px;
+}
+
+.mission-statement {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300; /* Light */
+    font-size: 33px;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.button-outline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600; /* SemiBold */
+    font-size: 18px;
+    margin-top: 40px;
+    padding: 12px 24px;
+    border: 1px solid #e0e0e0;
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background-color: transparent; /* Ensure it's transparent by default */
+}
+
+.button-outline:hover {
+    background-color: #e0e0e0;
+    color: #000000;
+}
+
+/* --- Responsive styles for the new mission section --- */
 @media (max-width: 900px) {
-    .mission-grid { grid-template-columns: 1fr; gap: 40px; }
-    .mission-statement-animated { font-size: 1.8em; }
-    .mission-text { align-items: center; text-align: center; }
+    .mission-grid {
+        grid-template-columns: 1fr; /* Stack on mobile */
+        gap: 40px;
+        justify-items: center; /* Center the image */
+    }
+
+    .mission-image {
+        width: 200px; /* Make image smaller on mobile */
+        height: 200px;
+    }
+
+    .mission-text {
+        align-items: center; /* Center the text block */
+        text-align: center;
+    }
+    
+    .mission-statement {
+        font-size: 24px; /* Adjust font size for mobile */
+    }
 }
 
 /* --- CLIENT SCROLLER SECTION (DARK THEME VERSION) --- */
