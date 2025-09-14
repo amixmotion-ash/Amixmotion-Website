@@ -183,6 +183,26 @@ header {
     .portfolio-grid-container { grid-template-columns: 1fr; gap: 40px; }
     .grid-item.rellax { transform: translate(0) !important; }
 }
+/* --- PORTFOLIO CALL-TO-ACTION BUTTON --- */
+
+.portfolio-cta-container {
+    /* This creates the space between the grid and the button */
+    padding-top: 100px;
+    /* This centers the button horizontally */
+    text-align: center;
+}
+
+/* This targets the button ONLY when it's in a white section */
+.scroll-content-wrapper .button-outline {
+    border-color: #222222; /* Black border */
+    color: #222222;       /* Black text */
+    background-color: transparent; /* Ensure background is clear */
+}
+
+.scroll-content-wrapper .button-outline:hover {
+    background-color: #222222; /* Black background on hover */
+    color: #ffffff;           /* White text on hover */
+}
 
 /* --- FOOTER --- */
 footer { text-align: center; padding: 20px; background-color: #f7f7f7; color: #555; }
