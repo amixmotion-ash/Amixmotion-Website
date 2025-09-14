@@ -110,12 +110,12 @@ header {
 }
 
 
-/* --- MISSION SECTION (NEW 2025 DESIGN) --- */
+/* --- MISSION SECTION (FINAL, CORRECTED DESIGN) --- */
 .mission-section {
-    padding: 160px 0 0 0;
+    padding: 160px 0; /* Restored bottom padding for spacing */
     background-color: #000000;
     color: #e0e0e0;
-    overflow: hidden; /* Ensures no weird overlaps */
+    overflow: hidden;
 }
 
 .mission-section .container {
@@ -130,8 +130,8 @@ header {
 }
 
 .mission-image {
-    width: 300px; /* Explicit width */
-    height: 300px; /* Explicit height */
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
     overflow: hidden;
 }
@@ -142,34 +142,27 @@ header {
     object-fit: cover;
 }
 
-/* --- Corrected Mission Text Styles --- */
-
 .mission-text {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-/* This wrapper uses Flexbox to align the title and statement side-by-side */
-.statement-wrapper {
-    display: flex;
-    align-items: flex-start; /* Aligns items to their tops */
-    gap: 20px; /* Creates the space between the line and the main text */
-}
+/* --- Corrected Typography --- */
 
 .mission-text .pre-title {
     font-family: 'Inter', sans-serif;
     font-weight: 400; /* Regular */
     font-size: 18px;
     color: #888;
-    white-space: nowrap; /* Prevents "Who is Amixmotion" from breaking */
-    margin: 0; /* Resets default paragraph margin */
+    margin: 0;
     
-    /* These styles create the horizontal line */
+    /* This uses Flexbox to align the text and the line */
     display: flex;
     align-items: center;
 }
 
+/* This creates the horizontal line using a pseudo-element */
 .mission-text .pre-title::after {
     content: '';
     display: inline-block;
@@ -184,7 +177,7 @@ header {
     font-weight: 300; /* Light */
     font-size: 33px;
     line-height: 1.4;
-    margin: 0; /* Resets default paragraph margin */
+    margin: 30px 0 0 0; /* Adds space above, resets other margins */
 }
 
 .button-outline {
@@ -208,40 +201,13 @@ header {
 /* --- Responsive styles for the new mission section --- */
 @media (max-width: 900px) {
     .mission-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Stack on mobile */
         gap: 40px;
-        justify-items: center;
+        justify-items: center; /* Center the image */
     }
 
     .mission-image {
-        width: 200px;
-        height: 200px;
-    }
-
-    .mission-text {
-        align-items: center;
-    }
-
-    /* On mobile, we stack the text instead of having it side-by-side */
-    .statement-wrapper {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 30px; /* Adjust vertical gap for mobile */
-    }
-    
-    .mission-statement {
-        font-size: 24px;
-    }
-}@media (max-width: 900px) {
-    .mission-grid {
-        grid-template-columns: 1fr; /* Stack into a single column on mobile */
-        gap: 40px;
-        justify-items: center; /* This will center the image */
-    }
-
-    .mission-image {
-        width: 200px; /* Make the image smaller on mobile */
+        width: 200px; /* Make image smaller on mobile */
         height: 200px;
     }
 
@@ -251,9 +217,9 @@ header {
     }
     
     .mission-statement {
-        font-size: 24px; /* Adjust font size for better readability on mobile */
-        text-indent: 0;  /* This is CRUCIAL: removes the desktop indent */
+        font-size: 24px; /* Adjust font size for mobile */
     }
+}
 
     /* On mobile, we change the pre-title to be a normal block element */
     .mission-text .pre-title {
@@ -261,7 +227,7 @@ header {
         transform: none;  /* Resets the vertical alignment */
         margin-bottom: 20px; /* Adds space between it and the text below */
     }
-}
+
 
 /* --- CLIENT SCROLLER SECTION (DARK THEME VERSION) --- */
 .client-scroller {
