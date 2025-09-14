@@ -112,10 +112,9 @@ header {
 
 /* --- MISSION SECTION (FINAL, CORRECTED DESIGN) --- */
 .mission-section {
-    padding: 160px 0; /* Restored bottom padding for spacing */
+    padding: 160px 0;
     background-color: #000000;
     color: #e0e0e0;
-    overflow: hidden;
 }
 
 .mission-section .container {
@@ -220,25 +219,20 @@ header {
 }
 
 
-/* --- CLIENT SCROLLER SECTION (FINAL DARK THEME VERSION) --- */
-.client-scroller {
-    padding: 100px 0; /* Adds top/bottom padding inside the mission section */
+/* --- CLIENT SCROLLER SECTION (FINAL, FULL-WIDTH VERSION) --- */
+.client-scroller-section {
+    background-color: #000000; /* The black background for the scroller */
+    padding: 0 0 160px 0; /* Padding below the scroller */
 }
 
-/* The container is always full-width, which fixes the fade effect permanently */
 .scroller-container {
     overflow: hidden;
     -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
     mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
 }
 
-.scroller-track {
-    display: flex;
-    width: max-content; 
-    animation: scroll 40s linear infinite;
-}
+.scroller-track { display: flex; width: max-content; animation: scroll 40s linear infinite; }
 
-/* A PERFECT, PERCENTAGE-BASED LOOP */
 @keyframes scroll {
     from { transform: translateX(0%); }
     to { transform: translateX(-50%); }
@@ -257,41 +251,23 @@ header {
 .client-logo img {
     max-width: 100%;
     height: auto;
-    /* This filter makes the logos solid white */
     filter: invert(1) brightness(2);
 }
 
-
-/* --- RESPONSIVE MEDIA QUERIES --- */
-
-/* For ULTRA-WIDE screens (wider than 1600px) */
+/* --- RESPONSIVE MEDIA QUERIES FOR SCROLLER --- */
 @media (min-width: 1601px) {
-    .client-logo {
-        --logo-width: 380px; 
-    }
-    .scroller-track {
-        animation-duration: 60s;
-    }
+    .client-logo { --logo-width: 380px; }
+    .scroller-track { animation-duration: 60s; }
 }
 
-/* For tablets and smaller laptops */
 @media (max-width: 1024px) {
-    .client-logo {
-        --logo-width: 200px;
-    }
-    .scroller-track {
-        animation-duration: 35s;
-    }
+    .client-logo { --logo-width: 200px; }
+    .scroller-track { animation-duration: 35s; }
 }
 
-/* For mobile phones - show one large logo at a time */
 @media (max-width: 600px) {
-    .client-logo {
-        --logo-width: 350px; /* Make the logo almost the full width of the screen */
-    }
-    .scroller-track {
-        animation-duration: 30s; /* Adjust speed for the larger logo */
-    }
+    .client-logo { --logo-width: 350px; }
+    .scroller-track { animation-duration: 30s; }
 }
 
 /* --- PORTFOLIO GRID SECTION (FINAL RESPONSIVE VERSION) --- */
