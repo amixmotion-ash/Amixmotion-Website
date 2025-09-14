@@ -269,6 +269,38 @@ header {
     .client-logo { --logo-width: 350px; }
     .scroller-track { animation-duration: 30s; }
 }
+/* --- BRIDGE SECTION STYLES --- */
+.bridge-section {
+    padding: 120px 0; /* Creates space above and below the text */
+    background-color: #ffffff; /* The clean white background */
+}
+
+.bridge-text {
+    font-family: 'Inter', sans-serif; /* Using your site's font */
+    font-weight: 300; /* Light weight for the main text */
+    font-size: 33px;
+    line-height: 1.5;
+    text-align: center; /* Centers the text block */
+    max-width: 800px; /* Constrains the width for readability */
+    margin: 0 auto; /* Also helps center the text block */
+    color: #222222; /* Dark text color */
+}
+
+/* This targets the bold words */
+.bridge-text strong {
+    font-weight: 600; /* SemiBold weight */
+}
+
+/* --- Responsive styles for the bridge section --- */
+@media (max-width: 768px) {
+    .bridge-section {
+        padding: 80px 0; /* Reduce padding on mobile */
+    }
+
+    .bridge-text {
+        font-size: 24px; /* Adjust font size for mobile */
+    }
+}
 
 /* --- PORTFOLIO GRID SECTION (FINAL RESPONSIVE VERSION) --- */
 .portfolio-grid-section {
