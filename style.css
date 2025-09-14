@@ -156,8 +156,8 @@ header {
     font-size: 18px;
     color: #888;
     margin: 0;
+    margin-bottom: 15px; /* This explicitly adds the space below the grey text */
     
-    /* This uses Flexbox to align the text and the line */
     display: flex;
     align-items: center;
 }
@@ -167,7 +167,7 @@ header {
     font-weight: 300; /* Light */
     font-size: 33px;
     line-height: 1.4;
-    margin: 1px 0 0 0; /* Adds space above, resets other margins */
+    margin: 0; /* Resets all margins, especially the top one */
 }
 
 .button-outline {
