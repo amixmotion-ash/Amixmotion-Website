@@ -167,7 +167,7 @@ header {
     font-weight: 300; /* Light */
     font-size: 33px;
     line-height: 1.4;
-    margin: 5px 0 0 0; /* Adds space above, resets other margins */
+    margin: 1px 0 0 0; /* Adds space above, resets other margins */
 }
 
 .button-outline {
