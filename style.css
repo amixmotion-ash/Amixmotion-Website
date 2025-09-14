@@ -191,32 +191,34 @@ header {
 /* --- Responsive styles for the new mission section --- */
 @media (max-width: 900px) {
     .mission-grid {
-        grid-template-columns: 1fr; /* Stack on mobile */
+        grid-template-columns: 1fr; /* Stack into a single column on mobile */
         gap: 40px;
-        justify-items: center; /* Center the image */
+        /* We remove 'justify-items: center' to let the content fill the width */
     }
 
     .mission-image {
-        width: 200px; /* Make image smaller on mobile */
+        width: 200px; /* Make the image smaller on mobile */
         height: 200px;
+        margin: 0 auto; /* This will center the image itself */
     }
 
     .mission-text {
-        align-items: center; /* Center the text block and button */
-        text-align: center;
+        /* THIS IS THE KEY: We change the alignment back to the left */
+        align-items: flex-start; 
+        text-align: left;
     }
     
     .mission-statement {
-        font-size: 24px; /* Adjust font size for mobile */
+        font-size: 24px; /* Adjust font size for better readability on mobile */
+    }
+
+    /* On mobile, we keep the pre-title stacked on top */
+    .mission-text .pre-title {
+        position: static;
+        transform: none;
+        margin-bottom: 20px;
     }
 }
-
-    /* On mobile, we change the pre-title to be a normal block element */
-    .mission-text .pre-title {
-        position: static; /* Resets the absolute positioning */
-        transform: none;  /* Resets the vertical alignment */
-        margin-bottom: 20px; /* Adds space between it and the text below */
-    }
 
 
 /* --- CLIENT SCROLLER SECTION (DARK THEME VERSION) --- */
