@@ -293,12 +293,18 @@ header {
 /* --- Responsive styles for the bridge section --- */
 @media (max-width: 768px) {
     .bridge-section {
-        padding: 80px 0;
+        /* This creates the symmetrical 80px space above and below the text */
+        padding: 80px 0; 
     }
 
     .bridge-text {
         font-size: 24px;
-        line-height: 1.4; /* Slightly looser on mobile for readability */
+        line-height: 1.4;
+    }
+
+    /* THIS IS THE KEY: We "hide" the line break tags on mobile */
+    .bridge-text br {
+        display: none;
     }
 }
 
@@ -376,8 +382,11 @@ header {
 /* For MOBILE (screens 600px or narrower) */
 @media (max-width: 600px) {
     .portfolio-grid-section {
-        padding: 60px 20px;
+        /* Top padding is now 0, left/right is 20px, bottom is 60px */
+        padding: 0 20px 60px; 
     }
+    /* ... other rules ... */
+}
 
     .portfolio-grid-container {
         grid-template-columns: 1fr;
@@ -387,7 +396,7 @@ header {
     .grid-item.rellax {
         transform: translate(0) !important;
     }
-}
+
 
 /* --- FOOTER --- */
 footer { text-align: center; padding: 20px; background-color: #f7f7f7; color: #555; }
