@@ -162,22 +162,12 @@ header {
     align-items: center;
 }
 
-/* This creates the horizontal line using a pseudo-element */
-.mission-text .pre-title::after {
-    content: '';
-    display: inline-block;
-    width: 80px;
-    height: 1px;
-    background-color: #555;
-    margin-left: 20px;
-}
-
 .mission-statement {
     font-family: 'Inter', sans-serif;
     font-weight: 300; /* Light */
     font-size: 33px;
     line-height: 1.4;
-    margin: 30px 0 0 0; /* Adds space above, resets other margins */
+    margin: 15px 0 0 0; /* Adds space above, resets other margins */
 }
 
 .button-outline {
