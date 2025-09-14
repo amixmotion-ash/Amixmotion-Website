@@ -171,7 +171,7 @@ header {
 
 /* --- PORTFOLIO GRID SECTION (FINAL RESPONSIVE VERSION) --- */
 .portfolio-grid-section {
-    padding: 100px 40px;
+    padding: 300px 40px;
     box-sizing: border-box;
     /* We can remove the background-color from here as the wrapper now handles it */
 }
