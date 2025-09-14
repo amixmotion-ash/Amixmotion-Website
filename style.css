@@ -196,11 +196,10 @@ header {
         /* We remove 'justify-items: center' to let the content fill the width */
     }
 
-    .mission-image {
-        width: 200px; /* Make the image smaller on mobile */
-        height: 200px;
-        margin: 0 auto; /* This will center the image itself */
-    }
+.mission-image {
+    /* The width and height lines are removed, so it uses the default 300px */
+    margin: 0 auto; /* We keep this to ensure the image stays centered on mobile */
+}
 
     .mission-text {
         /* THIS IS THE KEY: We change the alignment back to the left */
@@ -221,33 +220,78 @@ header {
 }
 
 
-/* --- CLIENT SCROLLER SECTION (DARK THEME VERSION) --- */
+/* --- CLIENT SCROLLER SECTION (FINAL DARK THEME VERSION) --- */
 .client-scroller {
-    padding: 100px 0;
+    padding: 100px 0; /* Adds top/bottom padding inside the mission section */
 }
+
+/* The container is always full-width, which fixes the fade effect permanently */
 .scroller-container {
     overflow: hidden;
     -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
     mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
 }
-.scroller-track { display: flex; width: max-content; animation: scroll 40s linear infinite; }
+
+.scroller-track {
+    display: flex;
+    width: max-content; 
+    animation: scroll 40s linear infinite;
+}
+
+/* A PERFECT, PERCENTAGE-BASED LOOP */
 @keyframes scroll {
     from { transform: translateX(0%); }
     to { transform: translateX(-50%); }
 }
-.client-logo { display: flex; align-items: center; justify-content: center; --logo-width: 240px; width: var(--logo-width); padding: 0 40px; box-sizing: border-box; }
-.client-logo img { max-width: 100%; height: auto; filter: invert(1) brightness(2);}
+
+.client-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    --logo-width: 240px; /* Default size for standard desktops */
+    width: var(--logo-width);
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+.client-logo img {
+    max-width: 100%;
+    height: auto;
+    /* This filter makes the logos solid white */
+    filter: invert(1) brightness(2);
+}
+
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+
+/* For ULTRA-WIDE screens (wider than 1600px) */
 @media (min-width: 1601px) {
-    .client-logo { --logo-width: 380px; }
-    .scroller-track { animation-duration: 60s; }
+    .client-logo {
+        --logo-width: 380px; 
+    }
+    .scroller-track {
+        animation-duration: 60s;
+    }
 }
+
+/* For tablets and smaller laptops */
 @media (max-width: 1024px) {
-    .client-logo { --logo-width: 200px; }
-    .scroller-track { animation-duration: 35s; }
+    .client-logo {
+        --logo-width: 200px;
+    }
+    .scroller-track {
+        animation-duration: 35s;
+    }
 }
+
+/* For mobile phones - show one large logo at a time */
 @media (max-width: 600px) {
-    .client-logo { --logo-width: 280px; }
-    .scroller-track { animation-duration: 35s; }
+    .client-logo {
+        --logo-width: 350px; /* Make the logo almost the full width of the screen */
+    }
+    .scroller-track {
+        animation-duration: 30s; /* Adjust speed for the larger logo */
+    }
 }
 
 /* --- PORTFOLIO GRID SECTION (FINAL RESPONSIVE VERSION) --- */
