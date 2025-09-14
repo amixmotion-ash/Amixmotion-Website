@@ -187,9 +187,8 @@ header {
 
 /* This container handles the spacing and centering for the "More Work" button */
 .portfolio-cta-container {
-    /* Increased space: you will need to scroll significantly more to see the button */
-    padding-top: 500px; 
-    text-align: center; /* This correctly centers the button */
+    padding-top: 350px; /* Brought 30% closer */
+    text-align: center;
 }
 
 /* This is the BASE style that applies to ALL outline buttons */
@@ -225,8 +224,76 @@ header {
     color: #ffffff;
 }
 
-/* --- FOOTER --- */
-footer { text-align: center; padding: 20px; background-color: #f7f7f7; color: #555; }
+/* --- FOOTER (NEW 2025 DESIGN) --- */
+footer {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 80px 40px;
+    font-family: 'Inter', sans-serif;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr; /* 4 columns, first is wider */
+    gap: 40px;
+}
+
+.footer-column h2 {
+    font-weight: 900; /* Extra-Bold for the main CTA */
+    font-size: 2.5rem;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+}
+
+.footer-column h3 {
+    font-weight: 600; /* SemiBold */
+    font-size: 1rem;
+    margin: 0 0 20px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #888; /* Grey for subtitles */
+}
+
+.footer-column ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-column li {
+    margin-bottom: 10px;
+}
+
+.footer-column a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 400; /* Regular */
+    transition: color 0.3s ease;
+}
+
+.footer-column a:hover {
+    color: #888; /* Fade to grey on hover */
+}
+
+.footer-column .button-outline {
+    margin-top: 20px;
+}
+
+/* --- Responsive styles for the new footer --- */
+@media (max-width: 900px) {
+    .footer-container {
+        grid-template-columns: 1fr; /* Stack into a single column on mobile */
+        text-align: center;
+    }
+    .footer-column {
+        margin-bottom: 40px;
+    }
+    .footer-cta {
+        align-items: center; /* Helper for button centering if needed */
+    }
+}
 
 /* --- VIDEO LIGHTBOX STYLES --- */
 .video-lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
