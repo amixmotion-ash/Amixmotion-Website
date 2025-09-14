@@ -106,9 +106,8 @@ header {
 .scroll-content-wrapper {
     position: relative;
     z-index: 2;
-    background-color: #ffffff; /* This is the key to fixing the "hole" */
+    background-color: #ffffff; /* Ensures no "holes" appear */
 }
-
 
 /* --- MISSION SECTION (FINAL, CORRECTED DESIGN) --- */
 .mission-section {
@@ -116,288 +115,74 @@ header {
     background-color: #000000;
     color: #e0e0e0;
 }
-
-.mission-section .container {
-    padding: 0 40px;
-}
-
-.mission-grid {
-    display: grid;
-    grid-template-columns: 300px 1fr; /* Fixed size for image, rest for text */
-    gap: 60px;
-    align-items: center;
-}
-
-.mission-image {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-.mission-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.mission-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-/* --- Corrected Typography --- */
-
-.mission-text .pre-title {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400; /* Regular */
-    font-size: 18px;
-    color: #888;
-    margin: 0;
-    margin-bottom: 15px; /* This explicitly adds the space below the grey text */
-    
-    display: flex;
-    align-items: center;
-}
-
-.mission-statement {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300; /* Light */
-    font-size: 33px;
-    line-height: 1.4;
-    margin: 0; /* Resets all margins, especially the top one */
-}
-
-.button-outline {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600; /* SemiBold */
-    font-size: 18px;
-    margin-top: 40px;
-    padding: 12px 24px;
-    border: 1px solid #e0e0e0;
-    color: #e0e0e0;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    background-color: transparent;
-}
-
-.button-outline:hover {
-    background-color: #e0e0e0;
-    color: #000000;
-}
-
-/* --- Responsive styles for the new mission section --- */
+.mission-grid { display: grid; grid-template-columns: 300px 1fr; gap: 60px; align-items: center; }
+.mission-image { width: 300px; height: 300px; border-radius: 50%; overflow: hidden; }
+.mission-image img { width: 100%; height: 100%; object-fit: cover; }
+.mission-text { display: flex; flex-direction: column; align-items: flex-start; }
+.mission-text .pre-title { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 18px; color: #888; margin: 0; margin-bottom: 15px; display: flex; align-items: center; }
+.mission-statement { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.4; margin: 0; }
+.button-outline { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 18px; margin-top: 40px; padding: 12px 24px; border: 1px solid #e0e0e0; color: #e0e0e0; text-decoration: none; transition: all 0.3s ease; background-color: transparent; }
+.button-outline:hover { background-color: #e0e0e0; color: #000000; }
 @media (max-width: 900px) {
-    .mission-grid {
-        grid-template-columns: 1fr; /* Stack into a single column on mobile */
-        gap: 40px;
-        /* We remove 'justify-items: center' to let the content fill the width */
-    }
-
-.mission-image {
-    /* The width and height lines are removed, so it uses the default 300px */
-    margin: 0 auto; /* We keep this to ensure the image stays centered on mobile */
-}
-
-    .mission-text {
-        /* THIS IS THE KEY: We change the alignment back to the left */
-        align-items: flex-start; 
-        text-align: left;
-    }
-    
-    .mission-statement {
-        font-size: 24px; /* Adjust font size for better readability on mobile */
-    }
-
-    /* On mobile, we keep the pre-title stacked on top */
-    .mission-text .pre-title {
-        position: static;
-        transform: none;
-        margin-bottom: 20px;
-    }
+    .mission-grid { grid-template-columns: 1fr; gap: 40px; }
+    .mission-image { margin: 0 auto; }
+    .mission-text { align-items: flex-start; text-align: left; }
+    .mission-statement { font-size: 24px; }
 }
 
 
-/* --- CLIENT SCROLLER SECTION (FINAL, FULL-WIDTH VERSION) --- */
-.client-scroller-section {
-    background-color: #000000; /* The black background for the scroller */
-    padding: 0 0 160px 0; /* Padding below the scroller */
+/* --- CLIENT SCROLLER SECTION (DARK THEME VERSION) --- */
+.client-scroller {
+    padding-top: 100px;
 }
-
-.scroller-container {
-    overflow: hidden;
-    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-}
-
+.scroller-container { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); }
 .scroller-track { display: flex; width: max-content; animation: scroll 40s linear infinite; }
-
 @keyframes scroll {
     from { transform: translateX(0%); }
     to { transform: translateX(-50%); }
 }
-
-.client-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    --logo-width: 240px; /* Default size for standard desktops */
-    width: var(--logo-width);
-    padding: 0 40px;
-    box-sizing: border-box;
-}
-
-.client-logo img {
-    max-width: 100%;
-    height: auto;
-    filter: invert(1) brightness(2);
-}
-
-/* --- RESPONSIVE MEDIA QUERIES FOR SCROLLER --- */
+.client-logo { display: flex; align-items: center; justify-content: center; --logo-width: 240px; width: var(--logo-width); padding: 0 40px; box-sizing: border-box; }
+.client-logo img { max-width: 100%; height: auto; filter: invert(1) brightness(2); }
 @media (min-width: 1601px) {
     .client-logo { --logo-width: 380px; }
     .scroller-track { animation-duration: 60s; }
 }
-
 @media (max-width: 1024px) {
     .client-logo { --logo-width: 200px; }
     .scroller-track { animation-duration: 35s; }
 }
-
 @media (max-width: 600px) {
     .client-logo { --logo-width: 350px; }
     .scroller-track { animation-duration: 30s; }
 }
-/* --- BRIDGE SECTION STYLES (PRECISE VERSION) --- */
-.bridge-section {
-    padding: 120px 0;
-    background-color: #ffffff;
-}
 
-.bridge-text {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300; /* Light weight */
-    font-size: 33px;
-    line-height: 1.3; /* Tighter line spacing to match the example */
-    text-align: center;
-    max-width: 900px; /* Slightly wider to accommodate the layout */
-    margin: 0 auto;
-    color: #222222;
-}
-
-.bridge-text strong {
-    font-weight: 600; /* SemiBold weight for emphasis */
-}
-
-/* --- Responsive styles for the bridge section --- */
+/* --- BRIDGE SECTION STYLES --- */
+.bridge-section { padding: 120px 0; background-color: #ffffff; }
+.bridge-text { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.3; text-align: center; max-width: 900px; margin: 0 auto; color: #222222; }
+.bridge-text strong { font-weight: 600; }
 @media (max-width: 768px) {
-    .bridge-section {
-        padding: 80px 0;
-    }
-
-    .bridge-text {
-        font-size: 24px;
-        line-height: 1.4; /* Slightly looser on mobile for readability */
-    }
+    .bridge-section { padding: 80px 0; }
+    .bridge-text { font-size: 24px; line-height: 1.4; }
 }
-
-    /* THIS IS THE KEY: We "hide" the line break tags on mobile */
-    .bridge-text br {
-        display: none;
-    }
-
 
 /* --- PORTFOLIO GRID SECTION --- */
-.portfolio-grid-section {
-    padding: 80px 40px; /* Reduced top/bottom padding for a tighter layout */
-    box-sizing: border-box;
-}
-.portfolio-grid-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
-
-.grid-item {
-    display: block;
-    text-decoration: none;
-    color: #222;
-    position: relative;
-    overflow: hidden;
-}
-
-.grid-item-image {
-    aspect-ratio: 8 / 10.8; /* The taller aspect ratio */
-    overflow: hidden;
-}
-
-.grid-item-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    will-change: transform;
-}
-
-.grid-item:hover .grid-item-image img {
-    transform: scale(1.1);
-}
-
-.grid-item-caption {
-    display: flex;
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid #e0e0e0;
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.caption-title {
-    display: flex;
-    align-items: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.caption-year {
-    font-weight: normal;
-    color: #888;
-    margin-left: auto;
-    padding-left: 10px;
-}
-
-
-/* --- RESPONSIVE MEDIA QUERIES FOR PORTFOLIO --- */
-
-/* For TABLETS (screens between 601px and 1024px) */
+.portfolio-grid-section { padding: 80px 40px; box-sizing: border-box; }
+.portfolio-grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.grid-item { display: block; text-decoration: none; color: #222; position: relative; overflow: hidden; }
+.grid-item-image { aspect-ratio: 8 / 10.8; overflow: hidden; }
+.grid-item-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: transform; }
+.grid-item:hover .grid-item-image img { transform: scale(1.1); }
+.grid-item-caption { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #e0e0e0; font-weight: bold; white-space: nowrap; overflow: hidden; }
+.caption-title { display: flex; align-items: center; text-overflow: ellipsis; overflow: hidden; }
+.caption-year { font-weight: normal; color: #888; margin-left: auto; padding-left: 10px; }
 @media (max-width: 1024px) {
-    .grid-item-caption {
-        font-size: 0.8em;
-    }
+    .grid-item-caption { font-size: 0.8em; }
 }
-
-/* For MOBILE (screens 600px or narrower) */
 @media (max-width: 600px) {
-    .portfolio-grid-section {
-        padding: 60px 20px;
-    }
-    /* ... other rules ... */
+    .portfolio-grid-section { padding: 60px 20px; }
+    .portfolio-grid-container { grid-template-columns: 1fr; gap: 40px; }
+    .grid-item.rellax { transform: translate(0) !important; }
 }
-    /* ... other rules ... */
-
-
-    .portfolio-grid-container {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-
-    .grid-item.rellax {
-        transform: translate(0) !important;
-    }
-
 
 /* --- FOOTER --- */
 footer { text-align: center; padding: 20px; background-color: #f7f7f7; color: #555; }
@@ -410,44 +195,7 @@ footer { text-align: center; padding: 20px; background-color: #f7f7f7; color: #5
 .lightbox-video { width: 100%; height: 100%; display: block; }
 .lightbox-close { position: absolute; top: -40px; right: 0; background: none; border: none; color: #ffffff; font-size: 3em; font-weight: 100; cursor: pointer; line-height: 1; }
 
-/* --- CUSTOM CURSOR STYLES --- */
-
-/* This is the style for our custom cursor element */
-.custom-cursor {
-    position: fixed; /* Keeps it on the screen even when scrolling */
-    top: 0;
-    left: 0;
-    z-index: 1100; /* A very high number to ensure it's on top of everything */
-    
-    /* The look: a black circle */
-    width: 80px;
-    height: 80px;
-    background-color: #000000;
-    color: #ffffff;
-    border-radius: 50%;
-    
-    /* This centers the "View" text inside the circle */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    
-    /* Default state: it's hidden, scaled down, and can't be clicked */
-    opacity: 0;
-    transform: scale(0.5) translate(20px, -50%);
-    transform-origin: 0 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-/* This is the ACTIVE state. We trigger it with JavaScript. */
-body.cursor-hover .custom-cursor {
-    opacity: 1;
-    transform: scale(1) translate(20px, -50%); /* Added 20px horizontal offset */
-}
-
-
-/* When the cursor is active, this rule hides the default system cursor */
-body.cursor-hover {
-    cursor: none;
-}
+/* --- CUSTOM CURSOR STYLES (HOMEPAGE ONLY) --- */
+.homepage .custom-cursor { position: fixed; top: 0; left: 0; z-index: 1100; width: 80px; height: 80px; background-color: #000000; color: #ffffff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; opacity: 0; transform: scale(0.5) translate(20px, -50%); transform-origin: 0 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; }
+.homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
+.homepage.cursor-hover { cursor: none; }
