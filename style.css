@@ -183,22 +183,29 @@ header {
     .portfolio-grid-container { grid-template-columns: 1fr; gap: 40px; }
     .grid-item.rellax { transform: translate(0) !important; }
 }
-/* --- BUTTON STYLES --- */
+/* --- BUTTON STYLES & CTA CONTAINER --- */
 
-/* This is the BASE style for all outline buttons (shape, font, etc.) */
+/* This container handles the spacing and centering for the "More Work" button */
+.portfolio-cta-container {
+    /* Increased space: you will need to scroll significantly more to see the button */
+    padding-top: 500px; 
+    text-align: center; /* This correctly centers the button */
+}
+
+/* This is the BASE style that applies to ALL outline buttons */
 .button-outline {
     display: inline-block;
     font-family: 'Inter', sans-serif;
-    font-weight: 600;
+    font-weight: 600; /* SemiBold */
     font-size: 18px;
     margin-top: 40px;
     padding: 12px 24px;
-    border: 1px solid; /* Border color will be set by the modifier */
+    border: 1px solid; /* The specific color will be set by the class below */
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
-/* This is the MODIFIER for the LIGHT button (white on dark) */
+/* This is the MODIFIER for the LIGHT button (white text/border on dark backgrounds) */
 .button-light {
     border-color: #e0e0e0;
     color: #e0e0e0;
@@ -208,7 +215,7 @@ header {
     color: #000000;
 }
 
-/* This is the MODIFIER for the DARK button (black on white) */
+/* This is the MODIFIER for the DARK button (black text/border on light backgrounds) */
 .button-dark {
     border-color: #222222;
     color: #222222;
