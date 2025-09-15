@@ -146,7 +146,7 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 /* --- CONTACT PAGE STYLES (FINAL REFINED VERSION) --- */
 .contact-page .contact-page-main { display: flex; align-items: center; min-height: 100vh; padding: 120px 40px; box-sizing: border-box; }
 .contact-layout-container { width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 100px; align-items: start; }
-.contact-intro h1 { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 2.2rem; line-height: 1.4; margin: 0 0 40px 0; }
+.contact-intro h1 { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 2.2rem; line-height: 1.2; margin: 0 0 40px 0; }
 .contact-intro h1 strong { font-weight: 600; }
 .contact-details { display: flex; gap: 40px; }
 .contact-detail-item { display: flex; flex-direction: column; }
