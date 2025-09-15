@@ -187,7 +187,7 @@ header {
 
 /* This container handles the spacing and centering for the "More Work" button */
 .portfolio-cta-container {
-    padding-top: 350px; /* Brought 30% closer */
+    padding-top: 250px; /* Brought 30% closer */
     text-align: center;
 }
 
