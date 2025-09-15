@@ -184,17 +184,109 @@ footer {
 .homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
 .homepage.cursor-hover { cursor: none; }
 
-/* --- CONTACT PAGE STYLES --- */
-.contact-page .contact-page-main { padding-top: 150px; padding-bottom: 100px; background-color: #ffffff; }
-.contact-page .contact-content { max-width: 700px; margin: 0 auto; text-align: left; }
-.contact-page .contact-headline { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 600; margin-bottom: 1rem; }
-.contact-page .contact-subheadline { font-size: 1.1em; line-height: 1.6; color: #555; margin-bottom: 50px; max-width: 500px; }
-.contact-page .contact-form { text-align: left; }
-.contact-page .form-group { margin-bottom: 25px; }
-.contact-page .form-group label { display: block; margin-bottom: 8px; font-weight: 400; font-size: 1em; color: #333; }
-.contact-page .form-group input,
-.contact-page .form-group textarea { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 1em; background-color: #f9f9f9; }
-.contact-page .form-group input:focus,
-.contact-page .form-group textarea:focus { outline: none; border-color: #222; background-color: #fff; }
-.contact-page .button-submit { display: inline-block; width: 100%; padding: 16px 32px; border: none; border-radius: 4px; background-color: #222; color: #fff; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 18px; text-align: center; cursor: pointer; transition: background-color 0.3s ease; }
-.contact-page .button-submit:hover { background-color: #555; }
+/* --- CONTACT PAGE STYLES (NEW 2025 DESIGN) --- */
+.contact-page .contact-page-main {
+    display: flex;
+    align-items: center;
+    min-height: 100vh; /* Makes the section take up the full screen height */
+    padding: 120px 40px; /* Top/bottom and side padding */
+    box-sizing: border-box;
+}
+
+.contact-grid-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Creates the two equal columns */
+    gap: 100px; /* Space between the two columns */
+    align-items: flex-start;
+}
+
+.contact-intro h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300; /* Light */
+    font-size: 2.5rem;
+    line-height: 1.4;
+    margin: 0 0 40px 0;
+}
+
+.contact-intro h1 strong {
+    font-weight: 600; /* SemiBold */
+}
+
+.contact-details p {
+    margin: 0 0 10px 0;
+    color: #555;
+}
+
+.contact-details a {
+    color: #222;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-details a:hover {
+    color: #888;
+}
+
+
+/* --- New Form Styles --- */
+.contact-form label {
+    display: block;
+    font-weight: 600; /* SemiBold */
+    font-size: 0.8rem;
+    color: #888;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.contact-form .form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    background-color: transparent;
+    transition: border-color 0.3s ease;
+}
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: #aaa;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-bottom-color: #222;
+}
+
+.contact-form .button-outline {
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+/* --- Responsive Styles for Contact Page --- */
+@media (max-width: 900px) {
+    .contact-grid-container {
+        grid-template-columns: 1fr; /* Stack into a single column on mobile */
+        gap: 60px;
+    }
+    .contact-intro {
+        text-align: center;
+    }
+    .contact-details {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+    }
+}
