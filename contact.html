@@ -35,15 +35,15 @@
         <div class="contact-layout-container">
             <!-- Column 1: Intro Text -->
             <div class="contact-intro">
-                <h1>READY TO<br>TALK BUSINESS?</h1>
+                <h1>Your next film project starts here — <strong>drop me a message</strong> and let's make it happen.</h1>
                 <div class="contact-details">
                     <div class="contact-detail-item">
-                        <span>ADDRESS</span>
-                        <p>22 Ross Street<br>Newstead, Qld 4006<br>Australia</p>
+                        <span>Email:</span>
+                        <a href="mailto:ash@amixmotion.com">ash@amixmotion.com</a>
                     </div>
                     <div class="contact-detail-item">
-                        <span>GENERAL</span>
-                        <a href="mailto:info@groundcrew.com.au">info@groundcrew.com.au</a>
+                        <span>Call:</span>
+                        <a href="tel:+447442582531">+44 (0) 7442 582531</a>
                     </div>
                 </div>
             </div>
@@ -51,46 +51,17 @@
             <!-- Column 2: Form -->
             <div class="contact-form-container">
                 <form class="contact-form" action="https://formspree.io/f/mjkezjao" method="POST">
-                    <!-- Name & Email Row -->
-                    <div class="form-row">
-                        <div class="form-group"><label for="name">NAME*</label><input type="text" id="name" name="Name" placeholder="Full Name"></div>
-                        <div class="form-group"><label for="email">EMAIL*</label><input type="email" id="email" name="Email" placeholder="name@website.com.au"></div>
+                    <div class="form-group-cluster">
+                        <label>YOUR DETAILS</label>
+                        <input type="text" name="Full Name" placeholder="Full Name" required>
+                        <input type="tel" name="Phone Number" placeholder="Phone Number" required>
+                        <input type="email" name="Email Address" placeholder="Email Address" required>
                     </div>
-                    <!-- Phone & Business Row -->
-                    <div class="form-row">
-                        <div class="form-group"><label for="phone">PHONE*</label><input type="tel" id="phone" name="Phone" placeholder="04.."></div>
-                        <div class="form-group"><label for="business">BUSINESS NAME*</label><input type="text" id="business" name="Business Name"></div>
+                    <div class="form-group-cluster">
+                        <label>YOUR MESSAGE</label>
+                        <textarea name="Message" rows="8" required></textarea>
                     </div>
-
-                    <!-- Services Checkboxes -->
-                    <div class="form-group">
-                        <label>SERVICES REQUIRED*</label>
-                        <div class="services-grid">
-                            <div class="checkbox-group"><input type="checkbox" id="branding" name="services[]" value="Branding"><label for="branding">Branding</label></div>
-                            <div class="checkbox-group"><input type="checkbox" id="web-design" name="services[]" value="Website Design"><label for="web-design">Website Design</label></div>
-                            <div class="checkbox-group"><input type="checkbox" id="web-dev" name="services[]" value="Website Development"><label for="web-dev">Website Development</label></div>
-                            <div class="checkbox-group"><input type="checkbox" id="graphic-design" name="services[]" value="Graphic Design"><label for="graphic-design">Graphic Design</label></div>
-                            <div class="checkbox-group"><input type="checkbox" id="app-design" name="services[]" value="App Design"><label for="app-design">App Design</label></div>
-                            <div class="checkbox-group"><input type="checkbox" id="ai-content" name="services[]" value="AI Content"><label for="ai-content">AI Content</label></div>
-                            <div class="checkbox-group"><input type="checkbox" id="creative-direction" name="services[]" value="Creative Direction"><label for="creative-direction">Creative Direction</label></div>
-                            <div class="checkbox-group"><input type="checkbox" id="animation" name="services[]" value="3D and Animation"><label for="animation">3D and Animation</label></div>
-                            <div class="checkbox-group"><input type="checkbox" id="seo" name="services[]" value="SEO"><label for="seo">SEO</label></div>
-                            <div class="checkbox-group"><input type="checkbox" id="other" name="services[]" value="Other"><label for="other">Other</label></div>
-                        </div>
-                    </div>
-
-                    <!-- Budget Radio Buttons -->
-                    <div class="form-group">
-                        <label>WHAT'S YOUR BUDGET*</label>
-                        <div class="budget-options">
-                            <div class="radio-group"><input type="radio" id="budget1" name="budget" value="15k+"><label for="budget1">$15k+</label></div>
-                            <div class="radio-group"><input type="radio" id="budget2" name="budget" value="30k+"><label for="budget2">$30k+</label></div>
-                            <div class="radio-group"><input type="radio" id="budget3" name="budget" value="60k+"><label for="budget3">$60k+</label></div>
-                            <div class="radio-group"><input type="radio" id="budget4" name="budget" value="90k+"><label for="budget4">$90k+</label></div>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="button-submit-dark">SUBMIT</button>
+                    <button type="submit" class="button-outline button-dark">SUBMIT</button>
                 </form>
             </div>
         </div>
