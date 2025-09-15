@@ -115,7 +115,7 @@ header {
 .button-outline { display: inline-block; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 18px; margin-top: 40px; padding: 16px 32px; border: 1px solid; text-decoration: none; transition: all 0.3s ease; }
 .button-light { border-color: #e0e0e0; color: #e0e0e0; }
 .button-light:hover { background-color: #e0e0e0; color: #000000; }
-.button-dark { border-color: #222222; color: #222222; }
+.button-dark { border-color: #222222; color: #222222; background-color: transparent; } /* Ensure no fill */
 .button-dark:hover { background-color: #222222; color: #ffffff; }
 
 /* --- FOOTER --- */
@@ -144,83 +144,21 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 .homepage.cursor-hover { cursor: none; }
 
 /* --- CONTACT PAGE STYLES (FINAL REFINED VERSION) --- */
-.contact-page {
-    background-color: #ffffff;
-    color: #222222;
-}
-.contact-page .contact-page-main {
-    display: flex;
-    align-items: center;
-    min-height: 100vh;
-    padding: 120px 40px;
-    box-sizing: border-box;
-}
-
-.contact-layout-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 100px;
-    /* THIS IS THE FIX: Aligns the top of the text with the top of the form label */
-    align-items: start; 
-}
-
-.contact-intro h1 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: 2.2rem;
-    line-height: 1.4; /* THIS IS THE FIX: Matched to the mission statement */
-    margin: 0 0 40px 0;
-}
-
-.contact-intro h1 strong {
-    font-weight: 600;
-}
-
+.contact-page .contact-page-main { display: flex; align-items: center; min-height: 100vh; padding: 120px 40px; box-sizing: border-box; }
+.contact-layout-container { width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 100px; align-items: start; }
+.contact-intro h1 { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 2.2rem; line-height: 1.4; margin: 0 0 40px 0; }
+.contact-intro h1 strong { font-weight: 600; }
 .contact-details { display: flex; gap: 40px; }
 .contact-detail-item { display: flex; flex-direction: column; }
 .contact-detail-item span { font-size: 0.9rem; color: #888; margin-bottom: 5px; }
 .contact-detail-item a { color: #222; text-decoration: none; font-weight: 400; }
-
-/* --- Corrected Form Styles --- */
 .form-group-cluster { margin-bottom: 40px; }
-
-.form-group-cluster label {
-    display: block;
-    font-family: 'Inter', sans-serif;
-    font-weight: 300; /* Light */
-    font-size: 0.8rem;
-    color: #888;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
-
-.form-group-cluster input,
-.form-group-cluster textarea {
-    display: block; width: 100%; margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 1rem; background-color: #f9f9f9;
-}
-
-.form-group-cluster input:focus,
-.form-group-cluster textarea:focus {
-    outline: none; border-color: #222;
-}
-
-/* THIS IS THE FIX: The submit button now uses the correct shared button style */
-.contact-form .button-outline { 
-    width: 100%; 
-    margin-top: 10px; 
-}
-
-
-/* --- Responsive Styles for Contact Page --- */
+.form-group-cluster label { display: block; font-family: 'Inter', sans-serif; font-weight: 300; font-size: 0.8rem; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
+.form-group-cluster input, .form-group-cluster textarea { display: block; width: 100%; margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 1rem; background-color: #f9f9f9; }
+.form-group-cluster input:focus, .form-group-cluster textarea:focus { outline: none; border-color: #222; }
+.contact-form .button-outline { width: 100%; margin-top: 10px; }
 @media (max-width: 900px) {
-    .contact-layout-container {
-        grid-template-columns: 1fr;
-        gap: 80px;
-    }
+    .contact-layout-container { grid-template-columns: 1fr; gap: 80px; }
     .contact-intro { text-align: center; align-items: center; }
     .contact-details { flex-direction: column; gap: 20px; }
 }
