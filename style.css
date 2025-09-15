@@ -184,36 +184,41 @@ footer {
 .homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
 .homepage.cursor-hover { cursor: none; }
 
-/* --- CONTACT PAGE STYLES (FINAL 2025 DESIGN) --- */
+/* --- CONTACT PAGE STYLES (FINAL ANCHORED DESIGN) --- */
 .contact-page .contact-page-main {
     display: flex;
     align-items: center;
-    min-height: calc(100vh - 100px); /* Full screen height minus some padding */
-    padding: 120px 40px;
+    min-height: 100vh;
     box-sizing: border-box;
+    /* We remove padding from the main container to allow edge anchoring */
 }
 
-.contact-grid-container {
-    max-width: 1200px;
-    margin: 0 auto;
+/* This is the new layout container that manages the anchored columns */
+.contact-layout-container {
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 100px;
-    align-items: start; /* Aligns items to the top */
+    max-width: 1400px; /* A wider max-width for the content */
+    margin: 0 auto;
+    padding: 0 40px; /* This creates the outer screen padding */
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between; /* This pushes the two columns apart */
+    align-items: flex-start;
+    gap: 40px;
 }
 
 .contact-intro {
-    /* This anchors the left column's content to its own top */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    width: 45%; /* Assign a width to the left column */
+}
+
+.contact-form-container {
+    width: 45%; /* Assign a width to the right column */
 }
 
 .contact-intro h1 {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
-    font-size: 2.2rem; /* Adjusted for realism from image */
+    font-size: 2.2rem;
     line-height: 1.4;
     margin: 0 0 40px 0;
 }
@@ -224,34 +229,20 @@ footer {
 
 .contact-details {
     display: flex;
-    gap: 40px; /* Space between Email and Call */
+    gap: 40px;
 }
 
-.contact-detail-item {
-    display: flex;
-    flex-direction: column;
-}
+.contact-detail-item { display: flex; flex-direction: column; }
+.contact-detail-item span { font-size: 0.9rem; color: #888; margin-bottom: 5px; }
+.contact-detail-item a { color: #222; text-decoration: none; font-weight: 400; }
 
-.contact-detail-item span {
-    font-size: 0.9rem;
-    color: #888;
-    margin-bottom: 5px;
-}
-
-.contact-detail-item a {
-    color: #222;
-    text-decoration: none;
-    font-weight: 400;
-}
-
-/* --- New, Corrected Form Styles --- */
-.form-group-cluster {
-    margin-bottom: 40px;
-}
+/* --- Corrected Form Styles --- */
+.form-group-cluster { margin-bottom: 40px; }
 
 .form-group-cluster label {
     display: block;
-    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300; /* THIS IS THE FIX: Changed to Light */
     font-size: 0.8rem;
     color: #888;
     letter-spacing: 1px;
@@ -261,42 +252,27 @@ footer {
 
 .form-group-cluster input,
 .form-group-cluster textarea {
-    display: block;
-    width: 100%;
-    margin-bottom: 15px; /* Space between input boxes */
-    padding: 15px; /* Padding inside the box */
-    border: 1px solid #ddd; /* The visible box border */
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    background-color: #f9f9f9;
+    display: block; width: 100%; margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 1rem; background-color: #f9f9f9;
 }
 
 .form-group-cluster input:focus,
 .form-group-cluster textarea:focus {
-    outline: none;
-    border-color: #222;
+    outline: none; border-color: #222;
 }
 
-.contact-form .button-outline {
-    width: 100%;
-    margin-top: 10px;
-}
+.contact-form .button-outline { width: 100%; margin-top: 10px; }
 
 
 /* --- Responsive Styles for Contact Page --- */
 @media (max-width: 900px) {
-    .contact-grid-container {
-        grid-template-columns: 1fr;
+    .contact-layout-container {
+        flex-direction: column; /* Stack columns on mobile */
         gap: 80px;
     }
-    .contact-intro {
-        text-align: center;
-        align-items: center;
+    .contact-intro,
+    .contact-form-container {
+        width: 100%; /* Make each column full-width */
     }
-    .contact-details {
-        flex-direction: column;
-        gap: 20px;
-    }
+    .contact-intro { text-align: center; align-items: center; }
+    .contact-details { flex-direction: column; gap: 20px; }
 }
