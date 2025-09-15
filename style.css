@@ -265,14 +265,40 @@ footer {
 
 /* --- Responsive Styles for Contact Page --- */
 @media (max-width: 900px) {
+    /* Main Layout: Stack the intro and form columns */
     .contact-layout-container {
-        flex-direction: column; /* Stack columns on mobile */
+        flex-direction: column;
         gap: 80px;
     }
+
     .contact-intro,
     .contact-form-container {
-        width: 100%; /* Make each column full-width */
+        width: 100%; /* Make each column take up the full width */
     }
-    .contact-intro { text-align: center; align-items: center; }
-    .contact-details { flex-direction: column; gap: 20px; }
+
+    .contact-intro {
+        text-align: center;
+        align-items: center;
+    }
+
+    .contact-details {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Form Layout: Stack the multi-column form fields */
+    .form-row {
+        flex-direction: column;
+        gap: 0; /* Remove the horizontal gap */
+    }
+
+    .form-row .form-group {
+        width: 100%; /* Make each field full-width */
+        margin-bottom: 20px; /* Add space between stacked fields */
+    }
+
+    /* Services Grid: Stack the checkboxes */
+    .services-grid {
+        grid-template-columns: 1fr; /* Switch from 2 columns to 1 */
+    }
 }
