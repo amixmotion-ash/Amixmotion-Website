@@ -184,12 +184,12 @@ footer {
 .homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
 .homepage.cursor-hover { cursor: none; }
 
-/* --- CONTACT PAGE STYLES (NEW 2025 DESIGN) --- */
+/* --- CONTACT PAGE STYLES (FINAL 2025 DESIGN) --- */
 .contact-page .contact-page-main {
     display: flex;
     align-items: center;
-    min-height: 100vh; /* Makes the section take up the full screen height */
-    padding: 120px 40px; /* Top/bottom and side padding */
+    min-height: calc(100vh - 100px); /* Full screen height minus some padding */
+    padding: 120px 40px;
     box-sizing: border-box;
 }
 
@@ -198,43 +198,60 @@ footer {
     margin: 0 auto;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Creates the two equal columns */
-    gap: 100px; /* Space between the two columns */
-    align-items: flex-start;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 100px;
+    align-items: start; /* Aligns items to the top */
+}
+
+.contact-intro {
+    /* This anchors the left column's content to its own top */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .contact-intro h1 {
     font-family: 'Inter', sans-serif;
-    font-weight: 300; /* Light */
-    font-size: 2.5rem;
+    font-weight: 300;
+    font-size: 2.2rem; /* Adjusted for realism from image */
     line-height: 1.4;
     margin: 0 0 40px 0;
 }
 
 .contact-intro h1 strong {
-    font-weight: 600; /* SemiBold */
+    font-weight: 600;
 }
 
-.contact-details p {
-    margin: 0 0 10px 0;
-    color: #555;
+.contact-details {
+    display: flex;
+    gap: 40px; /* Space between Email and Call */
 }
 
-.contact-details a {
+.contact-detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-detail-item span {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.contact-detail-item a {
     color: #222;
     text-decoration: none;
-    transition: color 0.3s ease;
+    font-weight: 400;
 }
 
-.contact-details a:hover {
-    color: #888;
+/* --- New, Corrected Form Styles --- */
+.form-group-cluster {
+    margin-bottom: 40px;
 }
 
-
-/* --- New Form Styles --- */
-.contact-form label {
+.form-group-cluster label {
     display: block;
-    font-weight: 600; /* SemiBold */
+    font-weight: 600;
     font-size: 0.8rem;
     color: #888;
     letter-spacing: 1px;
@@ -242,51 +259,44 @@ footer {
     text-transform: uppercase;
 }
 
-.contact-form .form-group {
-    margin-bottom: 20px;
-}
-
-.contact-form input,
-.contact-form textarea {
+.form-group-cluster input,
+.form-group-cluster textarea {
+    display: block;
     width: 100%;
-    padding: 12px 0;
-    border: none;
-    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px; /* Space between input boxes */
+    padding: 15px; /* Padding inside the box */
+    border: 1px solid #ddd; /* The visible box border */
+    border-radius: 4px;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
-    background-color: transparent;
-    transition: border-color 0.3s ease;
-}
-.contact-form input::placeholder,
-.contact-form textarea::placeholder {
-    color: #aaa;
+    background-color: #f9f9f9;
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
+.form-group-cluster input:focus,
+.form-group-cluster textarea:focus {
     outline: none;
-    border-bottom-color: #222;
+    border-color: #222;
 }
 
 .contact-form .button-outline {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 
 /* --- Responsive Styles for Contact Page --- */
 @media (max-width: 900px) {
     .contact-grid-container {
-        grid-template-columns: 1fr; /* Stack into a single column on mobile */
-        gap: 60px;
+        grid-template-columns: 1fr;
+        gap: 80px;
     }
     .contact-intro {
         text-align: center;
+        align-items: center;
     }
     .contact-details {
-        display: flex;
-        justify-content: center;
-        gap: 30px;
+        flex-direction: column;
+        gap: 20px;
     }
 }
