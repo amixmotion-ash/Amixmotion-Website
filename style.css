@@ -187,7 +187,7 @@ header {
 
 /* This container handles the spacing and centering for the "More Work" button */
 .portfolio-cta-container {
-    padding-top: 200px; /* Brought 30% closer */
+    padding-top: 170px; /* Brought 30% closer */
     text-align: center;
 }
 
@@ -198,7 +198,7 @@ header {
     font-weight: 600; /* SemiBold */
     font-size: 18px;
     margin-top: 40px;
-    padding: 16px 32px; /* Increased vertical and horizontal padding */
+    padding: 16px 50px; /* Increased vertical and horizontal padding */
     border: 1px solid; /* The specific color will be set by the class below */
     text-decoration: none;
     transition: all 0.3s ease;
