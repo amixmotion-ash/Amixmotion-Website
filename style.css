@@ -47,10 +47,34 @@ header {
 .homepage.body-no-scroll header .nav-toggle,
 .homepage.body-no-scroll header .desktop-nav a { color: #222222; }
 .homepage.body-no-scroll header .logo img,
-.homepage header.header-scrolled .logo img { filter: invert(1); }
-.homepage header.header-scrolled .nav-toggle,
-.homepage header.header-scrolled .desktop-nav a { color: #222222; }
-/* --- New Styles for Hiding Logo on Scroll --- */
+/* --- Content-Aware Header Theme Styles --- */
+
+/* Default state (over hero video) is white text, white logo */
+.homepage header .nav-toggle,
+.homepage header .desktop-nav a {
+    color: #ffffff;
+}
+.homepage header .logo img {
+    filter: none; /* No filter means the white logo is shown */
+}
+
+/* Theme for when header is over a LIGHT section */
+.homepage header.header-theme-light .nav-toggle,
+.homepage header.header-theme-light .desktop-nav a {
+    color: #222222; /* Black text */
+}
+.homepage header.header-theme-light .logo img {
+    filter: invert(1); /* Inverts the white logo to black */
+}
+
+/* Theme for when header is over a DARK section */
+.homepage header.header-theme-dark .nav-toggle,
+.homepage header.header-theme-dark .desktop-nav a {
+    color: #ffffff; /* White text */
+}
+.homepage header.header-theme-dark .logo img {
+    filter: none; /* No filter, keeping the logo white */
+}
 
 /* First, we tell the logo it should be ready to animate its opacity smoothly */
 .homepage .logo {

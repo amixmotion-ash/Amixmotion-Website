@@ -15,17 +15,29 @@ if (navToggle && mainNav && body) {
     });
 }
 
-// --- Header Color Change on Scroll ---
+// --- Content-Aware Header Theme Changer ---
+
 const header = document.querySelector('header');
-if (header) {
-    const scrollThreshold = window.innerHeight * 0.9;
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > scrollThreshold) {
-            header.classList.add('header-scrolled');
-        } else {
-            header.classList.remove('header-scrolled');
-        }
+// Select all sections that have our new data-attribute
+const sections = document.querySelectorAll('[data-header-theme]');
+
+if (header && sections.length > 0) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const theme = entry.target.dataset.headerTheme;
+                // Add the new theme class and remove the old ones
+                header.classList.remove('header-theme-light', 'header-theme-dark');
+                header.classList.add(`header-theme-${theme}`);
+            }
+        });
+    }, {
+        // This makes the "intersection point" the top 10% of the screen, where the header lives
+        rootMargin: "-90% 0px 0px 0px",
+        threshold: 0
     });
+
+    sections.forEach(section => observer.observe(section));
 }
 
 // --- Animation Trigger on Scroll for Mission Section ---
