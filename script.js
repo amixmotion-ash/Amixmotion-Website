@@ -119,3 +119,21 @@ if (bodyForCursor && bodyForCursor.classList.contains('homepage')) {
         });
     }
 }
+// --- Animation Trigger for Testimonials Section ---
+
+const testimonialsSection = document.querySelector('.testimonials-section');
+
+if (testimonialsSection) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target); // Stop observing once animated
+            }
+        });
+    }, {
+        threshold: 0.2 // Trigger when 20% of the section is visible
+    });
+
+    observer.observe(testimonialsSection);
+}
