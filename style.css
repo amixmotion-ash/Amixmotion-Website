@@ -131,7 +131,7 @@ header {
     padding: 0 40px;
     box-sizing: border-box;
     margin-bottom: 60px;
-    /* The text will be centered by default in this container */
+    text-align: left; /* This is the new line that fixes the alignment */
 }
 
 .testimonials-header .pre-title {
