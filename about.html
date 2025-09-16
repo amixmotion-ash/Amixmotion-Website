@@ -9,55 +9,62 @@
 <body class="about-page">
 
     <header>
-        <!-- ... your header code ... -->
+        <button class="nav-toggle" aria-label="toggle navigation">
+            MENU
+        </button>
+        <div class="logo">
+            <a href="index.html"><img src="logo.png" alt="Amixmotion Logo"></a>
+        </div>
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="portfolio.html">WORK +</a></li>
+            </ul>
+        </nav>
     </header>
 
     <nav class="main-nav">
-        <!-- ... your menu code ... -->
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
     </nav>
 
     <main class="about-page-main">
-        <!-- Top Section with Headline -->
         <section class="about-hero">
-           
-                <h1>GREAT FILM IS MORE THAN<br>JUST VISUALS</h1>
-            </div>
+            <h1>GREAT FILM IS MORE THAN<br>JUST VISUALS</h1>
         </section>
 
-        <!-- Services & Mission Section -->
         <section class="about-details">
-            
-                <div class="details-grid">
-                    <div class="detail-item">
-                        <h3>Filming & Production</h3>
-                        <ul>
-                            <li>Creative consultation</li>
-                            <li>Capture high quality video</li>
-                            <li>Angle/composition guidance</li>
-                            <li>Single or dual camera setups</li>
-                        </ul>
-                    </div>
-                    <div class="detail-item">
-                        <h3>Editing & Post-Production</h3>
-                        <ul>
-                            <li>Polished editing techniques</li>
-                            <li>Colour Grading</li>
-                            <li>Sound Design</li>
-                        </ul>
-                    </div>
-<div class="detail-item">
-    <p>From first shot to final edit, I focus on<br>
-    making your vision a reality. Quality<br>
-    visuals, seamless service, <strong>every time.</strong></p>
-</div>
+            <div class="details-grid">
+                <div class="detail-item">
+                    <h3>Filming & Production</h3>
+                    <ul>
+                        <li>Creative consultation</li>
+                        <li>Capture high quality video</li>
+                        <li>Angle/composition guidance</li>
+                        <li>Single or dual camera setups</li>
+                    </ul>
+                </div>
+                <div class="detail-item">
+                    <h3>Editing & Post-Production</h3>
+                    <ul>
+                        <li>Polished editing techniques</li>
+                        <li>Colour Grading</li>
+                        <li>Sound Design</li>
+                    </ul>
+                </div>
+                <div class="detail-item">
+                    <p>From first shot to final edit, I focus on<br>
+                    making your vision a reality. Quality<br>
+                    visuals, seamless service, <strong>every time.</strong></p>
                 </div>
             </div>
         </section>
 
-        <!-- Image Carousel Section -->
         <section class="image-carousel-section">
             <div class="image-carousel-track">
-                <!-- Add your image paths here. I've used placeholders. -->
                 <div class="carousel-image"><img src="images/carousel-1.jpg" alt="Behind the scenes 1"></div>
                 <div class="carousel-image"><img src="images/carousel-2.jpg" alt="Behind the scenes 2"></div>
                 <div class="carousel-image"><img src="images/carousel-3.jpg" alt="Behind the scenes 3"></div>
@@ -68,7 +75,27 @@
     </main>
 
     <footer>
-        <!-- ... your footer code ... -->
+        <div class="footer-container">
+            <div class="footer-column footer-cta">
+                <h2>LET'S WORK TOGETHER</h2>
+                <a href="contact.html" class="button-outline button-light">CONTACT</a>
+            </div>
+            <div class="footer-column">
+                <h3>NAVIGATION</h3>
+                <ul>
+                    <li><a href="portfolio.html">WORK</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>EMAIL</h3>
+                <a href="mailto:ash@amixmotion.com">ash@amixmotion.com</a>
+            </div>
+            <div class="footer-column">
+                <h3>SOCIALS</h3>
+                <a href="https://www.instagram.com/amixmotion/" target="_blank" rel="noopener noreferrer" class="social-link">@amixmotion</a>
+            </div>
+        </div>
     </footer>
 
     <script src="script.js"></script>
