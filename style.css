@@ -37,6 +37,10 @@ header {
 .homepage header .desktop-nav a {
     color: #ffffff;
 }
+/* --- Style for logo on non-homepage pages --- */
+.contact-page header .logo img {
+    filter: invert(1); /* Inverts the white logo to make it black */
+}
 .nav-toggle { grid-column: 1 / 2; justify-self: start; font-size: 1em; font-weight: bold; color: #222; background: none; border: none; cursor: pointer; transition: color 0.3s ease; }
 .logo { grid-column: 2 / 3; text-align: center; }
 .logo a { text-decoration: none; }
