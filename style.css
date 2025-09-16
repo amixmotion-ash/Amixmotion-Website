@@ -118,17 +118,20 @@ header {
 .button-dark { border-color: #222222; color: #222222; background-color: transparent; } /* Ensure no fill */
 .button-dark:hover { background-color: #222222; color: #ffffff; }
 
-/* --- TESTIMONIALS SECTION (FINAL, SIMPLE & CORRECT) --- */
+/* --- TESTIMONIALS SECTION (STABLE REVERTED VERSION) --- */
 .testimonials-section {
     padding: 120px 0;
     background-color: #f2f2f2;
     overflow-x: hidden;
 }
 
-/* The header is now naturally aligned by its parent .container */
 .testimonials-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    box-sizing: border-box;
     margin-bottom: 60px;
-    /* We DON'T need text-align: left, as that is the default */
+    /* The text will be centered by default in this container */
 }
 
 .testimonials-header .pre-title {
@@ -149,15 +152,10 @@ header {
     color: #222;
 }
 
-/* The scroller is now inside the .container */
 .testimonials-scroller {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    
-    /* THIS IS THE KEY: A negative margin makes it "break out" to the screen edges */
-    margin-left: -40px;
-    margin-right: -40px;
 }
 .testimonials-scroller::-webkit-scrollbar { display: none; }
 
@@ -165,10 +163,8 @@ header {
     display: flex;
     gap: 30px;
     width: max-content;
-    /* We add the padding back here to align the first card */
     padding: 20px 40px;
     
-    /* Animation styles */
     opacity: 0;
     transform: translateX(200px);
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
@@ -197,6 +193,7 @@ header {
 /* --- Click and Drag Styles --- */
 .draggable { cursor: grab; user-select: none; }
 .draggable.is-dragging { cursor: grabbing; }
+
 /* --- FOOTER --- */
 footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-family: 'Inter', sans-serif; }
 .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
