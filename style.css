@@ -222,9 +222,11 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 }
 .details-grid {
     display: grid;
-    /* This allows three equal, flexible columns */
-    grid-template-columns: repeat(3, 1fr);
+    /* First two columns get 1 part, third column gets 2 parts */
+    grid-template-columns: 1fr 1fr 2fr;
     gap: 20px;
+
+
     /* This is the key: we cap the total width of the grid */
     max-width: 1300px; 
 }
