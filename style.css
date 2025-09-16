@@ -244,9 +244,9 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
     color: #aaa;
 }
 .detail-item p {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     line-height: 1.3;
-    font-weight: 200;
+    font-weight: 100;
     margin: 0;
 }
 .detail-item p strong {
