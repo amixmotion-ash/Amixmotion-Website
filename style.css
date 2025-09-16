@@ -118,24 +118,15 @@ header {
 .button-dark { border-color: #222222; color: #222222; background-color: transparent; } /* Ensure no fill */
 .button-dark:hover { background-color: #222222; color: #ffffff; }
 
-/* --- TESTIMONIALS SECTION (CORRECTED ALIGNMENT) --- */
+/* --- TESTIMONIALS SECTION (FINAL, CORRECTED VERSION) --- */
 .testimonials-section {
     padding: 120px 0;
     background-color: #f2f2f2;
     overflow-x: hidden;
 }
 
-/* This new container is the key to the alignment */
-.testimonials-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    /* We use padding on the container to define the left edge */
-    padding: 0 40px;
-    box-sizing: border-box;
-}
-
+/* The header is now inside a standard .container, so it aligns perfectly */
 .testimonials-header {
-    /* The header no longer needs its own max-width or padding */
     margin-bottom: 60px;
 }
 
@@ -157,12 +148,11 @@ header {
     color: #222;
 }
 
+/* The scroller is now full-width */
 .testimonials-scroller {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    /* A negative margin pulls the scroller to align with the container's edge */
-    margin: 0 -40px; /* This should match the container's side padding */
 }
 .testimonials-scroller::-webkit-scrollbar {
     display: none;
@@ -172,24 +162,39 @@ header {
     display: flex;
     gap: 30px;
     width: max-content;
-    /* This adds the padding back to the track itself */
-    padding: 20px 40px 40px; /* Top, sides, bottom */
+    /* THIS IS THE KEY: We use padding to align the first card with the header */
+    padding: 0 40px;
+    box-sizing: border-box;
     
+    /* Animation styles */
     opacity: 0;
     transform: translateX(200px);
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
-/* ... the rest of your testimonial card and animation styles remain the same ... */
+.testimonials-section.is-visible .testimonials-track {
+    opacity: 1;
+    transform: translateX(0);
+}
 
-/* --- Click and Drag Styles for Scroller --- */
-.draggable {
-    cursor: grab;
-    user-select: none;
+.testimonial-card {
+    flex-shrink: 0;
+    width: 350px;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
 }
-.draggable.is-dragging {
-    cursor: grabbing;
-}
+
+.testimonial-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; }
+.testimonial-quote { font-size: 1.1em; line-height: 1.6; margin: 0; flex-grow: 1; }
+.testimonial-author { font-size: 0.9em; font-weight: 600; color: #888; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; }
+
+/* --- Click and Drag Styles --- */
+.draggable { cursor: grab; user-select: none; }
+.draggable.is-dragging { cursor: grabbing; }
 /* --- FOOTER --- */
 footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-family: 'Inter', sans-serif; }
 .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
