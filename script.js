@@ -15,41 +15,18 @@ if (navToggle && mainNav && body) {
     });
 }
 
-// --- Advanced Header Styling on Scroll (FINAL, CORRECTED LOGIC) ---
+// --- Simple Header Scroll Logic (STABLE VERSION) ---
 const header = document.querySelector('header');
-const firstLightSection = document.querySelector('.bridge-section');
-
-// We only run this code on the homepage
-if (header && firstLightSection && body.classList.contains('homepage')) {
-    
-    // THIS IS THE KEY: We wait for the entire page to load before we take measurements
-    window.addEventListener('load', () => {
-        
-        // 1. Now that the page is loaded, our measurements are guaranteed to be accurate
-        const heroEndTrigger = window.innerHeight * 0.9;
-        const textColorTrigger = firstLightSection.offsetTop;
-
-        // 2. Listen for a 'scroll' event
-        window.addEventListener('scroll', () => {
-            const scrollPosition = window.scrollY;
-
-            // 3. Logic for the LOGO
-            if (scrollPosition > heroEndTrigger) {
-                header.classList.add('logo-is-hidden');
-            } else {
-                header.classList.remove('logo-is-hidden');
-            }
-
-            // 4. Logic for the TEXT COLOR
-            if (scrollPosition > textColorTrigger - 50) { // Using a 50px offset for a smooth transition
-                header.classList.add('text-is-dark');
-            } else {
-                header.classList.remove('text-is-dark');
-            }
-        });
+if (header && body.classList.contains('homepage')) {
+    const scrollThreshold = window.innerHeight * 0.9;
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > scrollThreshold) {
+            header.classList.add('header-scrolled');
+        } else {
+            header.classList.remove('header-scrolled');
+        }
     });
 }
-
 
 // --- Animation Trigger for Mission Section ---
 const animatedSection = document.querySelector('.mission-section');
@@ -65,14 +42,107 @@ if (animatedSection) {
     observer.observe(animatedSection);
 }
 
+// --- Animation Trigger for Testimonials Section ---
+const testimonialsSection = document.querySelector('.testimonials-section');
+if (testimonialsSection) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    observer.observe(testimonialsSection);
+}
+
 // --- Video Lightbox Functionality ---
-// (Your existing, working lightbox code goes here)
+const lightbox = document.querySelector('.video-lightbox');
+if (lightbox) {
+    const lightboxVideo = lightbox.querySelector('.lightbox-video');
+    const closeButton = lightbox.querySelector('.lightbox-close');
+    const portfolioItems = document.querySelectorAll('.grid-item');
+    function openLightbox(videoSrc) {
+        if (videoSrc) {
+            lightboxVideo.src = videoSrc;
+            lightbox.classList.add('is-visible');
+        }
+    }
+    function closeLightbox() {
+        lightbox.classList.remove('is-visible');
+        lightboxVideo.pause();
+        lightboxVideo.src = '';
+    }
+    portfolioItems.forEach(item => {
+        item.addEventListener('click', (event) => {
+            event.preventDefault();
+            const videoSrc = item.dataset.videoSrc;
+            if (videoSrc) {
+                openLightbox(videoSrc);
+            }
+        });
+    });
+    closeButton.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) {
+            closeLightbox();
+        }
+    });
+}
 
 // --- Rellax Parallax Functionality ---
-// (Your existing, working Rellax code goes here)
+if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
+    var rellax = new Rellax('.rellax', {
+        center: true
+    });
+}
 
-// --- Custom Cursor Functionality ---
-// (Your existing, working custom cursor code goes here)
+// --- Custom Cursor Functionality (Homepage Only) ---
+const bodyForCursor = document.querySelector('body');
+if (bodyForCursor && bodyForCursor.classList.contains('homepage')) {
+    const customCursor = document.querySelector('.custom-cursor');
+    const portfolioItemsForCursor = document.querySelectorAll('.portfolio-grid-section .grid-item');
+    if (customCursor && portfolioItemsForCursor.length > 0) {
+        window.addEventListener('mousemove', (e) => {
+            customCursor.style.left = e.clientX + 'px';
+            customCursor.style.top = e.clientY + 'px';
+        });
+        portfolioItemsForCursor.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                bodyForCursor.classList.add('cursor-hover');
+            });
+            item.addEventListener('mouseleave', () => {
+                bodyForCursor.classList.remove('cursor-hover');
+            });
+        });
+    }
+}
 
-// --- Click and Drag Testimonials ---
-// (Your existing, working click-and-drag code goes here)
+// --- Click and Drag Functionality for Testimonials Scroller ---
+const slider = document.querySelector('.testimonials-scroller.draggable');
+if (slider) {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.classList.add('is-dragging');
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    });
+    slider.addEventListener('mouseleave', () => {
+        isDown = false;
+        slider.classList.remove('is-dragging');
+    });
+    slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.classList.remove('is-dragging');
+    });
+    slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 2;
+        slider.scrollLeft = scrollLeft - walk;
+    });
+}
