@@ -223,7 +223,7 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 .details-grid {
     display: grid;
     /* First two columns get 1 part, third column gets 2 parts */
-    grid-template-columns: 1fr 1fr 2.5fr;
+    grid-template-columns: 1.5fr 1.5fr 2.5fr;
     gap: 40px;
 
 
