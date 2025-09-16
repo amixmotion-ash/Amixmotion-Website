@@ -179,3 +179,88 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
     .contact-intro { text-align: center; align-items: center; }
     .contact-details { flex-direction: column; gap: 20px; }
 }
+/* --- ABOUT PAGE STYLES --- */
+.about-page-main {
+    padding-top: 120px; /* Space below the fixed header */
+}
+
+/* --- About Hero Section --- */
+.about-hero {
+    padding: 80px 0;
+    text-align: left;
+}
+.about-hero h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900; /* Extra-Bold */
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    line-height: 1.1;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* --- About Details Section --- */
+.about-details {
+    padding: 80px 0;
+    background-color: #000000;
+    color: #ffffff;
+}
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr; /* Three columns, last is wider */
+    gap: 40px;
+}
+.detail-item h3 {
+    font-weight: 600; /* SemiBold */
+    font-size: 1.2rem;
+    margin: 0 0 20px 0;
+}
+.detail-item ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 1.8;
+    color: #aaa;
+}
+.detail-item p {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    font-weight: 300; /* Light */
+    margin: 0;
+}
+.detail-item p strong {
+    font-weight: 600; /* SemiBold */
+}
+
+/* --- Image Carousel Section --- */
+.image-carousel-section {
+    padding: 80px 0;
+    overflow: hidden; /* This is crucial for the seamless loop */
+}
+.image-carousel-track {
+    display: flex;
+    width: max-content;
+    animation: image-scroll 60s linear infinite;
+}
+@keyframes image-scroll {
+    from { transform: translateX(0%); }
+    to { transform: translateX(-50%); }
+}
+.carousel-image {
+    flex-shrink: 0;
+    width: 500px; /* Adjust width as needed */
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+.carousel-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px; /* Slightly rounded corners */
+}
+
+/* --- Responsive Styles for About Page --- */
+@media (max-width: 900px) {
+    .details-grid {
+        grid-template-columns: 1fr; /* Stack on mobile */
+    }
+}
