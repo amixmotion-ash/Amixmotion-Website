@@ -206,9 +206,11 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 }
 .details-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 350px));
-    gap: 20px; /* Halved the gap for a tighter layout */
-    justify-content: start; 
+    /* This allows three equal, flexible columns */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    /* This is the key: we cap the total width of the grid */
+    max-width: 1120px; 
 }
 
 .detail-item h3 {
