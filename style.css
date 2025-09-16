@@ -38,7 +38,7 @@ header {
     color: #ffffff;
 }
 .nav-toggle { grid-column: 1 / 2; justify-self: start; font-size: 1em; font-weight: bold; color: #222; background: none; border: none; cursor: pointer; transition: color 0.3s ease; }
-.logo { grid-column: 2 / 3; text-align: center; transition: opacity 0.3s ease; }
+.logo { grid-column: 2 / 3; text-align: center; }
 .logo a { text-decoration: none; }
 .logo img { height: 50px; width: auto; display: block; }
 .desktop-nav { grid-column: 3 / 4; justify-self: end; }
@@ -47,16 +47,6 @@ header {
 .homepage.body-no-scroll header .nav-toggle,
 .homepage.body-no-scroll header .desktop-nav a { color: #222222; }
 .homepage.body-no-scroll header .logo img { filter: invert(1); }
-
-/* --- Simple Header Scroll Styles (STABLE VERSION) --- */
-.homepage header.header-scrolled .nav-toggle,
-.homepage header.header-scrolled .desktop-nav a {
-    color: #222222;
-}
-.homepage header.header-scrolled .logo {
-    opacity: 0;
-    pointer-events: none;
-}
 
 /* --- FULL-SCREEN OVERLAY MENU --- */
 .main-nav { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 800; display: flex; justify-content: center; align-items: center; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease-in-out; }
@@ -75,7 +65,7 @@ header {
 /* --- MISSION SECTION --- */
 .mission-section { padding: 160px 0; background-color: #000000; color: #e0e0e0; }
 .mission-grid { display: grid; grid-template-columns: 300px 1fr; gap: 60px; align-items: center; }
-.mission-image { width: 300px; height: 300px; border-radius: 50%; overflow: hidden; margin: 0; }
+.mission-image { width: 300px; height: 300px; border-radius: 50%; overflow: hidden; }
 .mission-image img { width: 100%; height: 100%; object-fit: cover; }
 .mission-text { display: flex; flex-direction: column; align-items: flex-start; }
 .mission-text .pre-title { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 18px; color: #888; margin: 0 0 15px 0; }
@@ -124,6 +114,22 @@ header {
 .button-light:hover { background-color: #e0e0e0; color: #000000; }
 .button-dark { border-color: #222222; color: #222222; background-color: transparent; }
 .button-dark:hover { background-color: #222222; color: #ffffff; }
+
+/* --- TESTIMONIALS SECTION --- */
+.testimonials-section { padding: 120px 0; background-color: #f2f2f2; overflow-x: hidden; }
+.testimonials-header { max-width: 1200px; margin: 0 auto 60px auto; padding: 0 40px; box-sizing: border-box; text-align: left; }
+.testimonials-header .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
+.testimonials-header h2 { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 3rem; line-height: 1.2; margin: 0; color: #222; }
+.testimonials-scroller { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.testimonials-scroller::-webkit-scrollbar { display: none; }
+.testimonials-track { display: flex; gap: 30px; width: max-content; padding: 20px 40px; opacity: 0; transform: translateX(200px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+.testimonials-section.is-visible .testimonials-track { opacity: 1; transform: translateX(0); }
+.testimonial-card { flex-shrink: 0; width: 350px; background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+.testimonial-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; }
+.testimonial-quote { font-size: 1.1em; line-height: 1.6; margin: 0; flex-grow: 1; }
+.testimonial-author { font-size: 0.9em; font-weight: 600; color: #888; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; }
+.draggable { cursor: grab; user-select: none; }
+.draggable.is-dragging { cursor: grabbing; }
 
 /* --- FOOTER --- */
 footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-family: 'Inter', sans-serif; }
