@@ -50,6 +50,21 @@ header {
 .homepage header.header-scrolled .logo img { filter: invert(1); }
 .homepage header.header-scrolled .nav-toggle,
 .homepage header.header-scrolled .desktop-nav a { color: #222222; }
+/* --- New Styles for Hiding Logo on Scroll --- */
+
+/* First, we tell the logo it should be ready to animate its opacity smoothly */
+.homepage .logo {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* 
+   Then, we define the "scrolled" state. This rule says:
+   On the homepage, when the header has the 'header-scrolled' class,
+   make the logo completely transparent.
+*/
+.homepage header.header-scrolled .logo {
+    opacity: 0;
+}
 
 /* --- FULL-SCREEN OVERLAY MENU --- */
 .main-nav { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 800; display: flex; justify-content: center; align-items: center; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease-in-out; }
