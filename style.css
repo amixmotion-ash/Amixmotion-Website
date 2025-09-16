@@ -46,71 +46,24 @@ header {
 .desktop-nav a { color: #222; text-decoration: none; font-weight: bold; transition: color 0.3s ease; }
 .homepage.body-no-scroll header .nav-toggle,
 .homepage.body-no-scroll header .desktop-nav a { color: #222222; }
-.homepage.body-no-scroll header .logo img,
-/* --- Content-Aware Header Theme Styles --- */
+.homepage.body-no-scroll header .logo img { filter: invert(1); }
 
-/* Default state (over hero video) is white text, white logo */
-.homepage header .nav-toggle,
-.homepage header .desktop-nav a {
-    color: #ffffff;
-}
-.homepage header .logo img {
-    filter: none; /* No filter means the white logo is shown */
-}
-
-/* --- New Advanced Header Scroll Styles --- */
-
-/* Add smooth transitions to the logo and text */
+/* --- Advanced Header Scroll Styles (FINAL VERSION) --- */
 .homepage .logo,
 .homepage .nav-toggle,
 .homepage .desktop-nav a {
-    transition: opacity 0.3s ease, color 0.3s ease;
+    transition: opacity 0.3s ease, color 0.3s ease, filter 0.3s ease;
 }
-
-/* This rule hides the logo when the 'logo-is-hidden' class is present */
 .homepage header.logo-is-hidden .logo {
     opacity: 0;
-    pointer-events: none; /* Prevents clicking the invisible logo */
+    pointer-events: none;
 }
-
-/* 
-   This rule makes the text black ONLY when the 'text-is-dark' class is present.
-   By default (over the hero and the mission section), the text will remain white.
-*/
 .homepage header.text-is-dark .nav-toggle,
 .homepage header.text-is-dark .desktop-nav a {
-    color: #222222; /* Black text */
+    color: #222222;
 }
-
-/* This rule makes the LOGO's space (which is now empty) black as well */
 .homepage header.text-is-dark .logo img {
     filter: invert(1);
-}
-.homepage header.header-theme-light .logo img {
-    filter: invert(1); /* Inverts the white logo to black */
-}
-
-/* Theme for when header is over a DARK section */
-.homepage header.header-theme-dark .nav-toggle,
-.homepage header.header-theme-dark .desktop-nav a {
-    color: #ffffff; /* White text */
-}
-.homepage header.header-theme-dark .logo img {
-    filter: none; /* No filter, keeping the logo white */
-}
-
-/* First, we tell the logo it should be ready to animate its opacity smoothly */
-.homepage .logo {
-    transition: opacity 0.3s ease-in-out;
-}
-
-/* 
-   Then, we define the "scrolled" state. This rule says:
-   On the homepage, when the header has the 'header-scrolled' class,
-   make the logo completely transparent.
-*/
-.homepage header.header-scrolled .logo {
-    opacity: 0;
 }
 
 /* --- FULL-SCREEN OVERLAY MENU --- */
@@ -177,84 +130,8 @@ header {
 .button-outline { display: inline-block; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 18px; margin-top: 40px; padding: 16px 32px; border: 1px solid; text-decoration: none; transition: all 0.3s ease; }
 .button-light { border-color: #e0e0e0; color: #e0e0e0; }
 .button-light:hover { background-color: #e0e0e0; color: #000000; }
-.button-dark { border-color: #222222; color: #222222; background-color: transparent; } /* Ensure no fill */
+.button-dark { border-color: #222222; color: #222222; background-color: transparent; }
 .button-dark:hover { background-color: #222222; color: #ffffff; }
-
-/* --- TESTIMONIALS SECTION (STABLE REVERTED VERSION) --- */
-.testimonials-section {
-    padding: 120px 0;
-    background-color: #f2f2f2;
-    overflow-x: hidden;
-}
-
-.testimonials-header {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 40px;
-    box-sizing: border-box;
-    margin-bottom: 60px;
-    text-align: left; /* This is the new line that fixes the alignment */
-}
-
-.testimonials-header .pre-title {
-    font-size: 0.9em;
-    font-weight: 600;
-    color: #888;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-}
-
-.testimonials-header h2 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: 3rem;
-    line-height: 1.2;
-    margin: 0;
-    color: #222;
-}
-
-.testimonials-scroller {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-}
-.testimonials-scroller::-webkit-scrollbar { display: none; }
-
-.testimonials-track {
-    display: flex;
-    gap: 30px;
-    width: max-content;
-    padding: 20px 40px;
-    
-    opacity: 0;
-    transform: translateX(200px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.testimonials-section.is-visible .testimonials-track {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.testimonial-card {
-    flex-shrink: 0;
-    width: 350px;
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    display: flex;
-    flex-direction: column;
-}
-
-.testimonial-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; }
-.testimonial-quote { font-size: 1.1em; line-height: 1.6; margin: 0; flex-grow: 1; }
-.testimonial-author { font-size: 0.9em; font-weight: 600; color: #888; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; }
-
-/* --- Click and Drag Styles --- */
-.draggable { cursor: grab; user-select: none; }
-.draggable.is-dragging { cursor: grabbing; }
 
 /* --- FOOTER --- */
 footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-family: 'Inter', sans-serif; }
@@ -284,8 +161,7 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 /* --- CONTACT PAGE STYLES (FINAL REFINED VERSION) --- */
 .contact-page .contact-page-main { display: flex; align-items: center; min-height: 100vh; padding: 120px 40px; box-sizing: border-box; }
 .contact-layout-container { width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 100px; align-items: start; }
-.contact-intro h1 { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 2.2rem; line-height: 1.2; margin: 0 0 40px 0;position: relative; /* Allows us to move the element */
-    top: -15px; }
+.contact-intro h1 { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 2.2rem; line-height: 1.2; margin: 0 0 40px 0; position: relative; top: -15px; }
 .contact-intro h1 strong { font-weight: 600; }
 .contact-details { display: flex; gap: 40px; }
 .contact-detail-item { display: flex; flex-direction: column; }
