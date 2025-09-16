@@ -52,6 +52,22 @@ header {
 .homepage.body-no-scroll header .desktop-nav a { color: #222222; }
 .homepage.body-no-scroll header .logo img { filter: invert(1); }
 
+/* --- Styles for Header on Standard Pages (About, Portfolio, etc.) --- */
+
+/* This rule targets both the About and Contact pages */
+.about-page header .nav-toggle,
+.about-page header .desktop-nav a,
+.contact-page header .nav-toggle,
+.contact-page header .desktop-nav a {
+    color: #222222; /* Black text */
+}
+
+/* This rule makes the logo black on both the About and Contact pages */
+.about-page header .logo img,
+.contact-page header .logo img {
+    filter: invert(1);
+}
+
 /* --- FULL-SCREEN OVERLAY MENU --- */
 .main-nav { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 800; display: flex; justify-content: center; align-items: center; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease-in-out; }
 .main-nav.nav-open { opacity: 1; pointer-events: auto; }
