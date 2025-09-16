@@ -118,18 +118,17 @@ header {
 .button-dark { border-color: #222222; color: #222222; background-color: transparent; } /* Ensure no fill */
 .button-dark:hover { background-color: #222222; color: #ffffff; }
 
-/* --- TESTIMONIALS SECTION (FINAL, CORRECTED ALIGNMENT) --- */
+/* --- TESTIMONIALS SECTION (FINAL, SIMPLE & CORRECT) --- */
 .testimonials-section {
     padding: 120px 0;
     background-color: #f2f2f2;
     overflow-x: hidden;
 }
 
-/* The header lives inside a standard .container, which centers it */
+/* The header is now naturally aligned by its parent .container */
 .testimonials-header {
     margin-bottom: 60px;
-    /* THIS IS THE FIX: We override the centering for the text inside */
-    text-align: left;
+    /* We DON'T need text-align: left, as that is the default */
 }
 
 .testimonials-header .pre-title {
@@ -150,11 +149,15 @@ header {
     color: #222;
 }
 
-/* The scroller is full-width */
+/* The scroller is now inside the .container */
 .testimonials-scroller {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    
+    /* THIS IS THE KEY: A negative margin makes it "break out" to the screen edges */
+    margin-left: -40px;
+    margin-right: -40px;
 }
 .testimonials-scroller::-webkit-scrollbar { display: none; }
 
@@ -162,9 +165,8 @@ header {
     display: flex;
     gap: 30px;
     width: max-content;
-    /* We add padding to the left and right of the entire track */
+    /* We add the padding back here to align the first card */
     padding: 20px 40px;
-    box-sizing: border-box;
     
     /* Animation styles */
     opacity: 0;
