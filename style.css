@@ -179,19 +179,19 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
     .contact-intro { text-align: center; align-items: center; }
     .contact-details { flex-direction: column; gap: 20px; }
 }
-/* --- ABOUT PAGE STYLES --- */
+/* --- ABOUT PAGE STYLES (LEFT-ALIGNED) --- */
 .about-page-main {
-    padding-top: 120px; /* Space below the fixed header */
+    padding-top: 120px;
 }
 
 /* --- About Hero Section --- */
 .about-hero {
-    padding: 80px 0;
+    padding: 80px 40px; /* Added side padding */
     text-align: left;
 }
 .about-hero h1 {
     font-family: 'Inter', sans-serif;
-    font-weight: 900; /* Extra-Bold */
+    font-weight: 900;
     font-size: clamp(2.5rem, 8vw, 6rem);
     line-height: 1.1;
     margin: 0;
@@ -200,17 +200,17 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 
 /* --- About Details Section --- */
 .about-details {
-    padding: 80px 0;
+    padding: 80px 40px; /* Added side padding */
     background-color: #000000;
     color: #ffffff;
 }
 .details-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 2fr; /* Three columns, last is wider */
+    grid-template-columns: 1fr 1fr 2fr;
     gap: 40px;
 }
 .detail-item h3 {
-    font-weight: 600; /* SemiBold */
+    font-weight: 600;
     font-size: 1.2rem;
     margin: 0 0 20px 0;
 }
@@ -224,17 +224,17 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 .detail-item p {
     font-size: 1.5rem;
     line-height: 1.6;
-    font-weight: 300; /* Light */
+    font-weight: 300;
     margin: 0;
 }
 .detail-item p strong {
-    font-weight: 600; /* SemiBold */
+    font-weight: 600;
 }
 
 /* --- Image Carousel Section --- */
 .image-carousel-section {
-    padding: 80px 0;
-    overflow: hidden; /* This is crucial for the seamless loop */
+    padding: 80px 0; /* Vertical padding only, as it's full-width */
+    overflow: hidden;
 }
 .image-carousel-track {
     display: flex;
@@ -247,7 +247,7 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 }
 .carousel-image {
     flex-shrink: 0;
-    width: 500px; /* Adjust width as needed */
+    width: 500px;
     padding: 0 15px;
     box-sizing: border-box;
 }
@@ -255,12 +255,12 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 8px; /* Slightly rounded corners */
+    border-radius: 8px;
 }
 
 /* --- Responsive Styles for About Page --- */
 @media (max-width: 900px) {
     .details-grid {
-        grid-template-columns: 1fr; /* Stack on mobile */
+        grid-template-columns: 1fr;
     }
 }
