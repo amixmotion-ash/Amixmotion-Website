@@ -15,36 +15,39 @@ if (navToggle && mainNav && body) {
     });
 }
 
-// --- Advanced Header Styling on Scroll ---
+// --- Advanced Header Styling on Scroll (Corrected Logic) ---
 
 const header = document.querySelector('header');
-const missionSection = document.querySelector('.mission-section');
+// Find the section that comes AFTER the dark mission section
+const firstLightSection = document.querySelector('.bridge-section');
 
-// We only run this code on the homepage, which has a mission section
-if (header && missionSection) {
-    // 1. Calculate the two important scroll positions
-    const heroEnd = window.innerHeight * 0.9; // 90% of the screen height
-    const missionEnd = missionSection.offsetTop + missionSection.offsetHeight;
+// We only run this code on the homepage
+if (header && firstLightSection) {
+    // 1. Calculate the two important scroll trigger points
+    const heroEndTrigger = window.innerHeight * 0.9; // When to hide the logo
+    // This is the key: the trigger for the text color change is the TOP of the bridge section
+    const textColorTrigger = firstLightSection.offsetTop;
 
     // 2. Listen for a 'scroll' event
     window.addEventListener('scroll', () => {
         const scrollPosition = window.scrollY;
 
         // 3. Logic for the LOGO
-        if (scrollPosition > heroEnd) {
-            // If we've scrolled past the hero, add a class to hide the logo
+        if (scrollPosition > heroEndTrigger) {
+            // If we've scrolled past the hero, hide the logo
             header.classList.add('logo-is-hidden');
         } else {
-            // Otherwise, remove the class to show it
+            // Otherwise, show it
             header.classList.remove('logo-is-hidden');
         }
 
-        // 4. Logic for the TEXT COLOR
-        if (scrollPosition > missionEnd) {
-            // If we've scrolled PAST the entire black mission section, make text black
+        // 4. Logic for the TEXT COLOR (Corrected)
+        // We add a small offset (e.g., 50px) so the change doesn't happen too early
+        if (scrollPosition > textColorTrigger - 50) {
+            // If we have reached the top of the first WHITE section, make the text black
             header.classList.add('text-is-dark');
         } else {
-            // Otherwise, keep the text white (default state)
+            // Otherwise, keep the text white (over the hero and mission sections)
             header.classList.remove('text-is-dark');
         }
     });
