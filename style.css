@@ -228,7 +228,7 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 
 
     /* This is the key: we cap the total width of the grid */
-    max-width: 1200px; 
+    max-width: 1300px; 
 }
 
 .detail-item h3 {
