@@ -251,10 +251,10 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
     font-weight: 600;
 }
 
-/* --- Image Carousel Section --- */
 .image-carousel-section {
-    padding: 80px 0; /* Vertical padding only, as it's full-width */
+    padding: 80px 0;
     overflow: hidden;
+    background-color: #000000; /* This adds the black background */
 }
 .image-carousel-track {
     display: flex;
@@ -268,7 +268,7 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 .carousel-image {
     flex-shrink: 0;
     width: 500px;
-    padding: 0 15px;
+    padding: 0 5px;
     box-sizing: border-box;
 }
 .carousel-image img {
