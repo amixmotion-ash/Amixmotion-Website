@@ -58,10 +58,33 @@ header {
     filter: none; /* No filter means the white logo is shown */
 }
 
-/* Theme for when header is over a LIGHT section */
-.homepage header.header-theme-light .nav-toggle,
-.homepage header.header-theme-light .desktop-nav a {
+/* --- New Advanced Header Scroll Styles --- */
+
+/* Add smooth transitions to the logo and text */
+.homepage .logo,
+.homepage .nav-toggle,
+.homepage .desktop-nav a {
+    transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+/* This rule hides the logo when the 'logo-is-hidden' class is present */
+.homepage header.logo-is-hidden .logo {
+    opacity: 0;
+    pointer-events: none; /* Prevents clicking the invisible logo */
+}
+
+/* 
+   This rule makes the text black ONLY when the 'text-is-dark' class is present.
+   By default (over the hero and the mission section), the text will remain white.
+*/
+.homepage header.text-is-dark .nav-toggle,
+.homepage header.text-is-dark .desktop-nav a {
     color: #222222; /* Black text */
+}
+
+/* This rule makes the LOGO's space (which is now empty) black as well */
+.homepage header.text-is-dark .logo img {
+    filter: invert(1);
 }
 .homepage header.header-theme-light .logo img {
     filter: invert(1); /* Inverts the white logo to black */

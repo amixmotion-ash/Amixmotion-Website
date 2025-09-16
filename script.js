@@ -15,29 +15,39 @@ if (navToggle && mainNav && body) {
     });
 }
 
-// --- Content-Aware Header Theme Changer ---
+// --- Advanced Header Styling on Scroll ---
 
 const header = document.querySelector('header');
-// Select all sections that have our new data-attribute
-const sections = document.querySelectorAll('[data-header-theme]');
+const missionSection = document.querySelector('.mission-section');
 
-if (header && sections.length > 0) {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const theme = entry.target.dataset.headerTheme;
-                // Add the new theme class and remove the old ones
-                header.classList.remove('header-theme-light', 'header-theme-dark');
-                header.classList.add(`header-theme-${theme}`);
-            }
-        });
-    }, {
-        // This makes the "intersection point" the top 10% of the screen, where the header lives
-        rootMargin: "-90% 0px 0px 0px",
-        threshold: 0
+// We only run this code on the homepage, which has a mission section
+if (header && missionSection) {
+    // 1. Calculate the two important scroll positions
+    const heroEnd = window.innerHeight * 0.9; // 90% of the screen height
+    const missionEnd = missionSection.offsetTop + missionSection.offsetHeight;
+
+    // 2. Listen for a 'scroll' event
+    window.addEventListener('scroll', () => {
+        const scrollPosition = window.scrollY;
+
+        // 3. Logic for the LOGO
+        if (scrollPosition > heroEnd) {
+            // If we've scrolled past the hero, add a class to hide the logo
+            header.classList.add('logo-is-hidden');
+        } else {
+            // Otherwise, remove the class to show it
+            header.classList.remove('logo-is-hidden');
+        }
+
+        // 4. Logic for the TEXT COLOR
+        if (scrollPosition > missionEnd) {
+            // If we've scrolled PAST the entire black mission section, make text black
+            header.classList.add('text-is-dark');
+        } else {
+            // Otherwise, keep the text white (default state)
+            header.classList.remove('text-is-dark');
+        }
     });
-
-    sections.forEach(section => observer.observe(section));
 }
 
 // --- Animation Trigger on Scroll for Mission Section ---
