@@ -118,20 +118,18 @@ header {
 .button-dark { border-color: #222222; color: #222222; background-color: transparent; } /* Ensure no fill */
 .button-dark:hover { background-color: #222222; color: #ffffff; }
 
-/* --- TESTIMONIALS SECTION (FINAL, SIMPLE & CORRECT) --- */
+/* --- TESTIMONIALS SECTION (FINAL, CORRECTED ALIGNMENT) --- */
 .testimonials-section {
     padding: 120px 0;
     background-color: #f2f2f2;
     overflow-x: hidden;
 }
 
-/* We simply don't center the header. We let it sit in the container. */
+/* The header lives inside a standard .container, which centers it */
 .testimonials-header {
-    max-width: 1200px;
-    margin: 0 auto; /* This centers the container for the header */
-    padding: 0 40px; /* This creates the left-side padding */
-    box-sizing: border-box;
     margin-bottom: 60px;
+    /* THIS IS THE FIX: We override the centering for the text inside */
+    text-align: left;
 }
 
 .testimonials-header .pre-title {
@@ -152,6 +150,7 @@ header {
     color: #222;
 }
 
+/* The scroller is full-width */
 .testimonials-scroller {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -163,20 +162,14 @@ header {
     display: flex;
     gap: 30px;
     width: max-content;
-    /* THIS IS THE KEY: We add left padding equal to the header's padding */
-    padding-left: calc((100vw - 1200px) / 2 + 40px);
-    padding-right: 40px;
+    /* We add padding to the left and right of the entire track */
+    padding: 20px 40px;
+    box-sizing: border-box;
     
+    /* Animation styles */
     opacity: 0;
     transform: translateX(200px);
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-/* This handles screens smaller than the max-width */
-@media (max-width: 1280px) {
-    .testimonials-track {
-        padding-left: 40px;
-    }
 }
 
 .testimonials-section.is-visible .testimonials-track {
@@ -185,8 +178,16 @@ header {
 }
 
 .testimonial-card {
-    flex-shrink: 0; width: 350px; background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column;
+    flex-shrink: 0;
+    width: 350px;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
 }
+
 .testimonial-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; }
 .testimonial-quote { font-size: 1.1em; line-height: 1.6; margin: 0; flex-grow: 1; }
 .testimonial-author { font-size: 0.9em; font-weight: 600; color: #888; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; }
