@@ -213,6 +213,15 @@ header {
     padding-top: 20px;
     border-top: 1px solid #eee;
 }
+/* --- Click and Drag Styles for Scroller --- */
+.draggable {
+    cursor: grab; /* Shows an open hand cursor */
+    user-select: none; /* Prevents text from being selected when dragging */
+}
+
+.draggable.is-dragging {
+    cursor: grabbing; /* Shows a closed hand cursor while dragging */
+}
 
 /* --- FOOTER --- */
 footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-family: 'Inter', sans-serif; }

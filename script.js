@@ -137,3 +137,37 @@ if (testimonialsSection) {
 
     observer.observe(testimonialsSection);
 }
+// --- Click and Drag Functionality for Testimonials Scroller ---
+
+const slider = document.querySelector('.testimonials-scroller.draggable');
+
+if (slider) {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.classList.add('is-dragging');
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    });
+
+    slider.addEventListener('mouseleave', () => {
+        isDown = false;
+        slider.classList.remove('is-dragging');
+    });
+
+    slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.classList.remove('is-dragging');
+    });
+
+    slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return; // Stop the function from running if mouse is not down
+        e.preventDefault(); // Prevent default actions like text selection
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 2; // The '2' is a multiplier for faster scrolling
+        slider.scrollLeft = scrollLeft - walk;
+    });
+}
