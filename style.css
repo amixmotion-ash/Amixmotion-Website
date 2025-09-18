@@ -37,12 +37,8 @@ header {
 .homepage header .desktop-nav a {
     color: #ffffff;
 }
-/* --- Style for logo on non-homepage pages --- */
-.contact-page header .logo img {
-    filter: invert(1); /* Inverts the white logo to make it black */
-}
 .nav-toggle { grid-column: 1 / 2; justify-self: start; font-size: 1em; font-weight: bold; color: #222; background: none; border: none; cursor: pointer; transition: color 0.3s ease; }
-.logo { grid-column: 2 / 3; text-align: center; }
+.logo { grid-column: 2 / 3; text-align: center; transition: opacity 0.3s ease; }
 .logo a { text-decoration: none; }
 .logo img { height: 50px; width: auto; display: block; }
 .desktop-nav { grid-column: 3 / 4; justify-self: end; }
@@ -52,20 +48,14 @@ header {
 .homepage.body-no-scroll header .desktop-nav a { color: #222222; }
 .homepage.body-no-scroll header .logo img { filter: invert(1); }
 
-/* --- Styles for Header on Standard Pages (About, Portfolio, etc.) --- */
-
-/* This rule targets both the About and Contact pages */
-.about-page header .nav-toggle,
-.about-page header .desktop-nav a,
-.contact-page header .nav-toggle,
-.contact-page header .desktop-nav a {
-    color: #222222; /* Black text */
+/* --- Simple Header Scroll Logic (STABLE VERSION) --- */
+.homepage header.header-scrolled .nav-toggle,
+.homepage header.header-scrolled .desktop-nav a {
+    color: #222222;
 }
-
-/* This rule makes the logo black on both the About and Contact pages */
-.about-page header .logo img,
-.contact-page header .logo img {
-    filter: invert(1);
+.homepage header.header-scrolled .logo {
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* --- FULL-SCREEN OVERLAY MENU --- */
@@ -75,57 +65,9 @@ header {
 .main-nav li { margin-bottom: 2rem; }
 .main-nav a { color: #222222; text-decoration: none; font-size: clamp(2rem, 8vw, 4rem); font-weight: bold; }
 
-/* --- HERO CONTENT STYLES (FINAL, VERTICALLY CENTERED) --- */
-
-.hero-content {
-    /* This makes the container a flexible box that fills the parent */
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* THIS IS THE KEY: Vertically centers the content */
-    
-    /* Positioning and Sizing */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    padding: 0 40px; /* Adds the left and right padding */
-    z-index: 2;
-    
-    /* Text alignment within the block */
-    text-align: left;
-}
-
-.hero-content h1 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2.5rem, 7vw, 5.5rem);
-    color: #ffffff;
-    line-height: 1.0;
-    margin: 0 0 30px 0;
-    text-transform: uppercase;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
-    white-space: nowrap; /* Prevents unwanted line breaks */
-}
-
-.hero-content .button-outline {
-    margin-top: 0;
-    /* This ensures the button doesn't stretch to full width */
-    width: fit-content; 
-}
-
-/* --- Responsive Styles for Hero Content --- */
-@media (max-width: 768px) {
-    .hero-content {
-        padding: 0 20px; /* Reduce padding on mobile */
-    }
-
-    .hero-content h1 {
-        font-size: clamp(2rem, 10vw, 3.5rem);
-        white-space: normal; /* Allow text to wrap on mobile */
-    }
-}
+/* --- HERO VIDEO SECTION --- */
+.hero-video { height: 100vh; position: -webkit-sticky; position: sticky; top: 0; z-index: 1; }
+#bgvideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
 
 /* --- SCROLLING CONTENT WRAPPER --- */
 .scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; }
@@ -133,7 +75,7 @@ header {
 /* --- MISSION SECTION --- */
 .mission-section { padding: 160px 0; background-color: #000000; color: #e0e0e0; }
 .mission-grid { display: grid; grid-template-columns: 300px 1fr; gap: 60px; align-items: center; }
-.mission-image { width: 300px; height: 300px; border-radius: 50%; overflow: hidden; }
+.mission-image { width: 300px; height: 300px; border-radius: 50%; overflow: hidden; margin: 0; }
 .mission-image img { width: 100%; height: 100%; object-fit: cover; }
 .mission-text { display: flex; flex-direction: column; align-items: flex-start; }
 .mission-text .pre-title { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 18px; color: #888; margin: 0 0 15px 0; }
@@ -242,95 +184,4 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
     .contact-layout-container { grid-template-columns: 1fr; gap: 80px; }
     .contact-intro { text-align: center; align-items: center; }
     .contact-details { flex-direction: column; gap: 20px; }
-}
-/* --- ABOUT PAGE STYLES (LEFT-ALIGNED) --- */
-.about-page-main {
-    padding-top: 120px;
-}
-
-/* --- About Hero Section --- */
-.about-hero {
-    padding: 80px 40px; /* Added side padding */
-    text-align: left;
-}
-.about-hero h1 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2.5rem, 8vw, 6rem);
-    line-height: 0.9;
-    margin: 0;
-    text-transform: uppercase;
-}
-
-/* --- About Details Section --- */
-.about-details {
-    padding: 60px 40px; /* Reduced top/bottom padding */
-    background-color: #000000;
-    color: #ffffff;
-}
-.details-grid {
-    display: grid;
-    /* First two columns get 1 part, third column gets 2 parts */
-    grid-template-columns: 1.5fr 1.5fr 2.5fr;
-    gap: 40px;
-
-
-    /* This is the key: we cap the total width of the grid */
-    max-width: 1300px; 
-}
-
-.detail-item h3 {
-    font-weight: 600;
-    font-size: 1.2rem;
-    margin: 0 0 20px 0;
-}
-.detail-item ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    line-height: 1.8;
-    color: #ffffff;
-}
-.detail-item p {
-    font-size: 1.9rem;
-    line-height: 1.3;
-    font-weight: 100;
-    margin: 0;
-}
-.detail-item p strong {
-    font-weight: 600;
-}
-
-.image-carousel-section {
-    padding: 0 0 80px 0; /* Top padding remains 0 */
-    overflow: hidden;
-    background-color: #000000;
-}
-.image-carousel-track {
-    display: flex;
-    width: max-content;
-    animation: image-scroll 60s linear infinite;
-}
-@keyframes image-scroll {
-    from { transform: translateX(0%); }
-    to { transform: translateX(-50%); }
-}
-.carousel-image {
-    flex-shrink: 0;
-    width: 500px;
-    padding: 0 10px;
-    box-sizing: border-box;
-}
-.carousel-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 8px;
-}
-
-/* --- Responsive Styles for About Page --- */
-@media (max-width: 900px) {
-    .details-grid {
-        grid-template-columns: 1fr;
-    }
 }
