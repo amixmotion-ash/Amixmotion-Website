@@ -89,7 +89,7 @@ header {
     
     /* Layout */
     text-align: left;
-    max-width: 600px; /* Prevents text from getting too wide */
+
 }
 
 .hero-content h1 {
@@ -101,7 +101,7 @@ header {
     margin: 0 0 30px 0; /* Space between headline and button */
     text-transform: uppercase;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); /* For readability */
-    white-space: normal; 
+
 }
 
 /* This targets the button inside the hero specifically */
