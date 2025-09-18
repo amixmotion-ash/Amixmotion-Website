@@ -65,9 +65,59 @@ header {
 .main-nav li { margin-bottom: 2rem; }
 .main-nav a { color: #222222; text-decoration: none; font-size: clamp(2rem, 8vw, 4rem); font-weight: bold; }
 
-/* --- HERO VIDEO SECTION --- */
-.hero-video { height: 100vh; position: -webkit-sticky; position: sticky; top: 0; z-index: 1; }
-#bgvideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+/* --- HERO VIDEO SECTION (STABLE) --- */
+.hero-video {
+    height: 100vh;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1; /* This is the bottom layer */
+}
+#bgvideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This will now work correctly */
+}
+
+/* --- HERO CONTENT STYLES (FINAL VERSION) --- */
+.hero-content-spacer {
+    height: 100vh; /* Creates a full-screen space for the content */
+    position: relative; /* Positioning parent for the content */
+    pointer-events: none; /* Allows clicks to pass through to the video if needed */
+}
+
+.hero-content {
+    position: absolute;
+    bottom: 8%;
+    left: 40px;
+    z-index: 2;
+    text-align: left;
+    max-width: 600px;
+    pointer-events: auto; /* Makes the content clickable again */
+}
+.hero-content h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    color: #ffffff;
+    line-height: 1.1;
+    margin: 0 0 30px 0;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+.hero-content .button-outline {
+    margin-top: 0;
+}
+
+/* --- SCROLLING CONTENT WRAPPER --- */
+.scroll-content-wrapper {
+    position: relative;
+    z-index: 2; /* This is the top layer */
+    background-color: #ffffff;
+}
 
 /* --- SCROLLING CONTENT WRAPPER --- */
 .scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; }
