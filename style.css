@@ -75,52 +75,55 @@ header {
 .main-nav li { margin-bottom: 2rem; }
 .main-nav a { color: #222222; text-decoration: none; font-size: clamp(2rem, 8vw, 4rem); font-weight: bold; }
 
-/* --- HERO VIDEO SECTION --- */
-.hero-video { height: 100vh; position: -webkit-sticky; position: sticky; top: 0; z-index: 1; }
-#bgvideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-/* --- HERO CONTENT STYLES --- */
+/* --- HERO CONTENT STYLES (FINAL, VERTICALLY CENTERED) --- */
 
 .hero-content {
-    /* Positioning */
-    position: absolute;
-    bottom: 8%; /* Adjust for vertical position from the bottom */
-    left: 40px;  /* Adjust for horizontal position from the left */
-    z-index: 2; /* Ensures it sits on top of the video element */
+    /* This makes the container a flexible box that fills the parent */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* THIS IS THE KEY: Vertically centers the content */
     
-    /* Layout */
+    /* Positioning and Sizing */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0 40px; /* Adds the left and right padding */
+    z-index: 2;
+    
+    /* Text alignment within the block */
     text-align: left;
-
 }
 
 .hero-content h1 {
     font-family: 'Inter', sans-serif;
-    font-weight: 900; /* Extra-Bold for impact */
-    font-size: clamp(2.5rem, 7vw, 5.5rem); /* Responsive font size */
+    font-weight: 900;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
     color: #ffffff;
-    line-height: 1.1;
-    margin: 0 0 30px 0; /* Space between headline and button */
+    line-height: 1.0;
+    margin: 0 0 30px 0;
     text-transform: uppercase;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); /* For readability */
-
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+    white-space: nowrap; /* Prevents unwanted line breaks */
 }
 
-/* This targets the button inside the hero specifically */
 .hero-content .button-outline {
-    margin-top: 0; /* Override the default top margin */
+    margin-top: 0;
+    /* This ensures the button doesn't stretch to full width */
+    width: fit-content; 
 }
 
 /* --- Responsive Styles for Hero Content --- */
 @media (max-width: 768px) {
     .hero-content {
-        /* On mobile, adjust the positioning slightly */
-        left: 20px;
-        right: 20px;
-        bottom: 10%;
-        max-width: 90%;
+        padding: 0 20px; /* Reduce padding on mobile */
     }
 
     .hero-content h1 {
-        font-size: clamp(2.5rem, 10vw, 3.5rem);
+        font-size: clamp(2rem, 10vw, 3.5rem);
+        white-space: normal; /* Allow text to wrap on mobile */
     }
 }
 
