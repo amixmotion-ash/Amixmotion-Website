@@ -316,13 +316,12 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 .contact-intro h1 {
     font-family: 'Inter', sans-serif;
     font-weight: 900; /* Extra-Bold */
-    font-size: clamp(3rem, 10vw, 6rem); /* Large, responsive font size */
+    /* Reduced the middle and max values to prevent wrapping on large screens */
+    font-size: clamp(3rem, 8vw, 5rem); 
     line-height: 1.1;
     margin: 0 0 30px 0;
     text-transform: uppercase;
-    /* We remove the relative positioning from before */
 }
-
 .contact-intro-subheadline {
     font-family: 'Inter', sans-serif;
     font-weight: 300; /* Light */
