@@ -328,7 +328,7 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
     font-family: 'Inter', sans-serif;
     font-weight: 300; /* Light */
     font-size: 1.7rem;
-    line-height: 1.1;
+    line-height: 1.2;
     margin: 0 0 40px 0;
     max-width: 600px; /* Constrains the width for readability */
 }
