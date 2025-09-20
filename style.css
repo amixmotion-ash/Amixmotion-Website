@@ -316,11 +316,13 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 .contact-intro h1 {
     font-family: 'Inter', sans-serif;
     font-weight: 900; /* Extra-Bold */
-    /* Reduced the middle and max values to prevent wrapping on large screens */
-    font-size: clamp(3rem, 8vw, 5rem); 
+    font-size: clamp(2.5rem, 8vw, 5rem); /* Adjusted font size for balance */
     line-height: 1.1;
     margin: 0 0 30px 0;
     text-transform: uppercase;
+    
+    /* THIS IS THE GUARANTEED FIX: It forces the text onto a single line */
+    white-space: nowrap; 
 }
 .contact-intro-subheadline {
     font-family: 'Inter', sans-serif;
