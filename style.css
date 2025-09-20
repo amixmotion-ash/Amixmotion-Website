@@ -318,7 +318,7 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
     font-weight: 900; /* Extra-Bold */
     font-size: clamp(2.5rem, 8vw, 5rem); /* Adjusted font size for balance */
     line-height: 1.1;
-    margin: 0 0 30px 0;
+    margin: 0 0 15px 0;
     text-transform: uppercase;
     
     /* THIS IS THE GUARANTEED FIX: It forces the text onto a single line */
