@@ -311,12 +311,52 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 /* --- CONTACT PAGE STYLES --- */
 .contact-page .contact-page-main { display: flex; align-items: center; min-height: 100vh; padding: 120px 40px; box-sizing: border-box; }
 .contact-layout-container { width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 100px; align-items: start; }
-.contact-intro h1 { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 2.2rem; line-height: 1.2; margin: 0 0 40px 0; position: relative; top: -15px; }
-.contact-intro h1 strong { font-weight: 600; }
-.contact-details { display: flex; gap: 40px; }
-.contact-detail-item { display: flex; flex-direction: column; }
-.contact-detail-item span { font-size: 0.9rem; color: #888; margin-bottom: 5px; }
-.contact-detail-item a { color: #222; text-decoration: none; font-weight: 400; }
+/* --- Corrected Contact Intro Styles --- */
+
+.contact-intro h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900; /* Extra-Bold */
+    font-size: clamp(3rem, 10vw, 6rem); /* Large, responsive font size */
+    line-height: 1.1;
+    margin: 0 0 30px 0;
+    text-transform: uppercase;
+    /* We remove the relative positioning from before */
+}
+
+.contact-intro-subheadline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300; /* Light */
+    font-size: 1.5rem;
+    line-height: 1.5;
+    margin: 0 0 40px 0;
+    max-width: 500px; /* Constrains the width for readability */
+}
+
+.contact-intro h1 strong {
+    font-weight: 600; /* This is no longer needed but is safe to keep */
+}
+
+.contact-details {
+    display: flex;
+    gap: 40px;
+}
+
+.contact-detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-detail-item span {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.contact-detail-item a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 400;
+}
 .form-group-cluster { margin-bottom: 40px; }
 .form-group-cluster label { display: block; font-family: 'Inter', sans-serif; font-weight: 300; font-size: 0.8rem; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
 .form-group-cluster input, .form-group-cluster textarea { display: block; width: 100%; margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 1rem; background-color: #f9f9f9; }
