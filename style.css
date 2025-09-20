@@ -140,7 +140,7 @@ header {
 /* --- CLIENT SCROLLER SECTION --- */
 .client-scroller {
     /* This creates a 100px space above the scroller and a 100px space below it */
-    padding: 100px 0;
+    padding: 80px 0;
 }
 .scroller-container { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); }
 .scroller-track { display: flex; width: max-content; animation: scroll 40s linear infinite; }
