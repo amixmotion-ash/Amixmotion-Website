@@ -123,7 +123,7 @@ header {
 .scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; }
 
 /* --- MISSION SECTION --- */
-.mission-section { padding: 120px 0; background-color: #000000; color: #e0e0e0; }
+.mission-section { padding: 110px 0; background-color: #000000; color: #e0e0e0; }
 .mission-grid { display: grid; grid-template-columns: 300px 1fr; gap: 60px; align-items: center; }
 .mission-image { width: 300px; height: 300px; border-radius: 50%; overflow: hidden; margin: 0; }
 .mission-image img { width: 100%; height: 100%; object-fit: cover; }
@@ -139,7 +139,8 @@ header {
 
 /* --- CLIENT SCROLLER SECTION --- */
 .client-scroller {
-    padding: 100px 0 120px; /* Kept top space, set bottom padding to match the section's top padding */
+    /* This creates a 100px space above the scroller and a 100px space below it */
+    padding: 100px 0;
 }
 .scroller-container { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); }
 .scroller-track { display: flex; width: max-content; animation: scroll 40s linear infinite; }
