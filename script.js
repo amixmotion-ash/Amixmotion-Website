@@ -146,17 +146,3 @@ if (slider) {
         slider.scrollLeft = scrollLeft - walk;
     });
 }
-// --- Seamless Image Carousel Duplication ---
-
-const carouselTrack = document.querySelector('.image-carousel-track');
-
-if (carouselTrack) {
-    const images = Array.from(carouselTrack.children);
-    
-    // Duplicate each image and add it to the track
-    images.forEach(image => {
-        const duplicate = image.cloneNode(true);
-        duplicate.setAttribute('aria-hidden', true);
-        carouselTrack.appendChild(duplicate);
-    });
-}
