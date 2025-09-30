@@ -38,7 +38,7 @@ header {
     color: #ffffff;
 }
 .nav-toggle { grid-column: 1 / 2; justify-self: start; font-size: 1em; font-weight: bold; color: #222; background: none; border: none; cursor: pointer; transition: color 0.3s ease; }
-.logo { grid-column: 2 / 3; text-align: center; transition: opacity 0.3s ease; }
+.logo { grid-column: 2 / 3; text-align: center; }
 .logo a { text-decoration: none; }
 .logo img { height: 50px; width: auto; display: block; }
 .desktop-nav { grid-column: 3 / 4; justify-self: end; }
@@ -48,16 +48,6 @@ header {
 .homepage.body-no-scroll header .desktop-nav a { color: #222222; }
 .homepage.body-no-scroll header .logo img { filter: invert(1); }
 
-/* --- Simple Header Scroll Logic (STABLE VERSION) --- */
-.homepage header.header-scrolled .nav-toggle,
-.homepage header.header-scrolled .desktop-nav a {
-    color: #222222;
-}
-.homepage header.header-scrolled .logo {
-    opacity: 0;
-    pointer-events: none;
-}
-
 /* --- FULL-SCREEN OVERLAY MENU --- */
 .main-nav { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 800; display: flex; justify-content: center; align-items: center; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease-in-out; }
 .main-nav.nav-open { opacity: 1; pointer-events: auto; }
@@ -65,13 +55,15 @@ header {
 .main-nav li { margin-bottom: 2rem; }
 .main-nav a { color: #222222; text-decoration: none; font-size: clamp(2rem, 8vw, 4rem); font-weight: bold; }
 
-/* --- HERO VIDEO SECTION (STABLE) --- */
+/* --- HERO VIDEO SECTION --- */
 .hero-video {
     height: 100vh;
     position: -webkit-sticky;
     position: sticky;
     top: 0;
-    z-index: 1; /* This is the bottom layer */
+    z-index: 1;
+    display: flex;
+    align-items: center;
 }
 #bgvideo {
     position: absolute;
@@ -79,24 +71,15 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* This will now work correctly */
+    object-fit: cover;
 }
 
-/* --- HERO CONTENT STYLES (FINAL VERSION) --- */
-.hero-content-spacer {
-    height: 100vh; /* Creates a full-screen space for the content */
-    position: relative; /* Positioning parent for the content */
-    pointer-events: none; /* Allows clicks to pass through to the video if needed */
-}
-
+/* --- HERO CONTENT STYLES (STABLE VERSION) --- */
 .hero-content {
-    position: absolute;
-    bottom: 8%;
-    left: 40px;
+    position: relative;
     z-index: 2;
-    text-align: left;
+    padding-left: 40px;
     max-width: 600px;
-    pointer-events: auto; /* Makes the content clickable again */
 }
 .hero-content h1 {
     font-family: 'Inter', sans-serif;
@@ -107,6 +90,7 @@ header {
     margin: 0 0 30px 0;
     text-transform: uppercase;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+    white-space: normal;
 }
 .hero-content .button-outline {
     margin-top: 0;
@@ -115,15 +99,12 @@ header {
 /* --- SCROLLING CONTENT WRAPPER --- */
 .scroll-content-wrapper {
     position: relative;
-    z-index: 2; /* This is the top layer */
+    z-index: 2;
     background-color: #ffffff;
 }
 
-/* --- SCROLLING CONTENT WRAPPER --- */
-.scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; }
-
 /* --- MISSION SECTION --- */
-.mission-section { padding: 110px 0; background-color: #000000; color: #e0e0e0; }
+.mission-section { padding: 160px 0; background-color: #000000; color: #e0e0e0; }
 .mission-grid { display: grid; grid-template-columns: 300px 1fr; gap: 60px; align-items: center; }
 .mission-image { width: 300px; height: 300px; border-radius: 50%; overflow: hidden; margin: 0; }
 .mission-image img { width: 100%; height: 100%; object-fit: cover; }
@@ -138,10 +119,7 @@ header {
 }
 
 /* --- CLIENT SCROLLER SECTION --- */
-.client-scroller {
-    /* 100px above, 120px below to perfectly match the section's top padding */
-    padding: 100px 0 80px;
-}
+.client-scroller { padding: 100px 0; }
 .scroller-container { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); }
 .scroller-track { display: flex; width: max-content; animation: scroll 40s linear infinite; }
 @keyframes scroll { from { transform: translateX(0%); } to { transform: translateX(-50%); } }
@@ -194,98 +172,6 @@ header {
 .draggable { cursor: grab; user-select: none; }
 .draggable.is-dragging { cursor: grabbing; }
 
-/* --- ABOUT PAGE STYLES (STABLE REVERTED VERSION) --- */
-.about-page-main {
-    padding-top: 120px;
-}
-
-/* --- About Hero Section --- */
-.about-hero {
-    padding: 80px 40px;
-    text-align: left;
-}
-.about-hero h1 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2.5rem, 8vw, 6rem);
-    line-height: 1.1;
-    margin: 0;
-    text-transform: uppercase;
-}
-
-/* --- About Details Section --- */
-.about-details {
-    padding: 60px 40px;
-    background-color: #000000;
-    color: #ffffff;
-}
-.details-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 2.5fr;
-    gap: 40px;
-}
-.detail-item h3 {
-    font-weight: 600;
-    font-size: 1.2rem;
-    margin: 0 0 20px 0;
-}
-.detail-item ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    line-height: 1.8;
-    color: #aaa;
-}
-.detail-item p {
-    font-size: 2.2rem;
-    line-height: 1.6;
-    font-weight: 300;
-    margin: 0;
-}
-.detail-item p strong {
-    font-weight: 600;
-}
-
-/* --- Image Carousel Section --- */
-.image-carousel-section {
-    padding: 0 0 80px 0;
-    overflow: hidden;
-    background-color: #000000;
-}
-.image-carousel-track {
-    display: flex;
-    width: max-content;
-    animation: image-scroll 60s linear infinite;
-}
-@keyframes image-scroll {
-    from { transform: translateX(0%); }
-    to { transform: translateX(-50%); }
-}
-.carousel-image {
-    flex-shrink: 0;
-    width: 500px;
-    padding: 0 5px;
-    box-sizing: border-box;
-}
-.carousel-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 8px;
-}
-
-/* --- Responsive Styles for About Page --- */
-@media (max-width: 900px) {
-    .details-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* This rule makes the logo black on the About page */
-.about-page header .logo img {
-    filter: invert(1);
-}
-
 /* --- FOOTER --- */
 footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-family: 'Inter', sans-serif; }
 .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
@@ -314,53 +200,12 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 /* --- CONTACT PAGE STYLES --- */
 .contact-page .contact-page-main { display: flex; align-items: center; min-height: 100vh; padding: 120px 40px; box-sizing: border-box; }
 .contact-layout-container { width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 100px; align-items: start; }
-/* --- Corrected Contact Intro Styles --- */
-
-.contact-intro h1 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900; /* Extra-Bold */
-    font-size: clamp(2.5rem, 8vw, 5rem); /* Adjusted font size for balance */
-    line-height: 1.0;
-    margin: 0 0 10px 0;
-    text-transform: uppercase;
-    
-    /* THIS IS THE GUARANTEED FIX: It forces the text onto a single line */
-    white-space: nowrap; 
-}
-.contact-intro-subheadline {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300; /* Light */
-    font-size: 1.7rem;
-    line-height: 1.4;
-    margin: 0 0 40px 0;
-    max-width: 600px; /* Constrains the width for readability */
-}
-
-.contact-intro h1 strong {
-    font-weight: 600; /* This is no longer needed but is safe to keep */
-}
-
-.contact-details {
-    display: flex;
-    gap: 40px;
-}
-
-.contact-detail-item {
-    display: flex;
-    flex-direction: column;
-}
-
-.contact-detail-item span {
-    font-size: 0.9rem;
-    color: #888;
-    margin-bottom: 5px;
-}
-
-.contact-detail-item a {
-    color: #222;
-    text-decoration: none;
-    font-weight: 400;
-}
+.contact-intro h1 { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 2.2rem; line-height: 1.2; margin: 0 0 40px 0; position: relative; top: -15px; }
+.contact-intro h1 strong { font-weight: 600; }
+.contact-details { display: flex; gap: 40px; }
+.contact-detail-item { display: flex; flex-direction: column; }
+.contact-detail-item span { font-size: 0.9rem; color: #888; margin-bottom: 5px; }
+.contact-detail-item a { color: #222; text-decoration: none; font-weight: 400; }
 .form-group-cluster { margin-bottom: 40px; }
 .form-group-cluster label { display: block; font-family: 'Inter', sans-serif; font-weight: 300; font-size: 0.8rem; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
 .form-group-cluster input, .form-group-cluster textarea { display: block; width: 100%; margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 1rem; background-color: #f9f9f9; }

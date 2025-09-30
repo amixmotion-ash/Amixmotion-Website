@@ -15,19 +15,6 @@ if (navToggle && mainNav && body) {
     });
 }
 
-// --- Simple Header Scroll Logic (STABLE VERSION) ---
-const header = document.querySelector('header');
-if (header && body.classList.contains('homepage')) {
-    const scrollThreshold = window.innerHeight * 0.9;
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > scrollThreshold) {
-            header.classList.add('header-scrolled');
-        } else {
-            header.classList.remove('header-scrolled');
-        }
-    });
-}
-
 // --- Animation Trigger for Mission Section ---
 const animatedSection = document.querySelector('.mission-section');
 if (animatedSection) {

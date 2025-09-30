@@ -9,19 +9,15 @@
 <body class="homepage">
 
     <header>
-    <button class="nav-toggle" aria-label="toggle navigation">
-    <span class="nav-toggle-text">MENU</span>
-    <div class="nav-toggle-icon">
-        <span class="icon-line line-1"></span>
-        <span class="icon-line line-2"></span>
-    </div>
-</button>
+        <button class="nav-toggle" aria-label="toggle navigation">
+            MENU
+        </button>
         <div class="logo">
             <a href="index.html"><img src="logo.png" alt="Amixmotion Logo"></a>
         </div>
         <nav class="desktop-nav">
             <ul>
-                <li><a href="portfolio.html">WORK</a></li>
+                <li><a href="portfolio.html">WORK +</a></li>
             </ul>
         </nav>
     </header>
@@ -35,18 +31,19 @@
         </ul>
     </nav>
 
+    <!-- The hero-video section now correctly contains BOTH the video and the text -->
     <section class="hero-video">
         <video playsinline autoplay muted loop id="bgvideo">
-            <source src="Videos/hero-video.mp4" type="video/mp4">
+            <source src="videos/hero-video.mp4" type="video/mp4">
         </video>
-           
+        <div class="hero-content">
+            <h1>TURNING VISIONS<br>INTO VISUALS</h1>
+            <a href="contact.html" class="button-outline button-light">CONTACT</a>
+        </div>
     </section>
 
+    <!-- This is the wrapper for all content that scrolls OVER the video -->
     <div class="scroll-content-wrapper">
-        <div class="hero-content">
-        <h1>TURNING VISIONS<br>INTO VISUALS</h1>
-        <a href="contact.html" class="button-outline button-light">CONTACT</a>
-    </div>
         <main>
             <section class="mission-section">
                 <div class="container">
