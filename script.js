@@ -88,7 +88,7 @@ if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
 const bodyForCursor = document.querySelector('body');
 if (bodyForCursor && bodyForCursor.classList.contains('homepage')) {
     const customCursor = document.querySelector('.custom-cursor');
-    const portfolioItemsForCursor = document.querySelectorAll('.portfolio-grid-section .grid-.item');
+    const portfolioItemsForCursor = document.querySelectorAll('.portfolio-grid-section .grid-item');
     if (customCursor && portfolioItemsForCursor.length > 0) {
         window.addEventListener('mousemove', (e) => {
             customCursor.style.left = e.clientX + 'px';
