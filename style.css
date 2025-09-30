@@ -124,6 +124,7 @@ header {
 .testimonials-header h2 { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 3rem; line-height: 1.2; margin: 0; color: #222; }
 .testimonials-scroller { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .testimonials-scroller::-webkit-scrollbar { display: none; }
+<<<<<<< HEAD
 .testimonials-track { display: flex; gap: 30px; width: max-content; padding: 20px 40px; opacity: 0; transform: translateX(200px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
 .testimonials-section.is-visible .testimonials-track { opacity: 1; transform: translateX(0); }
 .testimonial-card { flex-shrink: 0; width: 350px; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; }
@@ -132,6 +133,42 @@ header {
 .testimonial-quote { font-size: 1.1em; line-height: 1.6; margin: 0; }
 .testimonial-card-bottom { background-color: #000000; color: #ffffff; margin-top: auto; padding: 20px 40px; }
 .testimonial-author { font-size: 0.9em; font-weight: 600; color: #ffffff; margin: 0; }
+=======
+
+.testimonials-track {
+    display: flex;
+    gap: 30px;
+    width: max-content;
+    /* THIS IS THE KEY: The padding on the track aligns the first card with the header */
+    padding: 20px 40px;
+    
+    opacity: 0;
+    transform: translateX(200px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.testimonials-section.is-visible .testimonials-track {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.testimonial-card {
+    flex-shrink: 0;
+    width: 350px;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; }
+.testimonial-quote { font-size: 1.1em; line-height: 1.6; margin: 0; flex-grow: 1; }
+.testimonial-author { font-size: 0.9em; font-weight: 600; color: #888; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; }
+
+/* --- Click and Drag Styles --- */
+>>>>>>> parent of c75910b (testimonials)
 .draggable { cursor: grab; user-select: none; }
 .draggable.is-dragging { cursor: grabbing; }
 
