@@ -133,3 +133,14 @@ if (slider) {
         slider.scrollLeft = scrollLeft - walk;
     });
 }
+
+// --- Seamless Image Carousel Duplication for About Page ---
+const carouselTrack = document.querySelector('.image-carousel-track');
+if (carouselTrack) {
+    const images = Array.from(carouselTrack.children);
+    images.forEach(image => {
+        const duplicate = image.cloneNode(true);
+        duplicate.setAttribute('aria-hidden', true);
+        carouselTrack.appendChild(duplicate);
+    });
+}
