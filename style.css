@@ -216,3 +216,99 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
     .contact-intro { text-align: center; align-items: center; }
     .contact-details { flex-direction: column; gap: 20px; }
 }
+/* --- ABOUT PAGE STYLES (STABLE REVERTED VERSION) --- */
+
+.about-page .about-page-main {
+    padding-top: 120px;
+}
+
+/* --- Header override for About Page --- */
+.about-page header .nav-toggle,
+.about-page header .desktop-nav a {
+    color: #222222;
+}
+.about-page header .logo img {
+    filter: invert(1);
+}
+
+/* --- About Hero Section --- */
+.about-page .about-hero {
+    padding: 80px 40px 60px;
+    text-align: left;
+}
+.about-page .about-hero h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    line-height: 1.1;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* --- About Details Section --- */
+.about-page .about-details {
+    padding: 80px 40px 60px;
+    background-color: #000000;
+    color: #ffffff;
+}
+.about-page .details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2.5fr;
+    gap: 40px;
+}
+.about-page .detail-item h3 {
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin: 0 0 20px 0;
+}
+.about-page .detail-item ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 1.8;
+    color: #aaa;
+}
+.about-page .detail-item p {
+    font-size: 2.2rem;
+    line-height: 1.6;
+    font-weight: 300;
+    margin: 0;
+}
+.about-page .detail-item p strong {
+    font-weight: 600;
+}
+
+/* --- Image Carousel Section --- */
+.about-page .image-carousel-section {
+    padding: 0 0 80px 0;
+    overflow: hidden;
+    background-color: #000000;
+}
+.about-page .image-carousel-track {
+    display: flex;
+    width: max-content;
+    animation: image-scroll 60s linear infinite;
+}
+@keyframes image-scroll {
+    from { transform: translateX(0%); }
+    to { transform: translateX(-50%); }
+}
+.about-page .carousel-image {
+    flex-shrink: 0;
+    width: 500px;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+.about-page .carousel-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+/* --- Responsive Styles for About Page --- */
+@media (max-width: 900px) {
+    .about-page .details-grid {
+        grid-template-columns: 1fr;
+    }
+}
