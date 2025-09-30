@@ -90,7 +90,7 @@ header {
     margin: 0 0 30px 0;
     text-transform: uppercase;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
-    white-space: normal;
+    white-space: nowrap; 
 }
 .hero-content .button-outline {
     margin-top: 0;
