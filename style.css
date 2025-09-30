@@ -198,10 +198,11 @@ footer { background-color: #000000; color: #ffffff; padding: 80px 40px; font-fam
 .homepage.cursor-hover { cursor: none; }
 
 /* --- CONTACT PAGE STYLES --- */
+.contact-page header .logo img { filter: invert(1); }
 .contact-page .contact-page-main { display: flex; align-items: center; min-height: 100vh; padding: 120px 40px; box-sizing: border-box; }
 .contact-layout-container { width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 100px; align-items: start; }
-.contact-intro h1 { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 2.2rem; line-height: 1.2; margin: 0 0 40px 0; position: relative; top: -15px; }
-.contact-intro h1 strong { font-weight: 600; }
+.contact-intro h1 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1.1; margin: 0 0 15px 0; text-transform: uppercase; white-space: nowrap; }
+.contact-intro-subheadline { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 1.5rem; line-height: 1.5; margin: 0 0 40px 0; max-width: 500px; }
 .contact-details { display: flex; gap: 40px; }
 .contact-detail-item { display: flex; flex-direction: column; }
 .contact-detail-item span { font-size: 0.9rem; color: #888; margin-bottom: 5px; }
