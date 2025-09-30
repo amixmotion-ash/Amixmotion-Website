@@ -216,17 +216,46 @@ header {
     flex-shrink: 0;
     width: 350px;
     background-color: #ffffff;
-    padding: 40px;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
+    overflow: hidden; /* This is important to keep the rounded corners */
+    /* Padding is removed from here and added to the sections inside */
 }
 
-.testimonial-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; }
-.testimonial-quote { font-size: 1.1em; line-height: 1.6; margin: 0; flex-grow: 1; }
-.testimonial-author { font-size: 0.9em; font-weight: 600; color: #888; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; }
+.testimonial-card-top {
+    padding: 40px 40px 20px; /* Top, Sides, Bottom */
+}
 
+.testimonial-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.testimonial-quote {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.testimonial-card-bottom {
+    background-color: #000000; /* The new black footer */
+    color: #ffffff;
+    margin-top: auto; /* This pushes the footer to the bottom */
+    padding: 20px 40px;
+}
+
+.testimonial-author {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #ffffff; /* Text is now white */
+    margin: 0;
+    /* The border-top and padding-top are removed */
+}
 /* --- Click and Drag Styles --- */
 .draggable { cursor: grab; user-select: none; }
 .draggable.is-dragging { cursor: grabbing; }
