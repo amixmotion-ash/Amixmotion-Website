@@ -348,12 +348,13 @@ footer {
 
 .about-image-wrapper.bottom-image {
     position: absolute;
-    /* This is the key change for responsiveness */
-    width: clamp(300px, 25vw, 500px);
+    width: clamp(300px, 25vw, 500px); /* This part is correct */
     aspect-ratio: 1 / 1;
     z-index: 2;
-    bottom: -35%;
-    right: -15%;
+
+    /* The Fix: Change positioning units from % to vw */
+    bottom: -20vw; /* Adjust this value */
+    right: -7vw;   /* Adjust this value */
 }
 
 .about-image-wrapper.bottom-image img {
