@@ -261,27 +261,25 @@ footer {
 .homepage .custom-cursor { position: fixed; top: 0; left: 0; z-index: 1100; width: 80px; height: 80px; background-color: #000000; color: #ffffff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; opacity: 0; transform: scale(0.5) translate(20px, -50%); transform-origin: 0 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; }
 .homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
 .homepage.cursor-hover { cursor: none; }
-/* --- ABOUT PAGE STYLES (Corrected Editorial Redesign) --- */
+/* --- ABOUT PAGE STYLES (Corrected with Bleed Effect) --- */
 .about-page {
-    /* The main body background is black, which is correct for the content section */
     background-color: #000000;
+    overflow-x: hidden; /* IMPORTANT: Prevents horizontal scrollbar from the bleed effect */
 }
 
 .about-page .about-page-main {
     padding-top: 0;
-    /* This is the key fix for the header background. The light grey now covers the top section. */
-    background-color: #f2f2f2;
+    background-color: #f2f2f2; /* FIX: This puts the light grey background behind the header */
 }
 
-/* Section for the big title: "GREAT FILM..." */
+/* Section for the big title */
 .about-hero-title {
-    /* We no longer need a background color here as the parent has it */
     padding: 120px 0 80px 0;
     color: #222;
 }
 
 .about-hero-title .container {
-    max-width: 1400px;
+    max-width: 1400px; /* The title is constrained to this width */
 }
 
 .about-hero-title h1 {
@@ -292,12 +290,12 @@ footer {
     margin: 0;
     text-transform: uppercase;
     letter-spacing: -0.02em;
-    text-align: left; /* This is the fix for the title alignment */
+    text-align: left; /* FIX: Ensures the title is anchored left within its container */
 }
 
 /* Section for the images and text content */
 .about-content {
-    background-color: #000000; /* This section remains black */
+    background-color: #000000;
     color: #ffffff;
     padding: 80px 0;
 }
@@ -305,10 +303,10 @@ footer {
 .about-grid-layout {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 40px; /* Sets the default gutters for the content */
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: 1.2fr 1fr; /* Image column is slightly wider */
+    grid-template-columns: 1.2fr 1fr;
     gap: 60px;
     align-items: start;
 }
@@ -316,7 +314,7 @@ footer {
 .about-images-column {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align images to the LEFT of the column now */
+    align-items: flex-start;
 }
 
 .about-image-wrapper {
@@ -329,18 +327,25 @@ footer {
     display: block;
 }
 
+/* FIX: This is the code that creates the bleed effect for the top image */
 .about-image-wrapper.top-image {
-    width: 90%; /* Make the top image 90% of the column width */
+    width: 90%;
+    position: relative;
+    /* 1. Calculate the empty space outside the container and pull the image left by that amount */
+    margin-left: calc(-50vw + 700px - 40px); /* 700px is half of the 1400px container */
+    /* 2. Increase the width to fill that new space */
+    width: calc(90% + 50vw - 700px + 40px);
+    max-width: none; /* Ensure the width calculation is not restricted */
 }
 
 .about-image-wrapper.bottom-image {
-    width: 60%; /* Make the bottom image smaller */
-    margin-top: -25%; /* This negative margin creates the overlap */
-    margin-left: 5%; /* Push it slightly to the RIGHT from the left edge */
+    width: 60%;
+    margin-top: -25%;
+    margin-left: 5%;
 }
 
 .about-text-column {
-    padding-top: 20px; /* Align text nicely with the top image */
+    padding-top: 20px;
 }
 
 .about-text-column .pre-title {
@@ -361,31 +366,39 @@ footer {
     color: #e0e0e0;
 }
 
-/* --- Responsive styles for the new About Page --- */
+/* --- Responsive styles for the About Page --- */
+@media (max-width: 1480px) {
+    /* On smaller screens, disable the complex bleed effect and revert to a simple layout */
+    .about-image-wrapper.top-image {
+        margin-left: 0;
+        width: 90%;
+    }
+}
+
 @media (max-width: 900px) {
     .about-grid-layout {
-        grid-template-columns: 1fr; /* Stack columns on mobile */
+        grid-template-columns: 1fr;
         gap: 0;
         padding: 0 20px;
     }
-
+    
     .about-images-column {
-        align-items: center; /* Center images in the column on mobile */
+        align-items: center;
         margin-bottom: 60px;
     }
-
+    
     .about-image-wrapper.top-image,
     .about-image-wrapper.bottom-image {
-        width: 100%; /* Make images full width on mobile */
+        width: 100%;
         margin-left: 0;
     }
 
     .about-image-wrapper.bottom-image {
-        margin-top: -20%; /* Reduce overlap slightly for mobile */
+        margin-top: -20%;
     }
 
     .about-text-column .about-bio {
-        font-size: 1.2rem; /* Slightly smaller text on mobile */
+        font-size: 1.2rem;
     }
 }
 
