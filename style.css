@@ -120,9 +120,8 @@ header {
 /* --- TESTIMONIALS SECTION --- */
 .testimonials-section { padding: 120px 0; background-color: #f2f2f2; overflow-x: hidden; }
 .testimonials-header {
-    /* max-width and auto margin are removed to allow full width */
-    margin: 0 0 60px 0; /* Keeps the bottom margin for spacing */
-    padding: 0 40px;
+    margin: 0 0 60px 0; /* Removes horizontal auto margins */
+    padding: 0 40px;   /* This padding now aligns it with the track */
     box-sizing: border-box;
     text-align: left;
 }
