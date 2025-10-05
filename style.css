@@ -348,13 +348,14 @@ footer {
 
 .about-image-wrapper-final.bottom-image-final {
     position: absolute;
-    z-index: 2; /* Keeps it on top */
-    aspect-ratio: 1 / 1; /* Keeps it square */
+    z-index: 2;
+    
+    /* The Definitive Fix for Ultrawide Scaling */
+    width: clamp(250px, 22vw, 450px);
 
-    /* --- The Final Positioning Logic --- */
-    width: 45%;      /* Its width is 45% of Image 1's width */
-    top: 75%;        /* Its top edge starts 75% of the way down Image 1 */
-    left: 50%;       /* Its left edge starts 50% of the way across Image 1 */
+    top: 75%;
+    left: 50%;
+    aspect-ratio: 1 / 1;
 }
 
 .about-image-wrapper.bottom-image img {
