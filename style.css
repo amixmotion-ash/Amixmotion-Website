@@ -261,49 +261,86 @@ footer {
 .homepage .custom-cursor { position: fixed; top: 0; left: 0; z-index: 1100; width: 80px; height: 80px; background-color: #000000; color: #ffffff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; opacity: 0; transform: scale(0.5) translate(20px, -50%); transform-origin: 0 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; }
 .homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
 .homepage.cursor-hover { cursor: none; }
-/* --- ABOUT PAGE STYLES (NEW 2025 REDESIGN) --- */
+/* --- ABOUT PAGE STYLES (FINAL EDITORIAL REDESIGN) --- */
 .about-page {
+    /* The main page background is now black */
     background-color: #000000;
-    color: #ffffff;
 }
 
 .about-page .about-page-main {
-    padding-top: 0; /* Remove old padding to allow content to go to the top */
-    max-width: 1600px; /* Constrain the max width for very large screens */
+    padding-top: 0;
+}
+
+/* Section for the big title: "GREAT FILM..." */
+.about-hero-title {
+    background-color: #f2f2f2; /* Light grey background */
+    padding: 120px 0 80px 0;
+    color: #222;
+}
+
+.about-hero-title .container {
+    max-width: 1400px; /* Allow it to be a bit wider */
+}
+
+.about-hero-title h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 8vw, 6.5rem);
+    line-height: 1.1;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: -0.02em; /* Tighten up letter spacing */
+}
+
+/* Section for the images and text content */
+.about-content {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 80px 0;
+}
+
+.about-grid-layout {
+    max-width: 1400px;
     margin: 0 auto;
-}
-
-.about-grid {
+    padding: 0 40px;
+    box-sizing: border-box;
     display: grid;
-    grid-template-columns: 55% 45%; /* Grid split: 55% for images, 45% for text */
+    grid-template-columns: 1.2fr 1fr; /* Image column is slightly wider */
+    gap: 60px;
     align-items: start;
-    min-height: 100vh;
-    padding-top: 120px; /* Maintain space for the fixed header */
 }
 
-.about-image-column {
-    /* This negative margin is the key to achieving the "fold" effect */
-    margin-top: -20vh;
+.about-images-column {
     display: flex;
     flex-direction: column;
-    gap: 40px;
-    padding: 0 40px;
+    align-items: flex-end; /* Align images to the right of the column */
 }
 
-.about-image-column .image-wrapper img {
+.about-image-wrapper {
+    overflow: hidden;
+}
+
+.about-image-wrapper img {
     width: 100%;
     height: auto;
     display: block;
 }
 
-.about-text-column {
-    position: -webkit-sticky; /* Sticky positioning for the text column */
-    position: sticky;
-    top: 150px; /* Sticks 150px from the top */
-    padding-right: 40px;
+.about-image-wrapper.top-image {
+    width: 90%; /* Make the top image 90% of the column width */
 }
 
-.about-text-content .pre-title {
+.about-image-wrapper.bottom-image {
+    width: 60%; /* Make the bottom image smaller */
+    margin-top: -25%; /* This negative margin creates the overlap */
+    margin-right: 5%; /* Push it slightly to the left from the right edge */
+}
+
+.about-text-column {
+    padding-top: 20px; /* Align text nicely with the top image */
+}
+
+.about-text-column .pre-title {
     font-size: 0.9em;
     font-weight: 600;
     color: #888;
@@ -312,33 +349,43 @@ footer {
     text-transform: uppercase;
 }
 
-.about-text-content p {
+.about-text-column .about-bio {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
-    font-size: 1.1rem;
-    line-height: 1.8;
+    font-size: 1.5rem; /* Matches font size from Mission Statement */
+    line-height: 1.6;
     margin: 0;
-    max-width: 500px; /* Constrains the width of the paragraph for readability */
+    color: #e0e0e0;
 }
 
 /* --- Responsive styles for the new About Page --- */
 @media (max-width: 900px) {
-    .about-grid {
+    .about-grid-layout {
         grid-template-columns: 1fr; /* Stack columns on mobile */
-        padding-top: 100px;
+        gap: 0;
+        padding: 0 20px;
+    }
+    
+    .about-images-column {
+        align-items: center; /* Center images in the column on mobile */
+        margin-bottom: 60px;
+    }
+    
+    .about-image-wrapper.top-image,
+    .about-image-wrapper.bottom-image {
+        width: 100%; /* Make images full width on mobile */
+        margin-right: 0;
     }
 
-    .about-image-column {
-        margin-top: 0; /* Reset the negative margin on mobile */
-        padding: 0 20px; /* Adjust mobile padding */
-        gap: 20px;
+    .about-image-wrapper.bottom-image {
+        margin-top: -20%; /* Reduce overlap slightly for mobile */
     }
 
-    .about-text-column {
-        position: static; /* Un-stick the text column on mobile */
-        padding: 60px 20px 80px 20px; /* Add padding for mobile */
+    .about-text-column .about-bio {
+        font-size: 1.2rem; /* Slightly smaller text on mobile */
     }
 }
+
 
 
 .contact-page .contact-page-main { display: flex; align-items: center; min-height: 100vh; padding: 120px 40px; box-sizing: border-box; }
