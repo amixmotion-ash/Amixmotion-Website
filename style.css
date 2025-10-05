@@ -346,15 +346,15 @@ footer {
 }
 
 
-.about-image-wrapper.bottom-image {
+.about-image-wrapper-final.bottom-image-final {
     position: absolute;
-    width: clamp(300px, 25vw, 500px); /* This part is correct */
-    aspect-ratio: 1 / 1;
-    z-index: 2;
+    z-index: 2; /* Keeps it on top */
+    aspect-ratio: 1 / 1; /* Keeps it square */
 
-    /* The Fix: Change positioning units from % to vw */
-    bottom: -20vw; /* Adjust this value */
-    right: -7vw;   /* Adjust this value */
+    /* --- The Final Positioning Logic --- */
+    width: 45%;      /* Its width is 45% of Image 1's width */
+    top: 75%;        /* Its top edge starts 75% of the way down Image 1 */
+    left: 50%;       /* Its left edge starts 50% of the way across Image 1 */
 }
 
 .about-image-wrapper.bottom-image img {
