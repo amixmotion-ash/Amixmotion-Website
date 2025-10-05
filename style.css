@@ -261,25 +261,27 @@ footer {
 .homepage .custom-cursor { position: fixed; top: 0; left: 0; z-index: 1100; width: 80px; height: 80px; background-color: #000000; color: #ffffff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; opacity: 0; transform: scale(0.5) translate(20px, -50%); transform-origin: 0 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; }
 .homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
 .homepage.cursor-hover { cursor: none; }
-/* --- ABOUT PAGE STYLES (FINAL EDITORIAL REDESIGN) --- */
+/* --- ABOUT PAGE STYLES (Corrected Editorial Redesign) --- */
 .about-page {
-    /* The main page background is now black */
+    /* The main body background is black, which is correct for the content section */
     background-color: #000000;
 }
 
 .about-page .about-page-main {
     padding-top: 0;
+    /* This is the key fix for the header background. The light grey now covers the top section. */
+    background-color: #f2f2f2;
 }
 
 /* Section for the big title: "GREAT FILM..." */
 .about-hero-title {
-    background-color: #f2f2f2; /* Light grey background */
+    /* We no longer need a background color here as the parent has it */
     padding: 120px 0 80px 0;
     color: #222;
 }
 
 .about-hero-title .container {
-    max-width: 1400px; /* Allow it to be a bit wider */
+    max-width: 1400px;
 }
 
 .about-hero-title h1 {
@@ -289,12 +291,13 @@ footer {
     line-height: 1.1;
     margin: 0;
     text-transform: uppercase;
-    letter-spacing: -0.02em; /* Tighten up letter spacing */
+    letter-spacing: -0.02em;
+    text-align: left; /* This is the fix for the title alignment */
 }
 
 /* Section for the images and text content */
 .about-content {
-    background-color: #000000;
+    background-color: #000000; /* This section remains black */
     color: #ffffff;
     padding: 80px 0;
 }
@@ -313,7 +316,7 @@ footer {
 .about-images-column {
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* Align images to the right of the column */
+    align-items: flex-start; /* Align images to the LEFT of the column now */
 }
 
 .about-image-wrapper {
@@ -333,7 +336,7 @@ footer {
 .about-image-wrapper.bottom-image {
     width: 60%; /* Make the bottom image smaller */
     margin-top: -25%; /* This negative margin creates the overlap */
-    margin-right: 5%; /* Push it slightly to the left from the right edge */
+    margin-left: 5%; /* Push it slightly to the RIGHT from the left edge */
 }
 
 .about-text-column {
@@ -352,7 +355,7 @@ footer {
 .about-text-column .about-bio {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
-    font-size: 1.5rem; /* Matches font size from Mission Statement */
+    font-size: 1.5rem;
     line-height: 1.6;
     margin: 0;
     color: #e0e0e0;
@@ -365,16 +368,16 @@ footer {
         gap: 0;
         padding: 0 20px;
     }
-    
+
     .about-images-column {
         align-items: center; /* Center images in the column on mobile */
         margin-bottom: 60px;
     }
-    
+
     .about-image-wrapper.top-image,
     .about-image-wrapper.bottom-image {
         width: 100%; /* Make images full width on mobile */
-        margin-right: 0;
+        margin-left: 0;
     }
 
     .about-image-wrapper.bottom-image {
