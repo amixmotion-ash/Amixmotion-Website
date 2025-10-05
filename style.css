@@ -69,56 +69,50 @@ header {
 .mission-text .pre-title { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 18px; color: #888; margin: 0 0 15px 0; }
 .mission-statement { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.4; margin: 0; }
 
+/* --- MISSION SECTION (Corrected Full-Bleed Layout) --- */
 .mission-section {
     background-color: #000000;
     color: #e0e0e0;
-    /* Remove padding to allow the grid to go full-width */
-    padding: 0; 
+    padding: 0;
+    overflow: hidden; /* Prevents any accidental overflow */
 }
 
 .mission-grid {
     display: grid;
-    /* Adjust grid to 45% for the image and 55% for the text */
-    grid-template-columns: 45% 55%; 
+    /* This creates two equal columns that span the full screen width */
+    grid-template-columns: 1fr 1fr;
     align-items: center;
-    gap: 0; 
+    gap: 0;
 }
 
 .mission-image {
-    /* Remove fixed width/height and border-radius */
     width: 100%;
     height: 100%;
-    position: relative; /* Crucial for positioning the gradient overlay */
-    overflow: hidden; /* Ensures image stays within its container */
+    position: relative;
+    overflow: hidden;
 }
 
-/* This is the new rule that creates the fade-to-black effect */
 .mission-image::after {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    right: 0; /* Pin the gradient to the right edge of the image cell */
+    width: 40%; /* Control the width of the fade effect */
     height: 100%;
-    /* Gradient: starts transparent, fades to solid black on the right */
-    background: linear-gradient(to right, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 95%);
+    background: linear-gradient(to right, transparent, #000000);
 }
 
 .mission-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block; /* Removes any extra space below the image */
+    display: block;
 }
 
 .mission-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    /* Adjust padding: more on the left to clear the gradient, 
-       and a percentage on the right for responsiveness */
-    padding: 100px 10% 100px 120px;
-    box-sizing: border-box; /* Ensures padding is calculated correctly */
+    /* Padding: top, right, bottom, left */
+    padding: 80px 15% 80px 10%;
+    box-sizing: border-box;
 }
 
 .mission-text .pre-title {
@@ -135,30 +129,30 @@ header {
     font-size: 33px;
     line-height: 1.4;
     margin: 0;
-    /* Set a max-width to prevent text lines from becoming too long */
-    max-width: 600px; 
 }
 
-/* --- Responsive styles for the new Mission Section --- */
+/* --- Responsive styles for the Mission Section --- */
 @media (max-width: 900px) {
     .mission-grid {
-        /* Stack image and text vertically on smaller screens */
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr; /* Stack vertically */
     }
 
     .mission-image {
-        /* Give the image a minimum height on mobile */
-        min-height: 450px;
+        height: 500px; /* Give a specific height on mobile */
     }
 
-    /* Change the gradient direction for the stacked layout */
     .mission-image::after {
-        background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 40%);
+        /* Gradient from bottom to top for stacked layout */
+        background: linear-gradient(to top, #000000 5%, transparent 50%);
+        width: 100%;
+        height: 100%;
+        top: auto;
+        bottom: 0;
+        right: auto;
     }
 
     .mission-text {
-        padding: 80px 40px; /* Adjust padding for mobile */
-        text-align: left;
+        padding: 60px 40px 80px 40px; /* Adjust mobile padding */
     }
 
     .mission-statement {
