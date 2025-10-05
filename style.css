@@ -349,13 +349,13 @@ footer {
 .about-image-wrapper-final.bottom-image-final {
     position: absolute;
     z-index: 2;
-    
-    /* The Definitive Fix for Ultrawide Scaling */
-    width: clamp(250px, 22vw, 450px);
-
+    aspect-ratio: 1 / 1;
     top: 75%;
     left: 50%;
-    aspect-ratio: 1 / 1;
+
+    /* --- THE DEFINITIVE FIX --- */
+    /* This formula is 45% of Image 1's width formula */
+    width: calc( (90% + 50vw - 700px + 40px) * 0.45 );
 }
 
 .about-image-wrapper.bottom-image img {
