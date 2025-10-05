@@ -340,7 +340,8 @@ footer {
     margin-left: calc(-50vw + 700px - 40px);
     width: calc(90% + 50vw - 700px + 40px);
     max-width: none;
-    /* FIX: Set z-index to be behind the bottom image */
+     position: relative; 
+     /* FIX: Set z-index to be behind the bottom image */
     z-index: 1;
 }
 
@@ -350,6 +351,7 @@ footer {
     width: 60%;       /* Sets its width */
     bottom: 5%;       /* Positions it from the bottom edge of Image 1's container */
     right: 0;         /* Positions it from the right edge of Image 1's container */
+    z-index: 2;
 }
 
 .about-text-column {
