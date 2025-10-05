@@ -335,33 +335,52 @@ footer {
     display: block;
 }
 
-.about-image-wrapper.top-image {
-    /* Bleed effect from previous step */
-    margin-left: calc(-50vw + 700px - 40px);
-    width: calc(90% + 50vw - 700px + 40px);
-    max-width: none;
-     position: relative; 
-     /* FIX: Set z-index to be behind the bottom image */
-    z-index: 1;
+/* --- ABOUT PAGE IMAGES (Definitive Scaling Solution) --- */
+
+.about-images-final {
+    /* The vertical shift for the entire image block */
+    transform: translateY(-130px);
 }
 
+.about-image-wrapper-final.top-image-final {
+    /* This is the positioning container for Image 2 */
+    position: relative; 
+    z-index: 1;
+
+    /* --- NEW SIZING & POSITIONING FOR IMAGE 1 --- */
+    /* We use clamp() for responsive sizing with safety limits */
+    width: clamp(600px, 50vw, 900px);
+    /* The bleed effect is simplified */
+    margin-left: -15vw; 
+}
 
 .about-image-wrapper-final.bottom-image-final {
     position: absolute;
-    z-index: 2;
-    aspect-ratio: 1 / 1;
+    z-index: 2; /* On top */
+    aspect-ratio: 1 / 1; /* Square */
+    
+    /* --- NEW SIZING & POSITIONING FOR IMAGE 2 --- */
+    /* The clamp() values are exactly 45% of Image 1's values */
+    width: clamp(270px, 22.5vw, 405px);
+    
+    /* These percentages ensure consistent overlap */
     top: 75%;
     left: 50%;
-
-    /* --- THE DEFINITIVE FIX --- */
-    /* This formula is 45% of Image 1's width formula */
-    width: calc( (90% + 50vw - 700px + 40px) * 0.45 );
 }
 
-.about-image-wrapper.bottom-image img {
+.about-image-wrapper-final.bottom-image-final img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* This makes the image fill the space, cropping if necessary */
+    object-fit: cover;
+}
+
+/* --- Responsive Reset (simplified) --- */
+@media (max-width: 900px) {
+    /* This overrides the bleed/sizing for mobile */
+    .about-image-wrapper-final.top-image-final {
+        width: 100%;
+        margin-left: 0;
+    }
 }
 
 .about-text-column {
