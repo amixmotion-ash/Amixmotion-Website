@@ -320,7 +320,7 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    transform: translateY(-100px); /* Adjust this value to move images up */
+    transform: translateY(-130px); /* Adjust this value to move images up */
 }
 
 .about-image-wrapper {
