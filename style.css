@@ -354,7 +354,7 @@ footer {
 
     /* NEW POSITIONING SETTINGS */
     bottom: -40%; /* Pushes the image down below Image 1 */
-    right: -15%;  /* Pushes the image to the right, towards the text */
+    right: -50%;  /* Pushes the image to the right, towards the text */
 }
 
 .about-image-wrapper.bottom-image img {
