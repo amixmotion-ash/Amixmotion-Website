@@ -347,11 +347,18 @@ footer {
 
 
 .about-image-wrapper.bottom-image {
-    position: absolute; /* Lifts the image up */
-    width: 60%;       /* Sets its width */
-    bottom: 5%;       /* Positions it from the bottom edge of Image 1's container */
-    right: 0;         /* Positions it from the right edge of Image 1's container */
+    position: absolute;
+    width: 70%; /* Increased from 60% to make it larger */
+    aspect-ratio: 1 / 1; /* This forces the container to be a square */
+    bottom: 5%;
+    right: 0;
     z-index: 2;
+}
+
+.about-image-wrapper.bottom-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This makes the image fill the space, cropping if necessary */
 }
 
 .about-text-column {
