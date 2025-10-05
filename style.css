@@ -320,7 +320,8 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    transform: translateY(-130px); /* Adjust this value to move images up */
+    transform: translateY(-130px);
+    position: relative; 
 }
 
 .about-image-wrapper {
@@ -343,11 +344,12 @@ footer {
     z-index: 1;
 }
 
+
 .about-image-wrapper.bottom-image {
-    width: 60%;
-    margin-top: -25%;
-    margin-left: 5%;
-    transform: translate(-200px, 0px); /* Adjust X and Y values */
+    position: absolute; /* Lifts the image up */
+    width: 60%;       /* Sets its width */
+    bottom: 5%;       /* Positions it from the bottom edge of Image 1's container */
+    right: 0;         /* Positions it from the right edge of Image 1's container */
 }
 
 .about-text-column {
