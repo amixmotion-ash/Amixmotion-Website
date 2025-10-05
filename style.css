@@ -85,7 +85,7 @@ header {
 .scroller-track { display: flex; width: max-content; animation: scroll 40s linear infinite; }
 @keyframes scroll { from { transform: translateX(0%); } to { transform: translateX(-50%); } }
 .client-logo { display: flex; align-items: center; justify-content: center; --logo-width: 240px; width: var(--logo-width); padding: 0 40px; box-sizing: border-box; }
-.client-logo img { max-width: 100%; height: auto; filter: invert(1) brightness(2); }
+.client-logo img { max-width: 100%; height: auto; }
 @media (min-width: 1601px) { .client-logo { --logo-width: 380px; } .scroller-track { animation-duration: 60s; } }
 @media (max-width: 1024px) { .client-logo { --logo-width: 200px; } .scroller-track { animation-duration: 35s; } }
 @media (max-width: 600px) { .client-logo { --logo-width: 350px; } .scroller-track { animation-duration: 30s; } }
