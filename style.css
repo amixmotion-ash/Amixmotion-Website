@@ -261,25 +261,27 @@ footer {
 .homepage .custom-cursor { position: fixed; top: 0; left: 0; z-index: 1100; width: 80px; height: 80px; background-color: #000000; color: #ffffff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; opacity: 0; transform: scale(0.5) translate(20px, -50%); transform-origin: 0 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; }
 .homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
 .homepage.cursor-hover { cursor: none; }
-/* --- ABOUT PAGE STYLES (Corrected with Bleed Effect) --- */
+/* --- ABOUT PAGE STYLES (Final with Correct Overlap & Positioning) --- */
 .about-page {
     background-color: #000000;
-    overflow-x: hidden; /* IMPORTANT: Prevents horizontal scrollbar from the bleed effect */
+    overflow-x: hidden; /* Prevents horizontal scrollbar */
 }
 
 .about-page .about-page-main {
     padding-top: 0;
-    background-color: #f2f2f2; /* FIX: This puts the light grey background behind the header */
+    background-color: #f2f2f2;
 }
 
 /* Section for the big title */
 .about-hero-title {
     padding: 120px 0 80px 0;
     color: #222;
+    /* FIX: Add significant bottom padding to create space for the image to overlap into */
+    padding-bottom: 200px;
 }
 
 .about-hero-title .container {
-    max-width: 1400px; /* The title is constrained to this width */
+    max-width: 1400px;
 }
 
 .about-hero-title h1 {
@@ -290,7 +292,7 @@ footer {
     margin: 0;
     text-transform: uppercase;
     letter-spacing: -0.02em;
-    text-align: left; /* FIX: Ensures the title is anchored left within its container */
+    text-align: left;
 }
 
 /* Section for the images and text content */
@@ -298,12 +300,15 @@ footer {
     background-color: #000000;
     color: #ffffff;
     padding: 80px 0;
+    /* FIX: Use negative margin to pull the entire black section (with images) up */
+    margin-top: -200px;
+    position: relative; /* Establishes a stacking context */
 }
 
 .about-grid-layout {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 40px; /* Sets the default gutters for the content */
+    padding: 0 40px;
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 1.2fr 1fr;
@@ -319,6 +324,7 @@ footer {
 
 .about-image-wrapper {
     overflow: hidden;
+    position: relative; /* FIX: Required for z-index to work */
 }
 
 .about-image-wrapper img {
@@ -327,21 +333,22 @@ footer {
     display: block;
 }
 
-/* FIX: This is the code that creates the bleed effect for the top image */
 .about-image-wrapper.top-image {
-    width: 90%;
-    position: relative;
-    /* 1. Calculate the empty space outside the container and pull the image left by that amount */
-    margin-left: calc(-50vw + 700px - 40px); /* 700px is half of the 1400px container */
-    /* 2. Increase the width to fill that new space */
+    /* Bleed effect from previous step */
+    margin-left: calc(-50vw + 700px - 40px);
     width: calc(90% + 50vw - 700px + 40px);
-    max-width: none; /* Ensure the width calculation is not restricted */
+    max-width: none;
+    /* FIX: Set z-index to be behind the bottom image */
+    z-index: 1;
 }
 
 .about-image-wrapper.bottom-image {
     width: 60%;
-    margin-top: -25%;
-    margin-left: 5%;
+    /* FIX: Adjust margins for precise bottom-right overlap */
+    margin-top: -30%;
+    margin-left: 30%;
+    /* FIX: Set a higher z-index to appear on top */
+    z-index: 2;
 }
 
 .about-text-column {
@@ -368,7 +375,6 @@ footer {
 
 /* --- Responsive styles for the About Page --- */
 @media (max-width: 1480px) {
-    /* On smaller screens, disable the complex bleed effect and revert to a simple layout */
     .about-image-wrapper.top-image {
         margin-left: 0;
         width: 90%;
@@ -376,6 +382,13 @@ footer {
 }
 
 @media (max-width: 900px) {
+    .about-hero-title {
+        padding-bottom: 80px; /* Reset padding on mobile */
+    }
+    .about-content {
+        margin-top: 0; /* Reset negative margin on mobile */
+    }
+
     .about-grid-layout {
         grid-template-columns: 1fr;
         gap: 0;
@@ -395,6 +408,7 @@ footer {
 
     .about-image-wrapper.bottom-image {
         margin-top: -20%;
+        margin-left: 0; /* Ensure it's centered on mobile */
     }
 
     .about-text-column .about-bio {
