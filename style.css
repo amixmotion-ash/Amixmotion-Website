@@ -68,7 +68,7 @@ header {
 
 .mission-text .pre-title { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 18px; color: #888; margin: 0 0 15px 0; }
 .mission-statement { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.4; margin: 0; }
-/* --- MISSION SECTION (NEW FULL-BLEED LAYOUT) --- */
+
 .mission-section {
     background-color: #000000;
     color: #e0e0e0;
@@ -78,10 +78,9 @@ header {
 
 .mission-grid {
     display: grid;
-    /* Create a 50/50 split for the two columns */
-    grid-template-columns: 1fr 1fr; 
+    /* Adjust grid to 45% for the image and 55% for the text */
+    grid-template-columns: 45% 55%; 
     align-items: center;
-    /* Remove the old gap */
     gap: 0; 
 }
 
@@ -116,9 +115,10 @@ header {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center; /* Helps vertically center the text block */
-    /* Add significant padding so text isn't at the edges */
-    padding: 100px 80px; 
+    /* Adjust padding: more on the left to clear the gradient, 
+       and a percentage on the right for responsiveness */
+    padding: 100px 10% 100px 120px;
+    box-sizing: border-box; /* Ensures padding is calculated correctly */
 }
 
 .mission-text .pre-title {
