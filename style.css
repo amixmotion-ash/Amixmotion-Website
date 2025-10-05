@@ -65,18 +65,105 @@ header {
 .scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; }
 
 /* --- MISSION SECTION --- */
-.mission-section { padding: 160px 0; background-color: #000000; color: #e0e0e0; }
-.mission-grid { display: grid; grid-template-columns: 300px 1fr; gap: 60px; align-items: center; }
-.mission-image { width: 300px; height: 300px; border-radius: 50%; overflow: hidden; margin: 0; }
-.mission-image img { width: 100%; height: 100%; object-fit: cover; }
-.mission-text { display: flex; flex-direction: column; align-items: flex-start; }
+
 .mission-text .pre-title { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 18px; color: #888; margin: 0 0 15px 0; }
 .mission-statement { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.4; margin: 0; }
+/* --- MISSION SECTION (NEW FULL-BLEED LAYOUT) --- */
+.mission-section {
+    background-color: #000000;
+    color: #e0e0e0;
+    /* Remove padding to allow the grid to go full-width */
+    padding: 0; 
+}
+
+.mission-grid {
+    display: grid;
+    /* Create a 50/50 split for the two columns */
+    grid-template-columns: 1fr 1fr; 
+    align-items: center;
+    /* Remove the old gap */
+    gap: 0; 
+}
+
+.mission-image {
+    /* Remove fixed width/height and border-radius */
+    width: 100%;
+    height: 100%;
+    position: relative; /* Crucial for positioning the gradient overlay */
+    overflow: hidden; /* Ensures image stays within its container */
+}
+
+/* This is the new rule that creates the fade-to-black effect */
+.mission-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradient: starts transparent, fades to solid black on the right */
+    background: linear-gradient(to right, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 95%);
+}
+
+.mission-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block; /* Removes any extra space below the image */
+}
+
+.mission-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center; /* Helps vertically center the text block */
+    /* Add significant padding so text isn't at the edges */
+    padding: 100px 80px; 
+}
+
+.mission-text .pre-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #888;
+    margin: 0 0 15px 0;
+}
+
+.mission-statement {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 33px;
+    line-height: 1.4;
+    margin: 0;
+    /* Set a max-width to prevent text lines from becoming too long */
+    max-width: 600px; 
+}
+
+/* --- Responsive styles for the new Mission Section --- */
 @media (max-width: 900px) {
-    .mission-grid { grid-template-columns: 1fr; gap: 40px; }
-    .mission-image { margin: 0 auto; width: 300px; height: 300px; }
-    .mission-text { align-items: flex-start; text-align: left; }
-    .mission-statement { font-size: 24px; }
+    .mission-grid {
+        /* Stack image and text vertically on smaller screens */
+        grid-template-columns: 1fr; 
+    }
+
+    .mission-image {
+        /* Give the image a minimum height on mobile */
+        min-height: 450px;
+    }
+
+    /* Change the gradient direction for the stacked layout */
+    .mission-image::after {
+        background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 40%);
+    }
+
+    .mission-text {
+        padding: 80px 40px; /* Adjust padding for mobile */
+        text-align: left;
+    }
+
+    .mission-statement {
+        font-size: 24px;
+    }
 }
 
 /* --- CLIENT SCROLLER SECTION --- */
