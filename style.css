@@ -261,21 +261,86 @@ footer {
 .homepage .custom-cursor { position: fixed; top: 0; left: 0; z-index: 1100; width: 80px; height: 80px; background-color: #000000; color: #ffffff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; opacity: 0; transform: scale(0.5) translate(20px, -50%); transform-origin: 0 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; }
 .homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
 .homepage.cursor-hover { cursor: none; }
-.about-page .about-page-main { padding-top: 120px; }
-.about-hero { padding: 80px 40px 60px; text-align: left; }
-.about-hero h1 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 8vw, 6rem); line-height: 1.1; margin: 0; text-transform: uppercase; }
-.about-details { padding: 80px 40px 60px; background-color: #000000; color: #ffffff; }
-.details-grid { display: grid; grid-template-columns: 1fr 1fr 2.5fr; gap: 40px; }
-.detail-item h3 { font-weight: 600; font-size: 1.2rem; margin: 0 0 20px 0; }
-.detail-item ul { list-style: none; margin: 0; padding: 0; line-height: 1.8; color: #aaa; }
-.detail-item p { font-size: 2.2rem; line-height: 1.6; font-weight: 300; margin: 0; }
-.detail-item p strong { font-weight: 600; }
-.image-carousel-section { padding: 0 0 80px 0; overflow: hidden; background-color: #000000; }
-.image-carousel-track { display: flex; width: max-content; animation: image-scroll 60s linear infinite; }
-@keyframes image-scroll { from { transform: translateX(0%); } to { transform: translateX(-50%); } }
-.carousel-image { flex-shrink: 0; width: 500px; padding: 0 5px; box-sizing: border-box; }
-.carousel-image img { width: 100%; height: auto; display: block; border-radius: 8px; }
-@media (max-width: 900px) { .details-grid { grid-template-columns: 1fr; } }
+/* --- ABOUT PAGE STYLES (NEW 2025 REDESIGN) --- */
+.about-page {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.about-page .about-page-main {
+    padding-top: 0; /* Remove old padding to allow content to go to the top */
+    max-width: 1600px; /* Constrain the max width for very large screens */
+    margin: 0 auto;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 55% 45%; /* Grid split: 55% for images, 45% for text */
+    align-items: start;
+    min-height: 100vh;
+    padding-top: 120px; /* Maintain space for the fixed header */
+}
+
+.about-image-column {
+    /* This negative margin is the key to achieving the "fold" effect */
+    margin-top: -20vh;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 0 40px;
+}
+
+.about-image-column .image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.about-text-column {
+    position: -webkit-sticky; /* Sticky positioning for the text column */
+    position: sticky;
+    top: 150px; /* Sticks 150px from the top */
+    padding-right: 40px;
+}
+
+.about-text-content .pre-title {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #888;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.about-text-content p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin: 0;
+    max-width: 500px; /* Constrains the width of the paragraph for readability */
+}
+
+/* --- Responsive styles for the new About Page --- */
+@media (max-width: 900px) {
+    .about-grid {
+        grid-template-columns: 1fr; /* Stack columns on mobile */
+        padding-top: 100px;
+    }
+
+    .about-image-column {
+        margin-top: 0; /* Reset the negative margin on mobile */
+        padding: 0 20px; /* Adjust mobile padding */
+        gap: 20px;
+    }
+
+    .about-text-column {
+        position: static; /* Un-stick the text column on mobile */
+        padding: 60px 20px 80px 20px; /* Add padding for mobile */
+    }
+}
+
+
 .contact-page .contact-page-main { display: flex; align-items: center; min-height: 100vh; padding: 120px 40px; box-sizing: border-box; }
 .contact-layout-container { width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 100px; align-items: start; }
 .contact-intro h1 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1.1; margin: 0 0 15px 0; text-transform: uppercase; white-space: nowrap; }
