@@ -347,7 +347,7 @@ footer {
     width: 60%;
     margin-top: -25%;
     margin-left: 5%;
-    transform: translate(100px, 0px); /* Adjust X and Y values */
+    transform: translate(-100px, 0px); /* Adjust X and Y values */
 }
 
 .about-text-column {
