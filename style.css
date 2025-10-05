@@ -348,11 +348,13 @@ footer {
 
 .about-image-wrapper.bottom-image {
     position: absolute;
-    width: 65%; /* Increased from 60% to make it larger */
-    aspect-ratio: 1 / 1; /* This forces the container to be a square */
-    bottom: -20%;
-    right: -50;
-    z-index: 2;
+    width: 70%;           /* Keeps the size */
+    aspect-ratio: 1 / 1;  /* Keeps it square */
+    z-index: 2;           /* Keeps it on top */
+
+    /* NEW POSITIONING SETTINGS */
+    bottom: -40%; /* Pushes the image down below Image 1 */
+    right: -15%;  /* Pushes the image to the right, towards the text */
 }
 
 .about-image-wrapper.bottom-image img {
