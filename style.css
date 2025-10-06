@@ -293,11 +293,10 @@ footer {
     margin-top: -250px; /* Pulls content up into the grey area */
 }
 
-/* --- Grid & Sizing Fix --- */
 .about-content-grid {
     display: grid;
-    /* This creates two columns that respect the parent .container's max-width */
-    grid-template-columns: 1.2fr 1fr;
+    /* THE FIX: The first column can never be wider than 800px. */
+    grid-template-columns: minmax(0, 800px) 1fr;
     align-items: start;
     gap: 60px;
 }
