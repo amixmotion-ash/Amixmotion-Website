@@ -264,17 +264,12 @@ footer {
 /* --- ABOUT PAGE STYLES (Final with Correct Overlap & Positioning) --- */
 /* --- ABOUT PAGE (Complete, Error-Checked Final Version) --- */
 
-/* --- Page & Section Setup --- */
-.about-page .about-page-main {
-    padding-top: 0;
-}
+/* --- ABOUT PAGE (Final, Corrected Version) --- */
 
+/* --- Section Setup --- */
 .about-title-section {
     background-color: #f2f2f2;
-    color: #222;
-    box-sizing: border-box;
-    /* Spacing: 200px top (whitespace), 40px sides (alignment), 300px bottom (overlap space) */
-    padding: 200px 40px 300px 40px;
+    padding: 200px 0 250px 0; /* Top whitespace, Bottom overlap space */
 }
 
 .about-title-section h1 {
@@ -286,7 +281,6 @@ footer {
     text-transform: uppercase;
     letter-spacing: -0.02em;
     text-align: left;
-    max-width: 1400px;
 }
 
 .about-content-section {
@@ -294,42 +288,37 @@ footer {
     color: #ffffff;
     padding: 80px 0;
     position: relative;
-    /* This pulls the entire black section UP into the grey space above */
-    margin-top: -300px;
+    /* This pulls the content UP into the grey space */
+    margin-top: -250px;
 }
 
 /* --- Grid Layout --- */
 .about-content-grid {
-    max-width: 1600px;
-    margin: 0 auto;
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
+    /* THE FIX: Constrains the image column to a max of 800px */
+    grid-template-columns: minmax(0, 800px) 1fr;
     align-items: start;
     gap: 60px;
-    padding: 0 40px;
-    box-sizing: border-box;
 }
 
-/* --- Images Column & Positioning --- */
+/* --- Images --- */
 .about-images-column {
-    /* This shifts the entire image block up to its final position */
+    /* The vertical shift you wanted */
     transform: translateY(-130px);
 }
 
 .about-image-wrapper.top-image {
     position: relative;
     z-index: 1;
-
-    /* --- The Final, Simplified Sizing --- */
-    /* It will be 100% of the width of its parent grid column */
+    /* Image 1 simply fills its constrained column */
     width: 100%;
 }
 
 .about-image-wrapper.bottom-image {
     position: absolute;
-    z-index: 2; /* On top */
-    aspect-ratio: 1 / 1; /* Square */
-    /* This makes Image 2 responsive and positions it relative to Image 1 */
+    z-index: 2;
+    aspect-ratio: 1 / 1;
+    /* These values are now stable because the parent size is constrained */
     width: 45%;
     top: 75%;
     left: 50%;
@@ -341,7 +330,7 @@ footer {
     object-fit: cover;
 }
 
-/* --- Text Column --- */
+/* --- Text --- */
 .about-text-column {
     padding-top: 20px;
 }
@@ -357,25 +346,14 @@ footer {
 
 .about-text-column .about-bio {
     font-family: 'Inter', sans-serif;
-    font-weight: 300;
     font-size: 1.5rem;
     line-height: 1.6;
     margin: 0;
     color: #e0e0e0;
-    max-width: 500px;
 }
 
-/* --- Responsive Media Queries --- */
-@media (max-width: 1480px) {
-    /* Disables the bleed effect on smaller screens to prevent layout breaks */
-    .about-image-wrapper.top-image {
-        margin-left: 0;
-        width: 90%;
-    }
-}
-
+/* --- Responsive --- */
 @media (max-width: 900px) {
-    /* Stacks the layout for mobile */
     .about-content-grid {
         grid-template-columns: 1fr;
     }
@@ -383,7 +361,6 @@ footer {
         margin-bottom: 60px;
     }
 }
-
 
 
 .contact-page .contact-page-main { display: flex; align-items: center; min-height: 100vh; padding: 120px 40px; box-sizing: border-box; }
