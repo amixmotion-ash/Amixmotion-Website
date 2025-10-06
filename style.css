@@ -311,10 +311,10 @@ footer {
 .about-image-wrapper.top-image {
     position: relative;
     z-index: 1;
-
-    /* --- THE FIX --- */
-    width: 100%; /* Tells the image to fill its column */
-    max-width: 800px; /* Sets a hard, unbreakable size limit */
+    
+    /* THE FIX: The image fills its column, but can never be wider than 750px. */
+    width: 100%;
+    max-width: 750px; 
 }
 
 .about-image-wrapper.bottom-image {
