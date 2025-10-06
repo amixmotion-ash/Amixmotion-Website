@@ -299,10 +299,9 @@ footer {
 .about-content {
     background-color: #000000;
     color: #ffffff;
-    padding: 80px 0;
-    /* FIX: Use negative margin to pull the entire black section (with images) up */
-    margin-top: -200px;
-    position: relative; /* Establishes a stacking context */
+    /* Change from "80px 0" to "120px 0 80px" (top, horizontal, bottom) */
+    padding: 120px 0 80px; 
+    position: relative;
 }
 
 .about-grid-layout {
