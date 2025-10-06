@@ -267,21 +267,18 @@ footer {
     overflow-x: hidden; /* Prevents horizontal scrollbar */
 }
 
+/* --- New Title Section for About Page --- */
+
 .about-page .about-page-main {
-    padding-top: 0;
-    background-color: #f2f2f2;
+    background-color: #f2f2f2; /* This ensures the area behind the header is light grey */
 }
 
-/* Section for the big title */
 .about-hero-title {
-    padding: 120px 0 80px 0;
     color: #222;
-    /* FIX: Add significant bottom padding to create space for the image to overlap into */
-    padding-bottom: 200px;
-}
-
-.about-hero-title .container {
-    max-width: 1400px;
+    padding: 120px 40px 80px 40px; /* Spacing: Top, Right, Bottom, Left */
+    max-width: 1600px; /* Constrains the section to your site's max width */
+    margin: 0 auto; /* Centers the section */
+    box-sizing: border-box;
 }
 
 .about-hero-title h1 {
@@ -292,15 +289,13 @@ footer {
     margin: 0;
     text-transform: uppercase;
     letter-spacing: -0.02em;
-    text-align: left;
+    text-align: left; /* This is the key: aligns the text to the left */
 }
 
-/* Section for the images and text content */
 .about-content {
     background-color: #000000;
     color: #ffffff;
-    /* Change from "80px 0" to "120px 0 80px" (top, horizontal, bottom) */
-    padding: 120px 0 80px; 
+    padding: 80px 0; /* Resetting top padding to 80px */
     position: relative;
 }
 
