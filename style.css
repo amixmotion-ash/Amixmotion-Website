@@ -264,12 +264,13 @@ footer {
 /* --- ABOUT PAGE STYLES (Final with Correct Overlap & Positioning) --- */
 /* --- ABOUT PAGE (Complete, Error-Checked Final Version) --- */
 
-/* --- ABOUT PAGE (Final, Corrected Version) --- */
+/* --- ABOUT PAGE (Definitive Final Version) --- */
 
 /* --- Section Setup --- */
 .about-title-section {
     background-color: #f2f2f2;
-    padding: 200px 0 250px 0; /* Top whitespace, Bottom overlap space */
+    padding: 200px 40px 250px 40px; /* 200px top whitespace, 40px side padding for alignment, 250px bottom for overlap */
+    box-sizing: border-box;
 }
 
 .about-title-section h1 {
@@ -281,6 +282,7 @@ footer {
     text-transform: uppercase;
     letter-spacing: -0.02em;
     text-align: left;
+    max-width: 1400px; /* Limits text width on huge screens without affecting alignment */
 }
 
 .about-content-section {
@@ -288,37 +290,34 @@ footer {
     color: #ffffff;
     padding: 80px 0;
     position: relative;
-    /* This pulls the content UP into the grey space */
-    margin-top: -250px;
+    margin-top: -250px; /* Pulls content up into the grey area */
 }
 
-/* --- Grid Layout --- */
+/* --- Grid & Sizing Fix --- */
 .about-content-grid {
     display: grid;
-    /* THE FIX: Constrains the image column to a max of 800px */
-    grid-template-columns: minmax(0, 800px) 1fr;
+    /* This creates two columns that respect the parent .container's max-width */
+    grid-template-columns: 1.2fr 1fr;
     align-items: start;
     gap: 60px;
 }
 
 /* --- Images --- */
 .about-images-column {
-    /* The vertical shift you wanted */
+    /* Your requested vertical shift */
     transform: translateY(-130px);
 }
 
 .about-image-wrapper.top-image {
     position: relative;
     z-index: 1;
-    /* Image 1 simply fills its constrained column */
-    width: 100%;
+    width: 100%; /* Image 1 simply fills its parent column, which is now correctly constrained */
 }
 
 .about-image-wrapper.bottom-image {
     position: absolute;
     z-index: 2;
     aspect-ratio: 1 / 1;
-    /* These values are now stable because the parent size is constrained */
     width: 45%;
     top: 75%;
     left: 50%;
@@ -335,31 +334,14 @@ footer {
     padding-top: 20px;
 }
 
-.about-text-column .pre-title {
-    font-size: 0.9em;
-    font-weight: 600;
-    color: #888;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
-
-.about-text-column .about-bio {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.5rem;
-    line-height: 1.6;
-    margin: 0;
-    color: #e0e0e0;
-}
+/* (The rest of the text styling is standard and correct) */
+.about-text-column .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
+.about-text-column .about-bio { font-family: 'Inter', sans-serif; font-size: 1.5rem; line-height: 1.6; margin: 0; color: #e0e0e0; }
 
 /* --- Responsive --- */
 @media (max-width: 900px) {
-    .about-content-grid {
-        grid-template-columns: 1fr;
-    }
-    .about-images-column {
-        margin-bottom: 60px;
-    }
+    .about-content-grid { grid-template-columns: 1fr; }
+    .about-images-column { margin-bottom: 60px; }
 }
 
 
