@@ -272,18 +272,23 @@ footer {
 /* --- About Page Title (Corrected Left Alignment) --- */
 
 /* This ensures the area behind the header is light grey */
+/* --- About Page Title & Content (Final Correction) --- */
+
+/* This sets the light grey background for the top of the page */
 .about-page .about-page-main {
     background-color: #f2f2f2;
 }
 
 /* This is the container for the title */
 .about-hero-title {
-    background-color: #f2f2f2;
+    background-color: #f2f2f2; /* Match the main background */
     color: #222;
-    /* The key fix: The padding now matches your header's 40px horizontal padding */
-    padding: 120px 40px 80px 40px;
     box-sizing: border-box;
-    /* We DO NOT use max-width or margin:auto here, so it spans the full screen width */
+    /* This padding is the entire fix: */
+    /* 1. 200px on top to restore your increased whitespace. */
+    /* 2. 40px on the left/right to perfectly align with your header. */
+    /* 3. 80px on the bottom for spacing above the black section. */
+    padding: 200px 40px 80px 40px;
 }
 
 /* This styles the text itself */
@@ -295,16 +300,15 @@ footer {
     margin: 0;
     text-transform: uppercase;
     letter-spacing: -0.02em;
-    text-align: left;
-    /* We add a max-width to the text itself for readability on huge screens, but it won't affect the alignment */
-    max-width: 1400px;
+    text-align: left; /* Aligns text to the left of the padded area */
+    max-width: 1400px; /* Prevents text from being too wide on huge screens */
 }
 
-/* Ensure the content below has the correct spacing */
+/* This ensures the black content section below has the correct spacing */
 .about-content {
     background-color: #000000;
     color: #ffffff;
-    padding: 80px 0; /* Resets the top padding */
+    padding: 80px 0; /* Standard 80px top/bottom padding */
     position: relative;
 }
 
