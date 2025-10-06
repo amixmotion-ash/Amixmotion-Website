@@ -310,7 +310,10 @@ footer {
 .about-image-wrapper.top-image {
     position: relative;
     z-index: 1;
-    width: 100%; /* Image 1 simply fills its parent column, which is now correctly constrained */
+
+    /* --- THE FIX --- */
+    width: 100%; /* Tells the image to fill its column */
+    max-width: 800px; /* Sets a hard, unbreakable size limit */
 }
 
 .about-image-wrapper.bottom-image {
