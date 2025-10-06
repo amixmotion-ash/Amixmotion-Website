@@ -280,18 +280,19 @@ footer {
 }
 
 /* This is the container for the title */
+/* --- About Page Title & Content (Final Layout Correction) --- */
+
+/* This styles the title's container */
 .about-hero-title {
-    background-color: #f2f2f2; /* Match the main background */
+    background-color: #f2f2f2;
     color: #222;
     box-sizing: border-box;
-    /* This padding is the entire fix: */
-    /* 1. 200px on top to restore your increased whitespace. */
-    /* 2. 40px on the left/right to perfectly align with your header. */
-    /* 3. 80px on the bottom for spacing above the black section. */
-    padding: 200px 40px 80px 40px;
+    /* 1. We keep the top padding for whitespace and the side padding for alignment. */
+    /* 2. We increase the bottom padding to create a large empty space for the images to overlap into. */
+    padding: 200px 40px 250px 40px; 
 }
 
-/* This styles the text itself */
+/* This styles the title text itself */
 .about-hero-title h1 {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
@@ -300,16 +301,19 @@ footer {
     margin: 0;
     text-transform: uppercase;
     letter-spacing: -0.02em;
-    text-align: left; /* Aligns text to the left of the padded area */
-    max-width: 1400px; /* Prevents text from being too wide on huge screens */
+    text-align: left;
+    max-width: 1400px;
 }
 
-/* This ensures the black content section below has the correct spacing */
+/* This is the black section with your images and text */
 .about-content {
     background-color: #000000;
     color: #ffffff;
-    padding: 80px 0; /* Standard 80px top/bottom padding */
-    position: relative;
+    padding: 80px 0;
+    position: relative; /* This is required for z-index and positioning */
+    
+    /* THE FIX: This pulls the entire black section UP into the empty space we created above. */
+    margin-top: -250px;
 }
 
 .about-grid-layout {
