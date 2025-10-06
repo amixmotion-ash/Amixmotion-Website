@@ -320,12 +320,9 @@ footer {
     position: relative;
     z-index: 1;
 
-    /* --- The Correct Sizing and Positioning --- */
-    /* This sets a minimum, preferred, and maximum size */
-    width: clamp(400px, 45vw, 700px); 
-    
-    /* This creates the bleed effect by pulling the image left */
-    margin-left: -10vw; 
+    /* --- The Final, Simplified Sizing --- */
+    /* It will be 100% of the width of its parent grid column */
+    width: 100%;
 }
 
 .about-image-wrapper.bottom-image {
