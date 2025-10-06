@@ -317,12 +317,15 @@ footer {
 }
 
 .about-image-wrapper.top-image {
-    position: relative; /* This is the positioning parent for the bottom image */
+    position: relative;
     z-index: 1;
-    /* This makes Image 1 responsive and bleed off the left side */
-    width: calc(90% + 50vw - 700px + 40px);
-    margin-left: calc(-50vw + 700px - 40px);
-    max-width: none;
+
+    /* --- The Correct Sizing and Positioning --- */
+    /* This sets a minimum, preferred, and maximum size */
+    width: clamp(400px, 45vw, 700px); 
+    
+    /* This creates the bleed effect by pulling the image left */
+    margin-left: -10vw; 
 }
 
 .about-image-wrapper.bottom-image {
