@@ -262,38 +262,22 @@ footer {
 .homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
 .homepage.cursor-hover { cursor: none; }
 /* --- ABOUT PAGE STYLES (Final with Correct Overlap & Positioning) --- */
-.about-page {
-    background-color: #000000;
-    overflow-x: hidden; /* Prevents horizontal scrollbar */
-}
+/* --- ABOUT PAGE (Complete, Error-Checked Final Version) --- */
 
-/* --- New Title Section for About Page --- */
-
-/* --- About Page Title (Corrected Left Alignment) --- */
-
-/* This ensures the area behind the header is light grey */
-/* --- About Page Title & Content (Final Correction) --- */
-
-/* This sets the light grey background for the top of the page */
+/* --- Page & Section Setup --- */
 .about-page .about-page-main {
-    background-color: #f2f2f2;
+    padding-top: 0;
 }
 
-/* This is the container for the title */
-/* --- About Page Title & Content (Final Layout Correction) --- */
-
-/* This styles the title's container */
-.about-hero-title {
+.about-title-section {
     background-color: #f2f2f2;
     color: #222;
     box-sizing: border-box;
-    /* 1. We keep the top padding for whitespace and the side padding for alignment. */
-    /* 2. We increase the bottom padding to create a large empty space for the images to overlap into. */
-    padding: 200px 40px 250px 40px; 
+    /* Spacing: 200px top (whitespace), 40px sides (alignment), 300px bottom (overlap space) */
+    padding: 200px 40px 300px 40px;
 }
 
-/* This styles the title text itself */
-.about-hero-title h1 {
+.about-title-section h1 {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
     font-size: clamp(2.5rem, 8vw, 6.5rem);
@@ -305,76 +289,59 @@ footer {
     max-width: 1400px;
 }
 
-/* This is the black section with your images and text */
-.about-content {
+.about-content-section {
     background-color: #000000;
     color: #ffffff;
     padding: 80px 0;
-    position: relative; /* This is required for z-index and positioning */
-    
-    /* THE FIX: This pulls the entire black section UP into the empty space we created above. */
-    margin-top: -250px;
+    position: relative;
+    /* This pulls the entire black section UP into the grey space above */
+    margin-top: -300px;
 }
 
-.about-grid-layout {
-    max-width: 1400px;
+/* --- Grid Layout --- */
+.about-content-grid {
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 0 40px;
-    box-sizing: border-box;
     display: grid;
     grid-template-columns: 1.2fr 1fr;
-    gap: 60px;
     align-items: start;
+    gap: 60px;
+    padding: 0 40px;
+    box-sizing: border-box;
 }
 
+/* --- Images Column & Positioning --- */
 .about-images-column {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    /* This shifts the entire image block up to its final position */
     transform: translateY(-130px);
-    position: relative; 
-}
-
-.about-image-wrapper {
-    overflow: hidden;
-    position: relative; /* FIX: Required for z-index to work */
-}
-
-.about-image-wrapper img {
-    width: 100%;
-    height: auto;
-    display: block;
 }
 
 .about-image-wrapper.top-image {
-    /* Bleed effect from previous step */
-    margin-left: calc(-50vw + 700px - 40px);
-    width: calc(90% + 50vw - 700px + 40px);
-    max-width: none;
-     position: relative; 
-     /* FIX: Set z-index to be behind the bottom image */
+    position: relative; /* This is the positioning parent for the bottom image */
     z-index: 1;
+    /* This makes Image 1 responsive and bleed off the left side */
+    width: calc(90% + 50vw - 700px + 40px);
+    margin-left: calc(-50vw + 700px - 40px);
+    max-width: none;
 }
 
-
-.about-image-wrapper-final.bottom-image-final {
+.about-image-wrapper.bottom-image {
     position: absolute;
-    z-index: 2;
-    aspect-ratio: 1 / 1;
+    z-index: 2; /* On top */
+    aspect-ratio: 1 / 1; /* Square */
+    /* This makes Image 2 responsive and positions it relative to Image 1 */
+    width: 45%;
     top: 75%;
     left: 50%;
-
-    /* --- THE DEFINITIVE FIX --- */
-    /* This formula is 45% of Image 1's width formula */
-    width: calc( (90% + 50vw - 700px + 40px) * 0.45 );
 }
 
 .about-image-wrapper.bottom-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* This makes the image fill the space, cropping if necessary */
+    object-fit: cover;
 }
 
+/* --- Text Column --- */
 .about-text-column {
     padding-top: 20px;
 }
@@ -395,10 +362,12 @@ footer {
     line-height: 1.6;
     margin: 0;
     color: #e0e0e0;
+    max-width: 500px;
 }
 
-/* --- Responsive styles for the About Page --- */
+/* --- Responsive Media Queries --- */
 @media (max-width: 1480px) {
+    /* Disables the bleed effect on smaller screens to prevent layout breaks */
     .about-image-wrapper.top-image {
         margin-left: 0;
         width: 90%;
@@ -406,37 +375,12 @@ footer {
 }
 
 @media (max-width: 900px) {
-    .about-hero-title {
-        padding-bottom: 80px; /* Reset padding on mobile */
-    }
-    .about-content {
-        margin-top: 0; /* Reset negative margin on mobile */
-    }
-
-    .about-grid-layout {
+    /* Stacks the layout for mobile */
+    .about-content-grid {
         grid-template-columns: 1fr;
-        gap: 0;
-        padding: 0 20px;
     }
-    
     .about-images-column {
-        align-items: center;
         margin-bottom: 60px;
-    }
-    
-    .about-image-wrapper.top-image,
-    .about-image-wrapper.bottom-image {
-        width: 100%;
-        margin-left: 0;
-    }
-
-    .about-image-wrapper.bottom-image {
-        margin-top: -20%;
-        margin-left: 0; /* Ensure it's centered on mobile */
-    }
-
-    .about-text-column .about-bio {
-        font-size: 1.2rem;
     }
 }
 
