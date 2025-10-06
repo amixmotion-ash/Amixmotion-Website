@@ -299,6 +299,7 @@ footer {
     grid-template-columns: minmax(0, 800px) 1fr;
     align-items: start;
     gap: 60px;
+    /* Other properties remain the same */
 }
 
 /* --- Images --- */
