@@ -725,11 +725,11 @@ line-clamp: 8; /* This sets the max number of lines */
 }
 }
 
-/* --- SERVICES SECTION (V3 - CORRECTED ALIGNMENT) --- */
+/* --- SERVICES SECTION (CORRECTED) --- */
 .services-section {
     background-color: #f2f2f2;
-    padding: 120px 40px; /* Use section padding for alignment */
-    text-align: center; /* THIS IS THE KEY FIX */
+    padding: 120px 40px;
+    text-align: center;
 }
 
 .services-header h2 {
@@ -765,7 +765,6 @@ line-clamp: 8; /* This sets the max number of lines */
     display: inline-block;
 }
 
-/* Vertical line coming down from title */
 .row-title::after {
     content: '';
     position: absolute;
