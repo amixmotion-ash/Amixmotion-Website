@@ -573,278 +573,82 @@ footer {
         gap: 20px;
     }
 }
-/* --- FINAL V5: ABOUT PAGE - ADVANCED GRID LAYOUT --- */
+/*
+============================================================
+== FINAL CORRECTED STYLES FOR ABOUT PAGE ==
+============================================================
+*/
 
-/* Reset main padding for full-width sections */
-.about-page .about-page-main {
-    padding-top: 0; 
+/* This is the key fix. We add padding to the bottom of the wrapper
+   to make space for the negative margin content, which fixes the page flow. */
+.profile-section-wrapper {
+    padding-bottom: 250px;
 }
 
-/* 1. Light Grey Title Section */
+/* --- Profile Section Styles --- */
 .about-title-section {
     background-color: #f2f2f2;
-    padding: 200px 0 250px 0; 
+    padding-left: 40px;
+    padding-right: 40px;
     box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
 }
 
-.about-title-section h1 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2.5rem, 8vw, 6rem);
-    line-height: 1.1;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    text-align: left;
-}
-
-/* 2. Black Content Section (NOW AN ADVANCED GRID) */
 .about-content-section {
     background-color: #000000;
     color: #ffffff;
     position: relative;
-    margin-top: -250px; 
+    margin-top: -500px; /* The negative margin for the overlap */
     display: grid;
-    /* This creates a 2-column grid */
     grid-template-columns: 1fr 1fr;
-    /* This defines a visual map for our content */
-    grid-template-areas:
-        "photo text"
-        "photo ."; /* The '.' is an empty cell, forcing text to stay in the top row */
+    grid-template-areas: "photo text" "photo .";
 }
 
-/* 3. The Image Column */
-.about-images-column {
-    /* This rule tells the image column to occupy both the top and bottom 'photo' cells */
-    grid-area: photo;
-    transform: translateY(-130px);
-    /* REMOVED overflow:hidden - this was causing the unwanted masking */
-}
+.about-images-column { grid-area: photo; transform: translateY(-130px); }
+.about-image-wrapper.top-image { position: relative; z-index: 1; width: 100%; }
+.about-image-wrapper img { width: 100%; height: auto; display: block; }
+.about-image-wrapper.bottom-image { position: absolute; z-index: 2; aspect-ratio: 1 / 1; width: 45%; top: 75%; right: -10%; left: auto; }
+.about-image-wrapper.bottom-image img { width: 100%; height: 100%; object-fit: cover; }
+.about-text-column { grid-area: text; padding: 40px 15% 80px 100px; box-sizing: border-box; align-self: start; }
+.about-text-column .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
+.about-text-column .about-bio { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.4; margin: 0; color: #e0e0e0; }
+.about-bio .desktop-only { display: initial; } /* Ensure <br> tags work */
 
-.about-image-wrapper.top-image {
-    position: relative; /* Anchor for the small image */
-    z-index: 1;
-    width: 100%; 
-}
 
-.about-image-wrapper img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.about-image-wrapper.bottom-image {
-    position: absolute;
-    z-index: 2;
-    aspect-ratio: 1 / 1;
-    width: 45%; 
-    top: 75%;
-    /* Pushes the small image slightly out of its parent for the overlap effect */
-    right: -10%; 
-    left: auto;
-}
-
-.about-image-wrapper.bottom-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* 4. The Text Column */
-/* Find and replace this rule */
-.about-text-column {
-    grid-area: text;
-    padding: 40px 15% 80px 100px;
-    box-sizing: border-box;
-    align-self: start; 
-    /* ADD THIS LINE: This turns the text column into a queryable container */
-    container-type: inline-size;
-}
-.about-text-column .pre-title {
-    font-size: 0.9em;
-    font-weight: 600;
-    color: #888;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
-
-.about-text-column .about-bio {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    /* This makes the font size scale relative to its container's width */
-    font-size: clamp(16px, 6.5cqw, 33px);
-    line-height: 1.4;
-    margin: 0;
-    color: #e0e0e0;
-line-clamp: 8; /* This sets the max number of lines */
-}
-
-/* --- Responsive Adjustments for Mobile --- */
-@media (max-width: 900px) {
-    .about-title-section {
-        padding: 140px 0 80px 0;
-    }
-    
-    .about-content-section {
-        margin-top: 0;
-        padding: 60px 0;
-        display: block; /* Disables the grid entirely */
-    }
-    
-    .about-images-column {
-        /* Reset grid properties */
-        grid-area: auto;
-        transform: translateY(0);
-        margin-bottom: 40px;
-        padding: 0 40px; 
-        box-sizing: border-box;
-    }
-
-    .about-image-wrapper.bottom-image {
-        width: 50%;
-        top: 65%;
-        right: auto;
-        left: 40%;
-    }
-
-    .about-text-column {
-        /* Reset grid properties */
-        grid-area: auto;
-        padding: 0 40px; 
-    }
-
- .about-text-column .about-bio {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    /* This fluidly scales the text while the <br> tags hold the line breaks */
-    font-size: clamp(16px, 2.2vw, 33px);
-    line-height: 1.4;
-    margin: 0;
-    color: #e0e0e0;
-}
-}
-
-/* --- SERVICES SECTION (CORRECTED) --- */
-
-.about-overlap-wrapper {
-    position: relative;
-    z-index: 1;
-}
-/* --- SERVICES SECTION (DEFINITIVE FIX) --- */
+/* --- Services Section Styles --- */
 .services-section {
     background-color: #f2f2f2;
     padding: 120px 40px;
-    /* This padding pushes the section down to clear the overlapping profile */
-    padding-top: 350px; 
-}
-
-.services-content {
-    max-width: 1200px; /* Constrains the content width */
-    margin: 0 auto;    /* Centers the content block */
     text-align: center;
 }
 
-.services-header {
-    max-width: 650px;
-    margin: 0 auto 100px auto; /* Centers the header and adds space below it */
-}
+.services-header h2 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; text-transform: uppercase; margin: 0 0 20px 0; }
+.services-header p { max-width: 650px; margin: 0 auto 80px auto; font-size: 1.1rem; line-height: 1.6; color: #555; }
+.services-row { margin-bottom: 60px; position: relative; }
+.row-title { color: #aaa; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8em; margin-bottom: 50px; position: relative; display: inline-block; }
+.row-title::after { content: ''; position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); width: 1px; height: 30px; background-color: #ddd; }
+.cards-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.service-card { background-color: #000000; color: #ffffff; padding: 30px; border-radius: 8px; flex-basis: 250px; display: flex; flex-direction: column; justify-content: center; min-height: 150px; }
+.service-card h3 { font-size: 1.2rem; font-weight: 600; margin: 0 0 10px 0; }
+.service-card p { font-size: 0.9rem; line-height: 1.5; color: #aaa; margin: 0; }
+.services-cta { margin-top: 80px; }
 
-.services-header h2 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    line-height: 1.1;
-    text-transform: uppercase;
-    margin: 0 0 20px 0;
-}
 
-.services-header p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #555;
-    margin: 0;
-}
-
-.services-row {
-    margin-bottom: 60px;
-    position: relative;
-}
-
-.row-title {
-    color: #aaa;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-size: 0.8em;
-    margin-bottom: 50px;
-    position: relative;
-    display: inline-block;
-}
-
-.row-title::after {
-    content: '';
-    position: absolute;
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1px;
-    height: 30px;
-    background-color: #ddd;
-}
-
-.cards-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.service-card {
-    background-color: #000000;
-    color: #ffffff;
-    padding: 30px;
-    border-radius: 8px;
-    flex-basis: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 150px;
-}
-
-.service-card h3 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin: 0 0 10px 0;
-}
-
-.service-card p {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    color: #aaa;
-    margin: 0;
-}
-
-.services-cta {
-    margin-top: 80px;
-}
-
-/* Responsive adjustments */
+/* --- Responsive Styles for About Page --- */
 @media (max-width: 900px) {
-    .services-section {
-        padding-top: 120px; /* Reset padding on mobile */
-    }
-    .service-card {
-       flex-basis: calc(50% - 10px);
-       min-height: 180px;
-    }
-    .row-title::after {
-        display: none;
-    }
+    .profile-section-wrapper { padding-bottom: 0; } /* Remove the padding fix on mobile */
+    .about-content-section { margin-top: 0; display: block; }
+    .about-images-column { grid-area: auto; transform: translateY(0); margin-bottom: 40px; padding: 0 40px; box-sizing: border-box; }
+    .about-image-wrapper.bottom-image { width: 50%; top: 65%; right: auto; left: 40%; }
+    .about-text-column { grid-area: auto; padding: 0 40px; }
+    .about-text-column .about-bio { font-size: 24px; }
+    .about-bio .desktop-only { display: none; }
+    .service-card { flex-basis: calc(50% - 10px); min-height: 180px; }
+    .row-title::after { display: none; }
 }
 
 @media (max-width: 600px) {
-    .service-card {
-       flex-basis: 100%;
-    }
-} 
+    .service-card { flex-basis: 100%; }
+}
