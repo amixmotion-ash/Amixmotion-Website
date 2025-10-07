@@ -566,14 +566,14 @@ footer {
         gap: 20px;
     }
 }
-/* --- NEW: ABOUT PAGE - DYNAMIC OVERLAP LAYOUT (V3 - ABSOLUTE POSITIONING) --- */
+/* --- FINAL: ABOUT PAGE - DYNAMIC OVERLAP LAYOUT (V4 - ROBUST GRID) --- */
 
 /* Reset main padding for full-width sections */
 .about-page .about-page-main {
     padding-top: 0; 
 }
 
-/* 1. Light Grey Title Section (Unchanged) */
+/* 1. Light Grey Title Section */
 .about-title-section {
     background-color: #f2f2f2;
     padding: 200px 0 250px 0; 
@@ -591,30 +591,22 @@ footer {
     text-align: left;
 }
 
-/* 2. Black Content Section (MODIFIED) */
+/* 2. Black Content Section (NOW A GRID CONTAINER) */
 .about-content-section {
     background-color: #000000;
     color: #ffffff;
-    padding: 80px 0;
     position: relative;
     margin-top: -250px; 
+    display: grid;
+    /* This grid creates the stable layout */
+    grid-template-columns: 50% 1fr;
 }
 
-/* 3. The Grid is REMOVED. This container is now just a positioning context. */
-.about-content-grid {
-    position: relative; /* Establishes a reference for the absolute image */
-}
-
-/* 4. The Image Column (NOW ABSOLUTELY POSITIONED) */
+/* 3. The Image Column */
 .about-images-column {
-    position: absolute; /* Takes the image out of the document flow */
-    left: 0;
-    top: 0;
-    width: 50%; /* Locks it to the left half of the screen */
-    height: 100%;
     transform: translateY(-130px);
-    overflow: hidden; /* GUARANTEES the small image cannot leave this column */
-    z-index: 1;
+    overflow: hidden; /* CRITICAL: Clips the bottom image, preventing overlap */
+    /* This column is the first grid item */
 }
 
 .about-image-wrapper.top-image {
@@ -645,15 +637,11 @@ footer {
     object-fit: cover;
 }
 
-/* 5. The Text Column (REPOSITIONED) */
+/* 4. The Text Column */
 .about-text-column {
-    /* Pushes the text column into the right half of the screen */
-    margin-left: 50%; 
-    /* Generous padding gives the text its own internal width */
-    padding: 20px 10% 20px 80px; 
+    /* This column is the second grid item */
+    padding: 100px 15% 100px 100px; /* Generous padding to control width */
     box-sizing: border-box;
-    position: relative;
-    z-index: 2; /* Ensures text is always above the image plane */
 }
 
 .about-text-column .pre-title {
@@ -674,7 +662,7 @@ footer {
     color: #e0e0e0;
 }
 
-/* --- Responsive Adjustments for Mobile (MODIFIED TO UNDO ABSOLUTE POSITIONING) --- */
+/* --- Responsive Adjustments for Mobile --- */
 @media (max-width: 900px) {
     .about-title-section {
         padding: 140px 0 80px 0;
@@ -683,13 +671,10 @@ footer {
     .about-content-section {
         margin-top: 0;
         padding: 60px 0;
+        display: block; /* Undoes the grid for a simple stacked layout */
     }
-
-    /* Undo the absolute positioning for a simple stacked layout */
+    
     .about-images-column {
-        position: static; /* Puts the image back in the normal flow */
-        width: 100%;
-        height: auto;
         transform: translateY(0);
         margin-bottom: 40px;
         padding: 0 40px; 
@@ -705,7 +690,6 @@ footer {
     }
 
     .about-text-column {
-        margin-left: 0; /* Removes the 50% margin */
         padding: 0 40px; 
     }
 
