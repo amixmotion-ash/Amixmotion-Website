@@ -730,38 +730,18 @@ footer {
     padding: 120px 40px;
 }
 
-/* This is the new two-column grid container */
+/* This container is no longer a grid, it just provides spacing */
 .process-grid-container {
     max-width: 1200px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Creates two equal columns */
-    gap: 100px; /* Space between the header and the accordion */
-    align-items: start; /* Aligns items to the top of their cells */
 }
 
-.process-header {
-    /* No specific styles needed here anymore, the grid handles it */
-}
-
-.process-header .pre-title {
-    color: #888;
-    font-size: 0.9em;
-    font-weight: 600;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-}
-
-.process-header h2 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: 2.5rem;
-    line-height: 1.4;
-    margin: 0;
-}
+/* --- The header styles have been removed --- */
 
 .accordion {
-    /* The accordion now lives in the second grid column */
+    /* This is the key change to center the accordion */
+    max-width: 800px; /* Set a max-width for the accordion */
+    margin: 0 auto;   /* Center it horizontally */
 }
 
 .accordion-item {
@@ -824,8 +804,5 @@ footer {
 
 /* Responsive adjustments */
 @media (max-width: 900px) {
-    .process-grid-container {
-        grid-template-columns: 1fr; /* Stack to a single column */
-        gap: 60px; /* Adjust gap for mobile */
-    }
+    /* No changes needed here, the centered accordion will look good on mobile */
 }
