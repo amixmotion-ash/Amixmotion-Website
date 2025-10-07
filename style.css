@@ -566,7 +566,7 @@ footer {
         gap: 20px;
     }
 }
-/* --- FINAL: ABOUT PAGE - DYNAMIC OVERLAP LAYOUT (V4 - ROBUST GRID) --- */
+/* --- FINAL V5: ABOUT PAGE - ADVANCED GRID LAYOUT --- */
 
 /* Reset main padding for full-width sections */
 .about-page .about-page-main {
@@ -591,26 +591,31 @@ footer {
     text-align: left;
 }
 
-/* 2. Black Content Section (NOW A GRID CONTAINER) */
+/* 2. Black Content Section (NOW AN ADVANCED GRID) */
 .about-content-section {
     background-color: #000000;
     color: #ffffff;
     position: relative;
     margin-top: -250px; 
     display: grid;
-    /* This grid creates the stable layout */
-    grid-template-columns: 50% 1fr;
+    /* This creates a 2-column grid */
+    grid-template-columns: 1fr 1fr;
+    /* This defines a visual map for our content */
+    grid-template-areas:
+        "photo text"
+        "photo ."; /* The '.' is an empty cell, forcing text to stay in the top row */
 }
 
 /* 3. The Image Column */
 .about-images-column {
+    /* This rule tells the image column to occupy both the top and bottom 'photo' cells */
+    grid-area: photo;
     transform: translateY(-130px);
-    overflow: hidden; /* CRITICAL: Clips the bottom image, preventing overlap */
-    /* This column is the first grid item */
+    /* REMOVED overflow:hidden - this was causing the unwanted masking */
 }
 
 .about-image-wrapper.top-image {
-    position: relative;
+    position: relative; /* Anchor for the small image */
     z-index: 1;
     width: 100%; 
 }
@@ -627,6 +632,7 @@ footer {
     aspect-ratio: 1 / 1;
     width: 45%; 
     top: 75%;
+    /* Pushes the small image slightly out of its parent for the overlap effect */
     right: -10%; 
     left: auto;
 }
@@ -639,9 +645,12 @@ footer {
 
 /* 4. The Text Column */
 .about-text-column {
-    /* This column is the second grid item */
-    padding: 100px 15% 100px 100px; /* Generous padding to control width */
+    /* This rule locks the text into the top-right 'text' cell */
+    grid-area: text;
+    padding: 80px 15% 80px 100px;
     box-sizing: border-box;
+    /* Self-alignment to ensure it doesn't stretch weirdly */
+    align-self: start; 
 }
 
 .about-text-column .pre-title {
@@ -671,15 +680,16 @@ footer {
     .about-content-section {
         margin-top: 0;
         padding: 60px 0;
-        display: block; /* Undoes the grid for a simple stacked layout */
+        display: block; /* Disables the grid entirely */
     }
     
     .about-images-column {
+        /* Reset grid properties */
+        grid-area: auto;
         transform: translateY(0);
         margin-bottom: 40px;
         padding: 0 40px; 
         box-sizing: border-box;
-        overflow: visible; 
     }
 
     .about-image-wrapper.bottom-image {
@@ -690,6 +700,8 @@ footer {
     }
 
     .about-text-column {
+        /* Reset grid properties */
+        grid-area: auto;
         padding: 0 40px; 
     }
 
