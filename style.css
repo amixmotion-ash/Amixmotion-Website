@@ -724,3 +724,112 @@ line-clamp: 8; /* This sets the max number of lines */
     color: #e0e0e0;
 }
 }
+
+/* --- SERVICES SECTION --- */
+.services-section {
+    background-color: #f2f2f2;
+    padding: 120px 40px;
+    text-align: center;
+}
+
+.services-header h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin: 0 0 20px 0;
+}
+
+.services-header p {
+    max-width: 650px;
+    margin: 0 auto 80px auto;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+.services-row {
+    margin-bottom: 60px;
+    position: relative;
+}
+
+.row-title {
+    color: #aaa;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    margin-bottom: 50px;
+    position: relative;
+    display: inline-block; /* Allows for centering */
+}
+
+/* Vertical line coming down from title */
+.row-title::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 30px;
+    background-color: #ddd;
+}
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+}
+
+.service-card {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    flex-basis: 250px; /* Base width for each card */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 150px;
+}
+
+.service-card h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+}
+
+.service-card p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #aaa;
+    margin: 0;
+}
+
+.services-cta {
+    margin-top: 80px;
+}
+
+/* Responsive adjustments for the services section */
+@media (max-width: 900px) {
+    /* On mobile, use a 2-column grid instead of 4 or 5 */
+    .service-card {
+       flex-basis: calc(50% - 10px); /* 50% width minus half the gap */
+       min-height: 180px;
+    }
+
+    /* Hide decorative lines on mobile as they can look messy */
+    .row-title::after {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    /* On very small screens, stack to a single column */
+    .service-card {
+       flex-basis: 100%;
+    }
+}
