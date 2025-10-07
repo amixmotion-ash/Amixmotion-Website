@@ -647,7 +647,7 @@ footer {
 .about-text-column {
     /* This rule locks the text into the top-right 'text' cell */
     grid-area: text;
-    padding: 40px 15% 80px 100px;
+    padding: 20px 15% 80px 100px;
     box-sizing: border-box;
     /* Self-alignment to ensure it doesn't stretch weirdly */
     align-self: start; 
