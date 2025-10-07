@@ -272,7 +272,7 @@ footer {
     align-items: center;    /* This provides perfect VERTICAL centering */
 
     /* This provides the correct HORIZONTAL alignment with your header */
-    padding-left: 40px;
+    padding-left: 100px;
     padding-right: 40px;
 }
 
