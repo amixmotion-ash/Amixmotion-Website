@@ -566,3 +566,135 @@ footer {
         gap: 20px;
     }
 }
+/* --- NEW: ABOUT PAGE - DYNAMIC OVERLAP LAYOUT --- */
+
+/* Reset main padding for full-width sections */
+.about-page .about-page-main {
+    padding-top: 0; 
+}
+
+/* 1. Light Grey Title Section */
+.about-title-section {
+    background-color: #f2f2f2;
+    /* 200px top whitespace, 250px bottom space for the image to overlap into */
+    padding: 200px 0 250px 0; 
+    box-sizing: border-box;
+}
+
+.about-title-section h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    line-height: 1.1;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    text-align: left;
+}
+
+/* 2. Black Content Section */
+.about-content-section {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 80px 0;
+    position: relative; /* Needed for stacking context */
+    /* This is the key: it pulls the entire black section UP into the grey space */
+    margin-top: -250px; 
+}
+
+/* 3. The Two-Column Grid */
+.about-content-grid {
+    display: grid;
+    /* First (image) column is flexible but won't exceed 750px */
+    grid-template-columns: minmax(0, 750px) 1fr;
+    align-items: start;
+    gap: 60px;
+}
+
+/* 4. The Image Column & Positioning */
+.about-images-column {
+    /* This shifts the entire image block up further into its final position */
+    transform: translateY(-130px);
+}
+
+.about-image-wrapper.top-image {
+    position: relative; /* This is the anchor for the bottom image */
+    z-index: 1;
+    width: 100%; 
+}
+
+.about-image-wrapper img {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+}
+
+.about-image-wrapper.bottom-image {
+    position: absolute;
+    z-index: 2; /* Ensure it's on top */
+    aspect-ratio: 1 / 1; /* Makes it a perfect square */
+    /* Position and size are relative to the top image for consistent overlap */
+    width: 45%; 
+    top: 75%;
+    left: 50%;
+}
+
+.about-image-wrapper.bottom-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image fills the square without distortion */
+}
+
+/* 5. The Text Column */
+.about-text-column {
+    padding-top: 20px;
+}
+
+.about-text-column .pre-title {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #888;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.about-text-column .about-bio {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    margin: 0;
+    color: #e0e0e0;
+}
+
+/* --- Responsive Adjustments for Mobile --- */
+@media (max-width: 900px) {
+    .about-title-section {
+        padding: 140px 0 80px 0; /* Reduce whitespace on mobile */
+    }
+    
+    .about-content-section {
+        margin-top: 0; /* Remove the overlap effect on mobile */
+        padding: 60px 0;
+    }
+
+    .about-content-grid {
+        grid-template-columns: 1fr; /* Stack the columns */
+        gap: 40px;
+    }
+    
+    .about-images-column {
+        transform: translateY(0); /* Reset the vertical shift */
+        margin-bottom: 20px;
+    }
+
+    .about-image-wrapper.bottom-image {
+        width: 50%;
+        top: 65%;
+        left: 40%;
+    }
+
+    .about-text-column .about-bio {
+        font-size: 1.2rem;
+    }
+}
