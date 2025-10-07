@@ -669,3 +669,57 @@ footer {
 @media (max-width: 600px) {
     .service-card { flex-basis: 100%; }
 }
+
+/* --- EDITING SHOWCASE SECTION --- */
+.editing-showcase-section {
+    background-color: #f2f2f2;
+    padding: 120px 40px;
+}
+
+.showcase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Creates the two equal columns */
+    gap: 60px; /* Adjust the space between the image and text */
+    align-items: center; /* Vertically centers the content in both columns */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.showcase-image img {
+    width: 100%;
+    height: auto;
+    display: block; /* Removes any extra space below the image */
+}
+
+.showcase-text h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-transform: uppercase;
+    margin: 0 0 20px 0;
+    line-height: 1.1;
+}
+
+.showcase-text p {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    font-weight: 300;
+    color: #222;
+    margin: 0 0 40px 0;
+}
+
+/* --- Responsive adjustments for showcase section --- */
+@media (max-width: 900px) {
+    .showcase-grid {
+        grid-template-columns: 1fr; /* Stack to a single column on mobile */
+        gap: 40px;
+    }
+
+    .showcase-text {
+        text-align: center; /* Center the text on mobile */
+    }
+
+    .showcase-text p {
+        font-size: 1.2rem;
+    }
+}
