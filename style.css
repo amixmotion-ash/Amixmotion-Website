@@ -619,6 +619,14 @@ footer {
 
 /* --- Services Section Styles --- */
 .services-section {
+    /* THIS IS THE CRITICAL FIX */
+    /* It forces the browser to create a new, clean layout context for this section,
+       which clears the broken layout caused by the negative margin above it. */
+    display: flow-root;
+
+    /* The rest of the styling remains the same */
+    position: relative;
+    z-index: 1;
     background-color: #f2f2f2;
     padding: 120px 40px;
     text-align: center;
