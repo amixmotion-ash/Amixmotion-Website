@@ -566,17 +566,16 @@ footer {
         gap: 20px;
     }
 }
-/* --- NEW: ABOUT PAGE - DYNAMIC OVERLAP LAYOUT --- */
+/* --- NEW: ABOUT PAGE - DYNAMIC OVERLAP LAYOUT (V2) --- */
 
 /* Reset main padding for full-width sections */
 .about-page .about-page-main {
     padding-top: 0; 
 }
 
-/* 1. Light Grey Title Section */
+/* 1. Light Grey Title Section (Unchanged) */
 .about-title-section {
     background-color: #f2f2f2;
-    /* 200px top whitespace, 250px bottom space for the image to overlap into */
     padding: 200px 0 250px 0; 
     box-sizing: border-box;
 }
@@ -592,62 +591,65 @@ footer {
     text-align: left;
 }
 
-/* 2. Black Content Section */
+/* 2. Black Content Section (Unchanged) */
 .about-content-section {
     background-color: #000000;
     color: #ffffff;
     padding: 80px 0;
-    position: relative; /* Needed for stacking context */
-    /* This is the key: it pulls the entire black section UP into the grey space */
+    position: relative;
     margin-top: -250px; 
 }
 
-/* 3. The Two-Column Grid */
+/* 3. The Full-Width Two-Column Grid */
 .about-content-grid {
     display: grid;
-    /* First (image) column is flexible but won't exceed 750px */
-    grid-template-columns: minmax(0, 750px) 1fr;
+    /* This creates two equal columns that span the full screen width */
+    grid-template-columns: 1fr 1fr;
     align-items: start;
-    gap: 60px;
+    gap: 0; /* Gaps will be handled by padding now */
 }
 
 /* 4. The Image Column & Positioning */
 .about-images-column {
-    /* This shifts the entire image block up further into its final position */
+    /* This image column is now flush with the left side of the screen */
     transform: translateY(-130px);
 }
 
 .about-image-wrapper.top-image {
-    position: relative; /* This is the anchor for the bottom image */
+    position: relative;
     z-index: 1;
     width: 100%; 
 }
 
 .about-image-wrapper img {
     width: 100%;
-    height: auto; /* Maintain aspect ratio */
+    height: auto;
     display: block;
 }
 
 .about-image-wrapper.bottom-image {
     position: absolute;
-    z-index: 2; /* Ensure it's on top */
-    aspect-ratio: 1 / 1; /* Makes it a perfect square */
-    /* Position and size are relative to the top image for consistent overlap */
+    z-index: 2;
+    aspect-ratio: 1 / 1;
     width: 45%; 
     top: 75%;
-    left: 50%;
+    /* Positioned relative to the right side of the main image */
+    right: -10%; 
+    left: auto; /* unset left property */
 }
 
 .about-image-wrapper.bottom-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the image fills the square without distortion */
+    object-fit: cover;
 }
 
 /* 5. The Text Column */
 .about-text-column {
-    padding-top: 20px;
+    padding: 20px 15% 0 60px; /* top, right, bottom, left */
+    box-sizing: border-box;
+    /* This prevents the text from becoming too wide on huge monitors */
+    max-width: 800px;
 }
 
 .about-text-column .pre-title {
@@ -670,28 +672,37 @@ footer {
 /* --- Responsive Adjustments for Mobile --- */
 @media (max-width: 900px) {
     .about-title-section {
-        padding: 140px 0 80px 0; /* Reduce whitespace on mobile */
+        padding: 140px 0 80px 0;
     }
     
     .about-content-section {
-        margin-top: 0; /* Remove the overlap effect on mobile */
+        margin-top: 0;
         padding: 60px 0;
     }
 
     .about-content-grid {
         grid-template-columns: 1fr; /* Stack the columns */
-        gap: 40px;
     }
     
     .about-images-column {
-        transform: translateY(0); /* Reset the vertical shift */
+        transform: translateY(0);
         margin-bottom: 20px;
+        /* Add padding so the image doesn't touch the edges */
+        padding: 0 40px; 
+        box-sizing: border-box;
     }
 
     .about-image-wrapper.bottom-image {
         width: 50%;
         top: 65%;
+        right: auto;
         left: 40%;
+    }
+
+    .about-text-column {
+        /* Reset padding for standard mobile layout */
+        padding: 0 40px; 
+        max-width: none; /* Remove max-width on mobile */
     }
 
     .about-text-column .about-bio {
