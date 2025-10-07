@@ -566,7 +566,7 @@ footer {
         gap: 20px;
     }
 }
-/* --- NEW: ABOUT PAGE - DYNAMIC OVERLAP LAYOUT (V2) --- */
+/* --- NEW: ABOUT PAGE - DYNAMIC OVERLAP LAYOUT (V2.1) --- */
 
 /* Reset main padding for full-width sections */
 .about-page .about-page-main {
@@ -600,18 +600,16 @@ footer {
     margin-top: -250px; 
 }
 
-/* 3. The Full-Width Two-Column Grid */
+/* 3. The Full-Width Two-Column Grid (Unchanged) */
 .about-content-grid {
     display: grid;
-    /* This creates two equal columns that span the full screen width */
     grid-template-columns: 1fr 1fr;
     align-items: start;
-    gap: 0; /* Gaps will be handled by padding now */
+    gap: 0;
 }
 
-/* 4. The Image Column & Positioning */
+/* 4. The Image Column & Positioning (Unchanged) */
 .about-images-column {
-    /* This image column is now flush with the left side of the screen */
     transform: translateY(-130px);
 }
 
@@ -633,9 +631,8 @@ footer {
     aspect-ratio: 1 / 1;
     width: 45%; 
     top: 75%;
-    /* Positioned relative to the right side of the main image */
     right: -10%; 
-    left: auto; /* unset left property */
+    left: auto;
 }
 
 .about-image-wrapper.bottom-image img {
@@ -644,12 +641,12 @@ footer {
     object-fit: cover;
 }
 
-/* 5. The Text Column */
+/* 5. The Text Column (MODIFIED) */
 .about-text-column {
-    padding: 20px 15% 0 60px; /* top, right, bottom, left */
+    padding: 20px 15% 0 60px; 
     box-sizing: border-box;
     /* This prevents the text from becoming too wide on huge monitors */
-    max-width: 800px;
+    max-width: 950px; /* CHANGED: Increased max-width from 800px to 950px */
 }
 
 .about-text-column .pre-title {
@@ -663,8 +660,9 @@ footer {
 
 .about-text-column .about-bio {
     font-family: 'Inter', sans-serif;
-    font-size: 1.5rem;
-    line-height: 1.6;
+    font-weight: 300; /* ADDED: Explicitly set font-weight to match mission statement */
+    font-size: 33px;   /* CHANGED: Increased font-size from 1.5rem to 33px */
+    line-height: 1.4;  /* CHANGED: Adjusted line-height from 1.6 to 1.4 */
     margin: 0;
     color: #e0e0e0;
 }
@@ -681,13 +679,12 @@ footer {
     }
 
     .about-content-grid {
-        grid-template-columns: 1fr; /* Stack the columns */
+        grid-template-columns: 1fr; 
     }
     
     .about-images-column {
         transform: translateY(0);
         margin-bottom: 20px;
-        /* Add padding so the image doesn't touch the edges */
         padding: 0 40px; 
         box-sizing: border-box;
     }
@@ -700,12 +697,11 @@ footer {
     }
 
     .about-text-column {
-        /* Reset padding for standard mobile layout */
         padding: 0 40px; 
-        max-width: none; /* Remove max-width on mobile */
+        max-width: none;
     }
 
     .about-text-column .about-bio {
-        font-size: 1.2rem;
+        font-size: 24px; /* CHANGED: Adjusted mobile font size for better readability */
     }
 }
