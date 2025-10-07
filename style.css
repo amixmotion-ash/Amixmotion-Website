@@ -725,15 +725,11 @@ line-clamp: 8; /* This sets the max number of lines */
 }
 }
 
-/* --- SERVICES SECTION --- */
+/* --- SERVICES SECTION (V3 - CORRECTED ALIGNMENT) --- */
 .services-section {
     background-color: #f2f2f2;
-    /* This padding is corrected to NOT include horizontal padding */
-    padding: 120px 0;
-}
-
-.services-header {
-    text-align: center; /* Center the header content */
+    padding: 120px 40px; /* Use section padding for alignment */
+    text-align: center; /* THIS IS THE KEY FIX */
 }
 
 .services-header h2 {
@@ -756,7 +752,6 @@ line-clamp: 8; /* This sets the max number of lines */
 .services-row {
     margin-bottom: 60px;
     position: relative;
-    text-align: center; /* Center the row title */
 }
 
 .row-title {
@@ -799,7 +794,6 @@ line-clamp: 8; /* This sets the max number of lines */
     flex-direction: column;
     justify-content: center;
     min-height: 150px;
-    text-align: center; /* Ensure text inside card is centered */
 }
 
 .service-card h3 {
@@ -817,16 +811,14 @@ line-clamp: 8; /* This sets the max number of lines */
 
 .services-cta {
     margin-top: 80px;
-    text-align: center; /* Center the button */
 }
 
-/* Responsive adjustments for the services section */
+/* Responsive adjustments */
 @media (max-width: 900px) {
     .service-card {
        flex-basis: calc(50% - 10px);
        min-height: 180px;
     }
-
     .row-title::after {
         display: none;
     }
