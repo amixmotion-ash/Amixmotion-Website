@@ -267,14 +267,18 @@ footer {
     background-color: #f2f2f2;
     box-sizing: border-box;
 
-    /* --- NEW METHOD --- */
-    /* Make the section at least 85% of the viewport height */
-    min-height: 85vh; 
-    /* Use Flexbox to control the text position inside this tall section */
-    display: flex;
-    align-items: center; /* This vertically centers the headline */
+    /* --- THE CORRECT METHOD --- */
+    /* 1. Force the grey section to be the full height of the screen */
+    min-height: 100vh;
 
-    /* We still need padding-bottom to create space for the overlap from below */
+    /* 2. Use Flexbox to control the content inside */
+    display: flex;
+
+    /* 3. Push the headline to the BOTTOM of the section */
+    align-items: flex-end;
+
+    /* 4. Add padding at the bottom to create space for the overlap */
+    /* This also lifts the text up slightly from the absolute bottom edge */
     padding-bottom: 250px;
 }
 
