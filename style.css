@@ -730,13 +730,18 @@ footer {
     padding: 120px 40px;
 }
 
-.process-container {
-    max-width: 800px; /* Constrain the width for readability */
+/* This is the new two-column grid container */
+.process-grid-container {
+    max-width: 1200px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Creates two equal columns */
+    gap: 100px; /* Space between the header and the accordion */
+    align-items: start; /* Aligns items to the top of their cells */
 }
 
 .process-header {
-    margin-bottom: 60px;
+    /* No specific styles needed here anymore, the grid handles it */
 }
 
 .process-header .pre-title {
@@ -753,6 +758,10 @@ footer {
     font-size: 2.5rem;
     line-height: 1.4;
     margin: 0;
+}
+
+.accordion {
+    /* The accordion now lives in the second grid column */
 }
 
 .accordion-item {
@@ -783,14 +792,14 @@ footer {
     height: 12px;
     border-left: 2px solid #fff;
     border-bottom: 2px solid #fff;
-    transform: rotate(-45deg); /* Pointing down */
+    transform: rotate(-45deg);
     transition: transform 0.3s ease;
     flex-shrink: 0;
     margin-left: 20px;
 }
 
 .accordion-item.is-open .accordion-icon {
-    transform: rotate(135deg); /* Pointing up */
+    transform: rotate(135deg);
 }
 
 .accordion-content {
@@ -801,7 +810,7 @@ footer {
 
 .accordion-content p {
     margin: 0;
-    padding: 0 0 0 10px; /* Indent the text slightly */
+    padding: 0 0 0 10px;
     font-size: 1rem;
     line-height: 1.6;
     color: #aaa;
@@ -809,6 +818,14 @@ footer {
 }
 
 .accordion-item.is-open .accordion-content {
-    max-height: 200px; /* Animate to this height, must be taller than content */
+    max-height: 200px;
     padding-bottom: 30px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .process-grid-container {
+        grid-template-columns: 1fr; /* Stack to a single column */
+        gap: 60px; /* Adjust gap for mobile */
+    }
 }
