@@ -261,18 +261,24 @@ footer {
 .homepage .custom-cursor { position: fixed; top: 0; left: 0; z-index: 1100; width: 80px; height: 80px; background-color: #000000; color: #ffffff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; opacity: 0; transform: scale(0.5) translate(20px, -50%); transform-origin: 0 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; }
 .homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
 .homepage.cursor-hover { cursor: none; }
-/* --- ABOUT PAGE STYLES (Final with Correct Overlap & Positioning) --- */
-/* --- ABOUT PAGE (Complete, Error-Checked Final Version) --- */
-
-/* --- ABOUT PAGE (Definitive Final Version) --- */
 
 /* --- Section Setup --- */
 .about-title-section {
     background-color: #f2f2f2;
-    padding: 200px 40px 250px 40px; /* 200px top whitespace, 40px side padding for alignment, 250px bottom for overlap */
-    box-sizing: border-box;
+    /* 200px top whitespace, 250px bottom space for the image to overlap into */
+    padding: 200px 0 250px 0; 
 }
 
+.about-content-section {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 80px 0;
+    position: relative;
+    /* This pulls the entire black section UP into the grey space above */
+    margin-top: -250px; 
+}
+
+/* --- Title --- */
 .about-title-section h1 {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
@@ -282,46 +288,36 @@ footer {
     text-transform: uppercase;
     letter-spacing: -0.02em;
     text-align: left;
-    max-width: 1400px; /* Limits text width on huge screens without affecting alignment */
 }
 
-.about-content-section {
-    background-color: #000000;
-    color: #ffffff;
-    padding: 80px 0;
-    position: relative;
-    margin-top: -250px; /* Pulls content up into the grey area */
-}
-
+/* --- Grid & Sizing (The Real Fix) --- */
 .about-content-grid {
     display: grid;
-    /* THE FIX: The first column can never be wider than 800px. */
-    grid-template-columns: minmax(0, 800px) 1fr;
+    /* This sets the first (image) column to have a max width of 750px */
+    grid-template-columns: minmax(0, 750px) 1fr;
     align-items: start;
     gap: 60px;
-    /* Other properties remain the same */
 }
 
 /* --- Images --- */
 .about-images-column {
-    /* Your requested vertical shift */
+    /* This shifts the entire image block up into its final position */
     transform: translateY(-130px);
 }
 
 .about-image-wrapper.top-image {
-    position: relative;
+    position: relative; /* Positioning parent for the bottom image */
     z-index: 1;
-    width: 100%;
-
-    /* THE DEFINITIVE FIX: This will override any other conflicting style. */
-    max-width: 750px !important; 
+    /* The image simply fills its parent column, which is now correctly constrained */
+    width: 100%; 
 }
 
 .about-image-wrapper.bottom-image {
     position: absolute;
-    z-index: 2;
-    aspect-ratio: 1 / 1;
-    width: 45%;
+    z-index: 2; /* On top */
+    aspect-ratio: 1 / 1; /* Square */
+    /* Position and size are relative to the top image, ensuring consistent overlap */
+    width: 45%; 
     top: 75%;
     left: 50%;
 }
@@ -332,19 +328,37 @@ footer {
     object-fit: cover;
 }
 
-/* --- Text --- */
+/* --- Text Column --- */
 .about-text-column {
     padding-top: 20px;
 }
 
-/* (The rest of the text styling is standard and correct) */
-.about-text-column .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
-.about-text-column .about-bio { font-family: 'Inter', sans-serif; font-size: 1.5rem; line-height: 1.6; margin: 0; color: #e0e0e0; }
+.about-text-column .pre-title {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #888;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
 
-/* --- Responsive --- */
+.about-text-column .about-bio {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    margin: 0;
+    color: #e0e0e0;
+}
+
+/* --- Responsive for Mobile --- */
 @media (max-width: 900px) {
-    .about-content-grid { grid-template-columns: 1fr; }
-    .about-images-column { margin-bottom: 60px; }
+    .about-content-grid {
+        grid-template-columns: 1fr;
+    }
+    .about-images-column {
+        margin-bottom: 60px;
+        transform: translateY(0); /* Reset vertical shift on mobile */
+    }
 }
 
 
