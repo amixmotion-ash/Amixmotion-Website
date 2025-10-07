@@ -644,15 +644,15 @@ footer {
 }
 
 /* 4. The Text Column */
+/* Find and replace this rule */
 .about-text-column {
-    /* This rule locks the text into the top-right 'text' cell */
     grid-area: text;
-    padding: 20px 15% 80px 100px;
+    padding: 40px 15% 80px 100px;
     box-sizing: border-box;
-    /* Self-alignment to ensure it doesn't stretch weirdly */
     align-self: start; 
+    /* ADD THIS LINE: This turns the text column into a queryable container */
+    container-type: inline-size;
 }
-
 .about-text-column .pre-title {
     font-size: 0.9em;
     font-weight: 600;
@@ -662,11 +662,12 @@ footer {
     text-transform: uppercase;
 }
 
+/* Find and replace this rule */
 .about-text-column .about-bio {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
-    /* Reverted back to the fixed size, as fluid scaling is no longer needed */
-    font-size: 33px;
+    /* This font size is now tied directly to the container's width, not the viewport */
+    font-size: clamp(16px, 6.5cqw, 33px);
     line-height: 1.4;
     margin: 0;
     color: #e0e0e0;
