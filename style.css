@@ -566,7 +566,7 @@ footer {
         gap: 20px;
     }
 }
-/* --- NEW: ABOUT PAGE - DYNAMIC OVERLAP LAYOUT (V2.3 FINAL) --- */
+/* --- NEW: ABOUT PAGE - DYNAMIC OVERLAP LAYOUT (V3 - ABSOLUTE POSITIONING) --- */
 
 /* Reset main padding for full-width sections */
 .about-page .about-page-main {
@@ -591,7 +591,7 @@ footer {
     text-align: left;
 }
 
-/* 2. Black Content Section (Unchanged) */
+/* 2. Black Content Section (MODIFIED) */
 .about-content-section {
     background-color: #000000;
     color: #ffffff;
@@ -600,18 +600,21 @@ footer {
     margin-top: -250px; 
 }
 
-/* 3. The Full-Width Two-Column Grid (RESTORED) */
+/* 3. The Grid is REMOVED. This container is now just a positioning context. */
 .about-content-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* CHANGED: Restored to 50/50 split */
-    align-items: start;
-    gap: 0;
+    position: relative; /* Establishes a reference for the absolute image */
 }
 
-/* 4. The Image Column & Positioning (MODIFIED) */
+/* 4. The Image Column (NOW ABSOLUTELY POSITIONED) */
 .about-images-column {
+    position: absolute; /* Takes the image out of the document flow */
+    left: 0;
+    top: 0;
+    width: 50%; /* Locks it to the left half of the screen */
+    height: 100%;
     transform: translateY(-130px);
-    overflow: hidden; /* ADDED: This clips the bottom image and prevents it from ever overlapping the text */
+    overflow: hidden; /* GUARANTEES the small image cannot leave this column */
+    z-index: 1;
 }
 
 .about-image-wrapper.top-image {
@@ -642,15 +645,15 @@ footer {
     object-fit: cover;
 }
 
-/* 5. The Text Column (MODIFIED) */
+/* 5. The Text Column (REPOSITIONED) */
 .about-text-column {
-    /* CHANGED: Adjusted padding to be simpler and increased left padding */
-    padding: 20px 8% 0 80px; 
+    /* Pushes the text column into the right half of the screen */
+    margin-left: 50%; 
+    /* Generous padding gives the text its own internal width */
+    padding: 20px 10% 20px 80px; 
     box-sizing: border-box;
-    /* CHANGED: Increased max-width to allow for wider text block */
-    max-width: 1050px; 
-    position: relative; /* Ensures a stacking context */
-    z-index: 5; /* Puts text visually on top as a safeguard */
+    position: relative;
+    z-index: 2; /* Ensures text is always above the image plane */
 }
 
 .about-text-column .pre-title {
@@ -671,7 +674,7 @@ footer {
     color: #e0e0e0;
 }
 
-/* --- Responsive Adjustments for Mobile --- */
+/* --- Responsive Adjustments for Mobile (MODIFIED TO UNDO ABSOLUTE POSITIONING) --- */
 @media (max-width: 900px) {
     .about-title-section {
         padding: 140px 0 80px 0;
@@ -682,16 +685,16 @@ footer {
         padding: 60px 0;
     }
 
-    .about-content-grid {
-        grid-template-columns: 1fr; 
-    }
-    
+    /* Undo the absolute positioning for a simple stacked layout */
     .about-images-column {
+        position: static; /* Puts the image back in the normal flow */
+        width: 100%;
+        height: auto;
         transform: translateY(0);
-        margin-bottom: 20px;
+        margin-bottom: 40px;
         padding: 0 40px; 
         box-sizing: border-box;
-        overflow: visible; /* Disable overflow hiding on mobile */
+        overflow: visible; 
     }
 
     .about-image-wrapper.bottom-image {
@@ -702,8 +705,8 @@ footer {
     }
 
     .about-text-column {
+        margin-left: 0; /* Removes the 50% margin */
         padding: 0 40px; 
-        max-width: none;
     }
 
     .about-text-column .about-bio {
