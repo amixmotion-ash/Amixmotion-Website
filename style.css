@@ -639,15 +639,14 @@ footer {
     background-color: #000000;
     color: #ffffff;
     padding: 30px;
-    /* CHANGED: Removed rounded corners */
     border-radius: 0;
     flex-basis: 250px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* CHANGED: Reduced the minimum height */
     min-height: 120px;
-    text-align: left;
+    /* CHANGED: Aligned all text to the center */
+    text-align: center;
 }
 .service-card h3 { font-size: 1.2rem; font-weight: 600; margin: 0 0 10px 0; }
 .service-card p { font-size: 0.9rem; line-height: 1.5; color: #aaa; margin: 0; }
