@@ -706,11 +706,13 @@ footer {
         padding: 0 40px; 
     }
 
-    .about-text-column .about-bio {
-        font-size: 24px;
-    }
-    /* This rule hides our manual line breaks on mobile */
-    .about-bio .desktop-only {
-        display: none;
-    }
+ .about-text-column .about-bio {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    /* This fluidly scales the text while the <br> tags hold the line breaks */
+    font-size: clamp(16px, 2.2vw, 33px);
+    line-height: 1.4;
+    margin: 0;
+    color: #e0e0e0;
+}
 }
