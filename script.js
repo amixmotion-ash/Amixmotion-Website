@@ -144,3 +144,28 @@ if (carouselTrack) {
         carouselTrack.appendChild(duplicate);
     });
 }
+// --- Accordion Functionality for Process Section ---
+const accordionItems = document.querySelectorAll('.accordion-item');
+
+if (accordionItems.length > 0) {
+    accordionItems.forEach(item => {
+        const toggle = item.querySelector('.accordion-toggle');
+
+        toggle.addEventListener('click', () => {
+            // Check if the clicked item is already open
+            const isOpen = item.classList.contains('is-open');
+
+            // Optional: Close all other items
+            accordionItems.forEach(otherItem => {
+                otherItem.classList.remove('is-open');
+                otherItem.querySelector('.accordion-toggle').setAttribute('aria-expanded', 'false');
+            });
+
+            // If it was closed, open it
+            if (!isOpen) {
+                item.classList.add('is-open');
+                toggle.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+}

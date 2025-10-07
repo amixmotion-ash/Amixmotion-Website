@@ -723,3 +723,92 @@ footer {
         font-size: 1.2rem;
     }
 }
+/* --- PROCESS ACCORDION SECTION --- */
+.process-section {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 120px 40px;
+}
+
+.process-container {
+    max-width: 800px; /* Constrain the width for readability */
+    margin: 0 auto;
+}
+
+.process-header {
+    margin-bottom: 60px;
+}
+
+.process-header .pre-title {
+    color: #888;
+    font-size: 0.9em;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.process-header h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 2.5rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.accordion-item {
+    border-top: 1px solid #333;
+}
+.accordion-item:last-child {
+    border-bottom: 1px solid #333;
+}
+
+.accordion-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 0;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-align: left;
+    cursor: pointer;
+}
+
+.accordion-icon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(-45deg); /* Pointing down */
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 20px;
+}
+
+.accordion-item.is-open .accordion-icon {
+    transform: rotate(135deg); /* Pointing up */
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding-bottom 0.4s ease-out;
+}
+
+.accordion-content p {
+    margin: 0;
+    padding: 0 0 0 10px; /* Indent the text slightly */
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #aaa;
+    max-width: 600px;
+}
+
+.accordion-item.is-open .accordion-content {
+    max-height: 200px; /* Animate to this height, must be taller than content */
+    padding-bottom: 30px;
+}
