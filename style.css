@@ -730,23 +730,23 @@ footer {
     padding: 120px 40px;
 }
 
-/* This container is no longer a grid, it just provides spacing */
 .process-grid-container {
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* --- The header styles have been removed --- */
-
 .accordion {
-    /* This is the key change to center the accordion */
-    max-width: 800px; /* Set a max-width for the accordion */
-    margin: 0 auto;   /* Center it horizontally */
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .accordion-item {
     border-top: 1px solid #333;
 }
+.accordion-item:last-child {
+    border-bottom: 1px solid #333;
+}
+/* ... the rest of the accordion styles ... */
 .accordion-item:last-child {
     border-bottom: 1px solid #333;
 }
