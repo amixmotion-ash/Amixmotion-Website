@@ -9,14 +9,12 @@
 <body class="about-page">
 
     <header>
-        <!-- Header content remains the same -->
         <button class="nav-toggle" aria-label="toggle navigation">MENU</button>
         <div class="logo"><a href="index.html"><img src="logo.png" alt="Amixmotion Logo"></a></div>
         <nav class="desktop-nav"><ul><li><a href="portfolio.html">WORK +</a></li></ul></nav>
     </header>
 
     <nav class="main-nav">
-        <!-- Main nav content remains the same -->
         <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="portfolio.html">Portfolio</a></li>
@@ -25,84 +23,37 @@
         </ul>
     </nav>
 
+    <!-- The MAIN tag is now the layout controller -->
     <main class="about-page-main">
 
-        <!-- START: NEW WRAPPER for the overlapping content -->
+        <!-- This wrapper now contains ONLY the overlapping profile content -->
         <div class="about-overlap-wrapper">
-            <!-- Light Grey Title Section -->
             <section class="about-title-section">
                 <h1>GREAT FILM IS MORE<br>THAN JUST VISUALS.</h1>
             </section>
-
-            <!-- Black Content Section -->
             <section class="about-content-section">
-                <div class="about-images-column">
-                    <div class="about-image-wrapper top-image">
-                        <img src="images/about-image-1.jpg" alt="Videographer with camera, side profile">
-                        <div class="about-image-wrapper bottom-image">
-                            <img src="images/about-image-2.jpg" alt="Videographer portrait">
-                        </div>
-                    </div>
-                </div>
-                <div class="about-text-column">
-                    <p class="pre-title">ABOUT</p>
-                    <p class="about-bio">
-                        After 14 years as a creative in digital design, I discovered my<br class="desktop-only">
-                        passion for visual storytelling while traveling through Asia. Now<br class="desktop-only">
-                        based in London — and always happy to travel — I specialise in<br class="desktop-only">
-                        videography and editing that blends design sensibility with cinematic<br class="desktop-only">
-                        technique. From creative concepts and shot planning to dynamic<br class="desktop-only">
-                        cinematography and polished edits, I craft engaging narratives that<br class="desktop-only">
-                        bring brands, events, and ideas to life through compelling visual content.
-                    </p>
-                </div>
+                <div class="about-images-column"><div class="about-image-wrapper top-image"><img src="images/about-image-1.jpg" alt="Videographer with camera, side profile"><div class="about-image-wrapper bottom-image"><img src="images/about-image-2.jpg" alt="Videographer portrait"></div></div></div>
+                <div class="about-text-column"><p class="pre-title">ABOUT</p><p class="about-bio">After 14 years as a creative in digital design, I discovered my<br class="desktop-only">passion for visual storytelling while traveling through Asia. Now<br class="desktop-only">based in London — and always happy to travel — I specialise in<br class="desktop-only">videography and editing that blends design sensibility with cinematic<br class="desktop-only">technique. From creative concepts and shot planning to dynamic<br class="desktop-only">cinematography and polished edits, I craft engaging narratives that<br class="desktop-only">bring brands, events, and ideas to life through compelling visual content.</p></div>
             </section>
         </div>
-        <!-- END: NEW WRAPPER -->
 
-        <!-- START: Services Section (Now it will render correctly) -->
+        <!-- The Services Section is now a direct sibling, ready to be placed by the grid -->
         <section class="services-section">
             <header class="services-header">
                 <h2>SERVICES THAT<br>YOU CAN RELY ON</h2>
                 <p>Whether you need end-to-end video production or just a hand with editing and post, I offer a full spectrum of creative services designed to deliver quality and consistency. Explore the services below and see how I can help bring your next project to life.</p>
             </header>
             <div class="services-flow">
-                <div class="services-row">
-                    <p class="row-title">PRE - PRODUCTION</p>
-                    <div class="cards-container">
-                        <div class="service-card"><h3>Creative Consultation</h3><p>Benefit from single or multi camera setups.</p></div>
-                    </div>
-                </div>
-                <div class="services-row">
-                    <p class="row-title">PRODUCTION</p>
-                    <div class="cards-container">
-                        <div class="service-card"><h3>High Quality Video</h3><p>Premium end to end 4K video capture.</p></div>
-                        <div class="service-card"><h3>Sound Recording</h3><p>Lavaliere microphone recording for interviews.</p></div>
-                        <div class="service-card"><h3>Single/Dual Camera</h3><p>Benefit from single or multi camera setups.</p></div>
-                        <div class="service-card"><h3>Angle/Composition</h3><p>Creative direction to achieve best angles/composition</p></div>
-                        <div class="service-card"><h3>Drone Filming</h3><p>Aerial footage captured where appropriate/permitted</p></div>
-                    </div>
-                </div>
-                <div class="services-row">
-                    <p class="row-title">POST - PRODUCTION</p>
-                    <div class="cards-container">
-                        <div class="service-card"><h3>Editing</h3><p>Assembly & narrative editing with client review cycles and versioning.</p></div>
-                        <div class="service-card"><h3>Colour</h3><p>Colour correction/grading to achieve consistent looks.</p></div>
-                        <div class="service-card"><h3>Audio</h3><p>Audio cleanup with music licensing and voiceover integration.</p></div>
-                        <div class="service-card"><h3>Aspect Ratio</h3><p>Platform specific aspect ratios and social cutdowns.</p></div>
-                    </div>
-                </div>
+                <div class="services-row"><p class="row-title">PRE - PRODUCTION</p><div class="cards-container"><div class="service-card"><h3>Creative Consultation</h3><p>Benefit from single or multi camera setups.</p></div></div></div>
+                <div class="services-row"><p class="row-title">PRODUCTION</p><div class="cards-container"><div class="service-card"><h3>High Quality Video</h3><p>Premium end to end 4K video capture.</p></div><div class="service-card"><h3>Sound Recording</h3><p>Lavaliere microphone recording for interviews.</p></div><div class="service-card"><h3>Single/Dual Camera</h3><p>Benefit from single or multi camera setups.</p></div><div class="service-card"><h3>Angle/Composition</h3><p>Creative direction to achieve best angles/composition</p></div><div class="service-card"><h3>Drone Filming</h3><p>Aerial footage captured where appropriate/permitted</p></div></div></div>
+                <div class="services-row"><p class="row-title">POST - PRODUCTION</p><div class="cards-container"><div class="service-card"><h3>Editing</h3><p>Assembly & narrative editing with client review cycles and versioning.</p></div><div class="service-card"><h3>Colour</h3><p>Colour correction/grading to achieve consistent looks.</p></div><div class="service-card"><h3>Audio</h3><p>Audio cleanup with music licensing and voiceover integration.</p></div><div class="service-card"><h3>Aspect Ratio</h3><p>Platform specific aspect ratios and social cutdowns.</p></div></div></div>
             </div>
-            <div class="services-cta">
-                <a href="contact.html" class="button-outline button-dark">GET A QUOTE</a>
-            </div>
+            <div class="services-cta"><a href="contact.html" class="button-outline button-dark">GET A QUOTE</a></div>
         </section>
-        <!-- END: Services Section -->
 
     </main>
 
     <footer>
-        <!-- Footer content remains the same -->
         <div class="footer-top"><div class="footer-cta"><h2>LETS MAKE SOMETHING<br>MEMORABLE.</h2><a href="contact.html" class="button-outline button-light">CONTACT</a></div><div class="footer-nav"><ul><li><a href="index.html">HOME</a></li><li><a href="portfolio.html">WORK</a></li><li><a href="about.html">ABOUT</a></li></ul><ul><li><a href="https://www.instagram.com/amixmotion/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a></li><li><a href="mailto:ash@amixmotion.com">EMAIL</a></li></ul></div></div><div class="footer-bottom"><p>Amixmotion 2025</p></div>
     </footer>
 
