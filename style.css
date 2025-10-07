@@ -574,16 +574,15 @@ footer {
     }
 }
 /*
-============================================================
-== FINAL, CORRECTED STYLES FOR ABOUT PAGE ==
-============================================================
+================================================================
+== FINAL, UNBREAKABLE STYLES FOR ABOUT PAGE ==
+================================================================
 */
 
-/* --- This wrapper is the key to fixing the layout break --- */
+/* --- This wrapper is the key. It creates the space for the content. --- */
 .profile-section-wrapper {
-    /* This creates space at the bottom of the wrapper to compensate
-       for the negative margin of its child, fixing the page flow. */
-    padding-bottom: 300px;
+    position: relative; /* This is the anchor for the absolute positioning below */
+    height: 125vh;      /* Give the wrapper a fixed height to push the services down */
 }
 
 /* --- Profile Section Styles --- */
@@ -592,30 +591,34 @@ footer {
     padding-left: 40px;
     padding-right: 40px;
     box-sizing: border-box;
-    min-height: 100vh;
+    height: 100vh;      /* Make the grey area exactly the height of the screen */
     display: flex;
     align-items: center;
 }
 
+/* This is the new, unbreakable overlap method */
 .about-content-section {
+    position: absolute; /* Takes the section OUT of the normal page flow */
+    bottom: 0;          /* Pins it to the bottom of the wrapper */
+    left: 0;
+    width: 100%;
+    z-index: 2;         /* Ensure it sits on top of the grey section's content */
     background-color: #000000;
     color: #ffffff;
-    position: relative;
-    /* This negative margin creates the overlap effect */
-    margin-top: -550px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas: "photo text" "photo .";
 }
 
-.about-images-column { grid-area: photo; transform: translateY(-130px); }
+/* The rest of the profile styles remain the same */
+.about-images-column { grid-area: photo; padding-top: 100px; } /* Adjusted padding for better visual alignment */
 .about-image-wrapper.top-image { position: relative; z-index: 1; width: 100%; }
 .about-image-wrapper img { width: 100%; height: auto; display: block; }
 .about-image-wrapper.bottom-image { position: absolute; z-index: 2; aspect-ratio: 1 / 1; width: 45%; top: 75%; right: -10%; left: auto; }
 .about-image-wrapper.bottom-image img { width: 100%; height: 100%; object-fit: cover; }
-.about-text-column { grid-area: text; padding: 40px 15% 80px 100px; box-sizing: border-box; align-self: start; }
+.about-text-column { grid-area: text; padding: 120px 15% 80px 100px; box-sizing: border-box; align-self: start; }
 .about-text-column .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
-.about-text-column .about-bio { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.4; margin: 0; color: #e0e0e0; }
+.about-text-column .about-bio { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.4; margin: 0; color: #e0e000; }
 .about-bio .desktop-only { display: initial; }
 
 
@@ -640,12 +643,12 @@ footer {
 
 /* --- Responsive Styles for About Page --- */
 @media (max-width: 900px) {
-    .profile-section-wrapper { padding-bottom: 0; }
-    .about-content-section { margin-top: 0; display: block; }
-    .about-images-column { grid-area: auto; transform: translateY(0); margin-bottom: 40px; padding: 0 40px; box-sizing: border-box; }
+    .profile-section-wrapper { height: auto; } /* Let content define height on mobile */
+    .about-content-section { position: static; display: block; } /* Revert to normal flow */
+    .about-images-column { grid-area: auto; padding-top: 0; margin-bottom: 40px; padding: 0 40px; box-sizing: border-box; }
     .about-image-wrapper.bottom-image { width: 50%; top: 65%; right: auto; left: 40%; }
     .about-text-column { grid-area: auto; padding: 0 40px; }
-    .about-text-column .about-bio { font-size: 24px; }
+    .about-text-column .about-bio { font-size: 24px; color: #e0e0e0 }
     .about-bio .desktop-only { display: none; }
     .service-card { flex-basis: calc(50% - 10px); min-height: 180px; }
     .row-title::after { display: none; }
