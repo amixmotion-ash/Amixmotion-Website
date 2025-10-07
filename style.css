@@ -566,7 +566,7 @@ footer {
         gap: 20px;
     }
 }
-/* --- NEW: ABOUT PAGE - DYNAMIC OVERLAP LAYOUT (V2.1) --- */
+/* --- NEW: ABOUT PAGE - DYNAMIC OVERLAP LAYOUT (V2.2 FINAL) --- */
 
 /* Reset main padding for full-width sections */
 .about-page .about-page-main {
@@ -600,17 +600,19 @@ footer {
     margin-top: -250px; 
 }
 
-/* 3. The Full-Width Two-Column Grid (Unchanged) */
+/* 3. The Full-Width Two-Column Grid (MODIFIED) */
 .about-content-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* CHANGED: Gave text column more proportional space */
+    grid-template-columns: 0.9fr 1.1fr; 
     align-items: start;
     gap: 0;
 }
 
-/* 4. The Image Column & Positioning (Unchanged) */
+/* 4. The Image Column & Positioning (MODIFIED) */
 .about-images-column {
     transform: translateY(-130px);
+    overflow: hidden; /* CHANGED: Prevents the bottom image from ever overlapping the text column */
 }
 
 .about-image-wrapper.top-image {
@@ -643,10 +645,9 @@ footer {
 
 /* 5. The Text Column (MODIFIED) */
 .about-text-column {
-    padding: 20px 15% 0 60px; 
+    padding: 20px 15% 0 80px; /* CHANGED: Increased left padding for more space from image */
     box-sizing: border-box;
-    /* This prevents the text from becoming too wide on huge monitors */
-    max-width: 950px; /* CHANGED: Increased max-width from 800px to 950px */
+    max-width: 1100px; /* CHANGED: Increased max-width to allow for wider text block */
 }
 
 .about-text-column .pre-title {
@@ -660,14 +661,14 @@ footer {
 
 .about-text-column .about-bio {
     font-family: 'Inter', sans-serif;
-    font-weight: 300; /* ADDED: Explicitly set font-weight to match mission statement */
-    font-size: 33px;   /* CHANGED: Increased font-size from 1.5rem to 33px */
-    line-height: 1.4;  /* CHANGED: Adjusted line-height from 1.6 to 1.4 */
+    font-weight: 300;
+    font-size: 33px;
+    line-height: 1.4;
     margin: 0;
     color: #e0e0e0;
 }
 
-/* --- Responsive Adjustments for Mobile --- */
+/* --- Responsive Adjustments for Mobile (Unchanged) --- */
 @media (max-width: 900px) {
     .about-title-section {
         padding: 140px 0 80px 0;
@@ -687,6 +688,7 @@ footer {
         margin-bottom: 20px;
         padding: 0 40px; 
         box-sizing: border-box;
+        overflow: visible; /* Disable overflow hiding on mobile where it's not needed */
     }
 
     .about-image-wrapper.bottom-image {
@@ -702,6 +704,6 @@ footer {
     }
 
     .about-text-column .about-bio {
-        font-size: 24px; /* CHANGED: Adjusted mobile font size for better readability */
+        font-size: 24px;
     }
 }
