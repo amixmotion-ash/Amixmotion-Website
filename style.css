@@ -679,11 +679,11 @@ footer {
 .accordion-icon { display: inline-block; width: 12px; height: 12px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); transition: transform 0.3s ease; flex-shrink: 0; margin-left: 20px; }
 .accordion-item.is-open .accordion-icon { transform: rotate(135deg); }
 .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding-bottom 0.4s ease-out; }
-/* This is the updated rule */
+
 .accordion-content p {
     margin: 0;
-    /* CHANGED: Set bottom padding to 25px to match the toggle's top padding */
-    padding: 0 25px 25px 25px;
+    /* This sets the padding around the text itself */
+    padding: 0 25px;
     font-size: 1rem;
     line-height: 1.6;
     color: #aaa;
