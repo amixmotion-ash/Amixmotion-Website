@@ -644,30 +644,30 @@ footer {
 .showcase-text p { font-size: 1.5rem; line-height: 1.6; font-weight: 300; color: #222; margin: 0 0 40px 0; }
 
 
-/* --- Process Accordion Section --- */
-.process-section { background-color: #000000; color: #ffffff; padding: 120px 40px; }
-.accordion { max-width: 800px; margin: 0 auto; }
-/* This is the new rule for the boxed style */
-/* This is the updated rule */
+/* --- PROCESS ACCORDION SECTION (FINAL) --- */
+.process-section {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 120px 40px;
+}
+.accordion {
+    max-width: 800px;
+    margin: 0 auto;
+}
 .accordion-item {
     border: 1px solid #333;
-    /* CHANGED: Reduced the space between boxes */
     margin-bottom: 10px;
-    /* ADDED: A smooth transition for the border color change */
     transition: border-color 0.3s ease;
 }
-/* This is the updated rule */
-.accordion-item.is-open .accordion-content {
-    max-height: 200px;
-    /* The padding is now handled by the <p> tag, so this is no longer needed */
+.accordion-item.is-open {
+    border-color: #fff;
 }
-/* This is the updated rule with correct padding */
 .accordion-toggle {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 25px; /* Adds padding on all sides for the boxed look */
+    padding: 25px;
     background: none;
     border: none;
     color: #ffffff;
@@ -676,34 +676,33 @@ footer {
     text-align: left;
     cursor: pointer;
 }
-.accordion-icon { display: inline-block; width: 12px; height: 12px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); transition: transform 0.3s ease; flex-shrink: 0; margin-left: 20px; }
-.accordion-item.is-open .accordion-icon { transform: rotate(135deg); }
-/* This is the new, smoother version */
-.accordion-content {
-    display: grid;
-    /* The row starts with a height of 0 (collapsed) */
-    grid-template-rows: 0fr;
-    /* We now animate the grid-template-rows property for a smooth transition */
-    transition: grid-template-rows 0.3s ease-in-out;
+.accordion-icon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(-45deg);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 20px;
 }
-
-/* This is the new, smoother version */
-.accordion-content p {
-    /* This is the key property for the grid animation to work correctly */
+.accordion-item.is-open .accordion-icon {
+    transform: rotate(135deg);
+}
+/* This is the new, simplified content style */
+.accordion-content {
+    max-height: 0;
     overflow: hidden;
+    transition: max-height 0.3s ease-in-out; /* The transition is now controlled here */
+}
+.accordion-content p {
+    padding: 0 25px 25px 25px; /* The padding for the text when open */
     margin: 0;
-    padding: 0 25px;
     font-size: 1rem;
     line-height: 1.6;
     color: #aaa;
     max-width: 600px;
-}
-/* This is the new, smoother version */
-.accordion-item.is-open .accordion-content {
-    /* The row expands to 1 fraction, which is the natural height of the content */
-    grid-template-rows: 1fr;
-    /* This adds the 25px of space below the text when the item is open */
-    padding-bottom: 25px;
 }
 
 
