@@ -575,54 +575,32 @@ footer {
 }
 /*
 ============================================================
-== FINAL, UNBREAKABLE STYLES FOR ABOUT PAGE ==
+== FINAL, STABLE STYLES FOR ABOUT PAGE ==
 ============================================================
 */
 
-/* --- This is the new, robust grid layout that fixes everything --- */
-.profile-layout-wrapper {
-    display: grid;
-    /* This creates a single cell for the grey and black sections to be layered in */
-    grid-template-areas: "overlap";
-}
-.about-title-section, .about-content-section {
-    grid-area: overlap; /* This places both sections in the same cell */
-}
-.about-content-section {
-    position: relative;
-    z-index: 2;         /* Ensure the black section is visually on top */
-    align-self: end;    /* This pins the black section to the bottom of the grid area */
+/* --- This controls the main page padding --- */
+.about-page-main {
+    padding-top: 100px; /* Space below the header */
 }
 
-/* --- Profile Section Styles --- */
-.about-title-section {
-    background-color: #f2f2f2;
-    padding-left: 40px;
-    padding-right: 40px;
-    box-sizing: border-box;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-}
-
-.about-content-section {
-    /* The negative margin is GONE. The grid handles the overlap now. */
+/* --- New, Simplified Profile Section --- */
+.new-profile-section {
     background-color: #000000;
     color: #ffffff;
+    padding: 120px 40px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-areas: "photo text" "photo .";
+    gap: 80px;
+    align-items: start;
+    max-width: 1400px;
+    margin: 0 auto;
 }
-
-.about-images-column { grid-area: photo; padding-top: 100px; }
-.about-image-wrapper.top-image { position: relative; z-index: 1; width: 100%; }
-.about-image-wrapper img { width: 100%; height: auto; display: block; }
-.about-image-wrapper.bottom-image { position: absolute; z-index: 2; aspect-ratio: 1 / 1; width: 45%; top: 75%; right: -10%; left: auto; }
-.about-image-wrapper.bottom-image img { width: 100%; height: 100%; object-fit: cover; }
-.about-text-column { grid-area: text; padding: 120px 15% 80px 100px; box-sizing: border-box; align-self: start; }
-.about-text-column .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
-.about-text-column .about-bio { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 1.8rem; line-height: 1.6; margin: 0; color: #e0e0e0; }
-.about-bio .desktop-only { display: initial; }
+.profile-image-column-new img { width: 100%; height: auto; display: block; }
+.profile-text-column-new .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
+.profile-text-column-new .about-bio { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 1.8rem; line-height: 1.6; margin: 0; color: #e0e0e0; }
+.profile-second-image { margin-top: 40px; }
+.profile-second-image img { width: 100%; height: auto; display: block; }
 
 
 /* --- Services Section Styles --- */
@@ -669,13 +647,8 @@ footer {
 
 /* --- Responsive Styles for About Page --- */
 @media (max-width: 900px) {
-    .profile-layout-wrapper { display: block; }
-    .about-content-section { display: block; }
-    .about-images-column { grid-area: auto; padding-top: 0; margin-bottom: 40px; padding: 0 40px; box-sizing: border-box; }
-    .about-image-wrapper.bottom-image { width: 50%; top: 65%; right: auto; left: 40%; }
-    .about-text-column { grid-area: auto; padding: 0 40px; }
-    .about-text-column .about-bio { font-size: 1.5rem; }
-    .about-bio .desktop-only { display: none; }
+    .new-profile-section { grid-template-columns: 1fr; }
+    .profile-text-column-new .about-bio { font-size: 1.5rem; }
     .service-card { flex-basis: calc(50% - 10px); min-height: 180px; }
     .row-title::after { display: none; }
     .showcase-grid { grid-template-columns: 1fr; gap: 40px; }
