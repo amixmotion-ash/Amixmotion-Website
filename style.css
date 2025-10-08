@@ -574,105 +574,61 @@ footer {
     }
 }
 /*
-================================================================
+============================================================
 == FINAL, UNBREAKABLE STYLES FOR ABOUT PAGE ==
-================================================================
+============================================================
 */
 
-/* --- This is the new, robust grid layout for the profile overlap --- */
+/* --- This is the new, robust grid layout that fixes everything --- */
 .profile-layout-wrapper {
     display: grid;
-    /* This creates a single cell for content to be layered in */
+    /* This creates a single cell for the grey and black sections to be layered in */
     grid-template-areas: "overlap";
 }
 .about-title-section, .about-content-section {
-    grid-area: overlap; /* Place both sections in the same cell */
+    grid-area: overlap; /* This places both sections in the same cell */
 }
 .about-content-section {
     position: relative;
-    z-index: 2; /* Ensure the black section is on top */
-    align-self: end; /* Pins the black section to the bottom of the grid area */
+    z-index: 2;         /* Ensure the black section is visually on top */
+    align-self: end;    /* This pins the black section to the bottom of the grid area */
 }
 
-/* --- NEW, SIMPLIFIED PROFILE SECTION --- */
-.new-profile-section {
+/* --- Profile Section Styles --- */
+.about-title-section {
+    background-color: #f2f2f2;
+    padding-left: 40px;
+    padding-right: 40px;
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.about-content-section {
+    /* The negative margin is GONE. The grid handles the overlap now. */
     background-color: #000000;
     color: #ffffff;
-    padding: 120px 40px;
     display: grid;
-    grid-template-columns: 1fr 1fr; /* The simple two-column layout */
-    gap: 80px; /* The space between the image and text */
-    align-items: start; /* Align content to the top */
-    max-width: 1400px; /* Give it a max-width */
-    margin: 0 auto;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "photo text" "photo .";
 }
 
-.profile-image-column-new img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.profile-text-column-new .pre-title {
-    font-size: 0.9em;
-    font-weight: 600;
-    color: #888;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
-
-.profile-text-column-new .about-bio {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: 1.8rem; /* A more suitable font size for this layout */
-    line-height: 1.6;
-    margin: 0;
-    color: #e0e0e0;
-}
-
-.profile-second-image {
-    margin-top: 40px; /* Space between the bio and the second image */
-}
-
-.profile-second-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-/* --- Responsive styles for the new profile section --- */
-@media (max-width: 900px) {
-    .new-profile-section {
-        grid-template-columns: 1fr; /* Stack to a single column on mobile */
-        gap: 50px;
-    }
-    .profile-text-column-new .about-bio {
-        font-size: 1.5rem;
-    }
-}
+.about-images-column { grid-area: photo; padding-top: 100px; }
+.about-image-wrapper.top-image { position: relative; z-index: 1; width: 100%; }
+.about-image-wrapper img { width: 100%; height: auto; display: block; }
+.about-image-wrapper.bottom-image { position: absolute; z-index: 2; aspect-ratio: 1 / 1; width: 45%; top: 75%; right: -10%; left: auto; }
+.about-image-wrapper.bottom-image img { width: 100%; height: 100%; object-fit: cover; }
+.about-text-column { grid-area: text; padding: 120px 15% 80px 100px; box-sizing: border-box; align-self: start; }
+.about-text-column .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
+.about-text-column .about-bio { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 1.8rem; line-height: 1.6; margin: 0; color: #e0e0e0; }
+.about-bio .desktop-only { display: initial; }
 
 
 /* --- Services Section Styles --- */
 .services-section { background-color: #f2f2f2; padding: 120px 40px; text-align: center; }
-/* ADD THESE TWO NEW RULES */
-
-.services-header h2 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    line-height: 1.1;
-    text-transform: uppercase;
-    margin: 0 0 20px 0;
-}
-
-.services-header p {
-    max-width: 650px;
-    margin: 0 auto 80px auto; /* 80px adds space below the paragraph */
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #555;
-}
+.services-header h2 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; text-transform: uppercase; margin: 0 0 20px 0; }
+.services-header p { max-width: 650px; margin: 0 auto 80px auto; font-size: 1.1rem; line-height: 1.6; color: #555; }
 .services-row { margin-bottom: 60px; position: relative; }
 .row-title { color: #aaa; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8em; margin-bottom: 50px; position: relative; display: inline-block; }
 .row-title::after { content: ''; position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); width: 1px; height: 30px; background-color: #ddd; }
@@ -691,136 +647,43 @@ footer {
 .showcase-text p { font-size: 1.5rem; line-height: 1.6; font-weight: 300; color: #222; margin: 0 0 40px 0; }
 
 
-/* --- PROCESS ACCORDION SECTION (FINAL) --- */
-.process-section {
-    background-color: #000000;
-    color: #ffffff;
-    padding: 120px 40px;
-}
-.accordion {
-    max-width: 800px;
-    margin: 0 auto;
-}
-.accordion-item {
-    border: 1px solid #333;
-    margin-bottom: 10px;
-    transition: border-color 0.3s ease;
-}
-.accordion-item.is-open {
-    border-color: #fff;
-}
-.accordion-toggle {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 25px;
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-size: 1.2rem;
-    font-weight: 400;
-    text-align: left;
-    cursor: pointer;
-}
-.accordion-icon {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    border-left: 2px solid #fff;
-    border-bottom: 2px solid #fff;
-    transform: rotate(-45deg);
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
-    margin-left: 20px;
-}
-.accordion-item.is-open .accordion-icon {
-    transform: rotate(135deg);
-}
-/* This is the new, simplified content style */
-.accordion-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out; /* The transition is now controlled here */
-}
-.accordion-content p {
-    padding: 0 25px 25px 25px; /* The padding for the text when open */
-    margin: 0;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #aaa;
-    max-width: 600px;
-}
+/* --- Process Accordion Section --- */
+.process-section { background-color: #000000; color: #ffffff; padding: 120px 40px; }
+.accordion { max-width: 800px; margin: 0 auto; }
+.accordion-item { border: 1px solid #333; margin-bottom: 10px; transition: border-color 0.3s ease; }
+.accordion-item.is-open { border-color: #fff; }
+.accordion-toggle { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 25px; background: none; border: none; color: #ffffff; font-size: 1.2rem; font-weight: 400; text-align: left; cursor: pointer; }
+.accordion-icon { display: inline-block; width: 12px; height: 12px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); transition: transform 0.3s ease; flex-shrink: 0; margin-left: 20px; }
+.accordion-item.is-open .accordion-icon { transform: rotate(135deg); }
+.accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
+.accordion-content p { padding: 0 25px 25px 25px; margin: 0; font-size: 1rem; line-height: 1.6; color: #aaa; max-width: 600px; }
+
+
+/* --- Trusted By Logo Section --- */
+.trusted-by-section { background-color: #f2f2f2; padding: 120px 40px; }
+.trusted-by-container { max-width: 1000px; margin: 0 auto; text-align: center; }
+.section-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; line-height: 1.1; margin: 0 0 80px 0; }
+.logo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 10px; align-items: center; }
+.logo-item img { max-width: 100%; width: auto; max-height: 100px; margin: 0 auto; filter: grayscale(100%); opacity: 0.8; }
 
 
 /* --- Responsive Styles for About Page --- */
 @media (max-width: 900px) {
-    .profile-layout-wrapper { display: block; } /* Revert to normal flow on mobile */
+    .profile-layout-wrapper { display: block; }
     .about-content-section { display: block; }
     .about-images-column { grid-area: auto; padding-top: 0; margin-bottom: 40px; padding: 0 40px; box-sizing: border-box; }
     .about-image-wrapper.bottom-image { width: 50%; top: 65%; right: auto; left: 40%; }
     .about-text-column { grid-area: auto; padding: 0 40px; }
-    .about-text-column .about-bio { font-size: 24px; }
+    .about-text-column .about-bio { font-size: 1.5rem; }
     .about-bio .desktop-only { display: none; }
     .service-card { flex-basis: calc(50% - 10px); min-height: 180px; }
     .row-title::after { display: none; }
     .showcase-grid { grid-template-columns: 1fr; gap: 40px; }
     .showcase-text { text-align: center; }
     .showcase-text p { font-size: 1.2rem; }
+    .logo-grid { grid-template-columns: repeat(2, 1fr); gap: 50px; }
 }
 
 @media (max-width: 600px) {
     .service-card { flex-basis: 100%; }
-}
-/* --- TRUSTED BY LOGO SECTION --- */
-.trusted-by-section {
-    background-color: #f2f2f2;
-    padding: 120px 40px;
-}
-
-.trusted-by-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-/* This is the new, synced-up rule */
-.section-title {
-    /* Inherit the exact same font styles as the "Art of the Edit" title */
-    font: inherit;
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    text-transform: uppercase;
-    line-height: 1.1;
-    margin: 0 0 80px 0; /* Increased bottom margin for more space */
-}
-
-/* Find and replace this rule */
-.logo-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    /* CHANGED: Minimal vertical and horizontal gap */
-    gap: 20px 10px;
-    align-items: center;
-}
-
-/* Find and replace this rule */
-.logo-item img {
-    max-width: 100%;
-    width: auto;
-    /* CHANGED: Increased max-height to a larger value */
-    max-height: 100px;
-    margin: 0 auto;
-    filter: grayscale(100%);
-    opacity: 0.8;
-}
-
-/* --- Responsive adjustments for logo grid --- */
-@media (max-width: 768px) {
-    .logo-grid {
-        /* Switch to a 2-column layout on smaller screens */
-        grid-template-columns: repeat(2, 1fr);
-        gap: 50px;
-    }
 }
