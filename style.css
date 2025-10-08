@@ -749,21 +749,21 @@ footer {
     margin: 0 0 80px 0; /* Increased bottom margin for more space */
 }
 
-/* This is the updated rule */
+/* This is the updated, tighter version */
 .logo-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    /* CHANGED: Reduced the gap between logos */
-    gap: 40px 20px;
+    /* CHANGED: Reduced vertical and horizontal gap further */
+    gap: 30px 15px;
     align-items: center;
 }
 
-/* This is the updated rule */
+/* This is the updated, bigger version */
 .logo-item img {
     max-width: 100%;
     width: auto;
-    /* CHANGED: Increased max-height to make logos bigger */
-    max-height: 70px;
+    /* CHANGED: Increased max-height significantly */
+    max-height: 90px;
     margin: 0 auto;
     filter: grayscale(100%);
     opacity: 0.8;
