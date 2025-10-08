@@ -199,7 +199,7 @@ header {
 .button-dark:hover { background-color: #222222; color: #ffffff; }
 
 /* --- TESTIMONIALS SECTION --- */
-.testimonials-section { padding: 120px 0; background-color: E9E9E9; overflow-x: hidden; }
+.testimonials-section { padding: 120px 0; background-color: #E9E9E9; overflow-x: hidden; }
 .testimonials-header {
     margin: 0 0 60px 0; /* Removes horizontal auto margins */
     padding: 0 40px;   /* This padding now aligns it with the track */
