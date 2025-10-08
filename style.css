@@ -682,10 +682,8 @@ footer {
 /* This is the updated rule */
 .accordion-content p {
     margin: 0;
-    /* CHANGED: Removed the left padding to align with the title */
-    padding: 0;
-    /* ADDED: Add padding to all sides of the content area for better spacing */
-    padding: 0 25px 30px 25px;
+    /* CHANGED: Set bottom padding to 25px to match the toggle's top padding */
+    padding: 0 25px 25px 25px;
     font-size: 1rem;
     line-height: 1.6;
     color: #aaa;
