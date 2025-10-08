@@ -594,34 +594,63 @@ footer {
     align-self: end; /* Pins the black section to the bottom of the grid area */
 }
 
-/* --- Profile Section Styles --- */
-.about-title-section {
-    background-color: #f2f2f2;
-    padding-left: 40px;
-    padding-right: 40px;
-    box-sizing: border-box;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-}
-
-.about-content-section {
+/* --- NEW, SIMPLIFIED PROFILE SECTION --- */
+.new-profile-section {
     background-color: #000000;
     color: #ffffff;
+    padding: 120px 40px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: "photo text" "photo .";
+    grid-template-columns: 1fr 1fr; /* The simple two-column layout */
+    gap: 80px; /* The space between the image and text */
+    align-items: start; /* Align content to the top */
+    max-width: 1400px; /* Give it a max-width */
+    margin: 0 auto;
 }
 
-.about-images-column { grid-area: photo; padding-top: 100px; }
-.about-image-wrapper.top-image { position: relative; z-index: 1; width: 100%; }
-.about-image-wrapper img { width: 100%; height: auto; display: block; }
-.about-image-wrapper.bottom-image { position: absolute; z-index: 2; aspect-ratio: 1 / 1; width: 45%; top: 75%; right: -10%; left: auto; }
-.about-image-wrapper.bottom-image img { width: 100%; height: 100%; object-fit: cover; }
-.about-text-column { grid-area: text; padding: 120px 15% 80px 100px; box-sizing: border-box; align-self: start; }
-.about-text-column .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
-.about-text-column .about-bio { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.4; margin: 0; color: #e0e0e0; }
-.about-bio .desktop-only { display: initial; }
+.profile-image-column-new img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.profile-text-column-new .pre-title {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #888;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.profile-text-column-new .about-bio {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 1.8rem; /* A more suitable font size for this layout */
+    line-height: 1.6;
+    margin: 0;
+    color: #e0e0e0;
+}
+
+.profile-second-image {
+    margin-top: 40px; /* Space between the bio and the second image */
+}
+
+.profile-second-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --- Responsive styles for the new profile section --- */
+@media (max-width: 900px) {
+    .new-profile-section {
+        grid-template-columns: 1fr; /* Stack to a single column on mobile */
+        gap: 50px;
+    }
+    .profile-text-column-new .about-bio {
+        font-size: 1.5rem;
+    }
+}
 
 
 /* --- Services Section Styles --- */
