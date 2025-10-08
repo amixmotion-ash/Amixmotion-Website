@@ -648,9 +648,18 @@ footer {
 .process-section { background-color: #000000; color: #ffffff; padding: 120px 40px; }
 .accordion { max-width: 800px; margin: 0 auto; }
 /* This is the new rule for the boxed style */
+/* This is the updated rule */
 .accordion-item {
-    border: 1px solid #333; /* Creates a border on all four sides */
-    margin-bottom: 15px;    /* Adds space between each box */
+    border: 1px solid #333;
+    /* CHANGED: Reduced the space between boxes */
+    margin-bottom: 10px;
+    /* ADDED: A smooth transition for the border color change */
+    transition: border-color 0.3s ease;
+}
+/* This is the updated rule */
+.accordion-item.is-open .accordion-content {
+    max-height: 200px;
+    /* The padding is now handled by the <p> tag, so this is no longer needed */
 }
 /* This is the updated rule with correct padding */
 .accordion-toggle {
@@ -670,7 +679,18 @@ footer {
 .accordion-icon { display: inline-block; width: 12px; height: 12px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); transition: transform 0.3s ease; flex-shrink: 0; margin-left: 20px; }
 .accordion-item.is-open .accordion-icon { transform: rotate(135deg); }
 .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding-bottom 0.4s ease-out; }
-.accordion-content p { margin: 0; padding: 0 0 0 10px; font-size: 1rem; line-height: 1.6; color: #aaa; max-width: 600px; }
+/* This is the updated rule */
+.accordion-content p {
+    margin: 0;
+    /* CHANGED: Removed the left padding to align with the title */
+    padding: 0;
+    /* ADDED: Add padding to all sides of the content area for better spacing */
+    padding: 0 25px 30px 25px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #aaa;
+    max-width: 600px;
+}
 .accordion-item.is-open .accordion-content { max-height: 200px; padding-bottom: 30px; }
 
 
