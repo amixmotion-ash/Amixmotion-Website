@@ -647,9 +647,26 @@ footer {
 /* --- Process Accordion Section --- */
 .process-section { background-color: #000000; color: #ffffff; padding: 120px 40px; }
 .accordion { max-width: 800px; margin: 0 auto; }
-.accordion-item { border-top: 1px solid #333; }
-.accordion-item:last-child { border-bottom: 1px solid #333; }
-.accordion-toggle { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 25px 0; background: none; border: none; color: #ffffff; font-size: 1.2rem; font-weight: 400; text-align: left; cursor: pointer; }
+/* This is the new rule for the boxed style */
+.accordion-item {
+    border: 1px solid #333; /* Creates a border on all four sides */
+    margin-bottom: 15px;    /* Adds space between each box */
+}
+/* This is the updated rule with correct padding */
+.accordion-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px; /* Adds padding on all sides for the boxed look */
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-align: left;
+    cursor: pointer;
+}
 .accordion-icon { display: inline-block; width: 12px; height: 12px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); transition: transform 0.3s ease; flex-shrink: 0; margin-left: 20px; }
 .accordion-item.is-open .accordion-icon { transform: rotate(135deg); }
 .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding-bottom 0.4s ease-out; }
