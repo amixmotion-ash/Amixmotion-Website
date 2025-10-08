@@ -678,18 +678,33 @@ footer {
 }
 .accordion-icon { display: inline-block; width: 12px; height: 12px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); transition: transform 0.3s ease; flex-shrink: 0; margin-left: 20px; }
 .accordion-item.is-open .accordion-icon { transform: rotate(135deg); }
-.accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding-bottom 0.4s ease-out; }
+/* This is the new, smoother version */
+.accordion-content {
+    display: grid;
+    /* The row starts with a height of 0 (collapsed) */
+    grid-template-rows: 0fr;
+    /* We now animate the grid-template-rows property for a smooth transition */
+    transition: grid-template-rows 0.3s ease-in-out;
+}
 
+/* This is the new, smoother version */
 .accordion-content p {
+    /* This is the key property for the grid animation to work correctly */
+    overflow: hidden;
     margin: 0;
-    /* This sets the padding around the text itself */
     padding: 0 25px;
     font-size: 1rem;
     line-height: 1.6;
     color: #aaa;
     max-width: 600px;
 }
-.accordion-item.is-open .accordion-content { max-height: 200px; padding-bottom: 30px; }
+/* This is the new, smoother version */
+.accordion-item.is-open .accordion-content {
+    /* The row expands to 1 fraction, which is the natural height of the content */
+    grid-template-rows: 1fr;
+    /* This adds the 25px of space below the text when the item is open */
+    padding-bottom: 25px;
+}
 
 
 /* --- Responsive Styles for About Page --- */
