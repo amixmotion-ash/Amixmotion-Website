@@ -725,3 +725,50 @@ footer {
 @media (max-width: 600px) {
     .service-card { flex-basis: 100%; }
 }
+/* --- TRUSTED BY LOGO SECTION --- */
+.trusted-by-section {
+    background-color: #f2f2f2;
+    padding: 120px 40px;
+}
+
+.trusted-by-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.section-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 60px 0;
+}
+
+.logo-grid {
+    display: grid;
+    /* Create 4 equal columns */
+    grid-template-columns: repeat(4, 1fr);
+    /* Set the gap between logos */
+    gap: 60px 40px; /* 60px vertical gap, 40px horizontal gap */
+    align-items: center; /* Vertically center logos in their cells */
+}
+
+.logo-item img {
+    max-width: 100%; /* Ensure logos scale down if they are too big */
+    width: auto;
+    max-height: 50px; /* Control the max height of the logos */
+    margin: 0 auto; /* Center the image within its grid cell */
+    filter: grayscale(100%); /* Make logos black and white */
+    opacity: 0.8;
+}
+
+/* --- Responsive adjustments for logo grid --- */
+@media (max-width: 768px) {
+    .logo-grid {
+        /* Switch to a 2-column layout on smaller screens */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 50px;
+    }
+}
