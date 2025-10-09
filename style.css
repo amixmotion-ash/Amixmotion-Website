@@ -581,26 +581,8 @@ footer {
 
 /* --- This controls the main page padding --- */
 .about-page-main {
-    padding-top: 100px; /* Space below the header */
+    padding-top: 300px; 
 }
-
-/* --- New, Simplified Profile Section --- */
-.new-profile-section {
-    background-color: #000000;
-    color: #ffffff;
-    padding: 120px 40px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-.profile-image-column-new img { width: 100%; height: auto; display: block; }
-.profile-text-column-new .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
-.profile-text-column-new .about-bio { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 1.8rem; line-height: 1.6; margin: 0; color: #e0e0e0; }
-.profile-second-image { margin-top: 40px; }
-.profile-second-image img { width: 100%; height: auto; display: block; }
 
 
 /* --- Services Section Styles --- */
