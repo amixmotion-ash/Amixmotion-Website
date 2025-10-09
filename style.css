@@ -581,28 +581,11 @@ footer {
 
 /* --- This controls the main page padding --- */
 .about-page-main {
-    padding-top: 100px; /* Space below the fixed header */
+    padding-top: 100px; /* Space below the header */
 }
 
-/* --- Section 1: Grey Title Area --- */
-.about-title-section {
-    background-color: #f2f2f2;
-    padding: 100px 40px;
-}
-.about-title-section h1 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2.5rem, 8vw, 6rem);
-    line-height: 1.1;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* --- Section 2: Black Profile Area --- */
-.about-content-section {
+/* --- New, Simplified Profile Section --- */
+.new-profile-section {
     background-color: #000000;
     color: #ffffff;
     padding: 120px 40px;
@@ -613,23 +596,67 @@ footer {
     max-width: 1400px;
     margin: 0 auto;
 }
-.about-images-column img { width: 100%; height: auto; display: block; }
-.about-text-column .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
-.about-text-column .about-bio { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 1.8rem; line-height: 1.6; margin: 0; color: #e0e0e0; }
-.about-second-image { margin-top: 40px; }
-.about-second-image img { width: 100%; height: auto; display: block; }
+.profile-image-column-new img { width: 100%; height: auto; display: block; }
+.profile-text-column-new .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
+.profile-text-column-new .about-bio { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 1.8rem; line-height: 1.6; margin: 0; color: #e0e0e0; }
+.profile-second-image { margin-top: 40px; }
+.profile-second-image img { width: 100%; height: auto; display: block; }
 
 
-/* --- Section 3: Services Section (and all subsequent sections) --- */
-/* The existing styles for services, editing, process, trusted by, and testimonials will now work correctly */
+/* --- Services Section Styles --- */
 .services-section { background-color: #f2f2f2; padding: 120px 40px; text-align: center; }
 .services-header h2 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; text-transform: uppercase; margin: 0 0 20px 0; }
 .services-header p { max-width: 650px; margin: 0 auto 80px auto; font-size: 1.1rem; line-height: 1.6; color: #555; }
-/* (All other existing styles for the remaining sections are fine and do not need to be changed) */
+.services-row { margin-bottom: 60px; position: relative; }
+.row-title { color: #aaa; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8em; margin-bottom: 50px; position: relative; display: inline-block; }
+.row-title::after { content: ''; position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); width: 1px; height: 30px; background-color: #ddd; }
+.cards-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.service-card { background-color: #000000; color: #ffffff; padding: 30px; border-radius: 0; flex-basis: 250px; display: flex; flex-direction: column; justify-content: center; min-height: 120px; text-align: center; }
+.service-card h3 { font-size: 1.2rem; font-weight: 600; margin: 0 0 10px 0; }
+.service-card p { font-size: 0.9rem; line-height: 1.5; color: #aaa; margin: 0; }
+.services-cta { margin-top: 80px; }
 
 
-/* --- Responsive Styles --- */
+/* --- Editing Showcase Section --- */
+.editing-showcase-section { background-color: #f2f2f2; padding: 120px 40px; }
+.showcase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1200px; margin: 0 auto; }
+.showcase-image img { width: 100%; height: auto; display: block; }
+.showcase-text h2 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; margin: 0 0 20px 0; line-height: 1.1; }
+.showcase-text p { font-size: 1.5rem; line-height: 1.6; font-weight: 300; color: #222; margin: 0 0 40px 0; }
+
+
+/* --- Process Accordion Section --- */
+.process-section { background-color: #000000; color: #ffffff; padding: 120px 40px; }
+.accordion { max-width: 800px; margin: 0 auto; }
+.accordion-item { border: 1px solid #333; margin-bottom: 10px; transition: border-color 0.3s ease; }
+.accordion-item.is-open { border-color: #fff; }
+.accordion-toggle { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 25px; background: none; border: none; color: #ffffff; font-size: 1.2rem; font-weight: 400; text-align: left; cursor: pointer; }
+.accordion-icon { display: inline-block; width: 12px; height: 12px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); transition: transform 0.3s ease; flex-shrink: 0; margin-left: 20px; }
+.accordion-item.is-open .accordion-icon { transform: rotate(135deg); }
+.accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
+.accordion-content p { padding: 0 25px 25px 25px; margin: 0; font-size: 1rem; line-height: 1.6; color: #aaa; max-width: 600px; }
+
+
+/* --- Trusted By Logo Section --- */
+.trusted-by-section { background-color: #f2f2f2; padding: 120px 40px; }
+.trusted-by-container { max-width: 1000px; margin: 0 auto; text-align: center; }
+.section-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; line-height: 1.1; margin: 0 0 80px 0; }
+.logo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 10px; align-items: center; }
+.logo-item img { max-width: 100%; width: auto; max-height: 100px; margin: 0 auto; filter: grayscale(100%); opacity: 0.8; }
+
+
+/* --- Responsive Styles for About Page --- */
 @media (max-width: 900px) {
-    .about-content-section { grid-template-columns: 1fr; }
-    .about-text-column .about-bio { font-size: 1.5rem; }
+    .new-profile-section { grid-template-columns: 1fr; }
+    .profile-text-column-new .about-bio { font-size: 1.5rem; }
+    .service-card { flex-basis: calc(50% - 10px); min-height: 180px; }
+    .row-title::after { display: none; }
+    .showcase-grid { grid-template-columns: 1fr; gap: 40px; }
+    .showcase-text { text-align: center; }
+    .showcase-text p { font-size: 1.2rem; }
+    .logo-grid { grid-template-columns: repeat(2, 1fr); gap: 50px; }
+}
+
+@media (max-width: 600px) {
+    .service-card { flex-basis: 100%; }
 }
