@@ -587,8 +587,11 @@ footer {
 
 /* --- Services Section Styles --- */
 
+/* This is the final, corrected rule */
 .services-section {
-    margin-top: 800px;
+    /* THIS IS THE FIX: It forces the section to contain all its children
+       and respect the normal page flow, "grouping" everything together. */
+    display: flow-root;
 
     background-color: #f2f2f2;
     padding: 120px 40px;
