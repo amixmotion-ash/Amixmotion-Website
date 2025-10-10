@@ -59,7 +59,16 @@ header {
 
 /* --- HERO VIDEO SECTION --- */
 .hero-video { height: 100vh; position: -webkit-sticky; position: sticky; top: 0; z-index: 1; }
-#bgvideo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+#bgvideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* ADD THIS LINE: This aligns the top of the video with the top of the container */
+    object-position: center top;
+}
 
 /* --- SCROLLING CONTENT WRAPPER --- */
 .scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; }
