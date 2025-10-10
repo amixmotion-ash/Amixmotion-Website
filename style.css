@@ -458,7 +458,7 @@ footer {
     /* You can adjust this height to make the gradient taller or shorter */
     height: 150px; 
     /* This creates the gradient from a semi-transparent black to fully transparent */
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent);
     /* This places the gradient above the video but below your header */
     z-index: 2; 
     /* This ensures the gradient doesn't interfere with any mouse clicks */
