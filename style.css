@@ -514,6 +514,12 @@ footer {
 /* --- Process Accordion Section --- */
 
 
+.process-header-text {
+    text-align: center; /* Center the text content */
+    max-width: 900px;   /* Constrain the width */
+    margin: 0 auto 80px auto; /* Center the block and add space below it */
+}
+
 .process-intro-paragraph {
     color: #aaa; /* A light grey to match the accordion subtext */
     font-size: 1.1rem;
