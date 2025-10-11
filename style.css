@@ -515,9 +515,14 @@ footer {
 
 
 .process-header-text {
-    text-align: center; /* Center the text content */
-    max-width: 900px;   /* Constrain the width */
-    margin: 0 auto 80px auto; /* Center the block and add space below it */
+    text-align: left; /* CHANGED: Set to left for the pre-title alignment */
+    max-width: 900px;
+    margin: 0 auto 80px auto;
+}
+
+.process-header-text .mission-statement {
+    font-size: 2.5rem; /* CHANGED: Increased font size */
+    text-align: center; /* Center the main statement */
 }
 
 .process-intro-paragraph {
