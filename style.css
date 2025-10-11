@@ -442,7 +442,16 @@ footer {
 
 /* --- Editing Showcase Section --- */
 .editing-showcase-section { background-color: #f2f2f2; padding: 120px 40px; }
-.showcase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1200px; margin: 0 auto; }
+.showcase-grid {
+    display: grid;
+    /* CHANGED: Give the image column (left) more space than the text column (right) */
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+    /* CHANGED: Align the top of the items in each column */
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 .showcase-image img { width: 100%; height: auto; display: block; }
 .showcase-text h2 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; margin: 0 0 20px 0; line-height: 1.1; }
 .showcase-text p { font-size: 1.5rem; line-height: 1.6; font-weight: 300; color: #222; margin: 0 0 40px 0; }
