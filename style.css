@@ -284,7 +284,34 @@ footer {
     cursor: pointer;
     line-height: 1;
 }
-.homepage .custom-cursor { position: fixed; top: 0; left: 0; z-index: 1100; width: 80px; height: 80px; background-color: #000000; color: #ffffff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; opacity: 0; transform: scale(0.5) translate(20px, -50%); transform-origin: 0 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; }
+.homepage .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1100;
+    width: 80px;
+    height: 80px;
+    
+    /* CHANGED: Made the background semi-transparent */
+    background-color: rgba(0, 0, 0, 0.8);
+    
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* ADDED/CHANGED: Explicitly set font and style */
+    font-family: 'Inter', sans-serif;
+    font-weight: 600; /* A semi-bold weight looks good */
+    text-transform: uppercase; /* Capitalizes the text */
+    
+    opacity: 0;
+    transform: scale(0.5) translate(20px, -50%);
+    transform-origin: 0 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
 .homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
 .homepage.cursor-hover { cursor: none; }
 
