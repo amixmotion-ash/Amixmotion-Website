@@ -515,8 +515,9 @@ footer {
 
 
 .process-header-text {
-    text-align: left; /* CHANGED: Set to left for the pre-title alignment */
-    max-width: 900px;
+    text-align: left;
+    /* CHANGED: Set max-width to match the accordion's width */
+    max-width: 800px;
     margin: 0 auto 80px auto;
 }
 
