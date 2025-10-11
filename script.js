@@ -43,81 +43,34 @@ if (testimonialsSection) {
     observer.observe(testimonialsSection);
 }
 
-// --- Video Lightbox Functionality (Final, Error-Free Version) ---
+// --- Video Lightbox Functionality ---
 const lightbox = document.querySelector('.video-lightbox');
-
-// First, check if the lightbox element actually exists on the page
 if (lightbox) {
-    // Get all the necessary parts from inside the lightbox
-    const lightboxContent = lightbox.querySelector('.lightbox-content');
     const lightboxVideo = lightbox.querySelector('.lightbox-video');
     const closeButton = lightbox.querySelector('.lightbox-close');
-    
-    // Get all the clickable portfolio items from the page
     const portfolioItems = document.querySelectorAll('.grid-item');
-
-    // --- This function handles OPENING the lightbox ---
-    function openLightbox(videoSrc, aspectRatio) {
-        // Make sure we have a video file to play
-        if (!videoSrc) {
-            console.error('No video source provided to openLightbox.');
-            return; // Stop the function if there's no video
+    function openLightbox(videoSrc) {
+        if (videoSrc) {
+            lightboxVideo.src = videoSrc;
+            lightbox.classList.add('is-visible');
         }
-
-        // Check the 'tag' from the HTML. Is it a vertical video?
-        if (aspectRatio === '9:16') {
-            // If yes, add our special CSS class to make the player vertical
-            lightboxContent.classList.add('is-vertical');
-        }
-
-        // Load the video file into the player
-        lightboxVideo.src = videoSrc;
-        
-        // Make the lightbox visible
-        lightbox.classList.add('is-visible');
-
-        // Try to play the video
-        lightboxVideo.play().catch(error => {
-            // Catch and log any errors if the browser blocks autoplay
-            console.warn("Video autoplay was prevented:", error);
-        });
     }
-
-    // --- This function handles CLOSING the lightbox ---
     function closeLightbox() {
-        // Hide the lightbox
         lightbox.classList.remove('is-visible');
-        
-        // Stop the video from playing in the background
         lightboxVideo.pause();
-
-        // Remove the video file to free up resources
         lightboxVideo.src = '';
-        
-        // ALWAYS remove our special class to reset the player for next time
-        lightboxContent.classList.remove('is-vertical');
     }
-
-    // --- This sets up the click events ---
-    // Loop through every portfolio item on the page
     portfolioItems.forEach(item => {
         item.addEventListener('click', (event) => {
-            // Prevent the link from trying to go to a new page
             event.preventDefault();
-            
-            // Read the video file and the aspect ratio 'tag' from the link
             const videoSrc = item.dataset.videoSrc;
-            const aspectRatio = item.dataset.aspectRatio;
-            
-            // Call our open function with the information we found
-            openLightbox(videoSrc, aspectRatio);
+            if (videoSrc) {
+                openLightbox(videoSrc);
+            }
         });
     });
-
-    // --- Click events for closing the lightbox ---
     closeButton.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', (event) => {
-        // Only close if the click is on the dark background, not the video itself
         if (event.target === lightbox) {
             closeLightbox();
         }
