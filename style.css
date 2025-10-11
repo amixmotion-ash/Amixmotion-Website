@@ -512,6 +512,17 @@ footer {
 
 
 /* --- Process Accordion Section --- */
+
+
+.process-intro-paragraph {
+    color: #aaa; /* A light grey to match the accordion subtext */
+    font-size: 1.1rem;
+    line-height: 1.6;
+    font-weight: 300;
+    text-align: center; /* Center the text */
+    max-width: 800px;   /* Keep the line length readable */
+    margin: 0 auto 80px auto; /* Center the block and add 80px of space below it */
+}
 .process-section { background-color: #000000; color: #ffffff; padding: 120px 40px; }
 .accordion { max-width: 800px; margin: 0 auto; }
 .accordion-item { border: 1px solid #333; margin-bottom: 10px; transition: border-color 0.3s ease; }
