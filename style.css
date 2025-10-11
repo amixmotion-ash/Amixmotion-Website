@@ -521,8 +521,8 @@ footer {
 }
 
 .process-header-text .mission-statement {
-    font-size: 2.5rem; /* CHANGED: Increased font size */
-    text-align: center; /* Center the main statement */
+    font-size: 2.5rem;
+    /* The text-align: center; property has been removed */
 }
 
 .process-intro-paragraph {
