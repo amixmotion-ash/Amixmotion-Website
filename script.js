@@ -46,29 +46,57 @@ if (testimonialsSection) {
 // --- Video Lightbox Functionality ---
 const lightbox = document.querySelector('.video-lightbox');
 if (lightbox) {
+    const lightboxContent = lightbox.querySelector('.lightbox-content'); // The player container we will change the shape of
     const lightboxVideo = lightbox.querySelector('.lightbox-video');
     const closeButton = lightbox.querySelector('.lightbox-close');
     const portfolioItems = document.querySelectorAll('.grid-item');
-    function openLightbox(videoSrc) {
+
+    function openLightbox(videoSrc, aspectRatio) {
         if (videoSrc) {
+            // First, before we do anything, remove any old "shape" classes
+            lightboxContent.classList.remove('aspect-ratio-16-9', 'aspect-ratio-9-16');
+
+            // Now, check the "tag" we read from the HTML
+            if (aspectRatio === '9:16') {
+                // If it's a vertical video, add the vertical shape class
+                lightboxContent.classList.add('aspect-ratio-9-16');
+            } else {
+                // Otherwise, just use the default widescreen shape class
+                lightboxContent.classList.add('aspect-ratio-16-9');
+            }
+            
+            // Now that the player has the right shape, load the video and show it
             lightboxVideo.src = videoSrc;
             lightbox.classList.add('is-visible');
+            lightboxVideo.play();
         }
     }
+
     function closeLightbox() {
         lightbox.classList.remove('is-visible');
         lightboxVideo.pause();
         lightboxVideo.src = '';
+        // Also clean up the shape classes when we close the player
+        lightboxContent.classList.remove('aspect-ratio-16-9', 'aspect-ratio-9-16');
     }
+
+    // When any portfolio item is clicked...
     portfolioItems.forEach(item => {
         item.addEventListener('click', (event) => {
             event.preventDefault();
+
+            // ...get the video file name...
             const videoSrc = item.dataset.videoSrc;
+            // ...and get its "tag" (the aspect ratio).
+            const aspectRatio = item.dataset.aspectRatio; 
+
             if (videoSrc) {
-                openLightbox(videoSrc);
+                // ...then call our smart openLightbox function with both pieces of information.
+                openLightbox(videoSrc, aspectRatio);
             }
         });
     });
+
     closeButton.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', (event) => {
         if (event.target === lightbox) {
