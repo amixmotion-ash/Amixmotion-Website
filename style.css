@@ -391,7 +391,20 @@ footer {
 
 /* --- Services Section Styles --- */
 
-/* This is the final, corrected rule */
+
+.services-main-title {
+    /* These styles are copied from .showcase-text h2 to match exactly */
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-transform: uppercase;
+    line-height: 1.1;
+    
+    /* This adds the space between the title and the "PRE-PRODUCTION" subheading */
+    margin: 0 0 80px 0;
+}
+
+
 .services-section {
     /* THIS IS THE FIX: It forces the section to contain all its children
        and respect the normal page flow, "grouping" everything together. */
