@@ -182,7 +182,7 @@ if (carouselTrack) {
         carouselTrack.appendChild(duplicate);
     });
 }
-// --- Accordion Functionality for Process Section (Improved) ---
+// --- Accordion Functionality for Process Section (Final, Smooth Version) ---
 const accordionItems = document.querySelectorAll('.accordion-item');
 
 if (accordionItems.length > 0) {
@@ -191,17 +191,26 @@ if (accordionItems.length > 0) {
         const content = item.querySelector('.accordion-content');
 
         toggle.addEventListener('click', () => {
-            const wasOpen = item.classList.contains('is-open');
+            // Find the item that is currently open (if any)
+            const currentlyOpenItem = document.querySelector('.accordion-item.is-open');
 
-            // --- First, close all items ---
-            accordionItems.forEach(otherItem => {
-                otherItem.classList.remove('is-open');
-                otherItem.querySelector('.accordion-toggle').setAttribute('aria-expanded', 'false');
-                otherItem.querySelector('.accordion-content').style.maxHeight = null;
-            });
+            // --- CASE 1: The user clicked the item that was already open ---
+            if (currentlyOpenItem && currentlyOpenItem === item) {
+                // Just close it and do nothing else.
+                item.classList.remove('is-open');
+                toggle.setAttribute('aria-expanded', 'false');
+                content.style.maxHeight = null;
+            }
+            // --- CASE 2: The user clicked a new item ---
+            else {
+                // First, if there IS an open item, close it.
+                if (currentlyOpenItem) {
+                    currentlyOpenItem.classList.remove('is-open');
+                    currentlyOpenItem.querySelector('.accordion-toggle').setAttribute('aria-expanded', 'false');
+                    currentlyOpenItem.querySelector('.accordion-content').style.maxHeight = null;
+                }
 
-            // --- If the clicked item was NOT already open, open it ---
-            if (!wasOpen) {
+                // Now, open the new item that was clicked.
                 item.classList.add('is-open');
                 toggle.setAttribute('aria-expanded', 'true');
                 content.style.maxHeight = content.scrollHeight + 'px';
