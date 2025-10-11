@@ -440,21 +440,75 @@ footer {
 .services-cta { margin-top: 80px; }
 
 
-/* --- Editing Showcase Section --- */
-.editing-showcase-section { background-color: #f2f2f2; padding: 120px 40px; }
+/* --- EDITING SHOWCASE SECTION --- */
+.editing-showcase-section {
+    background-color: #f2f2f2;
+    padding: 120px 40px;
+}
+
 .showcase-grid {
     display: grid;
-    /* CHANGED: Give the image column (left) more space than the text column (right) */
     grid-template-columns: 1.1fr 0.9fr;
     gap: 60px;
-    /* CHANGED: Align the top of the items in each column */
-    align-items: start;
+    /* This is the key: it makes both columns the same height */
+    align-items: stretch; 
     max-width: 1200px;
     margin: 0 auto;
 }
-.showcase-image img { width: 100%; height: auto; display: block; }
-.showcase-text h2 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; margin: 0 0 20px 0; line-height: 1.1; }
-.showcase-text p { font-size: 1.5rem; line-height: 1.6; font-weight: 300; color: #222; margin: 0 0 40px 0; }
+
+.showcase-image img {
+    width: 100%;
+    height: 100%; /* Make the image fill the full height of its column */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    display: block;
+}
+
+/* This new container will manage the text and CTA button */
+.showcase-text-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* This pushes the text to the top and the button to the bottom */
+}
+
+.showcase-text-main h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-transform: uppercase;
+    margin: 0 0 20px 0;
+    line-height: 1.1;
+}
+
+.showcase-text-main p {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    font-weight: 300;
+    color: #222;
+    margin: 0; /* Removed bottom margin */
+}
+
+/* The old .showcase-text selector is no longer needed */
+
+/* --- Responsive adjustments for showcase section --- */
+@media (max-width: 900px) {
+    .showcase-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .showcase-text-content {
+        text-align: center;
+        align-items: center; /* Center the button on mobile */
+    }
+
+    .showcase-text-main p {
+        font-size: 1.2rem;
+    }
+
+    .showcase-cta {
+        margin-top: 40px; /* Add space above the button on mobile */
+    }
+}
 
 
 /* --- Process Accordion Section --- */
