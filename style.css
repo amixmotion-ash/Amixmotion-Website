@@ -392,6 +392,19 @@ footer {
 /* --- Services Section Styles --- */
 
 
+.services-intro-paragraph {
+    /* These styles are based on .showcase-text p */
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    color: #222;
+
+    /* These are the custom styles you requested */
+    font-size: 1.1rem; /* Smaller font size */
+    max-width: 650px;  /* Controls the width to create ~4 lines */
+    margin: 0 auto 80px auto; /* Centers the block and adds 80px of space below it */
+}
+
 .services-main-title {
     /* These styles are copied from .showcase-text h2 to match exactly */
     font-family: 'Inter', sans-serif;
