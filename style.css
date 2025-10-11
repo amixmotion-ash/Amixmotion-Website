@@ -473,3 +473,10 @@ footer {
     /* This ensures the gradient doesn't interfere with any mouse clicks */
     pointer-events: none; 
 }
+/* ADD THIS NEW RULE FOR VERTICAL VIDEOS */
+.lightbox-content.is-vertical {
+    width: auto;
+    height: 90vh;
+    max-height: 800px;
+    aspect-ratio: 9 / 16;
+}

@@ -43,32 +43,56 @@ if (testimonialsSection) {
     observer.observe(testimonialsSection);
 }
 
-// --- Video Lightbox Functionality ---
+// --- Video Lightbox Functionality (Final, Safe Version) ---
 const lightbox = document.querySelector('.video-lightbox');
 if (lightbox) {
     const lightboxVideo = lightbox.querySelector('.lightbox-video');
     const closeButton = lightbox.querySelector('.lightbox-close');
     const portfolioItems = document.querySelectorAll('.grid-item');
+    
+    // ADD THIS ONE NEW VARIABLE
+    const lightboxContent = lightbox.querySelector('.lightbox-content');
+
+    // YOUR ORIGINAL, WORKING openLightbox FUNCTION (UNCHANGED)
     function openLightbox(videoSrc) {
         if (videoSrc) {
             lightboxVideo.src = videoSrc;
             lightbox.classList.add('is-visible');
         }
     }
+
+    // YOUR ORIGINAL, WORKING closeLightbox FUNCTION (WITH ONE ADDITION)
     function closeLightbox() {
         lightbox.classList.remove('is-visible');
         lightboxVideo.pause();
         lightboxVideo.src = '';
+        // ADD THIS LINE to reset the player shape when it closes
+        lightboxContent.classList.remove('is-vertical');
     }
+
+    // YOUR ORIGINAL forEach LOOP (WITH A SMALL ADDITION)
     portfolioItems.forEach(item => {
         item.addEventListener('click', (event) => {
             event.preventDefault();
+
+            // --- START OF ADDED LOGIC ---
+            const aspectRatio = item.dataset.aspectRatio;
+            // Before we open the lightbox, check the tag and apply the correct shape
+            if (aspectRatio === '9:16') {
+                lightboxContent.classList.add('is-vertical');
+            } else {
+                lightboxContent.classList.remove('is-vertical');
+            }
+            // --- END OF ADDED LOGIC ---
+
             const videoSrc = item.dataset.videoSrc;
             if (videoSrc) {
                 openLightbox(videoSrc);
             }
         });
     });
+
+    // YOUR ORIGINAL EVENT LISTENERS (UNCHANGED)
     closeButton.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', (event) => {
         if (event.target === lightbox) {
