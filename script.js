@@ -43,56 +43,71 @@ if (testimonialsSection) {
     observer.observe(testimonialsSection);
 }
 
-// --- Video Lightbox Functionality (Final, Safe Version) ---
+// --- Video Lightbox Functionality (with Custom Loader) ---
 const lightbox = document.querySelector('.video-lightbox');
+
 if (lightbox) {
+    // Get all the parts we need
+    const lightboxContent = lightbox.querySelector('.lightbox-content');
     const lightboxVideo = lightbox.querySelector('.lightbox-video');
     const closeButton = lightbox.querySelector('.lightbox-close');
+    const customLoader = lightbox.querySelector('.custom-loader'); // Our new loader
     const portfolioItems = document.querySelectorAll('.grid-item');
-    
-    // ADD THIS ONE NEW VARIABLE
-    const lightboxContent = lightbox.querySelector('.lightbox-content');
 
-    // YOUR ORIGINAL, WORKING openLightbox FUNCTION (UNCHANGED)
-    function openLightbox(videoSrc) {
+    function openLightbox(videoSrc, aspectRatio) {
         if (videoSrc) {
-            lightboxVideo.src = videoSrc;
-            lightbox.classList.add('is-visible');
-        }
-    }
-
-    // YOUR ORIGINAL, WORKING closeLightbox FUNCTION (WITH ONE ADDITION)
-    function closeLightbox() {
-        lightbox.classList.remove('is-visible');
-        lightboxVideo.pause();
-        lightboxVideo.src = '';
-        // ADD THIS LINE to reset the player shape when it closes
-        lightboxContent.classList.remove('is-vertical');
-    }
-
-    // YOUR ORIGINAL forEach LOOP (WITH A SMALL ADDITION)
-    portfolioItems.forEach(item => {
-        item.addEventListener('click', (event) => {
-            event.preventDefault();
-
-            // --- START OF ADDED LOGIC ---
-            const aspectRatio = item.dataset.aspectRatio;
-            // Before we open the lightbox, check the tag and apply the correct shape
+            // Apply the correct aspect ratio class
             if (aspectRatio === '9:16') {
                 lightboxContent.classList.add('is-vertical');
             } else {
                 lightboxContent.classList.remove('is-vertical');
             }
-            // --- END OF ADDED LOGIC ---
 
+            // Show our custom loader and hide the video player
+            customLoader.classList.add('is-loading');
+            lightbox.classList.add('is-loading');
+            
+            lightboxVideo.src = videoSrc;
+            lightbox.classList.add('is-visible');
+        }
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('is-visible');
+        lightboxVideo.pause();
+        lightboxVideo.src = '';
+        
+        // Always clean up our classes on close
+        customLoader.classList.remove('is-loading');
+        lightbox.classList.remove('is-loading');
+        lightboxContent.classList.remove('is-vertical');
+    }
+    
+    // --- Event Listeners for the video itself ---
+
+    // When the video starts buffering/loading, show the loader
+    lightboxVideo.addEventListener('waiting', () => {
+        customLoader.classList.add('is-loading');
+        lightbox.classList.add('is-loading');
+    });
+
+    // When the video has loaded enough to play, hide the loader
+    lightboxVideo.addEventListener('canplay', () => {
+        customLoader.classList.remove('is-loading');
+        lightbox.classList.remove('is-loading');
+    });
+
+    // --- Click events to open and close the lightbox ---
+    portfolioItems.forEach(item => {
+        item.addEventListener('click', (event) => {
+            event.preventDefault();
             const videoSrc = item.dataset.videoSrc;
-            if (videoSrc) {
-                openLightbox(videoSrc);
-            }
+            const aspectRatio = item.dataset.aspectRatio;
+            
+            openLightbox(videoSrc, aspectRatio);
         });
     });
 
-    // YOUR ORIGINAL EVENT LISTENERS (UNCHANGED)
     closeButton.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', (event) => {
         if (event.target === lightbox) {
@@ -100,7 +115,6 @@ if (lightbox) {
         }
     });
 }
-
 // --- Rellax Parallax Functionality ---
 if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
     var rellax = new Rellax('.rellax', {

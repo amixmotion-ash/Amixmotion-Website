@@ -592,3 +592,73 @@ footer {
     max-height: 800px;
     aspect-ratio: 9 / 16;
 }
+
+/* --- CUSTOM VIDEO LOADER --- */
+
+.custom-loader {
+    /* Positioning to center it perfectly over the video */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10; /* Ensure it's on top of the video */
+
+    /* The spinning circle's size */
+    width: 100px;
+    height: 100px;
+    
+    /* Make it invisible by default */
+    opacity: 0;
+    pointer-events: none; /* Make it unclickable */
+    transition: opacity 0.3s ease;
+}
+
+/* This class will be added by JavaScript to show the loader */
+.custom-loader.is-loading {
+    opacity: 1;
+}
+
+/* This creates the spinning circle using the border */
+.custom-loader::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    
+    /* The main circle color (light grey) */
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    
+    /* The part of the circle that "spins" (white) */
+    border-top-color: #ffffff;
+
+    /* The animation */
+    animation: spin 1s linear infinite;
+}
+
+/* The logo inside the circle */
+.custom-loader img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Adjust size as needed */
+    max-width: 50px;
+    height: auto;
+}
+
+/* The animation keyframes */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* This hides the native video player until it's ready */
+.video-lightbox.is-loading .lightbox-video {
+    opacity: 0;
+}
+.lightbox-video {
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
