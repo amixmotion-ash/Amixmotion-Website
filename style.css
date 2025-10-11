@@ -593,7 +593,7 @@ footer {
     aspect-ratio: 9 / 16;
 }
 
-/* --- CUSTOM VIDEO LOADER --- */
+/* --- CUSTOM VIDEO LOADER (FINAL) --- */
 
 .custom-loader {
     position: absolute;
@@ -606,20 +606,19 @@ footer {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
-
-    /* --- THIS IS THE FIX --- */
-    /* 1. Add your logo as a centered background image */
-    background-image: url('logo.png'); /* IMPORTANT: Make sure this path is correct */
-    background-size: 50%; /* Makes the logo 50% of the loader's width (50px) */
-    background-position: center;
+    
+    /* --- LOGO CONTROLS --- */
+    background-image: url('logo.png');
+    background-size: 50%;
     background-repeat: no-repeat;
+    /* This is your control panel for positioning */
+    background-position: 50% 50%; /* X-axis Y-axis */
 }
 
 .custom-loader.is-loading {
     opacity: 1;
 }
 
-/* The spinning circle remains the same */
 .custom-loader::after {
     content: '';
     display: block;
@@ -630,8 +629,6 @@ footer {
     border-top-color: #ffffff;
     animation: spin 1s linear infinite;
 }
-
-/* The old .custom-loader img rule is no longer needed */
 
 @keyframes spin {
     from { transform: rotate(0deg); }
