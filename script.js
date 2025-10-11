@@ -43,62 +43,81 @@ if (testimonialsSection) {
     observer.observe(testimonialsSection);
 }
 
-// --- Video Lightbox Functionality ---
+// --- Video Lightbox Functionality (Final, Error-Free Version) ---
 const lightbox = document.querySelector('.video-lightbox');
+
+// First, check if the lightbox element actually exists on the page
 if (lightbox) {
-    const lightboxContent = lightbox.querySelector('.lightbox-content'); // The player container we will change the shape of
+    // Get all the necessary parts from inside the lightbox
+    const lightboxContent = lightbox.querySelector('.lightbox-content');
     const lightboxVideo = lightbox.querySelector('.lightbox-video');
     const closeButton = lightbox.querySelector('.lightbox-close');
+    
+    // Get all the clickable portfolio items from the page
     const portfolioItems = document.querySelectorAll('.grid-item');
 
+    // --- This function handles OPENING the lightbox ---
     function openLightbox(videoSrc, aspectRatio) {
-        if (videoSrc) {
-            // First, before we do anything, remove any old "shape" classes
-            lightboxContent.classList.remove('aspect-ratio-16-9', 'aspect-ratio-9-16');
-
-            // Now, check the "tag" we read from the HTML
-            if (aspectRatio === '9:16') {
-                // If it's a vertical video, add the vertical shape class
-                lightboxContent.classList.add('aspect-ratio-9-16');
-            } else {
-                // Otherwise, just use the default widescreen shape class
-                lightboxContent.classList.add('aspect-ratio-16-9');
-            }
-            
-            // Now that the player has the right shape, load the video and show it
-            lightboxVideo.src = videoSrc;
-            lightbox.classList.add('is-visible');
-            lightboxVideo.play();
+        // Make sure we have a video file to play
+        if (!videoSrc) {
+            console.error('No video source provided to openLightbox.');
+            return; // Stop the function if there's no video
         }
+
+        // Check the 'tag' from the HTML. Is it a vertical video?
+        if (aspectRatio === '9:16') {
+            // If yes, add our special CSS class to make the player vertical
+            lightboxContent.classList.add('is-vertical');
+        }
+
+        // Load the video file into the player
+        lightboxVideo.src = videoSrc;
+        
+        // Make the lightbox visible
+        lightbox.classList.add('is-visible');
+
+        // Try to play the video
+        lightboxVideo.play().catch(error => {
+            // Catch and log any errors if the browser blocks autoplay
+            console.warn("Video autoplay was prevented:", error);
+        });
     }
 
+    // --- This function handles CLOSING the lightbox ---
     function closeLightbox() {
+        // Hide the lightbox
         lightbox.classList.remove('is-visible');
+        
+        // Stop the video from playing in the background
         lightboxVideo.pause();
+
+        // Remove the video file to free up resources
         lightboxVideo.src = '';
-        // Also clean up the shape classes when we close the player
-        lightboxContent.classList.remove('aspect-ratio-16-9', 'aspect-ratio-9-16');
+        
+        // ALWAYS remove our special class to reset the player for next time
+        lightboxContent.classList.remove('is-vertical');
     }
 
-    // When any portfolio item is clicked...
+    // --- This sets up the click events ---
+    // Loop through every portfolio item on the page
     portfolioItems.forEach(item => {
         item.addEventListener('click', (event) => {
+            // Prevent the link from trying to go to a new page
             event.preventDefault();
-
-            // ...get the video file name...
+            
+            // Read the video file and the aspect ratio 'tag' from the link
             const videoSrc = item.dataset.videoSrc;
-            // ...and get its "tag" (the aspect ratio).
-            const aspectRatio = item.dataset.aspectRatio; 
-
-            if (videoSrc) {
-                // ...then call our smart openLightbox function with both pieces of information.
-                openLightbox(videoSrc, aspectRatio);
-            }
+            const aspectRatio = item.dataset.aspectRatio;
+            
+            // Call our open function with the information we found
+            openLightbox(videoSrc, aspectRatio);
         });
     });
 
+    // --- Click events for closing the lightbox ---
     closeButton.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', (event) => {
+        // Only close if the click is on the dark background, not the video itself
         if (event.target === lightbox) {
             closeLightbox();
         }
