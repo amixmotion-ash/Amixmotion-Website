@@ -43,53 +43,85 @@ if (testimonialsSection) {
     observer.observe(testimonialsSection);
 }
 
-// --- Video Lightbox Functionality (Final, Safe Version) ---
+// --- Video Lightbox Functionality (Final, with Loader and Bug Fixes) ---
 const lightbox = document.querySelector('.video-lightbox');
+
 if (lightbox) {
+    // Get all the parts we need
+    const lightboxContent = lightbox.querySelector('.lightbox-content');
     const lightboxVideo = lightbox.querySelector('.lightbox-video');
     const closeButton = lightbox.querySelector('.lightbox-close');
+    const customLoader = lightbox.querySelector('.custom-loader');
+    const lightboxOverlay = lightbox.querySelector('.lightbox-overlay'); // For closing
     const portfolioItems = document.querySelectorAll('.grid-item');
-    const lightboxContent = lightbox.querySelector('.lightbox-content');
-    
-    // ADD THIS NEW VARIABLE for the overlay
-    const lightboxOverlay = lightbox.querySelector('.lightbox-overlay');
 
-    function openLightbox(videoSrc) {
+    // --- This function handles OPENING the lightbox ---
+    function openLightbox(videoSrc, aspectRatio) {
         if (videoSrc) {
-            lightboxVideo.src = videoSrc;
-            lightbox.classList.add('is-visible');
-            // Try to play the video, but don't error if autoplay is blocked
-            lightboxVideo.play().catch(() => {});
-        }
-    }
-
-    function closeLightbox() {
-        lightbox.classList.remove('is-visible');
-        lightboxVideo.pause();
-        lightboxVideo.src = '';
-        lightboxContent.classList.remove('is-vertical');
-    }
-
-    portfolioItems.forEach(item => {
-        item.addEventListener('click', (event) => {
-            event.preventDefault();
-            const aspectRatio = item.dataset.aspectRatio;
+            // Apply the correct aspect ratio class FIRST
             if (aspectRatio === '9:16') {
                 lightboxContent.classList.add('is-vertical');
             } else {
                 lightboxContent.classList.remove('is-vertical');
             }
+
+            // Show our custom loader and hide the video player's container
+            if(customLoader) customLoader.classList.add('is-loading');
+            lightbox.classList.add('is-loading');
+            
+            lightboxVideo.src = videoSrc;
+            lightbox.classList.add('is-visible');
+        }
+    }
+
+    // --- This function handles CLOSING the lightbox ---
+    function closeLightbox() {
+        lightbox.classList.remove('is-visible');
+        lightboxVideo.pause();
+        lightboxVideo.src = '';
+        
+        // Clean up our classes on close
+        if(customLoader) customLoader.classList.remove('is-loading');
+        lightbox.classList.remove('is-loading');
+
+        // THIS IS THE FIX for the flashing bug.
+        // We delay removing the class slightly to allow the fade-out animation to finish.
+        setTimeout(() => {
+            lightboxContent.classList.remove('is-vertical');
+        }, 300); // 300ms matches your CSS transition duration
+    }
+    
+    // --- Event Listeners for the video itself ---
+    if (customLoader) {
+        // When the video starts buffering/loading, show the loader
+        lightboxVideo.addEventListener('waiting', () => {
+            customLoader.classList.add('is-loading');
+            lightbox.classList.add('is-loading');
+        });
+
+        // When the video has loaded enough to play, hide the loader
+        lightboxVideo.addEventListener('canplay', () => {
+            customLoader.classList.remove('is-loading');
+            lightbox.classList.remove('is-loading');
+        });
+    }
+
+    // --- Click events to open and close the lightbox ---
+    portfolioItems.forEach(item => {
+        item.addEventListener('click', (event) => {
+            event.preventDefault();
             const videoSrc = item.dataset.videoSrc;
-            if (videoSrc) {
-                openLightbox(videoSrc);
-            }
+            const aspectRatio = item.dataset.aspectRatio;
+            
+            openLightbox(videoSrc, aspectRatio);
         });
     });
 
     closeButton.addEventListener('click', closeLightbox);
-    
-    // THIS IS THE FIX: We now listen for clicks on the overlay
-    lightboxOverlay.addEventListener('click', closeLightbox);
+    // Add the event listener for the overlay
+    if (lightboxOverlay) {
+        lightboxOverlay.addEventListener('click', closeLightbox);
+    }
 }
 // --- Rellax Parallax Functionality ---
 if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
