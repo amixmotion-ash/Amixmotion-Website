@@ -596,21 +596,21 @@ footer {
 /* --- CUSTOM VIDEO LOADER --- */
 
 .custom-loader {
-    /* Positioning to center it perfectly over the video */
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10; /* Ensure it's on top of the video */
-
-    /* The spinning circle's size */
+    z-index: 10;
     width: 100px;
     height: 100px;
-    
-    /* Make it invisible by default */
     opacity: 0;
-    pointer-events: none; /* Make it unclickable */
+    pointer-events: none;
     transition: opacity 0.3s ease;
+
+    /* ADD THESE LINES: Turn the loader into a Flexbox container */
+    display: flex;
+    justify-content: center; /* Horizontally center the content */
+    align-items: center;     /* Vertically center the content */
 }
 
 /* This class will be added by JavaScript to show the loader */
@@ -636,16 +636,12 @@ footer {
     animation: spin 1s linear infinite;
 }
 
-/* The logo inside the circle */
 .custom-loader img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
-    /* Adjust size as needed */
+    /* REMOVED: The old absolute positioning is no longer needed */
     max-width: 50px;
     height: auto;
+    /* This ensures the logo sits on top of the spinning border */
+    z-index: 1;
 }
 
 /* The animation keyframes */
