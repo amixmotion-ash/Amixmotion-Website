@@ -182,7 +182,7 @@ if (carouselTrack) {
         carouselTrack.appendChild(duplicate);
     });
 }
-// --- Accordion Functionality for Process Section (JS-Enhanced) ---
+// --- Accordion Functionality for Process Section (Improved) ---
 const accordionItems = document.querySelectorAll('.accordion-item');
 
 if (accordionItems.length > 0) {
@@ -191,30 +191,19 @@ if (accordionItems.length > 0) {
         const content = item.querySelector('.accordion-content');
 
         toggle.addEventListener('click', () => {
-            const isOpen = item.classList.contains('is-open');
+            const wasOpen = item.classList.contains('is-open');
 
-            // --- Close all other items ---
+            // --- First, close all items ---
             accordionItems.forEach(otherItem => {
-                if (otherItem !== item) {
-                    otherItem.classList.remove('is-open');
-                    otherItem.querySelector('.accordion-toggle').setAttribute('aria-expanded', 'false');
-                    // Get the content of the other item and set its max-height to null
-                    const otherContent = otherItem.querySelector('.accordion-content');
-                    otherContent.style.maxHeight = null;
-                }
+                otherItem.classList.remove('is-open');
+                otherItem.querySelector('.accordion-toggle').setAttribute('aria-expanded', 'false');
+                otherItem.querySelector('.accordion-content').style.maxHeight = null;
             });
 
-            // --- Toggle the clicked item ---
-            if (isOpen) {
-                // If it's already open, close it
-                item.classList.remove('is-open');
-                toggle.setAttribute('aria-expanded', 'false');
-                content.style.maxHeight = null; // Collapse the content
-            } else {
-                // If it's closed, open it
+            // --- If the clicked item was NOT already open, open it ---
+            if (!wasOpen) {
                 item.classList.add('is-open');
                 toggle.setAttribute('aria-expanded', 'true');
-                // Set max-height to the content's actual scrollHeight for a perfect animation
                 content.style.maxHeight = content.scrollHeight + 'px';
             }
         });
