@@ -431,16 +431,16 @@ footer {
 .about-page-main {
     padding-top: 300px; 
 }
-/* This is the updated version */
 .profile-grid-section {
     background-color: #000000;
     color: #ffffff;
-    /* CHANGED: Removed horizontal padding, but kept vertical */
     padding: 120px 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    /* CHANGED: Removed the gap */
-    gap: 0;
+    
+    /* THIS IS THE FIX: Set a specific gap value for consistency */
+    gap: 30px; /* You can change this value to adjust the spacing */
+    
     align-items: stretch;
 }
 
@@ -455,9 +455,10 @@ footer {
 .profile-grid-right-column {
     display: flex;
     flex-direction: column;
-    
-    /* THIS IS THE FIX: It pushes the text to the top and the images to the bottom */
     justify-content: space-between;
+    
+    /* THIS IS THE FIX: Make the vertical gap match the horizontal one */
+    gap: 30px;
 }
 
 .profile-grid-text .pre-title {
