@@ -427,11 +427,15 @@ footer {
 ============================================================
 */
 
-/* This is the updated version */
 .about-page-title-section {
-    /* The grey background color has been removed */
-    text-align: left; /* CHANGED: Aligns the title to the left */
-    padding: 80px 40px;
+    text-align: left;
+    padding: 0 40px; /* Use horizontal padding only */
+    box-sizing: border-box;
+
+    /* THIS IS THE FIX: Set a large height and use Flexbox for centering */
+    min-height: 80vh; /* Make the section 80% of the screen height */
+    display: flex;
+    align-items: center; /* This vertically centers the h1 */
 }
 
 .about-page-title-section h1 {
