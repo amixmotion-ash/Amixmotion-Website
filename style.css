@@ -431,7 +431,7 @@ footer {
 .about-page-main {
     padding-top: 300px; 
 }
-/* --- NEW EDGE-TO-EDGE PROFILE SECTION --- */
+/* --- NEW EDGE-TO-EDGE PROFILE SECTION (FINAL ALIGNMENT FIX) --- */
 .profile-grid-section {
     background-color: #000000;
     color: #ffffff;
@@ -439,25 +439,25 @@ footer {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Two equal columns */
     gap: 40px;
-    align-items: start;
+    
+    /* THIS IS A KEY FIX: It forces both columns to be the same height */
+    align-items: stretch; 
 }
 
 .profile-grid-main-image img,
 .profile-grid-secondary-images img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures images fill their containers without distortion */
+    object-fit: cover; /* Ensures images fill their containers */
     display: block;
 }
 
-/* This is the updated version */
+/* THIS IS THE OTHER KEY FIX: We turn the right column into a flex container */
 .profile-grid-right-column {
     display: flex;
     flex-direction: column;
-    gap: 40px;
-    
-    /* ADD THIS LINE: This tells the browser to track this element's width */
-    container-type: inline-size;
+    /* This pushes the text to the top and the small images to the bottom */
+    justify-content: space-between; 
 }
 
 .profile-grid-text .pre-title {
@@ -469,14 +469,10 @@ footer {
     text-transform: uppercase;
 }
 
-/* This is the new, fluid version */
 .profile-grid-text .bio {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
-    
-    /* CHANGED: This is the new fluid font size */
-    font-size: clamp(1.1rem, 4.5cqw, 1.5rem);
-    
+    font-size: 1.5rem;
     line-height: 1.6;
     margin: 0;
     color: #e0e0e0;
@@ -492,6 +488,9 @@ footer {
 @media (max-width: 900px) {
     .profile-grid-section {
         grid-template-columns: 1fr; /* Stack to a single column */
+    }
+    .profile-grid-right-column {
+        gap: 40px; /* Re-introduce a gap for mobile stacking */
     }
     .profile-grid-text .bio {
         font-size: 1.2rem;
