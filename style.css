@@ -427,35 +427,11 @@ footer {
 ============================================================
 */
 
-/* This is the updated container rule */
-.about-page-title-section {
-    background-color: #f2f2f2;
-    padding: 0 40px; /* Use horizontal padding only */
-    box-sizing: border-box;
-
-    /* THIS IS THE FIX: Set a large height and use Flexbox for centering */
-    min-height: 100vh; /* Make the section the full height of the screen */
-    display: flex;
-    align-items: center; /* This vertically centers the h1 */
-}
-
-/* This is the updated h1 rule with larger text */
-.about-page-title-section h1 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    /* CHANGED: Increased the font size */
-    font-size: clamp(3rem, 10vw, 8rem); 
-    line-height: 1.1;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    margin: 0;
-    max-width: 1200px;
-}
 
 
 /* --- This controls the main page padding --- */
 .about-page-main {
-    padding-top: 0; 
+    padding-top: 300px; 
 }
 .profile-grid-section {
     background-color: #000000;
