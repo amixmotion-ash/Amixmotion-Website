@@ -464,7 +464,7 @@ footer {
     font-weight: 600;
     color: #888;
     letter-spacing: 1px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     text-transform: uppercase;
 }
 
@@ -481,6 +481,7 @@ footer {
     margin-bottom: 40px;
     padding-right: 40px;
     padding-top: 80px;
+
 }
 
 /* This is the updated version */
