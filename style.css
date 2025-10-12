@@ -427,22 +427,24 @@ footer {
 ============================================================
 */
 
+/* --- ABOUT PAGE MAIN TITLE --- */
+.about-page-main-title {
+    /* --- This creates the grey background --- */
+    background-color: #f2f2f2;
+    padding: 120px 40px;
+    
+    /* This makes the title span the full width of the grid */
+    grid-column: 1 / -1; 
 
-/* --- ABOUT PAGE - MAIN TITLE SECTION --- */
-.about-page-title-section {
-    background-color: #f2f2f2; /* A light grey background */
-    padding: 120px 40px;      /* Generous padding to create whitespace */
-}
-
-.about-page-title-section h1 {
+    /* --- This is the font styling --- */
+    color: #000000; /* Black text */
     font-family: 'Inter', sans-serif;
-    font-weight: 900; /* Very bold */
-    font-size: clamp(2.5rem, 8vw, 6rem); /* Large, responsive font size */
+    font-weight: 900;
+    font-size: clamp(2.5rem, 8vw, 6rem);
     line-height: 1.1;
     text-transform: uppercase;
     letter-spacing: -0.02em;
-    margin: 0; /* Remove default margins */
-    max-width: 1200px; /* Constrain the width on very large screens */
+    margin: 0;
 }
 
 /* --- This controls the main page padding --- */
