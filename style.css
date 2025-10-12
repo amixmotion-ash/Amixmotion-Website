@@ -452,11 +452,12 @@ footer {
     display: block;
 }
 
-/* THIS IS THE OTHER KEY FIX: We turn the right column into a flex container */
 .profile-grid-right-column {
     display: flex;
     flex-direction: column;
     
+    /* THIS IS THE FIX: It pushes the text to the top and the images to the bottom */
+    justify-content: space-between;
 }
 
 .profile-grid-text .pre-title {
