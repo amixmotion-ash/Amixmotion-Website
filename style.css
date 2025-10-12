@@ -430,13 +430,13 @@ footer {
 /* This is the updated container rule */
 .about-page-title-section {
     background-color: #f2f2f2;
-    padding: 0 40px; /* Remove vertical padding, as height and flex will handle it */
+    padding: 0 40px; /* Use horizontal padding only */
     box-sizing: border-box;
 
-    /* THIS IS THE FIX: Use Flexbox for vertical centering */
-    min-height: 80vh; /* Give the section a large height (80% of the screen height) */
+    /* THIS IS THE FIX: Set a large height and use Flexbox for centering */
+    min-height: 100vh; /* Make the section the full height of the screen */
     display: flex;
-    align-items: center; /* This perfectly centers the content vertically */
+    align-items: center; /* This vertically centers the h1 */
 }
 
 /* This is the updated h1 rule with larger text */
@@ -455,7 +455,7 @@ footer {
 
 /* --- This controls the main page padding --- */
 .about-page-main {
-    padding-top: 300px; 
+    padding-top: 0; 
 }
 .profile-grid-section {
     background-color: #000000;
