@@ -437,9 +437,10 @@ footer {
 .about-page-title-section h1 {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(2rem, 6vw, 3.5rem); /* A good size for a page title */
+    /* CHANGED: Increased the font size values significantly */
+    font-size: clamp(2.5rem, 8vw, 6rem);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: -0.02em; /* Use negative spacing for large, bold titles */
     color: #222222;
     margin: 0;
 }
