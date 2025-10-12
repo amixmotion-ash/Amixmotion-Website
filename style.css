@@ -427,7 +427,22 @@ footer {
 ============================================================
 */
 
+/* --- ABOUT PAGE - MAIN TITLE --- */
+.about-page-title-section {
+    background-color: #f2f2f2; /* A light grey background to create the "white space" */
+    text-align: center;      /* Center the title */
+    padding: 80px 40px;      /* Add generous vertical and horizontal padding */
+}
 
+.about-page-title-section h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 6vw, 3.5rem); /* A good size for a page title */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #222222;
+    margin: 0;
+}
 
 /* --- This controls the main page padding --- */
 .about-page-main {
