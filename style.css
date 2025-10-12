@@ -431,16 +431,15 @@ footer {
 .about-page-main {
     padding-top: 300px; 
 }
+/* This is the updated version */
 .profile-grid-section {
     background-color: #000000;
     color: #ffffff;
-    padding: 120px 0;
+    /* CHANGED: Removed top and bottom padding */
+    padding: 0 40px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    
-    /* THIS IS THE FIX: Set a specific gap value for consistency */
-    gap: 30px; /* You can change this value to adjust the spacing */
-    
+    gap: 30px;
     align-items: stretch;
 }
 
@@ -481,6 +480,8 @@ footer {
     margin: 0;
     color: #e0e0e0;
     margin-bottom: 40px;
+    padding-right: 40px;
+    padding-top: 120px;
 }
 
 /* This is the updated version */
