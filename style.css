@@ -459,15 +459,6 @@ footer {
     gap: 30px;
 }
 
-.profile-grid-text .pre-title {
-    font-size: 0.9em;
-    font-weight: 600;
-    color: #888;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-}
-
 .profile-grid-text .bio {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
