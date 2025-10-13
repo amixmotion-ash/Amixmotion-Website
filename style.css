@@ -287,10 +287,10 @@ footer {
 .lightbox-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); }
 .lightbox-content {
     position: relative;
-    /* CHANGED: Set width to 98% of the viewport width */
-    width: 98vw; 
-    /* CHANGED: Set a very large max-width */
-    max-width: 1800px; 
+    /* CHANGED: Dialed back to 95% of the viewport width */
+    width: 95vw; 
+    /* CHANGED: Adjusted max-width to a more reasonable large size */
+    max-width: 1600px; 
     aspect-ratio: 16 / 9;
 }
 .lightbox-video { width: 100%; height: 100%; display: block; }
@@ -752,10 +752,10 @@ footer {
 
 .lightbox-content.is-vertical {
     width: auto;
-    /* CHANGED: Set height to 98% of the viewport height */
-    height: 98vh;
-    /* CHANGED: Set a very large max-height */
-    max-height: 1000px;
+    /* CHANGED: Dialed back to 95% of the viewport height */
+    height: 95vh;
+    /* CHANGED: Adjusted max-height */
+    max-height: 950px;
     aspect-ratio: 9 / 16;
 }
 
