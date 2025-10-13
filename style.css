@@ -47,7 +47,9 @@ header {
 .homepage.body-no-scroll header .nav-toggle,
 .homepage.body-no-scroll header .desktop-nav a { color: #222222; }
 .homepage.body-no-scroll header .logo img { filter: invert(1); }
-.about-page header .logo img, .contact-page header .logo img, .portfolio-page header .logo img { filter: invert(1); }
+.about-page header .logo img, .contact-page header .logo img {
+    filter: invert(1);
+}
 
 
 /* --- FULL-SCREEN OVERLAY MENU --- */
