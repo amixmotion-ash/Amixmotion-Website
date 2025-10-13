@@ -702,8 +702,12 @@ footer {
 .process-section {
     background-color: #000000;
     color: #ffffff;
-    /* CHANGED: Removed the horizontal padding (40px) */
-    padding: 120px 0;
+    padding: 120px 40px; /* Add the padding back for content spacing */
+    
+    /* --- THIS IS THE FIX --- */
+    /* Use negative margins to pull the background out to the screen edges */
+    margin-left: -40px;
+    margin-right: -40px;
 }
 .accordion { max-width: 800px; margin: 0 auto; }
 .accordion-item { border: 1px solid #333; margin-bottom: 10px; transition: border-color 0.3s ease; }
