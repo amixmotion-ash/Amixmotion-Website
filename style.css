@@ -208,6 +208,10 @@ header {
 .caption-year { font-weight: normal; color: #888; margin-left: auto; padding-left: 10px; }
 @media (max-width: 1024px) { .grid-item-caption { font-size: 0.8em; } }
 @media (max-width: 600px) { .portfolio-grid-section { padding: 60px 20px; } .portfolio-grid-container { grid-template-columns: 1fr; gap: 40px; } .grid-item.rellax { transform: translate(0) !important; } }
+/* ADD THIS NEW RULE */
+.portfolio-page-main {
+    padding-top: 90px; 
+}
 
 /* --- BUTTON STYLES & CTA CONTAINER --- */
 .portfolio-cta-container { padding-top: 280px; text-align: center; }
