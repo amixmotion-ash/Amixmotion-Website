@@ -53,8 +53,9 @@ header {
 }
 
 .portfolio-page header .logo img {
-    filter: invert(0) !important;
+    filter: invert(1) !important;
 }
+
 
 
 
