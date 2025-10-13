@@ -228,8 +228,12 @@ header.is-hidden {
 .button-dark { border-color: #222222; color: #222222; background-color: transparent; }
 .button-dark:hover { background-color: #222222; color: #ffffff; }
 
-/* --- TESTIMONIALS SECTION --- */
-.testimonials-section { padding: 120px 0; background-color: #E9E9E9; overflow-x: hidden; margin-left: -40px;
+.testimonials-section {
+    /* CHANGED: Set padding-bottom to 0 */
+    padding: 120px 40px 0 40px;
+    background-color: #E9E9E9;
+    overflow-x: hidden;
+    margin-left: -40px;
     margin-right: -40px;
 }
 .testimonials-header {
