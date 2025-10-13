@@ -51,10 +51,11 @@ header {
     filter: invert(1);
     
 }
-/* ADD THIS NEW RULE TO FIX THE PORTFOLIO LOGO */
+
 .portfolio-page header .logo img {
-    filter: none;
+    filter: invert(0) !important;
 }
+
 
 
 
