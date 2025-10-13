@@ -229,7 +229,9 @@ header.is-hidden {
 .button-dark:hover { background-color: #222222; color: #ffffff; }
 
 /* --- TESTIMONIALS SECTION --- */
-.testimonials-section { padding: 120px 0; background-color: #E9E9E9; overflow-x: hidden; }
+.testimonials-section { padding: 120px 0; background-color: #E9E9E9; overflow-x: hidden; margin-left: -40px;
+    margin-right: -40px;
+}
 .testimonials-header {
     margin: 0 0 60px 0; /* Removes horizontal auto margins */
     padding: 0 40px;   /* This padding now aligns it with the track */
@@ -720,10 +722,14 @@ footer {
 
 
 /* --- Trusted By Logo Section --- */
+/* This is the updated version */
 .trusted-by-section {
     background-color: #f2f2f2;
-    /* CHANGED: Removed the horizontal padding (40px) */
-    padding: 120px 0;
+    padding: 120px 40px; /* Add padding back for content spacing */
+    
+    /* ADD THIS FIX: Pull the background to the screen edges */
+    margin-left: -40px;
+    margin-right: -40px;
 }
 .trusted-by-container { max-width: 1000px; margin: 0 auto; text-align: center; }
 .section-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; line-height: 1.1; margin: 0 0 80px 0;color: #222222; }
