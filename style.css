@@ -140,47 +140,20 @@ header {
 
 /*
 ============================================================
-== FINAL, STABLE STYLES FOR ABOUT PAGE (REVISED STICKY) ==
+== STYLES FOR ABOUT PAGE ==
 ============================================================
 */
 
-/* --- This is the new sticky title section --- */
-.about-page-title-section {
-    height: 100vh;
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    z-index: 0; /* Send it to the very back */
-    
-    background-color: #f2f2f2;
-    padding: 0 40px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-}
-.about-page-title-section h1 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(3rem, 12vw, 8rem);
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    color: #222222;
-    margin: 0;
-    line-height: 1.0;
-}
-
-/* --- This is the sticky container for the profile --- */
+/* --- This is the new sticky container for the profile --- */
 .sticky-profile-section {
     height: 100vh;
     position: -webkit-sticky;
     position: sticky;
     top: 0;
-    z-index: 1; /* This sits ON TOP of the title section */
+    z-index: 1;
 }
-
-/* --- Profile Section Styles --- */
 .profile-grid-section {
-    height: 100%;
+    height: 100%; /* Make the profile section fill the sticky container */
     background-color: #000000;
     color: #ffffff;
     padding: 0;
@@ -189,8 +162,7 @@ header {
     gap: 30px;
     align-items: stretch;
 }
-.profile-grid-main-image img, 
-.profile-grid-secondary-images img {
+.profile-grid-main-image img, .profile-grid-secondary-images img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -226,6 +198,22 @@ header {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0;
+}
+
+/* --- Title Section (inside the scroll wrapper) --- */
+.about-page-title-section {
+    padding: 80px 40px;
+    text-align: left;
+}
+.about-page-title-section h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 12vw, 8rem);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: #222222;
+    margin: 0;
+    line-height: 1.0;
 }
 
 /* --- Services Section Styles --- */
@@ -267,7 +255,10 @@ header {
 .trusted-by-container { max-width: 1000px; margin: 0 auto; text-align: center; }
 .section-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; line-height: 1.1; margin: 0 0 80px 0; color: #222222; }
 .logo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 10px; align-items: center; }
-.logo-item img { max-width: 100%; width: auto; max-height: 100px; margin: 0 auto; filter: grayscale(100%); opacity: 0.8; }/* --- CONTACT PAGE STYLES --- */
+.logo-item img { max-width: 100%; width: auto; max-height: 100px; margin: 0 auto; filter: grayscale(100%); opacity: 0.8; }
+
+
+/* --- CONTACT PAGE STYLES --- */
 .contact-page .contact-page-main { display: flex; align-items: center; min-height: 100vh; padding: 120px 40px; box-sizing: border-box; }
 .contact-layout-container { width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 100px; align-items: start; }
 .contact-intro h1 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1.1; margin: 0 0 15px 0; text-transform: uppercase; white-space: nowrap; }
