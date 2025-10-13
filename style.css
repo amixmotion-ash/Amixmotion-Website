@@ -285,7 +285,14 @@ footer {
 .video-lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
 .video-lightbox.is-visible { opacity: 1; pointer-events: auto; }
 .lightbox-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); }
-.lightbox-content { position: relative; width: 90%; max-width: 1200px; aspect-ratio: 16 / 9; }
+.lightbox-content {
+    position: relative;
+    /* CHANGED: Set width to 98% of the viewport width */
+    width: 98vw; 
+    /* CHANGED: Set a very large max-width */
+    max-width: 1800px; 
+    aspect-ratio: 16 / 9;
+}
 .lightbox-video { width: 100%; height: 100%; display: block; }
 .lightbox-close {
     /* CHANGED: Position is now fixed to the screen */
@@ -742,11 +749,13 @@ footer {
     /* This ensures the gradient doesn't interfere with any mouse clicks */
     pointer-events: none; 
 }
-/* ADD THIS NEW RULE FOR VERTICAL VIDEOS */
+
 .lightbox-content.is-vertical {
     width: auto;
-    height: 90vh;
-    max-height: 800px;
+    /* CHANGED: Set height to 98% of the viewport height */
+    height: 98vh;
+    /* CHANGED: Set a very large max-height */
+    max-height: 1000px;
     aspect-ratio: 9 / 16;
 }
 
