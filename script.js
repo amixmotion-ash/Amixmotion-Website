@@ -226,3 +226,27 @@ if (accordionItems.length > 0) {
         });
     });
 }
+// --- Hiding Header on Scroll ---
+const header = document.querySelector('header');
+let lastScrollY = window.scrollY; // Store the initial scroll position
+
+if (header) {
+    window.addEventListener('scroll', () => {
+        // Only run the function if the user has scrolled a little bit
+        if (window.scrollY > 50) { 
+            if (lastScrollY < window.scrollY) {
+                // User is scrolling DOWN
+                header.classList.add('is-hidden');
+            } else {
+                // User is scrolling UP
+                header.classList.remove('is-hidden');
+            }
+        } else {
+            // If at the very top of the page, always show the header
+            header.classList.remove('is-hidden');
+        }
+
+        // Update the last scroll position for the next event
+        lastScrollY = window.scrollY;
+    });
+}
