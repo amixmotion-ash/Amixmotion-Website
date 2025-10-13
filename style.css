@@ -210,7 +210,7 @@ header {
 @media (max-width: 600px) { .portfolio-grid-section { padding: 60px 20px; } .portfolio-grid-container { grid-template-columns: 1fr; gap: 40px; } .grid-item.rellax { transform: translate(0) !important; } }
 /* ADD THIS NEW RULE */
 .portfolio-page-main {
-    padding-top: 90px; 
+    padding-top: 200px; 
 }
 
 /* --- BUTTON STYLES & CTA CONTAINER --- */
