@@ -33,8 +33,11 @@ header {
     box-sizing: border-box;
 }
 .homepage header .nav-toggle,
+.about-page header .nav-toggle,
 .homepage header .logo a,
-.homepage header .desktop-nav a {
+.about-page header .logo a,
+.homepage header .desktop-nav a,
+.about-page header .desktop-nav a {
     color: #ffffff;
 }
 .nav-toggle { grid-column: 1 / 2; justify-self: start; font-size: 1em; font-weight: bold; color: #222; background: none; border: none; cursor: pointer; transition: color 0.3s ease; }
@@ -44,10 +47,10 @@ header {
 .desktop-nav { grid-column: 3 / 4; justify-self: end; }
 .desktop-nav ul { list-style: none; margin: 0; padding: 0; }
 .desktop-nav a { color: #222; text-decoration: none; font-weight: bold; transition: color 0.3s ease; }
-.homepage.body-no-scroll header .nav-toggle,
-.homepage.body-no-scroll header .desktop-nav a { color: #222222; }
-.homepage.body-no-scroll header .logo img { filter: invert(1); }
-.about-page header .logo img, .contact-page header .logo img, .portfolio-page header .logo img { filter: invert(1); }
+.body-no-scroll header .nav-toggle,
+.body-no-scroll header .desktop-nav a { color: #222222; }
+.body-no-scroll header .logo img { filter: invert(1); }
+.contact-page header .logo img, .portfolio-page header .logo img { filter: invert(1); }
 
 
 /* --- FULL-SCREEN OVERLAY MENU --- */
@@ -57,7 +60,7 @@ header {
 .main-nav li { margin-bottom: 2rem; }
 .main-nav a { color: #222222; text-decoration: none; font-size: clamp(2rem, 8vw, 4rem); font-weight: bold; }
 
-/* --- HERO VIDEO SECTION --- */
+/* --- HERO VIDEO SECTION (HOMEPAGE) --- */
 .hero-video { height: 100vh; position: -webkit-sticky; position: sticky; top: 0; z-index: 1; }
 #bgvideo {
     position: absolute;
@@ -66,161 +69,66 @@ header {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* ADD THIS LINE: This aligns the top of the video with the top of the container */
     object-position: center top;
 }
-
-/* --- SCROLLING CONTENT WRAPPER --- */
-.scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; }
-
-/* --- MISSION SECTION --- */
-
-.mission-text .pre-title { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 18px; color: #888; margin: 0 0 15px 0; }
-.mission-statement { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.4; margin: 0; }
-
-/* --- MISSION SECTION (Corrected Full-Bleed Layout) --- */
-.mission-section {
-    background-color: #000000;
-    color: #e0e0e0;
-    padding: 0;
-    overflow: hidden; /* Prevents any accidental overflow */
-}
-
-.mission-grid {
-    display: grid;
-    /* This creates two equal columns that span the full screen width */
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 0;
-}
-
-.mission-image {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-}
-
-.mission-image::after {
+.homepage .hero-video::before {
     content: '';
     position: absolute;
     top: 0;
-    right: 0; /* Pin the gradient to the right edge of the image cell */
-    width: 40%; /* Control the width of the fade effect */
-    height: 100%;
-    background: linear-gradient(to right, transparent, #000000);
-}
-
-.mission-image img {
+    left: 0;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+    height: 150px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent);
+    z-index: 2;
+    pointer-events: none;
 }
 
-.mission-text {
-    /* Padding: top, right, bottom, left */
-    padding: 80px 15% 80px 10%;
-    box-sizing: border-box;
-}
+/* --- SCROLLING CONTENT WRAPPER (HOMEPAGE & ABOUT PAGE) --- */
+.scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; }
 
-.mission-text .pre-title {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 18px;
-    color: #888;
-    margin: 0 0 15px 0;
-}
+/* --- MISSION SECTION (HOMEPAGE) --- */
+.mission-section { background-color: #000000; color: #e0e0e0; padding: 0; overflow: hidden; }
+.mission-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 0; }
+.mission-image { width: 100%; height: 100%; position: relative; overflow: hidden; }
+.mission-image::after { content: ''; position: absolute; top: 0; right: 0; width: 40%; height: 100%; background: linear-gradient(to right, transparent, #000000); }
+.mission-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mission-text { padding: 80px 15% 80px 10%; box-sizing: border-box; }
+.mission-text .pre-title { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 18px; color: #888; margin: 0 0 15px 0; }
+.mission-statement { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.4; margin: 0; }
 
-.mission-statement {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: 33px;
-    line-height: 1.4;
-    margin: 0;
-}
-
-/* --- Responsive styles for the Mission Section --- */
-@media (max-width: 900px) {
-    .mission-grid {
-        grid-template-columns: 1fr; /* Stack vertically */
-    }
-
-    .mission-image {
-        height: 500px; /* Give a specific height on mobile */
-    }
-
-    .mission-image::after {
-        /* Gradient from bottom to top for stacked layout */
-        background: linear-gradient(to top, #000000 5%, transparent 50%);
-        width: 100%;
-        height: 100%;
-        top: auto;
-        bottom: 0;
-        right: auto;
-    }
-
-    .mission-text {
-        padding: 60px 40px 80px 40px; /* Adjust mobile padding */
-    }
-
-    .mission-statement {
-        font-size: 24px;
-    }
-}
-
-/* --- CLIENT SCROLLER SECTION --- */
-.client-scroller { padding: 100px 0; }
-.scroller-container { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); }
-.scroller-track { display: flex; width: max-content; animation: scroll 40s linear infinite; }
-@keyframes scroll { from { transform: translateX(0%); } to { transform: translateX(-50%); } }
-.client-logo { display: flex; align-items: center; justify-content: center; --logo-width: 240px; width: var(--logo-width); padding: 0 40px; box-sizing: border-box; }
-.client-logo img { max-width: 100%; height: auto; }
-@media (min-width: 1601px) { .client-logo { --logo-width: 380px; } .scroller-track { animation-duration: 60s; } }
-@media (max-width: 1024px) { .client-logo { --logo-width: 200px; } .scroller-track { animation-duration: 35s; } }
-@media (max-width: 600px) { .client-logo { --logo-width: 350px; } .scroller-track { animation-duration: 30s; } }
-
-/* --- BRIDGE SECTION STYLES --- */
+/* --- BRIDGE SECTION (HOMEPAGE) --- */
 .bridge-section { padding: 120px 0; }
 .bridge-text { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.3; text-align: center; max-width: 900px; margin: 0 auto; color: #222222; }
 .bridge-text strong { font-weight: 600; }
-@media (max-width: 768px) { .bridge-section { padding: 80px 0; } .bridge-text { font-size: 24px; line-height: 1.4; } }
 
-/* --- PORTFOLIO GRID SECTION --- */
+/* --- PORTFOLIO GRID SECTION (HOMEPAGE & PORTFOLIO PAGE) --- */
 .portfolio-grid-section { padding: 80px 40px; box-sizing: border-box; }
 .portfolio-grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .grid-item { display: block; text-decoration: none; color: #222; position: relative; overflow: hidden; }
 .grid-item-image { aspect-ratio: 8 / 10.8; overflow: hidden; }
-.grid-item-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: transform; }
+.grid-item-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
 .grid-item:hover .grid-item-image img { transform: scale(1.1); }
 .grid-item-caption { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #e0e0e0; font-weight: bold; white-space: nowrap; overflow: hidden; }
 .caption-title { display: flex; align-items: center; text-overflow: ellipsis; overflow: hidden; }
 .caption-year { font-weight: normal; color: #888; margin-left: auto; padding-left: 10px; }
-@media (max-width: 1024px) { .grid-item-caption { font-size: 0.8em; } }
-@media (max-width: 600px) { .portfolio-grid-section { padding: 60px 20px; } .portfolio-grid-container { grid-template-columns: 1fr; gap: 40px; } .grid-item.rellax { transform: translate(0) !important; } }
-
-/* --- BUTTON STYLES & CTA CONTAINER --- */
 .portfolio-cta-container { padding-top: 280px; text-align: center; }
-.button-outline { display: inline-block; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 18px; margin-top: 40px; padding: 16px 32px; border: 1px solid; text-decoration: none; transition: all 0.3s ease; }
-.button-light { border-color: #e0e0e0; color: #e0e0e0; background-color: transparent; }
-.button-light:hover { background-color: #e0e0e0; color: #000000; }
-.button-dark { border-color: #222222; color: #222222; background-color: transparent; }
-.button-dark:hover { background-color: #222222; color: #ffffff; }
+
+/* --- CLIENT SCROLLER SECTION (HOMEPAGE) --- */
+.client-scroller { padding: 100px 0; }
+.scroller-container { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); }
+.scroller-track { display: flex; width: max-content; animation: scroll 40s linear infinite; }
+@keyframes scroll { from { transform: translateX(0%); } to { transform: translateX(-50%); } }
+.client-logo { display: flex; align-items: center; justify-content: center; width: 240px; padding: 0 40px; box-sizing: border-box; }
+.client-logo img { max-width: 100%; height: auto; }
 
 /* --- TESTIMONIALS SECTION --- */
 .testimonials-section { padding: 120px 0; background-color: #E9E9E9; overflow-x: hidden; }
-.testimonials-header {
-    margin: 0 0 60px 0; /* Removes horizontal auto margins */
-    padding: 0 40px;   /* This padding now aligns it with the track */
-    box-sizing: border-box;
-    text-align: left;
-}
+.testimonials-header { margin: 0 0 60px 0; padding: 0 40px; box-sizing: border-box; text-align: left; }
 .testimonials-header .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
 .testimonials-header h2 { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 3rem; line-height: 1.2; margin: 0; color: #222; }
 .testimonials-scroller { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .testimonials-scroller::-webkit-scrollbar { display: none; }
-.testimonials-track { display: flex; gap: 30px; width: max-content; padding: 20px 40px; opacity: 0; transform: translateX(200px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-.testimonials-section.is-visible .testimonials-track { opacity: 1; transform: translateX(0); }
+.testimonials-track { display: flex; gap: 30px; width: max-content; padding: 20px 40px; }
 .testimonial-card { flex-shrink: 0; width: 350px; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; border-radius: 8px; }
 .testimonial-card-top { padding: 40px 40px 20px; }
 .testimonial-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; }
@@ -230,214 +138,73 @@ header {
 .draggable { cursor: grab; user-select: none; }
 .draggable.is-dragging { cursor: grabbing; }
 
-/* --- FOOTER (STABLE STATIC VERSION) --- */
-footer {
+/*
+============================================================
+== STYLES FOR ABOUT PAGE ==
+============================================================
+*/
+
+/* --- This is the new sticky container for the profile --- */
+.sticky-profile-section {
+    height: 100vh;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+.profile-grid-section {
+    height: 100%; /* Make the profile section fill the sticky container */
     background-color: #000000;
     color: #ffffff;
-    padding: 80px 40px;
-    font-family: 'Inter', sans-serif;
-    border-top: 2px solid #00BFFF;
-}
-.footer-top {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding-bottom: 80px;
-}
-.footer-cta { flex-basis: 60%; }
-.footer-cta h2 { font-weight: 900; font-size: clamp(2.5rem, 7vw, 4.5rem); line-height: 1.1; margin: 0 0 30px 0; text-transform: uppercase; }
-.footer-nav { display: flex; gap: 60px; }
-.footer-nav ul { list-style: none; margin: 0; padding: 0; }
-.footer-nav li { margin-bottom: 15px; }
-.footer-nav a { color: #ffffff; text-decoration: none; font-weight: 400; font-size: 1rem; transition: color 0.3s ease; }
-.footer-nav a:hover { color: #888; }
-.footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 40px; border-top: 1px solid #333; text-align: right; color: #888; }
-@media (max-width: 900px) {
-    .footer-top { flex-direction: column; gap: 60px; }
-    .footer-nav { width: 100%; justify-content: space-between; }
-    .footer-bottom { text-align: center; margin-top: 40px; }
-}
-
-/* --- VIDEO LIGHTBOX, CURSOR, and OTHER PAGE STYLES --- */
-.video-lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
-.video-lightbox.is-visible { opacity: 1; pointer-events: auto; }
-.lightbox-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); }
-.lightbox-content { position: relative; width: 90%; max-width: 1200px; aspect-ratio: 16 / 9; }
-.lightbox-video { width: 100%; height: 100%; display: block; }
-.lightbox-close {
-    /* CHANGED: Position is now fixed to the screen */
-    position: fixed;
-    /* CHANGED: Pushed down from the top edge of the screen */
-    top: 40px;
-    /* CHANGED: Pushed in from the right edge of the screen */
-    right: 40px;
-    /* ADDED: Ensure it's on top of all other lightbox content */
-    z-index: 1001;
-
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-size: 3em;
-    font-weight: 100;
-    cursor: pointer;
-    line-height: 1;
-}
-.homepage .custom-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1100;
-    width: 80px;
-    height: 80px;
-    
-    /* CHANGED: Made the background semi-transparent */
-    background-color: rgba(0, 0, 0, 0.8);
-    
-    color: #ffffff;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    /* ADDED/CHANGED: Explicitly set font and style */
-    font-family: 'Inter', sans-serif;
-    font-weight: 600; /* A semi-bold weight looks good */
-    text-transform: uppercase; /* Capitalizes the text */
-    
-    opacity: 0;
-    transform: scale(0.5) translate(20px, -50%);
-    transform-origin: 0 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
-.homepage.cursor-hover { cursor: none; }
-
-
-
-/* --- CONTACT PAGE STYLES (STABLE VERSION) --- */
-.contact-page header .logo img {
-    filter: invert(1);
-}
-.contact-page .contact-page-main {
-    display: flex;
-    align-items: center;
-    min-height: 100vh;
-    padding: 120px 40px;
-    box-sizing: border-box;
-}
-.contact-layout-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 0;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 100px;
-    align-items: start;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: stretch;
 }
-.contact-intro h1 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    line-height: 1.1;
-    margin: 0 0 15px 0;
-    text-transform: uppercase;
-    white-space: nowrap;
+.profile-grid-main-image img, .profile-grid-secondary-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
-.contact-intro-subheadline {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: 1.5rem;
-    line-height: 1.5;
-    margin: 0 0 40px 0;
-    max-width: 500px;
-}
-.contact-details {
-    display: flex;
-    gap: 40px;
-}
-.contact-detail-item {
+.profile-grid-right-column {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 120px 0;
 }
-.contact-detail-item span {
-    font-size: 0.9rem;
-    color: #888;
-    margin-bottom: 5px;
+.profile-grid-text {
+    padding-right: 40px;
 }
-.contact-detail-item a {
-    color: #222;
-    text-decoration: none;
-    font-weight: 400;
-}
-.form-group-cluster {
-    margin-bottom: 40px;
-}
-.form-group-cluster label {
-    display: block;
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: 0.8rem;
+.profile-grid-text .pre-title {
+    font-size: 0.9em;
+    font-weight: 600;
     color: #888;
     letter-spacing: 1px;
     margin-bottom: 20px;
     text-transform: uppercase;
 }
-.form-group-cluster input,
-.form-group-cluster textarea {
-    display: block;
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
+.profile-grid-text .bio {
     font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    background-color: #f9f9f9;
+    font-weight: 300;
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    line-height: 1.6;
+    margin: 0 0 40px 0;
+    color: #e0e0e0;
 }
-.form-group-cluster input:focus,
-.form-group-cluster textarea:focus {
-    outline: none;
-    border-color: #222;
+.profile-grid-secondary-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
 }
-.contact-form .button-outline {
-    width: 100%;
-    margin-top: 10px;
-}
-@media (max-width: 900px) {
-    .contact-layout-container {
-        grid-template-columns: 1fr;
-        gap: 80px;
-    }
-    .contact-intro {
-        text-align: center;
-        align-items: center;
-    }
-    .contact-details {
-        flex-direction: column;
-        gap: 20px;
-    }
-}
-/*
-============================================================
-== FINAL, STABLE STYLES FOR ABOUT PAGE ==
-============================================================
-*/
 
+/* --- Title Section (inside the scroll wrapper) --- */
 .about-page-title-section {
+    padding: 80px 40px;
     text-align: left;
-    padding: 0 40px; /* Use horizontal padding only */
-    box-sizing: border-box;
-
-    /* THIS IS THE FIX: Set a large height and use Flexbox for centering */
-    min-height: 80vh; /* Make the section 80% of the screen height */
-    display: flex;
-    align-items: center; /* This vertically centers the h1 */
 }
-
 .about-page-title-section h1 {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
@@ -446,232 +213,34 @@ footer {
     letter-spacing: -0.02em;
     color: #222222;
     margin: 0;
-    
-    /* THIS IS THE FIX: Reduces the space between lines */
-    line-height: 1.0; 
+    line-height: 1.0;
 }
-
-/* --- This controls the main page padding --- */
-.about-page-main {
-    padding-top: 80px; 
-}
-.profile-grid-section {
-    background-color: #000000;
-    color: #ffffff;
-    /* CHANGED: Removed all padding so the grid touches the screen edges */
-    padding: 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    align-items: stretch;
-}
-
-.profile-grid-main-image img,
-.profile-grid-secondary-images img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures images fill their containers */
-    display: block;
-}
-
-.profile-grid-right-column {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    
-    /* THIS IS THE FIX: Make the vertical gap match the horizontal one */
-    gap: 30px;
-}
-
-.profile-grid-text .bio {
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    
-    /* THIS IS THE FIX: A fluid font size */
-    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
-
-    line-height: 1.6;
-    margin: 0;
-    color: #e0e0e0;
-    margin-bottom: 40px;
-    padding-right: 40px;
-    padding-top: 80px;
-
-}
-
-/* This is the updated version */
-.profile-grid-secondary-images {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    /* CHANGED: Removed the gap between the two small images */
-    gap: 0;
-}
-
-/* --- Responsive styles for profile grid --- */
-@media (max-width: 900px) {
-    .profile-grid-section {
-        grid-template-columns: 1fr;
-        /* ADD THIS: Remove vertical padding for a full-bleed mobile look */
-        padding: 0;
-    }
-    .profile-grid-right-column {
-        gap: 40px; /* Re-introduce a gap for mobile stacking */
-    }
-    .profile-grid-text .bio {
-        font-size: 1.2rem;
-    }
-}
-
-
-
 
 /* --- Services Section Styles --- */
-
-
-.services-intro-paragraph {
-    /* These styles are based on .showcase-text p */
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    line-height: 1.6;
-    color: #222;
-
-    /* These are the custom styles you requested */
-    font-size: 1.1rem; /* Smaller font size */
-    max-width: 650px;  /* Controls the width to create ~4 lines */
-    margin: 0 auto 80px auto; /* Centers the block and adds 80px of space below it */
-}
-
-.services-main-title {
-    /* These styles are copied from .showcase-text h2 to match exactly */
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    text-transform: uppercase;
-    line-height: 1.1;
-    
-    /* This adds the space between the title and the "PRE-PRODUCTION" subheading */
-    margin: 0 0 20px 0;
-}
-
-
-.services-section {
-    /* THIS IS THE FIX: It forces the section to contain all its children
-       and respect the normal page flow, "grouping" everything together. */
-    display: flow-root;
-
-    background-color: #f2f2f2;
-    padding: 120px 40px;
-    text-align: center;
-}
+.services-section { background-color: #f2f2f2; padding: 120px 40px; text-align: center; }
+.services-main-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; line-height: 1.1; margin: 0 0 20px 0; }
+.services-intro-paragraph { font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.6; color: #222; font-size: 1.1rem; max-width: 650px; margin: 0 auto 80px auto; }
 .services-row { margin-bottom: 60px; position: relative; }
-.row-title { color: #aaa; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8em; margin-bottom: 20px; position: relative; display: inline-block; }
-.row-title::after {
-    /* CHANGED: This will hide the vertical line */
-    display: none;
-}
+.row-title { color: #aaa; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8em; margin-bottom: 30px; position: relative; display: inline-block; }
+.row-title::after { display: none; }
 .cards-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
 .service-card { background-color: #000000; color: #ffffff; padding: 30px; border-radius: 0; flex-basis: 250px; display: flex; flex-direction: column; justify-content: center; min-height: 120px; text-align: center; }
 .service-card h3 { font-size: 1.2rem; font-weight: 600; margin: 0 0 10px 0; }
 .service-card p { font-size: 0.9rem; line-height: 1.5; color: #aaa; margin: 0; }
 .services-cta { margin-top: 80px; }
 
-
-/* --- EDITING SHOWCASE SECTION --- */
-.editing-showcase-section {
-    background-color: #f2f2f2;
-    padding: 120px 40px;
-}
-
-.showcase-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 60px;
-    /* This is the key: it makes both columns the same height */
-    align-items: stretch; 
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.showcase-image img {
-    width: 100%;
-    height: 100%; /* Make the image fill the full height of its column */
-    object-fit: cover; /* Ensure the image covers the area without distortion */
-    display: block;
-}
-
-/* This new container will manage the text and CTA button */
-.showcase-text-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* This pushes the text to the top and the button to the bottom */
-}
-
-.showcase-text-main h2 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    text-transform: uppercase;
-    margin: 0 0 20px 0;
-    line-height: 1.1;
-}
-
-.showcase-text-main p {
-    font-size: 1.5rem;
-    line-height: 1.6;
-    font-weight: 300;
-    color: #222;
-    margin: 0; /* Removed bottom margin */
-}
-
-/* The old .showcase-text selector is no longer needed */
-
-/* --- Responsive adjustments for showcase section --- */
-@media (max-width: 900px) {
-    .showcase-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-
-    .showcase-text-content {
-        text-align: center;
-        align-items: center; /* Center the button on mobile */
-    }
-
-    .showcase-text-main p {
-        font-size: 1.2rem;
-    }
-
-    .showcase-cta {
-        margin-top: 40px; /* Add space above the button on mobile */
-    }
-}
-
+/* --- Editing Showcase Section --- */
+.editing-showcase-section { background-color: #f2f2f2; padding: 120px 40px; }
+.showcase-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: stretch; max-width: 1200px; margin: 0 auto; }
+.showcase-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.showcase-text-content { display: flex; flex-direction: column; justify-content: space-between; }
+.showcase-text-main h2 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; margin: 0 0 20px 0; line-height: 1.1; }
+.showcase-text-main p { font-size: 1.5rem; line-height: 1.6; font-weight: 300; color: #222; margin: 0; }
 
 /* --- Process Accordion Section --- */
-
-
-.process-header-text {
-    text-align: left;
-    /* CHANGED: Set max-width to match the accordion's width */
-    max-width: 800px;
-    margin: 0 auto 80px auto;
-}
-
-.process-header-text .mission-statement {
-    font-size: 2.5rem;
-    /* The text-align: center; property has been removed */
-}
-
-.process-intro-paragraph {
-    color: #aaa; /* A light grey to match the accordion subtext */
-    font-size: 1.1rem;
-    line-height: 1.6;
-    font-weight: 300;
-    text-align: center; /* Center the text */
-    max-width: 800px;   /* Keep the line length readable */
-    margin: 0 auto 80px auto; /* Center the block and add 80px of space below it */
-}
 .process-section { background-color: #000000; color: #ffffff; padding: 120px 40px; }
+.process-header-text { text-align: left; max-width: 800px; margin: 0 auto 80px auto; }
+.process-header-text .mission-statement { font-size: 2.5rem; }
 .accordion { max-width: 800px; margin: 0 auto; }
 .accordion-item { border: 1px solid #333; margin-bottom: 10px; transition: border-color 0.3s ease; }
 .accordion-item.is-open { border-color: #fff; }
@@ -681,100 +250,80 @@ footer {
 .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
 .accordion-content p { padding: 0 25px 25px 25px; margin: 0; font-size: 1rem; line-height: 1.6; color: #aaa; max-width: 600px; }
 
-
 /* --- Trusted By Logo Section --- */
 .trusted-by-section { background-color: #f2f2f2; padding: 120px 40px; }
 .trusted-by-container { max-width: 1000px; margin: 0 auto; text-align: center; }
-.section-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; line-height: 1.1; margin: 0 0 80px 0;color: #222222; }
+.section-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; line-height: 1.1; margin: 0 0 80px 0; color: #222222; }
 .logo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 10px; align-items: center; }
-.logo-item img { max-width: 100%; width: auto; max-height: 100px; margin: 0 auto; filter: grayscale(100%); opacity: 1; }
+.logo-item img { max-width: 100%; width: auto; max-height: 100px; margin: 0 auto; filter: grayscale(100%); opacity: 0.8; }
 
 
-/* --- Responsive Styles for About Page --- */
+/* --- CONTACT PAGE STYLES --- */
+.contact-page .contact-page-main { display: flex; align-items: center; min-height: 100vh; padding: 120px 40px; box-sizing: border-box; }
+.contact-layout-container { width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 100px; align-items: start; }
+.contact-intro h1 { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1.1; margin: 0 0 15px 0; text-transform: uppercase; white-space: nowrap; }
+.contact-intro-subheadline { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 1.5rem; line-height: 1.5; margin: 0 0 40px 0; max-width: 500px; }
+.contact-details { display: flex; gap: 40px; }
+.contact-detail-item { display: flex; flex-direction: column; }
+.contact-detail-item span { font-size: 0.9rem; color: #888; margin-bottom: 5px; }
+.contact-detail-item a { color: #222; text-decoration: none; font-weight: 400; }
+.form-group-cluster { margin-bottom: 40px; }
+.form-group-cluster label { display: block; font-family: 'Inter', sans-serif; font-weight: 300; font-size: 0.8rem; color: #888; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
+.form-group-cluster input, .form-group-cluster textarea { display: block; width: 100%; margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 1rem; background-color: #f9f9f9; }
+.form-group-cluster input:focus, .form-group-cluster textarea:focus { outline: none; border-color: #222; }
+.contact-form .button-outline { width: 100%; margin-top: 10px; }
+
+/* --- VIDEO LIGHTBOX & CURSOR --- */
+.video-lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
+.video-lightbox.is-visible { opacity: 1; pointer-events: auto; }
+.lightbox-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); }
+.lightbox-content { position: relative; width: 90%; max-width: 1200px; aspect-ratio: 16 / 9; }
+.lightbox-content.is-vertical { width: auto; height: 90vh; max-height: 800px; aspect-ratio: 9 / 16; }
+.lightbox-video { width: 100%; height: 100%; display: block; transition: opacity 0.3s ease; opacity: 1; }
+.lightbox-close { position: fixed; top: 40px; right: 40px; z-index: 1001; background: none; border: none; color: #ffffff; font-size: 3em; font-weight: 100; cursor: pointer; line-height: 1; }
+.homepage .custom-cursor { position: fixed; top: 0; left: 0; z-index: 1100; width: 80px; height: 80px; background-color: rgba(0, 0, 0, 0.8); color: #ffffff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-family: 'Inter', sans-serif; font-weight: 600; text-transform: uppercase; opacity: 0; transform: scale(0.5) translate(20px, -50%); transform-origin: 0 0; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; }
+.homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
+.homepage.cursor-hover { cursor: none; }
+.custom-loader { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; width: 100px; height: 100px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; background-image: url('logo.png'); background-size: 50%; background-position: 50% 50%; background-repeat: no-repeat; }
+.custom-loader.is-loading { opacity: 1; }
+.custom-loader::after { content: ''; display: block; width: 100%; height: 100%; border-radius: 50%; border: 5px solid rgba(255, 255, 255, 0.2); border-top-color: #ffffff; animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.video-lightbox.is-loading .lightbox-video { opacity: 0; }
+
+/* --- RESPONSIVE STYLES --- */
 @media (max-width: 900px) {
-    .new-profile-section { grid-template-columns: 1fr; }
-    .profile-text-column-new .about-bio { font-size: 1.5rem; }
-    .service-card { flex-basis: calc(50% - 10px); min-height: 180px; }
-    .row-title::after { display: none; }
+    .mission-grid { grid-template-columns: 1fr; }
+    .mission-image { height: 500px; }
+    .mission-image::after { background: linear-gradient(to top, #000000 5%, transparent 50%); width: 100%; height: 100%; top: auto; bottom: 0; right: auto; }
+    .mission-text { padding: 60px 40px 80px 40px; }
+    .mission-statement { font-size: 24px; }
+    .bridge-section { padding: 80px 0; }
+    .bridge-text { font-size: 24px; line-height: 1.4; }
+    .portfolio-grid-section { padding: 60px 20px; }
+    .portfolio-grid-container { grid-template-columns: 1fr; gap: 40px; }
+    .grid-item.rellax { transform: translate(0) !important; }
+    .grid-item-caption { font-size: 0.8em; }
+    .footer-top { flex-direction: column; gap: 60px; }
+    .footer-nav { width: 100%; justify-content: space-between; }
+    .footer-bottom { text-align: center; margin-top: 40px; }
+    .contact-layout-container { grid-template-columns: 1fr; gap: 80px; }
+    .contact-intro { text-align: center; align-items: center; }
+    .contact-details { flex-direction: column; gap: 20px; }
+    
+    /* About Page Responsive */
+    .sticky-profile-section { position: static; height: auto; }
+    .profile-grid-section { grid-template-columns: 1fr; }
+    .profile-grid-right-column { padding: 80px 40px; }
     .showcase-grid { grid-template-columns: 1fr; gap: 40px; }
-    .showcase-text { text-align: center; }
-    .showcase-text p { font-size: 1.2rem; }
+    .showcase-text-content { text-align: center; align-items: center; }
+    .showcase-text-main p { font-size: 1.2rem; }
+    .showcase-cta { margin-top: 40px; }
+    .process-grid-container { grid-template-columns: 1fr; gap: 60px; }
     .logo-grid { grid-template-columns: repeat(2, 1fr); gap: 50px; }
 }
 
 @media (max-width: 600px) {
+    .client-logo { width: 350px; }
+    .scroller-track { animation-duration: 30s; }
     .service-card { flex-basis: 100%; }
-}
-/* --- Homepage Header Gradient Overlay --- */
-.homepage .hero-video::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    /* You can adjust this height to make the gradient taller or shorter */
-    height: 150px; 
-    /* This creates the gradient from a semi-transparent black to fully transparent */
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent);
-    /* This places the gradient above the video but below your header */
-    z-index: 2; 
-    /* This ensures the gradient doesn't interfere with any mouse clicks */
-    pointer-events: none; 
-}
-/* ADD THIS NEW RULE FOR VERTICAL VIDEOS */
-.lightbox-content.is-vertical {
-    width: auto;
-    height: 90vh;
-    max-height: 800px;
-    aspect-ratio: 9 / 16;
-}
-
-/* --- CUSTOM VIDEO LOADER (FINAL) --- */
-
-.custom-loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    width: 100px;
-    height: 100px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    
-    /* --- LOGO CONTROLS --- */
-    background-image: url('logo.png');
-    background-size: 50%;
-    background-repeat: no-repeat;
-    /* This is your control panel for positioning */
-    background-position: 50% 50%; /* X-axis Y-axis */
-}
-
-.custom-loader.is-loading {
-    opacity: 1;
-}
-
-.custom-loader::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 5px solid rgba(255, 255, 255, 0.2);
-    border-top-color: #ffffff;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.video-lightbox.is-loading .lightbox-video {
-    opacity: 0;
-}
-.lightbox-video {
-    transition: opacity 0.3s ease;
-    opacity: 1;
 }
