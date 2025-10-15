@@ -831,3 +831,9 @@ footer {
     transition: opacity 0.3s ease;
     opacity: 1;
 }
+/* ADD THIS NEW RULE */
+.grid-item > a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
