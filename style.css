@@ -203,19 +203,22 @@ header.is-hidden {
 .bridge-text strong { font-weight: 600; }
 @media (max-width: 768px) { .bridge-section { padding: 80px 0; } .bridge-text { font-size: 24px; line-height: 1.4; } }
 
-/* --- PORTFOLIO GRID SECTION --- */
-.portfolio-grid-section { padding: 80px 40px; box-sizing: border-box; }
-/* --- NEW PORTFOLIO GRID CONTAINER --- */
-.portfolio-grid-container-new {
+/* --- HOMEPAGE PORTFOLIO GRID --- */
+.homepage .portfolio-grid-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* The 4 columns */
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
-
-/* This styles each individual column */
-.portfolio-column {
+/* --- PORTFOLIO GRID SECTION --- */
+/* These are the new, corrected rules for the portfolio page */
+.portfolio-page .portfolio-grid-container-new {
     display: grid;
-    gap: 40px; /* The vertical space between items in a column */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+.portfolio-page .portfolio-column {
+    display: grid;
+    gap: 40px;
 }
 .grid-item { display: block; text-decoration: none; color: #222; position: relative; overflow: hidden; }
 .grid-item-image { aspect-ratio: 8 / 10.8; overflow: hidden; }
