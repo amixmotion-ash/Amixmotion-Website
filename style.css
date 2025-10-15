@@ -919,3 +919,67 @@ footer {
     text-decoration: none;
     color: inherit;
 }
+/*
+================================================================
+== DEFINITIVE STYLES FOR PORTFOLIO PAGE GRID CAPTIONS ==
+================================================================
+*/
+
+/* --- This rule targets the title block ONLY on the portfolio page --- */
+.portfolio-page .grid-item-title-block {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 25px;
+    box-sizing: border-box;
+    z-index: 2;
+    
+    /* The correct subtle gradient */
+    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+}
+
+/* These styles for the text are now correctly targeted */
+.portfolio-page .grid-item-title,
+.portfolio-page .grid-item-subtitle {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.portfolio-page .grid-item-title {
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 1.1rem;
+}
+
+.portfolio-page .grid-item-subtitle {
+    color: #bbbbbb;
+    font-weight: 400;
+    font-size: 1.1rem;
+}
+
+/* --- This section ensures the HOMEPAGE caption style is not broken --- */
+.homepage .grid-item-caption {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #222; /* Default black text for homepage */
+}
+.homepage .caption-title {
+    display: flex;
+    align-items: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.homepage .caption-year {
+    font-weight: normal;
+    color: #888;
+    margin-left: auto;
+    padding-left: 10px;
+}
