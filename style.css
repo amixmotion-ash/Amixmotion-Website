@@ -457,65 +457,102 @@ footer {
 }
 /*
 ============================================================
-== FINAL, STABLE STYLES FOR ABOUT PAGE (CORRECT STICKY SCROLL) ==
+== FINAL, STABLE STYLES FOR ABOUT PAGE ==
 ============================================================
 */
 
-/* --- This is the new single sticky container --- */
-.about-sticky-background {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    z-index: 1; /* This sits in the background */
-}
-
-/* The .scroll-content-wrapper from your global styles will handle the top layer */
-
-
-/* --- Section 1: Title Section --- */
 .about-page-title-section {
-    background-color: #f2f2f2;
-    padding: 120px 40px;
     text-align: left;
+    padding: 0 40px; /* Use horizontal padding only */
+    box-sizing: border-box;
+
+    /* THIS IS THE FIX: Set a large height and use Flexbox for centering */
+    min-height: 80vh; /* Make the section 80% of the screen height */
+    display: flex;
+    align-items: center; /* This vertically centers the h1 */
 }
+
 .about-page-title-section h1 {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(3rem, 10vw, 8rem);
-    line-height: 1.1;
+    font-size: clamp(3rem, 12vw, 8rem);
     text-transform: uppercase;
     letter-spacing: -0.02em;
+    color: #222222;
     margin: 0;
-    max-width: 1200px;
+    
+    /* THIS IS THE FIX: Reduces the space between lines */
+    line-height: 1.0; 
 }
 
-/* --- Section 2: Stable Profile Section --- */
-.stable-profile-section {
+/* --- This controls the main page padding --- */
+.about-page-main {
+    padding-top: 80px; 
+}
+.profile-grid-section {
     background-color: #000000;
     color: #ffffff;
-    padding: 120px 40px;
+    /* CHANGED: Removed all padding so the grid touches the screen edges */
+    padding: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: start;
-    max-width: 1400px;
-    margin: 0 auto;
+    gap: 30px;
+    align-items: stretch;
 }
-/* (Your existing, correct styles for the profile content are fine) */
 
+.profile-grid-main-image img,
+.profile-grid-secondary-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures images fill their containers */
+    display: block;
+}
 
-/* --- All subsequent sections (Services, etc.) --- */
-/* (Your existing, correct styles for these sections are fine) */
+.profile-grid-right-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    /* THIS IS THE FIX: Make the vertical gap match the horizontal one */
+    gap: 30px;
+}
 
+.profile-grid-text .bio {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    
+    /* THIS IS THE FIX: A fluid font size */
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
 
-/* --- Responsive Styles for About Page --- */
+    line-height: 1.6;
+    margin: 0;
+    color: #e0e0e0;
+    margin-bottom: 40px;
+    padding-right: 40px;
+    padding-top: 80px;
+
+}
+
+/* This is the updated version */
+.profile-grid-secondary-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* CHANGED: Removed the gap between the two small images */
+    gap: 0;
+}
+
+/* --- Responsive styles for profile grid --- */
 @media (max-width: 900px) {
-    /* On mobile, disable the sticky effect */
-    .about-sticky-background {
-        position: static;
-    }
-    .stable-profile-section {
+    .profile-grid-section {
         grid-template-columns: 1fr;
+        /* ADD THIS: Remove vertical padding for a full-bleed mobile look */
+        padding: 0;
+    }
+    .profile-grid-right-column {
+        gap: 40px; /* Re-introduce a gap for mobile stacking */
+    }
+    .profile-grid-text .bio {
+        font-size: 1.2rem;
     }
 }
 
