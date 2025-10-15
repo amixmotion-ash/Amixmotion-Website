@@ -457,83 +457,102 @@ footer {
 }
 /*
 ============================================================
-== FINAL, STABLE STYLES FOR ABOUT PAGE (REBUILD) ==
+== FINAL, STABLE STYLES FOR ABOUT PAGE ==
 ============================================================
 */
 
-.about-page-main {
-    padding-top: 100px; /* Space for the header */
+.about-page-title-section {
+    text-align: left;
+    padding: 0 40px; /* Use horizontal padding only */
+    box-sizing: border-box;
+
+    /* THIS IS THE FIX: Set a large height and use Flexbox for centering */
+    min-height: 80vh; /* Make the section 80% of the screen height */
+    display: flex;
+    align-items: center; /* This vertically centers the h1 */
 }
 
-/* --- Section 1: Title Section --- */
-.about-title-section {
-    background-color: #f2f2f2;
-    padding: 120px 40px;
-}
-.about-title-section h1 {
+.about-page-title-section h1 {
     font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: clamp(3rem, 10vw, 8rem);
-    line-height: 1.1;
+    font-size: clamp(3rem, 12vw, 8rem);
     text-transform: uppercase;
     letter-spacing: -0.02em;
+    color: #222222;
     margin: 0;
-    max-width: 1200px;
+    
+    /* THIS IS THE FIX: Reduces the space between lines */
+    line-height: 1.0; 
 }
 
-/* --- Section 2: Stable Profile Section --- */
-.about-profile-section {
+/* --- This controls the main page padding --- */
+.about-page-main {
+    padding-top: 80px; 
+}
+.profile-grid-section {
     background-color: #000000;
     color: #ffffff;
-    padding: 120px 40px;
+    /* CHANGED: Removed all padding so the grid touches the screen edges */
+    padding: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: start;
-    max-width: 1400px;
-    margin: 0 auto;
+    gap: 30px;
+    align-items: stretch;
 }
-.profile-image-main img, .profile-images-secondary img {
+
+.profile-grid-main-image img,
+.profile-grid-secondary-images img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Ensures images fill their containers */
     display: block;
 }
-.profile-text-content {
+
+.profile-grid-right-column {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    justify-content: space-between;
+    
+    /* THIS IS THE FIX: Make the vertical gap match the horizontal one */
+    gap: 30px;
 }
-.profile-text .pre-title {
-    font-size: 0.9em;
-    font-weight: 600;
-    color: #888;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
-.profile-text .bio {
+
+.profile-grid-text .bio {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
-    font-size: 1.5rem;
+    
+    /* THIS IS THE FIX: A fluid font size */
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+
     line-height: 1.6;
     margin: 0;
     color: #e0e0e0;
+    margin-bottom: 40px;
+    padding-right: 40px;
+    padding-top: 80px;
+
 }
-.profile-images-secondary {
+
+/* This is the updated version */
+.profile-grid-secondary-images {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    /* CHANGED: Removed the gap between the two small images */
+    gap: 0;
 }
 
-/* --- All other sections (Services, etc.) --- */
-/* Your existing, correct styles for these sections are fine */
-
-
-/* --- Responsive Styles --- */
+/* --- Responsive styles for profile grid --- */
 @media (max-width: 900px) {
-    .about-profile-section {
+    .profile-grid-section {
         grid-template-columns: 1fr;
+        /* ADD THIS: Remove vertical padding for a full-bleed mobile look */
+        padding: 0;
+    }
+    .profile-grid-right-column {
+        gap: 40px; /* Re-introduce a gap for mobile stacking */
+    }
+    .profile-grid-text .bio {
+        font-size: 1.2rem;
     }
 }
 
