@@ -250,10 +250,3 @@ if (header) {
         lastScrollY = window.scrollY;
     });
 }
-// --- Rellax Parallax Functionality ---
-if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
-    // THIS IS THE FIX: By removing the "center: true" option,
-    // Rellax will use its default behavior, which aligns elements
-    // at the top, solving the alignment issue.
-    var rellax = new Rellax('.rellax');
-}
