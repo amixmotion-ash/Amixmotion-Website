@@ -220,18 +220,8 @@ header.is-hidden {
     display: grid;
     gap: 40px;
 }
-.grid-item {
-    position: relative; /* This is crucial for positioning the title block inside */
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    overflow: hidden; /* Ensures the hover zoom stays contained */
-    background-color: #000; /* A fallback background color */
-}
-.grid-item-image {
-    aspect-ratio: 8 / 10.8;
-    overflow: hidden;
-}
+
+
 .grid-item-image img {
     width: 100%;
     height: 100%;
@@ -242,24 +232,71 @@ header.is-hidden {
 .grid-item:hover .grid-item-image img {
     transform: scale(1.1);
 }
-/* This is the new title block that sits on top of the image */
+/*
+============================================================
+== SHARED VISUAL STYLES FOR ALL GRID ITEMS (BOTH PAGES) ==
+============================================================
+*/
+
+/* This styles the main clickable link on both pages */
+.grid-item {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+}
+
+/* This styles the image container on both pages */
+.grid-item-image {
+    aspect-ratio: 8 / 10.8;
+    overflow: hidden;
+}
+.grid-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+.grid-item:hover .grid-item-image img {
+    transform: scale(1.1);
+}
+
+/* This styles the new caption on BOTH pages */
 .grid-item-title-block {
-    position: absolute; /* Takes it out of the normal flow */
-    bottom: 0;          /* Pins it to the bottom of the .grid-item */
+    position: absolute;
+    bottom: 0;
     left: 0;
     width: 100%;
     padding: 25px;
     box-sizing: border-box;
-    z-index: 2; /* Ensure it's on top of the image */
-    
-    /* This creates the black gradient for legibility */
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
-    
-    /* Add a transition for a subtle fade-in on hover */
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: 2;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 60%, transparent 100%);
+    opacity: 1;
+    transform: translateY(0);
 }
+
+/* This styles the text on BOTH pages */
+.grid-item-title,
+.grid-item-subtitle {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+.grid-item-title {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+.grid-item-subtitle {
+    color: #bbbbbb;
+    font-weight: 400;
+    font-size: 1.1rem;
+}
+
+
 
 
 /* Styling for the two lines of text */
@@ -270,20 +307,6 @@ header.is-hidden {
     text-transform: uppercase;
     line-height: 1.2;
 }
-
-.grid-item-title {
-    color: #ffffff;
-    font-weight: 900; /* Bold */
-    font-size: 1.1rem;
-}
-
-.grid-item-subtitle {
-    color: #bbbbbb; /* Light grey */
-    font-weight: 400; /* Lighter weight */
-    font-size: 1.1rem;
-}
-.grid-item-caption { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #e0e0e0; font-weight: bold; white-space: nowrap; overflow: hidden; color: #ffffff; }
-.caption-title { display: flex; align-items: center; text-overflow: ellipsis; overflow: hidden; }
 .caption-year { font-weight: normal; color: #888; margin-left: auto; padding-left: 10px; }
 @media (max-width: 1024px) { .grid-item-caption { font-size: 0.8em; } }
 @media (max-width: 600px) { .portfolio-grid-section { padding: 60px 20px; } .portfolio-grid-container { grid-template-columns: 1fr; gap: 40px; } .grid-item.rellax { transform: translate(0) !important; } }
