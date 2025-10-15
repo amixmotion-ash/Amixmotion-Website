@@ -957,7 +957,7 @@ footer {
     transform: scale(1.1);
 }
 
-/* --- THIS IS THE FIX for the always-visible title block --- */
+/* This is the new, darker version */
 .portfolio-page .grid-item-title-block {
     position: absolute;
     bottom: 0;
@@ -966,11 +966,9 @@ footer {
     padding: 25px;
     box-sizing: border-box;
     z-index: 2;
-    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
     
-    /* These properties ensure it is always visible */
-    opacity: 1;
-    transform: translateY(0);
+    /* CHANGED: This gradient starts darker and extends further up the panel */
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 60%, transparent 100%);
 }
 
 /* These are the text styles, which remain the same */
@@ -981,9 +979,11 @@ footer {
     text-transform: uppercase;
     line-height: 1.2;
 }
+/* This is the new, lighter version */
 .portfolio-page .grid-item-title {
     color: #ffffff;
-    font-weight: 900;
+    /* CHANGED: Reduced the font weight from 900 to 600 (semi-bold) */
+    font-weight: 600;
     font-size: 1.1rem;
 }
 .portfolio-page .grid-item-subtitle {
