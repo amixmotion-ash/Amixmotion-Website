@@ -8,35 +8,6 @@
 </head>
 <body class="about-page">
 
-
-
-
-
-    <header>
-        <button class="nav-toggle" aria-label="toggle navigation">MENU</button>
-        <div class="logo"><a href="index.html"><img src="logo.png" alt="Amixmotion Logo"></a></div>
-        <nav class="desktop-nav"><ul><li><a href="portfolio.html">WORK +</a></li></ul></nav>
-    </header>
-
-    <nav class="main-nav">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="portfolio.html">Portfolio</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
-
-       <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | Amixmotion</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="about-page">
-
     <header>
         <button class="nav-toggle" aria-label="toggle navigation">MENU</button>
         <div class="logo"><a href="index.html"><img src="logo.png" alt="Amixmotion Logo"></a></div>
@@ -47,60 +18,54 @@
         <!-- ... your nav links ... -->
     </nav>
 
-    <!-- This is the new sticky section that contains ONLY the profile -->
+    <!-- This is the STICKY BACKGROUND, just like your homepage's .hero-video section -->
     <section class="about-sticky-background">
-        <section class="about-page-title-section">
-            <h1>GREAT FILM IS MORE<br>THAN JUST VISUALS.</h1>
-        </section>
-        <section class="stable-profile-section">
-            <div class="profile-image">
-                <img src="images/about-image-1.jpg" alt="Videographer holding a camera">
+        <div class="profile-grid-section">
+            <div class="profile-grid-main-image">
+                <img src="images/about-image-1.jpg" alt="Videographer holding a camera, side profile">
             </div>
-            <div class="profile-text">
-                <p class="pre-title">ABOUT</p>
-                <p class="bio">After 14 years as a creative in digital design, I discovered my passion for visual storytelling while traveling through Asia. Now based in London — and always happy to travel — I specialise in videography and editing that blends design sensibility with cinematic technique. From creative concepts and shot planning to dynamic cinematography and polished edits, I craft engaging narratives that bring brands, events, and ideas to life through compelling visual content.</p>
-                <div class="profile-secondary-images">
+            <div class="profile-grid-right-column">
+                <div class="profile-grid-text">
+                    <p class="pre-title">ABOUT</p>
+                    <p class="bio">After 14 years as a creative in digital design, I discovered my passion for visual storytelling while traveling through Asia. Now based in London — and always happy to travel — I specialise in videography and editing that blends design sensibility with cinematic technique. From creative concepts and shot planning to dynamic cinematography and polished edits, I craft engaging narratives that bring brands, events, and ideas to life through compelling visual content.</p>
+                </div>
+                <div class="profile-grid-secondary-images">
                     <img src="images/about-secondary-1.jpg" alt="Videographer holding a Lumix camera">
                     <img src="images/about-image-2.jpg" alt="Videographer portrait">
                 </div>
             </div>
-        </section>
+        </div>
     </section>
 
-    <!-- This wrapper contains all the content that will scroll over the top -->
+    <!-- This is the SCROLLABLE FOREGROUND, just like your homepage's .scroll-content-wrapper -->
     <div class="scroll-content-wrapper">
-        <section class="services-section">
-            <!-- ... services content ... -->
-        </section>
-        <section class="editing-showcase-section">
-            <!-- ... editing content ... -->
-        </section>
-        <section class="process-section">
-            <!-- ... process content ... -->
-        </section>
-        <section class="trusted-by-section">
-            <!-- ... trusted by content ... -->
-        </section>
-        <section class="testimonials-section">
-            <!-- ... testimonials content ... -->
-        </section>
+        <main>
+            <section class="about-page-title-section">
+                <h1>GREAT FILM IS MORE<br>THAN JUST VISUALS.</h1>
+            </section>
+            
+            <!-- All your other sections (Services, etc.) are now inside <main> -->
+            <section class="services-section">
+                <!-- ... services content ... -->
+            </section>
+            <section class="editing-showcase-section">
+                <!-- ... editing content ... -->
+            </section>
+            <section class="process-section">
+                <!-- ... process content ... -->
+            </section>
+            <section class="trusted-by-section">
+                <!-- ... trusted by content ... -->
+            </section>
+            <section class="testimonials-section">
+                <!-- ... testimonials content ... -->
+            </section>
+        </main>
+
+        <footer>
+            <!-- The footer is now INSIDE the scroll wrapper, just like your homepage -->
+        </footer>
     </div>
-
-    <footer>
-        <!-- ... your footer ... -->
-    </footer>
-
-    <script src="script.js"></script>
-
-</body>
-</html><div class="testimonials-track"><div class="testimonial-card"><div class="testimonial-card-top"><img src="images/client-avatar.png" alt="Client photo" class="testimonial-avatar"><p class="testimonial-quote">"Absolutely thrilled with the video [Your Company Name] created! Professional, creative, and delivered exactly what we wanted. Highly recommend!"</p></div><div class="testimonial-card-bottom"><p class="testimonial-author">CEO at Myokine</p></div></div></div></div>
-        </section>
-
-    </main>
-
-    <footer>
-        <div class="footer-top"><div class="footer-cta"><h2>LETS MAKE SOMETHING<br>MEMORABLE.</h2><a href="contact.html" class="button-outline button-light">CONTACT</a></div><div class="footer-nav"><ul><li><a href="index.html">HOME</a></li><li><a href="portfolio.html">WORK</a></li><li><a href="about.html">ABOUT</a></li></ul><ul><li><a href="https://www.instagram.com/amixmotion/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a></li><li><a href="mailto:ash@amixmotion.com">EMAIL</a></li></ul></div></div><div class="footer-bottom"><p>Amixmotion 2025</p></div>
-    </footer>
 
     <script src="script.js"></script>
 
