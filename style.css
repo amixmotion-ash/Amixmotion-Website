@@ -915,12 +915,49 @@ footer {
     color: inherit;
 }
 /*
-================================================================
-== DEFINITIVE STYLES FOR PORTFOLIO PAGE GRID CAPTIONS ==
-================================================================
+============================================================
+== DEFINITIVE STYLES FOR PORTFOLIO PAGE GRID (FINAL) ==
+============================================================
 */
 
-/* This is the new, always-visible version */
+/* --- This styles the main grid columns --- */
+.portfolio-page .portfolio-grid-container-new {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+.portfolio-page .portfolio-column {
+    display: grid;
+    gap: 40px;
+}
+
+/* --- This is the main style for each portfolio panel --- */
+.portfolio-page .grid-item {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+}
+
+/* This is the image style, which remains the same */
+.portfolio-page .grid-item-image {
+    aspect-ratio: 8 / 10.8;
+    overflow: hidden;
+}
+.portfolio-page .grid-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+.portfolio-page .grid-item:hover .grid-item-image img {
+    transform: scale(1.1);
+}
+
+/* --- THIS IS THE FIX for the always-visible title block --- */
 .portfolio-page .grid-item-title-block {
     position: absolute;
     bottom: 0;
@@ -931,10 +968,12 @@ footer {
     z-index: 2;
     background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
     
-    /* The opacity, transform, and transition properties have been removed */
+    /* These properties ensure it is always visible */
+    opacity: 1;
+    transform: translateY(0);
 }
 
-/* These styles for the text are now correctly targeted */
+/* These are the text styles, which remain the same */
 .portfolio-page .grid-item-title,
 .portfolio-page .grid-item-subtitle {
     display: block;
@@ -942,39 +981,13 @@ footer {
     text-transform: uppercase;
     line-height: 1.2;
 }
-
 .portfolio-page .grid-item-title {
     color: #ffffff;
     font-weight: 900;
     font-size: 1.1rem;
 }
-
 .portfolio-page .grid-item-subtitle {
     color: #bbbbbb;
     font-weight: 400;
     font-size: 1.1rem;
-}
-
-/* --- This section ensures the HOMEPAGE caption style is not broken --- */
-.homepage .grid-item-caption {
-    display: flex;
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid #e0e0e0;
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    color: #222; /* Default black text for homepage */
-}
-.homepage .caption-title {
-    display: flex;
-    align-items: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-.homepage .caption-year {
-    font-weight: normal;
-    color: #888;
-    margin-left: auto;
-    padding-left: 10px;
 }
