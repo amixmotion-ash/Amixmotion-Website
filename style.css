@@ -261,11 +261,6 @@ header.is-hidden {
     transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* When the user hovers over the grid item, the title block fades in */
-.grid-item:hover .grid-item-title-block {
-    opacity: 1;
-    transform: translateY(0);
-}
 
 /* Styling for the two lines of text */
 .grid-item-title,
@@ -925,7 +920,7 @@ footer {
 ================================================================
 */
 
-/* --- This rule targets the title block ONLY on the portfolio page --- */
+/* This is the new, always-visible version */
 .portfolio-page .grid-item-title-block {
     position: absolute;
     bottom: 0;
@@ -934,9 +929,9 @@ footer {
     padding: 25px;
     box-sizing: border-box;
     z-index: 2;
-    
-    /* The correct subtle gradient */
     background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    
+    /* The opacity, transform, and transition properties have been removed */
 }
 
 /* These styles for the text are now correctly targeted */
