@@ -250,12 +250,10 @@ if (header) {
         lastScrollY = window.scrollY;
     });
 }
-// --- Rellax Parallax Functionality (with correct centering) ---
+// --- Rellax Parallax Functionality ---
 if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
-    // THIS IS THE FIX: We re-introduce the "center: true" option.
-    // This tells Rellax to calculate all speeds relative to the
-    // center of the viewport, which forces the elements to be
-    // perfectly aligned when the page first loads (at scroll position 0).
+    // THIS IS THE FIX: Initialize Rellax with the "center: true" option.
+    // This forces all elements to align in the middle of the screen as you scroll.
     var rellax = new Rellax('.rellax', {
         center: true
     });
