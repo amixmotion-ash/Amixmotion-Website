@@ -220,10 +220,73 @@ header.is-hidden {
     display: grid;
     gap: 40px;
 }
-.grid-item { display: block; text-decoration: none; color: #222; position: relative; overflow: hidden; }
-.grid-item-image { aspect-ratio: 8 / 10.8; overflow: hidden; }
-.grid-item-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: transform; }
-.grid-item:hover .grid-item-image img { transform: scale(1.1); }
+.grid-item {
+    position: relative; /* This is crucial for positioning the title block inside */
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden; /* Ensures the hover zoom stays contained */
+    background-color: #000; /* A fallback background color */
+}
+.grid-item-image {
+    aspect-ratio: 8 / 10.8;
+    overflow: hidden;
+}
+.grid-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.grid-item:hover .grid-item-image img {
+    transform: scale(1.1);
+}
+/* This is the new title block that sits on top of the image */
+.grid-item-title-block {
+    position: absolute; /* Takes it out of the normal flow */
+    bottom: 0;          /* Pins it to the bottom of the .grid-item */
+    left: 0;
+    width: 100%;
+    padding: 25px;
+    box-sizing: border-box;
+    z-index: 2; /* Ensure it's on top of the image */
+    
+    /* This creates the black gradient for legibility */
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
+    
+    /* Add a transition for a subtle fade-in on hover */
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* When the user hovers over the grid item, the title block fades in */
+.grid-item:hover .grid-item-title-block {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Styling for the two lines of text */
+.grid-item-title,
+.grid-item-subtitle {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.grid-item-title {
+    color: #ffffff;
+    font-weight: 900; /* Bold */
+    font-size: 1.1rem;
+}
+
+.grid-item-subtitle {
+    color: #bbbbbb; /* Light grey */
+    font-weight: 400; /* Lighter weight */
+    font-size: 1.1rem;
+}
 .grid-item-caption { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #e0e0e0; font-weight: bold; white-space: nowrap; overflow: hidden; color: #ffffff; }
 .caption-title { display: flex; align-items: center; text-overflow: ellipsis; overflow: hidden; }
 .caption-year { font-weight: normal; color: #888; margin-left: auto; padding-left: 10px; }
