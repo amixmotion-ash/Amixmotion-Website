@@ -915,24 +915,12 @@ footer {
     color: inherit;
 }
 /*
-============================================================
+================================================================
 == DEFINITIVE STYLES FOR PORTFOLIO PAGE GRID (FINAL) ==
-============================================================
+================================================================
 */
 
-/* --- This styles the main grid columns --- */
-.portfolio-page .portfolio-grid-container-new {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    align-items: start;
-}
-.portfolio-page .portfolio-column {
-    display: grid;
-    gap: 40px;
-}
-
-/* --- This is the main style for each portfolio panel --- */
+/* --- This rule targets the grid items ONLY on the portfolio page --- */
 .portfolio-page .grid-item {
     position: relative;
     display: block;
@@ -941,37 +929,26 @@ footer {
     overflow: hidden;
 }
 
-/* This is the image style, which remains the same */
-.portfolio-page .grid-item-image {
-    aspect-ratio: 8 / 10.8;
-    overflow: hidden;
-}
-.portfolio-page .grid-item-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.5s ease;
-}
-.portfolio-page .grid-item:hover .grid-item-image img {
-    transform: scale(1.1);
-}
-
-/* This is the new, darker version */
+/* This is the full, correct style for the title block */
 .portfolio-page .grid-item-title-block {
+    /* Positioning properties that were missing */
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
+    z-index: 2;
     padding: 25px;
     box-sizing: border-box;
-    z-index: 2;
     
-    /* CHANGED: This gradient starts darker and extends further up the panel */
+    /* The new, darker gradient */
     background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 60%, transparent 100%);
+    
+    /* Ensure it is always visible */
+    opacity: 1;
+    transform: translateY(0);
 }
 
-/* These are the text styles, which remain the same */
+/* --- These are the corrected text styles --- */
 .portfolio-page .grid-item-title,
 .portfolio-page .grid-item-subtitle {
     display: block;
@@ -979,15 +956,15 @@ footer {
     text-transform: uppercase;
     line-height: 1.2;
 }
-/* This is the new, lighter version */
+
 .portfolio-page .grid-item-title {
     color: #ffffff;
-    /* CHANGED: Reduced the font weight from 900 to 600 (semi-bold) */
-    font-weight: 600;
+    font-weight: 600; /* The new, lighter font-weight */
     font-size: 1.1rem;
 }
+
 .portfolio-page .grid-item-subtitle {
     color: #bbbbbb;
-    font-weight: 400;
+    font-weight: 400; /* The original, lighter weight for comparison */
     font-size: 1.1rem;
 }
