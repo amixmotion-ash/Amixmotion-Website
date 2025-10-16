@@ -355,28 +355,22 @@ header.is-hidden {
 /* ============================================================ */
 
 .page-title-section {
-    /* These lines constrain the width and center the block */
-    max-width: 1200px;
-    margin: 0 auto;
-
-    /* This creates the black space */
+    /* REMOVED max-width and margin to allow full-width alignment */
     padding: 160px 40px 100px 40px;
-
-    /* This left-aligns the text inside the container */
     text-align: left;
-    
-    /* Ensures padding is included in the width calculation */
     box-sizing: border-box;
 }
 
 .page-title-section h1 {
-    font-family: 'Montserrat', sans-serif; /* CHANGE THIS LINE */
-    font-weight: 900;                     /* CHANGE THIS LINE */
-    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    /* ADJUSTED the font size to be larger */
+    font-size: clamp(3rem, 10vw, 7rem); 
     color: #ffffff;
     text-transform: uppercase;
     line-height: 1.1;
     margin: 0;
+    letter-spacing: 2px;
 }
 
 
@@ -399,10 +393,11 @@ header.is-hidden {
     color: #ffffff; /* Make MENU and WORK text white */
 }
 
-/* --- PORTFOLIO GRID SPACING --- */
+
 .portfolio-grid-section {
-    padding-top: 100px;
-    padding-bottom: 120px;
+    /* ADJUSTED the padding to create more space */
+    padding-top: 120px;
+    padding-bottom: 180px;
 }
 
 /* --- BUTTON STYLES & CTA CONTAINER --- */
