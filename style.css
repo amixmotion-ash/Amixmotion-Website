@@ -1118,8 +1118,8 @@ footer {
     line-height: 0; /* Helps vertically center the arrow */
 
     opacity: 0;
-    transform: scale(0.5);
-    transform-origin: center center;
+   transform: scale(0.5) translate(20px, -50%);
+     transform-origin: 0 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -1127,7 +1127,7 @@ footer {
 /* This class will be added by JavaScript to show the cursor */
 body.menu-cursor-active .menu-cursor {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translate(20px, -50%);
 }
 
 /* This hides the default mouse pointer when our custom one is active */

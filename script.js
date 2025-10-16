@@ -132,7 +132,7 @@ if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
 
 // --- Custom Cursor Functionality (Homepage Only) ---
 const bodyForCursor = document.querySelector('body');
-if (bodyForCursor && bodyForCursor.classList.contains('homepage')) {
+if (bodyForCursor && (bodyForCursor.classList.contains('homepage') || bodyForCursor.classList.contains('portfolio-page'))) {
     const customCursor = document.querySelector('.custom-cursor');
     const portfolioItemsForCursor = document.querySelectorAll('.portfolio-grid-section .grid-item');
     if (customCursor && portfolioItemsForCursor.length > 0) {
@@ -265,13 +265,11 @@ const navLinks = document.querySelectorAll('.main-nav a');
 
 if (menuCursor && navLinks.length > 0) {
     // 1. Move the cursor
-    window.addEventListener('mousemove', (e) => {
-        // We position from the center, so subtract half the width/height
-        const cursorX = e.clientX - 40; 
-        const cursorY = e.clientY - 40;
-        menuCursor.style.left = cursorX + 'px';
-        menuCursor.style.top = cursorY + 'px';
-    });
+window.addEventListener('mousemove', (e) => {
+    // This positions the cursor's top-left corner at the pointer
+    menuCursor.style.left = e.clientX + 'px';
+    menuCursor.style.top = e.clientY + 'px';
+});
 
     // 2. Show/Hide the cursor on link hover
     navLinks.forEach(link => {
