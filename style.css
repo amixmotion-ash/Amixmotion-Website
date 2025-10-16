@@ -67,12 +67,55 @@ header.is-hidden {
 
 
 
-/* --- FULL-SCREEN OVERLAY MENU --- */
-.main-nav { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 800; display: flex; justify-content: center; align-items: center; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease-in-out; }
-.main-nav.nav-open { opacity: 1; pointer-events: auto; }
-.main-nav ul { list-style: none; margin: 0; padding: 0; }
-.main-nav li { margin-bottom: 2rem; }
-.main-nav a { color: #222222; text-decoration: none; font-size: clamp(2rem, 8vw, 4rem); font-weight: bold; }
+/* --- FULL-SCREEN OVERLAY MENU (NEW SLIDE-IN STYLE) --- */
+
+.main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000; /* Changed to a solid black background */
+    z-index: 800;
+    
+    display: flex;
+    justify-content: center; /* Center the links vertically */
+    flex-direction: column;
+    
+    /* This moves the menu off-screen to the left by default */
+    transform: translateX(-100%);
+    
+    /* This makes the slide animation smooth and polished */
+    transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.main-nav.nav-open {
+    /* This slides the menu onto the screen when the 'nav-open' class is added */
+    transform: translateX(0);
+}
+
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 10vw; /* Add generous padding on the left/right */
+    text-align: left; /* Align the text to the left */
+}
+
+.main-nav li {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #333; /* Add a subtle separating line */
+    padding-bottom: 2rem;
+}
+.main-nav li:last-child {
+    border-bottom: none; /* Remove the line from the last item */
+}
+
+.main-nav a {
+    color: #ffffff; /* Changed text color to white */
+    text-decoration: none;
+    font-size: clamp(2.5rem, 8vw, 4.5rem); /* Slightly larger font */
+    font-weight: 600; /* A strong but not overly bold weight */
+}
 
 /* --- HERO VIDEO SECTION --- */
 .hero-video { height: 100vh; position: -webkit-sticky; position: sticky; top: 0; z-index: 1; }
