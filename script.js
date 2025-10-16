@@ -8,7 +8,7 @@ if (navToggle && mainNav && body) {
         mainNav.classList.toggle('nav-open');
         body.classList.toggle('body-no-scroll');
         if (mainNav.classList.contains('nav-open')) {
-            navToggle.textContent = 'CLOSE x';
+        navToggle.textContent = '× CLOSE';
         } else {
             navToggle.textContent = 'MENU';
         }
@@ -256,5 +256,30 @@ if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
     // This forces all elements to align in the middle of the screen as you scroll.
     var rellax = new Rellax('.rellax', {
         center: false
+    });
+}
+
+// --- Custom Menu Cursor ---
+const menuCursor = document.querySelector('.menu-cursor');
+const navLinks = document.querySelectorAll('.main-nav a');
+
+if (menuCursor && navLinks.length > 0) {
+    // 1. Move the cursor
+    window.addEventListener('mousemove', (e) => {
+        // We position from the center, so subtract half the width/height
+        const cursorX = e.clientX - 40; 
+        const cursorY = e.clientY - 40;
+        menuCursor.style.left = cursorX + 'px';
+        menuCursor.style.top = cursorY + 'px';
+    });
+
+    // 2. Show/Hide the cursor on link hover
+    navLinks.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+            document.body.classList.add('menu-cursor-active');
+        });
+        link.addEventListener('mouseleave', () => {
+            document.body.classList.remove('menu-cursor-active');
+        });
     });
 }
