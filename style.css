@@ -350,6 +350,26 @@ header.is-hidden {
     font-size: 1.1rem;
 }
 
+/* ============================================================ */
+/* == PORTFOLIO PAGE TITLE == */
+/* ============================================================ */
+
+.page-title-section {
+    /* This creates the black space you wanted */
+    padding: 160px 40px 100px 40px; /* Top, Right, Bottom, Left */
+    text-align: center;
+}
+
+.page-title-section h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(2.5rem, 8vw, 5rem); /* Responsive font size */
+    color: #ffffff;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin: 0;
+}
+
 
 
 
@@ -364,11 +384,7 @@ header.is-hidden {
 .caption-year { font-weight: normal; color: #888; margin-left: auto; padding-left: 10px; }
 @media (max-width: 1024px) { .grid-item-caption { font-size: 0.8em; } }
 @media (max-width: 600px) { .portfolio-grid-section { padding: 60px 20px; } .portfolio-grid-container { grid-template-columns: 1fr; gap: 40px; } .grid-item.rellax { transform: translate(0) !important; } }
-/* ADD THIS NEW RULE */
-.portfolio-page-main {
-    padding-top: 350px; 
-}
-/* ADD THIS NEW RULE */
+
 .portfolio-page header .nav-toggle,
 .portfolio-page header .desktop-nav a {
     color: #ffffff; /* Make MENU and WORK text white */
