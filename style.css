@@ -669,7 +669,7 @@ footer {
     font-size: clamp(3rem, 12vw, 8rem);
     text-transform: uppercase;
     letter-spacing: -0.02em;
-    color: #222222;
+    color: #ffffff;
     margin: 0;
     
     /* THIS IS THE FIX: Reduces the space between lines */
