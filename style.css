@@ -399,6 +399,12 @@ header.is-hidden {
     color: #ffffff; /* Make MENU and WORK text white */
 }
 
+/* --- PORTFOLIO GRID SPACING --- */
+.portfolio-grid-section {
+    padding-top: 100px;
+    padding-bottom: 120px;
+}
+
 /* --- BUTTON STYLES & CTA CONTAINER --- */
 .portfolio-cta-container { padding-top: 280px; text-align: center; }
 .button-outline { display: inline-block; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 18px; margin-top: 40px; padding: 16px 32px; border: 1px solid; text-decoration: none; transition: all 0.3s ease; }
