@@ -410,6 +410,28 @@ header.is-hidden {
     padding-bottom: 180px;
 }
 
+/* ============================================================ */
+/* == PORTFOLIO PAGE HEADER GRADIENT == */
+/* ============================================================ */
+
+body.portfolio-page::before {
+    content: '';
+    position: fixed; /* Use 'fixed' to lock it to the top of the screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150px; /* Same height as the homepage gradient */
+    
+    /* The same black-to-transparent gradient */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent);
+    
+    /* This places it just behind the header (which is z-index 901) */
+    z-index: 900; 
+    
+    /* This ensures the gradient doesn't interfere with mouse clicks */
+    pointer-events: none; 
+}
+
 /* --- BUTTON STYLES & CTA CONTAINER --- */
 .portfolio-cta-container { padding-top: 280px; text-align: center; }
 .button-outline { display: inline-block; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 18px; margin-top: 40px; padding: 16px 32px; border: 1px solid; text-decoration: none; transition: all 0.3s ease; }
@@ -453,7 +475,6 @@ footer {
     color: #ffffff;
     padding: 80px 40px;
     font-family: 'Inter', sans-serif;
-    border-top: 2px solid #00BFFF;
 }
 .footer-top {
     max-width: 1200px;
