@@ -368,7 +368,7 @@ header.is-hidden {
     font-size: clamp(3rem, 10vw, 7rem); 
     color: #ffffff;
     text-transform: uppercase;
-    line-height: 1.1;
+    line-height: 1;
     margin: 0;
     letter-spacing: 2px;
 }
@@ -532,9 +532,7 @@ footer {
 
 
 /* --- CONTACT PAGE STYLES (STABLE VERSION) --- */
-.contact-page header .logo img {
-    filter: invert(1);
-}
+
 .contact-page .contact-page-main {
     display: flex;
     align-items: center;

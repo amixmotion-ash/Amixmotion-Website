@@ -281,3 +281,56 @@ window.addEventListener('mousemove', (e) => {
         });
     });
 }
+// ======================================================================
+// == PORTFOLIO PAGE AUTO-SCROLL ON INACTIVITY ==
+// ======================================================================
+
+// --- This entire feature only runs on the portfolio page ---
+if (document.body.classList.contains('portfolio-page')) {
+
+    // --- Configuration ---
+    const INACTIVITY_TIMEOUT_MS = 5000; // 5 seconds. Time to wait before auto-scroll starts.
+    const SCROLL_SPEED_PIXELS_PER_FRAME = 0.5; // Controls how fast the page scrolls. 0.5 is slow and smooth.
+
+    let inactivityTimer;
+    let scrollInterval;
+
+    // --- This function PERFORMS the smooth scroll ---
+    const startAutoScroll = () => {
+        // Stop if we are already at the very bottom of the page
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            return;
+        }
+
+        scrollInterval = setInterval(() => {
+            window.scrollBy(0, SCROLL_SPEED_PIXELS_PER_FRAME);
+            // If we scroll to the bottom, stop the interval
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                stopAutoScroll();
+            }
+        }, 16); // Runs at roughly 60 frames per second for smoothness
+    };
+
+    // --- This function STOPS the smooth scroll ---
+    const stopAutoScroll = () => {
+        clearInterval(scrollInterval);
+    };
+
+    // --- This function RESETS the inactivity timer ---
+    const resetInactivityTimer = () => {
+        // When the user is active, we must stop any scrolling and clear any timers
+        stopAutoScroll();
+        clearTimeout(inactivityTimer);
+
+        // Then, we set a NEW timer. If it's not reset, it will trigger the auto-scroll.
+        inactivityTimer = setTimeout(startAutoScroll, INACTIVITY_TIMEOUT_MS);
+    };
+
+    // --- Listen for any user activity to reset the timer ---
+    ['mousemove', 'mousedown', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+        window.addEventListener(event, resetInactivityTimer);
+    });
+
+    // --- Start the initial timer when the page loads ---
+    resetInactivityTimer();
+}
