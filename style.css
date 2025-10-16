@@ -44,7 +44,6 @@ header {
 }
 .about-page header .nav-toggle,
 .about-page header .desktop-nav a,
-.about-page header .logo a,
 .contact-page header .nav-toggle,
 .contact-page header .desktop-nav a {
     color: #ffffff;
@@ -62,10 +61,6 @@ header {
 .about-page header .logo img, .contact-page header .logo img {
     filter: invert(1);
     
-}
-
-.portfolio-page header .logo img {
-    filter: invert(1) !important;
 }
 
 
