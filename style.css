@@ -355,15 +355,24 @@ header.is-hidden {
 /* ============================================================ */
 
 .page-title-section {
-    /* This creates the black space you wanted */
-    padding: 160px 40px 100px 40px; /* Top, Right, Bottom, Left */
-    text-align: center;
+    /* These lines constrain the width and center the block */
+    max-width: 1200px;
+    margin: 0 auto;
+
+    /* This creates the black space */
+    padding: 160px 40px 100px 40px;
+
+    /* This left-aligns the text inside the container */
+    text-align: left;
+    
+    /* Ensures padding is included in the width calculation */
+    box-sizing: border-box;
 }
 
 .page-title-section h1 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: clamp(2.5rem, 8vw, 5rem); /* Responsive font size */
+    font-family: 'Montserrat', sans-serif; /* CHANGE THIS LINE */
+    font-weight: 900;                     /* CHANGE THIS LINE */
+    font-size: clamp(2.5rem, 8vw, 5rem);
     color: #ffffff;
     text-transform: uppercase;
     line-height: 1.1;
