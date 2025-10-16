@@ -472,7 +472,7 @@ footer {
     cursor: pointer;
     line-height: 1;
 }
-.homepage .custom-cursor {
+.custom-cursor {
     position: fixed;
     top: 0;
     left: 0;
@@ -500,8 +500,8 @@ footer {
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
-.homepage.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
-.homepage.cursor-hover { cursor: none; }
+.cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
+.cursor-hover { cursor: none; }
 
 
 
