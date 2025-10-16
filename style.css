@@ -38,6 +38,11 @@ header {
 .homepage header .desktop-nav a {
     color: #ffffff;
 }
+/* ADD THIS NEW RULE */
+.body-no-scroll header .logo img {
+    /* This inverts your black logo to white */
+    filter: invert(1);
+}
 .nav-toggle { grid-column: 1 / 2; justify-self: start; font-size: 1em; font-weight: bold; color: #222; background: none; border: none; cursor: pointer; transition: color 0.3s ease; }
 .logo { grid-column: 2 / 3; text-align: center; }
 .logo a { text-decoration: none; }
