@@ -57,10 +57,21 @@ header {
     filter: invert(1) !important;
 }
 
-/* ADD THIS NEW RULE FOR THE HIDING HEADER */
+
 
 header.is-hidden {
-    transform: translateY(-100%); /* Moves the header up off the screen */
+    transform: translateY(-100%); 
+}
+
+
+
+.body-no-scroll .desktop-nav {
+    display: none;
+}
+
+
+.body-no-scroll .nav-toggle {
+    color: #ffffff !important;
 }
 
 
