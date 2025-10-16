@@ -36,12 +36,7 @@ header {
     transition: transform 0.3s ease-in-out;
 }
 /* --- Header text color for pages with white backgrounds --- */
-.about-page header .nav-toggle,
-.about-page header .desktop-nav a,
-.contact-page header .nav-toggle,
-.contact-page header .desktop-nav a {
-    color: #ffffff;
-}
+
 .homepage header .nav-toggle,
 .homepage header .logo a,
 .homepage header .desktop-nav a {
@@ -49,9 +44,10 @@ header {
 }
 .about-page header .nav-toggle,
 .about-page header .desktop-nav a,
+.about-page header .logo a,
 .contact-page header .nav-toggle,
 .contact-page header .desktop-nav a {
-    color: #222222;
+    color: #ffffff;
 }
 .nav-toggle { grid-column: 1 / 2; justify-self: start; font-size: 1em; font-weight: bold; color: #222; background: none; border: none; cursor: pointer; transition: color 0.3s ease; }
 .logo { grid-column: 2 / 3; text-align: center; }
