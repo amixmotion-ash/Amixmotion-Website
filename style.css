@@ -646,6 +646,10 @@ footer {
         gap: 20px;
     }
 }
+body.contact-page {
+    background-color: #ffffff;
+}
+
 /*
 ============================================================
 == FINAL, STABLE STYLES FOR ABOUT PAGE ==
