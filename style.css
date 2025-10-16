@@ -460,10 +460,10 @@ body.portfolio-page::before {
 .testimonials-scroller::-webkit-scrollbar { display: none; }
 .testimonials-track { display: flex; gap: 30px; width: max-content; padding: 20px 40px; opacity: 0; transform: translateX(200px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
 .testimonials-section.is-visible .testimonials-track { opacity: 1; transform: translateX(0); }
-.testimonial-card { flex-shrink: 0; width: 350px; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; border-radius: 8px; }
+.testimonial-card { flex-shrink: 0; width: 350px; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; border-radius: 0; }
 .testimonial-card-top { padding: 40px 40px 20px; }
 .testimonial-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; }
-.testimonial-quote { font-size: 1.1em; line-height: 1.6; margin: 0; }
+.testimonial-quote { font-size: 1.1em; line-height: 1.4; margin: 0; color: #535353; }
 .testimonial-card-bottom { background-color: #000000; color: #ffffff; margin-top: auto; padding: 20px 40px; }
 .testimonial-author { font-size: 0.9em; font-weight: 600; color: #ffffff; margin: 0; }
 .draggable { cursor: grab; user-select: none; }
