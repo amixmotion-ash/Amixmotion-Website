@@ -33,38 +33,28 @@ header {
     box-sizing: border-box;
     transition: transform 0.3s ease-in-out;
 }
- .nav-toggle,
-.logo a,
- .desktop-nav a {
+.homepage header .nav-toggle,
+.homepage header .logo a,
+.homepage header .desktop-nav a {
     color: #ffffff;
 }
-/* ADD THIS NEW RULE */
-.body-no-scroll header  {
-    /* This inverts your black logo to white */
-    filter: invert(1) !important;
-}
-.main-nav.nav-open  {
-    filter: invert(1) !important;
-}
-
 .nav-toggle { grid-column: 1 / 2; justify-self: start; font-size: 1em; font-weight: bold; color: #222; background: none; border: none; cursor: pointer; transition: color 0.3s ease; }
 .logo { grid-column: 2 / 3; text-align: center; }
 .logo a { text-decoration: none; }
-.logo img {
-    height: 50px;
-    width: auto;
-    display: block;
-    filter: invert(1); /* ADD THIS LINE */
-}
+.logo img { height: 50px; width: auto; display: block; }
 .desktop-nav { grid-column: 3 / 4; justify-self: end; }
 .desktop-nav ul { list-style: none; margin: 0; padding: 0; }
 .desktop-nav a { color: #222; text-decoration: none; font-weight: bold; transition: color 0.3s ease; }
 .homepage.body-no-scroll header .nav-toggle,
 .homepage.body-no-scroll header .desktop-nav a { color: #222222; }
-.homepage.body-no-scroll header  { filter: invert(1); }
-.contact-page header  {
+.homepage.body-no-scroll header .logo img { filter: invert(1); }
+.about-page header .logo img, .contact-page header .logo img {
     filter: invert(1);
     
+}
+
+.portfolio-page header .logo img {
+    filter: invert(1) !important;
 }
 
 /* ADD THIS NEW RULE FOR THE HIDING HEADER */
@@ -138,16 +128,6 @@ header.is-hidden {
     object-fit: cover;
     /* ADD THIS LINE: This aligns the top of the video with the top of the container */
     object-position: center top;
-}
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
 }
 
 /* --- SCROLLING CONTENT WRAPPER --- */
@@ -378,8 +358,8 @@ header.is-hidden {
     padding-top: 350px; 
 }
 /* ADD THIS NEW RULE */
- .nav-toggle,
- .desktop-nav a {
+.portfolio-page header .nav-toggle,
+.portfolio-page header .desktop-nav a {
     color: #ffffff; /* Make MENU and WORK text white */
 }
 
