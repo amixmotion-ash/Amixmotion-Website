@@ -41,7 +41,7 @@ header {
 /* ADD THIS NEW RULE */
 .body-no-scroll header .logo img {
     /* This inverts your black logo to white */
-    filter: invert(1);
+    filter: invert(1) !important;
 }
 .nav-toggle { grid-column: 1 / 2; justify-self: start; font-size: 1em; font-weight: bold; color: #222; background: none; border: none; cursor: pointer; transition: color 0.3s ease; }
 .logo { grid-column: 2 / 3; text-align: center; }
@@ -56,10 +56,6 @@ header {
 .about-page header .logo img, .contact-page header .logo img {
     filter: invert(1);
     
-}
-
-.portfolio-page header .logo img {
-    filter: invert(1) !important;
 }
 
 /* ADD THIS NEW RULE FOR THE HIDING HEADER */
@@ -133,6 +129,16 @@ header.is-hidden {
     object-fit: cover;
     /* ADD THIS LINE: This aligns the top of the video with the top of the container */
     object-position: center top;
+}
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 }
 
 /* --- SCROLLING CONTENT WRAPPER --- */
