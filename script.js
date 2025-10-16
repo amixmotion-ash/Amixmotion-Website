@@ -282,55 +282,55 @@ window.addEventListener('mousemove', (e) => {
     });
 }
 // ======================================================================
-// == PORTFOLIO PAGE AUTO-SCROLL ON INACTIVITY ==
+// == PORTFOLIO PAGE AUTO-SCROLL ON INACTIVITY (CORRECTED) ==
 // ======================================================================
 
-// --- This entire feature only runs on the portfolio page ---
 if (document.body.classList.contains('portfolio-page')) {
 
     // --- Configuration ---
-    const INACTIVITY_TIMEOUT_MS = 5000; // 5 seconds. Time to wait before auto-scroll starts.
-    const SCROLL_SPEED_PIXELS_PER_FRAME = 0.5; // Controls how fast the page scrolls. 0.5 is slow and smooth.
+    const INACTIVITY_TIMEOUT_MS = 5000; // 5 seconds of inactivity before scroll starts.
+    const SCROLL_SPEED = 0.5; // Controls scroll speed. Lower is slower.
 
     let inactivityTimer;
-    let scrollInterval;
+    let scrollAnimationId; // Use animation frames for smoother scrolling
 
     // --- This function PERFORMS the smooth scroll ---
     const startAutoScroll = () => {
-        // Stop if we are already at the very bottom of the page
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            return;
-        }
-
-        scrollInterval = setInterval(() => {
-            window.scrollBy(0, SCROLL_SPEED_PIXELS_PER_FRAME);
-            // If we scroll to the bottom, stop the interval
+        // This function is called repeatedly to create smooth motion
+        const scrollStep = () => {
+            // Stop if we've reached the bottom
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                 stopAutoScroll();
+                return;
             }
-        }, 16); // Runs at roughly 60 frames per second for smoothness
+            window.scrollBy(0, SCROLL_SPEED);
+            scrollAnimationId = requestAnimationFrame(scrollStep); // Request the next frame
+        };
+        scrollStep(); // Start the animation loop
     };
 
     // --- This function STOPS the smooth scroll ---
     const stopAutoScroll = () => {
-        clearInterval(scrollInterval);
+        if (scrollAnimationId) {
+            cancelAnimationFrame(scrollAnimationId);
+        }
     };
 
-    // --- This function RESETS the inactivity timer ---
-    const resetInactivityTimer = () => {
-        // When the user is active, we must stop any scrolling and clear any timers
-        stopAutoScroll();
-        clearTimeout(inactivityTimer);
-
-        // Then, we set a NEW timer. If it's not reset, it will trigger the auto-scroll.
+    // --- This function handles any user activity ---
+    const handleUserActivity = () => {
+        stopAutoScroll(); // Immediately stop scrolling
+        clearTimeout(inactivityTimer); // Cancel the pending inactivity timer
+        // Set a new timer to begin scrolling again after the timeout
         inactivityTimer = setTimeout(startAutoScroll, INACTIVITY_TIMEOUT_MS);
     };
 
-    // --- Listen for any user activity to reset the timer ---
-    ['mousemove', 'mousedown', 'scroll', 'keydown', 'touchstart'].forEach(event => {
-        window.addEventListener(event, resetInactivityTimer);
+    // --- Listen for explicit user activity to reset the timer ---
+    // REMOVED 'scroll' from this list to prevent the auto-scroll from stopping itself.
+    const userActivityEvents = ['mousemove', 'mousedown', 'keydown', 'touchstart'];
+    userActivityEvents.forEach(event => {
+        window.addEventListener(event, handleUserActivity);
     });
 
     // --- Start the initial timer when the page loads ---
-    resetInactivityTimer();
+    handleUserActivity();
 }
