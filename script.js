@@ -255,6 +255,6 @@ if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
     // THIS IS THE FIX: Initialize Rellax with the "center: true" option.
     // This forces all elements to align in the middle of the screen as you scroll.
     var rellax = new Rellax('.rellax', {
-        center: true
+        center: false
     });
 }
