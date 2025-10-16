@@ -289,7 +289,7 @@ if (document.body.classList.contains('portfolio-page')) {
 
     // --- Configuration ---
     const INACTIVITY_TIMEOUT_MS = 5000; // 5 seconds of inactivity before scroll starts.
-    const SCROLL_SPEED = 0.15; // Controls scroll speed. Lower is slower.
+    const SCROLL_SPEED = 0.2; // Controls scroll speed. Lower is slower.
 
     let inactivityTimer;
     let scrollAnimationId; // Use animation frames for smoother scrolling

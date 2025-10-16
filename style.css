@@ -35,6 +35,13 @@ header {
     box-sizing: border-box;
     transition: transform 0.3s ease-in-out;
 }
+/* --- Header text color for pages with white backgrounds --- */
+.about-page header .nav-toggle,
+.about-page header .desktop-nav a,
+.contact-page header .nav-toggle,
+.contact-page header .desktop-nav a {
+    color: #222222;
+}
 .homepage header .nav-toggle,
 .homepage header .logo a,
 .homepage header .desktop-nav a {
