@@ -156,7 +156,7 @@ header.is-hidden {
 
 /* --- MISSION SECTION --- */
 
-.mission-text .pre-title { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 18px; color: #888; margin: 0 0 15px 0; }
+.mission-text .pre-title { font-family: 'Inter', sans-serif; text-transform: uppercase; font-weight: 400; font-size: 18px; color: #888; margin: 0 0 15px 0; }
 .mission-statement { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.4; margin: 0; }
 
 /* --- MISSION SECTION (Corrected Full-Bleed Layout) --- */
@@ -463,7 +463,7 @@ body.portfolio-page::before {
 .testimonial-card { flex-shrink: 0; width: 350px; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; border-radius: 0; }
 .testimonial-card-top { padding: 40px 40px 20px; }
 .testimonial-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; }
-.testimonial-quote { font-size: 1.1em; line-height: 1.4; margin: 0; color: #535353; }
+.testimonial-quote { font-size: 1.1em; line-height: 1.4; margin: 0; color: #7d7d7d; }
 .testimonial-card-bottom { background-color: #000000; color: #ffffff; margin-top: auto; padding: 20px 40px; }
 .testimonial-author { font-size: 0.9em; font-weight: 600; color: #ffffff; margin: 0; }
 .draggable { cursor: grab; user-select: none; }
@@ -906,6 +906,7 @@ body.contact-page {
 
 .process-header-text .mission-statement {
     font-size: 2.5rem;
+    
     /* The text-align: center; property has been removed */
 }
 
