@@ -484,7 +484,7 @@ footer {
 .new-footer-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end; /* CHANGE THIS VALUE */
     gap: 40px;
 }
 
@@ -507,10 +507,7 @@ footer {
 }
 
 .cta-line-outline {
-    color: transparent;
-    -webkit-text-stroke: 1px #ffffff;
-    text-stroke: 1px #ffffff;
-    letter-spacing: 0.1em; /* Adds space between the letters */
+    color: #ffffff;
 }
 
 /* --- Right Side: Navigation --- */
