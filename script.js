@@ -261,7 +261,7 @@ if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
 
 // --- Custom Menu Cursor ---
 const menuCursor = document.querySelector('.menu-cursor');
-const navListItems = document.querySelectorAll('.main-nav li'); 
+const navLinks = document.querySelectorAll('.main-nav a');
 
 if (menuCursor && navLinks.length > 0) {
     // 1. Move the cursor
@@ -272,7 +272,7 @@ window.addEventListener('mousemove', (e) => {
 });
 
     // 2. Show/Hide the cursor on link hover
-   navListItems.forEach(item => {
+  navLinks.forEach(link => {
         link.addEventListener('mouseenter', () => {
             document.body.classList.add('menu-cursor-active');
         });
