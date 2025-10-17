@@ -482,8 +482,6 @@ footer {
 }
 
 .new-footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -494,7 +492,7 @@ footer {
 .footer-cta-new h2 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
-    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    font-size: clamp(4rem, 10vw, 8rem); /* INCREASED FONT SIZE */
     text-transform: uppercase;
     line-height: 1.0;
     margin: 0;
