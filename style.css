@@ -851,6 +851,7 @@ body.contact-page {
     position: relative;
     z-index: 2; /* Places it on a higher layer so it can scroll over */
     background-color: #ffffff; /* Gives it a solid background */
+     margin-top: -100vh;
 }
 
 
