@@ -834,15 +834,27 @@ body.contact-page {
 }
 
 /* ============================================================ */
-/* == ABOUT PAGE: Flush Trusted By section with Footer == */
+/* == ABOUT PAGE: Collapse Final Sections into Footer == */
 /* ============================================================ */
 
-/* This rule removes the bottom padding from the "Trusted By" section ONLY on the about page */
-.about-page .trusted-by-section {
+/* 1. Removes the bottom padding from the black Process section */
+.about-page .process-section {
     padding-bottom: 0;
 }
 
-/* This rule removes the top padding from the footer ONLY on the about page */
+/* 2. Removes ALL vertical padding from the light-grey Trusted By section */
+.about-page .trusted-by-section {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* 3. This moves the client logos down a bit so they aren't crammed at the top */
+.about-page .trusted-by-container {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+/* 4. Removes the top padding from the footer */
 .about-page footer {
     padding-top: 0;
 }
