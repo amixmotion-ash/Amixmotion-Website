@@ -833,6 +833,20 @@ body.contact-page {
     }
 }
 
+/* ============================================================ */
+/* == ABOUT PAGE: Flush Trusted By section with Footer == */
+/* ============================================================ */
+
+/* This rule removes the bottom padding from the "Trusted By" section ONLY on the about page */
+.about-page .trusted-by-section {
+    padding-bottom: 0;
+}
+
+/* This rule removes the top padding from the footer ONLY on the about page */
+.about-page footer {
+    padding-top: 0;
+}
+
 
 
 
