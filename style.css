@@ -1,8 +1,5 @@
 
 
-* {
-    border: 1px solid red;
-}
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap');
 html {
@@ -1315,4 +1312,35 @@ body.menu-cursor-active {
         align-items: flex-start;
         gap: 30px;
     }
+}
+/* ============================================================ */
+/* == MOBILE: STACK PORTFOLIO PANELS == */
+/* ============================================================ */
+
+@media (max-width: 768px) {
+
+    /* --- 1. Switch the main grid to a single column --- */
+    .portfolio-page .portfolio-grid-container-new {
+        grid-template-columns: 1fr;
+        gap: 40px; /* This now controls the vertical space between panels */
+    }
+
+    /* --- 2. This "dissolves" the column wrappers --- */
+    /* It tells the browser to treat the items inside the columns as direct
+       children of the main grid container. This is the key to the fix. */
+    .portfolio-page .portfolio-column {
+        display: contents;
+    }
+}
+/* ============================================================ */
+/* == MOBILE: STACK HOMEPAGE PORTFOLIO PANELS == */
+/* ============================================================ */
+
+@media (max-width: 768px) {
+
+    .homepage .portfolio-grid-container {
+        grid-template-columns: 1fr; /* Switch from 4 columns to 1 */
+        gap: 40px; /* This now controls the vertical space between panels */
+    }
+
 }
