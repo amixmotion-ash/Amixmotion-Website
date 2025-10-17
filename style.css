@@ -1344,3 +1344,13 @@ body.menu-cursor-active {
     }
 
 }
+/* ============================================================ */
+/* == MOBILE: HIDE CUSTOM 'PLAY' CURSOR == */
+/* ============================================================ */
+
+/* On screens 1024px and smaller (tablets and phones), hide the cursor completely */
+@media (max-width: 1024px) {
+    .custom-cursor {
+        display: none !important;
+    }
+}
