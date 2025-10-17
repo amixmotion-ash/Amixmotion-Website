@@ -852,7 +852,7 @@ body.contact-page {
 /* 3. This re-adds space inside the "Trusted By" container so the logos aren't crammed. */
 .about-page .trusted-by-container {
     padding-top: 80px;
-    padding-bottom: 80px;
+    padding-bottom: 0px;
 }
 .about-page footer {
     padding-top: 80px;
