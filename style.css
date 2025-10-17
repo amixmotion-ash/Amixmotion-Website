@@ -833,7 +833,25 @@ body.contact-page {
     }
 }
 
+/* ============================================================ */
+/* == ABOUT PAGE: STICKY PROFILE SCROLL-OVER EFFECT == */
+/* ============================================================ */
 
+/* --- 1. This makes the profile section "sticky" --- */
+.about-page .profile-grid-section {
+    position: -webkit-sticky; /* For Safari compatibility */
+    position: sticky;
+    top: 0;
+    z-index: 1; /* Places it on a lower layer */
+    height: 100vh; /* Ensures it fills the screen height while sticky */
+}
+
+/* --- 2. This styles the content that scrolls over the top --- */
+.scroll-over-content-wrapper {
+    position: relative;
+    z-index: 2; /* Places it on a higher layer so it can scroll over */
+    background-color: #ffffff; /* Gives it a solid background */
+}
 
 
 /* --- Services Section Styles --- */
