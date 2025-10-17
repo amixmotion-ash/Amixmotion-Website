@@ -833,30 +833,6 @@ body.contact-page {
     }
 }
 
-/* ============================================================ */
-/* == ABOUT PAGE: Flush Trusted By Section with Footer (Final) == */
-/* ============================================================ */
-
-/* 1. This removes ALL vertical padding from the "Trusted By" section. */
-/* This makes its grey background disappear into the sections above and below it. */
-.about-page .trusted-by-section {
-    background-color: #ffffff;
-}
-
-/* 2. This increases the bottom padding of the black "Process" section. */
-/* This creates the large black space above the footer that you want. */
-.about-page .process-section {
-    padding-bottom: 80px; /* This value should match the top padding of your footer */
-}
-
-/* 3. This re-adds space inside the "Trusted By" container so the logos aren't crammed. */
-.about-page .trusted-by-container {
-    padding-top: 80px;
-    padding-bottom: 80px;
-}
-.about-page footer {
-    padding-top: 80px;
-}
 
 
 
