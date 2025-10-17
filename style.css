@@ -560,11 +560,16 @@ footer {
 }
 
 /* --- Responsive styles for the new footer --- */
-@media (max-width: 600px) {
+@media (max-width: 900px) {
     .new-footer-container {
         flex-direction: column;
         align-items: flex-start;
         gap: 80px;
+    }
+      .footer-nav-new {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px;
     }
 
     .footer-cta-new h2 {
