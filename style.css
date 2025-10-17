@@ -840,8 +840,7 @@ body.contact-page {
 /* 1. This removes ALL vertical padding from the "Trusted By" section. */
 /* This makes its grey background disappear into the sections above and below it. */
 .about-page .trusted-by-section {
-    padding-top: 0;
-    padding-bottom: 0;
+    background-color: #000000;
 }
 
 /* 2. This increases the bottom padding of the black "Process" section. */
@@ -855,7 +854,9 @@ body.contact-page {
     padding-top: 80px;
     padding-bottom: 80px;
 }
-
+.about-page footer {
+    padding-top: 0;
+}
 
 
 
