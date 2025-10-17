@@ -846,7 +846,7 @@ body.contact-page {
 /* 2. This increases the bottom padding of the black "Process" section. */
 /* This creates the large black space above the footer that you want. */
 .about-page .process-section {
-    padding-bottom: 120px; /* This value should match the top padding of your footer */
+    padding-bottom: 80px; /* This value should match the top padding of your footer */
 }
 
 /* 3. This re-adds space inside the "Trusted By" container so the logos aren't crammed. */
