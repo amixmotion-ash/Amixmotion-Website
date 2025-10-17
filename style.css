@@ -834,48 +834,25 @@ body.contact-page {
 }
 
 /* ============================================================ */
-/* == ABOUT PAGE: PROFILE SCROLL-OVER (STABLE VERSION) == */
+/* == ABOUT PAGE: STICKY PROFILE (FINAL, STABLE) == */
 /* ============================================================ */
 
-/* --- 1. This turns the profile into a fixed background element --- */
+/* 1. Makes the profile section sticky */
 .about-page .profile-grid-section {
-    position: fixed;
+    position: -webkit-sticky;
+    position: sticky;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: 0; /* Places it at the very back */
 }
 
-/* --- 2. This makes the section AFTER it start at the correct place --- */
-/* It pushes the Services section down by one screen height */
-.about-page .services-section {
-    margin-top: 100vh;
-}
-
-/* --- 3. This ensures all subsequent sections have a solid background --- */
-/* This is CRUCIAL for the scroll-over effect to work */
+/* 2. This is the KEY FIX. It ensures all subsequent sections have a solid background
+      and are on a higher visual layer than the sticky profile. */
 .about-page .services-section,
 .about-page .editing-showcase-section,
 .about-page .process-section,
 .about-page .trusted-by-section,
 .about-page .testimonials-section {
-    position: relative; /* Required for z-index to work */
-    z-index: 1;       /* Places them on a layer above the fixed profile */
-    background-color: #ffffff; /* Gives them an opaque background */
-}
-
-/* We must re-declare the original background colors for the specific sections */
-.about-page .process-section {
-    background-color: #000000;
-}
-.about-page .trusted-by-section,
-.about-page .editing-showcase-section,
-.about-page .services-section {
-    background-color: #f2f2f2;
-}
-.about-page .testimonials-section {
-    background-color: #E9E9E9;
+    position: relative; /* This is required for z-index */
+    z-index: 1;       /* This places them "on top" of the default layer */
 }
 
 
