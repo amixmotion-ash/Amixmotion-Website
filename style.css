@@ -687,7 +687,7 @@ body.contact-page {
 
 .about-page-title-section h1 {
    font-family: 'Montserrat', sans-serif; /* ADD THIS LINE */
-    font-weight: 900;                     /* CHANGE THIS VALUE */ 
+    font-weight: 700;                     /* CHANGE THIS VALUE */ 
     font-size: clamp(3rem, 12vw, 8rem);
     text-transform: uppercase;
     letter-spacing: -0.02em;
