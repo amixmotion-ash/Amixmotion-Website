@@ -1283,3 +1283,31 @@ body.menu-cursor-active .menu-cursor {
 body.menu-cursor-active {
     cursor: none;
 }
+
+/* ============================================================ */
+/* == MOBILE: DEFINITIVE HOMEPAGE OVERFLOW FIXES == */
+/* ============================================================ */
+
+@media (max-width: 768px) {
+
+    /* --- 1. Header Fix --- */
+    /* This forces the header to be exactly the width of the screen and no wider. */
+    .homepage header {
+        width: 100vw;
+    }
+
+    /* --- 2. Testimonials Fix --- */
+    /* This removes the negative margins that are likely causing the overflow. */
+    .homepage .testimonials-section {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* --- 3. Footer Fix --- */
+    /* This forces the right side of the footer to stack vertically, giving the button room. */
+    .homepage .footer-nav-new {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px;
+    }
+}
