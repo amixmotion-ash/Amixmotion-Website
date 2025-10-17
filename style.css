@@ -1010,7 +1010,7 @@ body.contact-page {
 .process-section {
     background-color: #000000;
     color: #ffffff;
-    padding: 0px 40px; /* Add the padding back for content spacing */
+    padding: 120px 40px; /* Add the padding back for content spacing */
     
     /* --- THIS IS THE FIX --- */
     /* Use negative margins to pull the background out to the screen edges */
