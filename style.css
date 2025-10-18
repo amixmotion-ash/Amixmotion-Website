@@ -905,27 +905,7 @@ body.contact-page {
     }
 }
 
-/* ============================================================ */
-/* == ABOUT PAGE: STICKY PROFILE (FINAL, STABLE) == */
-/* ============================================================ */
 
-/* 1. Makes the profile section sticky */
-.about-page .profile-grid-section {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-}
-
-/* 2. This is the KEY FIX. It ensures all subsequent sections have a solid background
-      and are on a higher visual layer than the sticky profile. */
-.about-page .services-section,
-.about-page .editing-showcase-section,
-.about-page .process-section,
-.about-page .trusted-by-section,
-.about-page .testimonials-section {
-    position: relative; /* This is required for z-index */
-    z-index: 1;       /* This places them "on top" of the default layer */
-}
 
 
 /* --- Services Section Styles --- */
@@ -1585,4 +1565,36 @@ body.menu-cursor-active {
     color: #ffffff !important; /* Makes the text white for contrast */
 }
 
+/* ================================================================= */
+/* == ABOUT PAGE: DEFINITIVE MOBILE-ONLY STICKY SCROLL-OVER == */
+/* ================================================================= */
 
+/* These rules ONLY apply on screens 900px or smaller */
+@media (max-width: 900px) {
+
+    /* --- Step 1: The Safety Net --- */
+    /* This prevents any horizontal scrolling on the about page for good. */
+    body.about-page {
+        overflow-x: hidden;
+    }
+
+    /* --- Step 2: The Sticky Profile Section --- */
+    /* We make it sticky but DO NOT set a height. This is the fix for the hidden images. */
+    .about-page .profile-grid-section {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1; /* It sits on a lower layer */
+    }
+
+    /* --- Step 3: The Scrolling Content Container --- */
+    /* This is the key to fixing the flickering and layering. */
+    .about-scroll-container {
+        position: relative; /* This is required for z-index */
+        z-index: 2;       /* This places it "on top" of the sticky profile */
+        
+        /* THE MOST IMPORTANT FIX: This solid background prevents any flickering
+           and makes the content appear to scroll "over" the profile. */
+        background-color: #f2f2f2; /* We start with the first section's color */
+    }
+}
