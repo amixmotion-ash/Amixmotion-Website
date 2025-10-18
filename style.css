@@ -92,8 +92,7 @@ body.js-page-loaded header .desktop-nav a {
     color: #ffffff; /* White Text */
 }
 
-.homepage header .logo img,
-.portfolio-page header .logo img {
+.homepage header .logo img {
     filter: invert(1); /* White Logo */
 }
 
