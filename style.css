@@ -675,6 +675,20 @@ footer {
 .cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
 .cursor-hover { cursor: none; }
 
+/* ============================================================ */
+/* == AUTOHIDE VIDEO CONTROLS == */
+/* ============================================================ */
+
+/* --- 1. This makes the fade animation smooth --- */
+/* This targets the control bar in Chrome, Safari, and Edge */
+.lightbox-video::-webkit-media-controls {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* --- 2. This is the helper class that will hide the controls --- */
+.lightbox-video.controls-hidden::-webkit-media-controls {
+    opacity: 0;
+}
 
 
 /* --- CONTACT PAGE STYLES (STABLE VERSION) --- */

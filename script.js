@@ -43,7 +43,7 @@ if (testimonialsSection) {
     observer.observe(testimonialsSection);
 }
 
-// --- Video Lightbox Functionality (Final, with Loader and Bug Fixes) ---
+// --- Video Lightbox Functionality (UPGRADED with Autohide Controls) ---
 const lightbox = document.querySelector('.video-lightbox');
 
 if (lightbox) {
@@ -52,25 +52,49 @@ if (lightbox) {
     const lightboxVideo = lightbox.querySelector('.lightbox-video');
     const closeButton = lightbox.querySelector('.lightbox-close');
     const customLoader = lightbox.querySelector('.custom-loader');
-    const lightboxOverlay = lightbox.querySelector('.lightbox-overlay'); // For closing
+    const lightboxOverlay = lightbox.querySelector('.lightbox-overlay');
     const portfolioItems = document.querySelectorAll('.grid-item');
+
+    // NEW: A timer to track user inactivity
+    let controlsTimer;
+
+    // NEW: Function to hide the controls
+    function hideControls() {
+        lightboxVideo.classList.add('controls-hidden');
+    }
+
+    // NEW: Function to show the controls
+    function showControls() {
+        clearTimeout(controlsTimer); // Stop any pending hide action
+        lightboxVideo.classList.remove('controls-hidden');
+    }
+
+    // NEW: Function to show controls, then start a timer to hide them
+    function resetControlsTimer() {
+        showControls();
+        // Set a timer to hide the controls after 2.5 seconds of no activity
+        controlsTimer = setTimeout(hideControls, 2500);
+    }
 
     // --- This function handles OPENING the lightbox ---
     function openLightbox(videoSrc, aspectRatio) {
         if (videoSrc) {
-            // Apply the correct aspect ratio class FIRST
             if (aspectRatio === '9:16') {
                 lightboxContent.classList.add('is-vertical');
             } else {
                 lightboxContent.classList.remove('is-vertical');
             }
 
-            // Show our custom loader and hide the video player's container
             if(customLoader) customLoader.classList.add('is-loading');
             lightbox.classList.add('is-loading');
             
             lightboxVideo.src = videoSrc;
             lightbox.classList.add('is-visible');
+            
+            // NEW: When a video starts, begin the process of hiding controls
+            lightboxVideo.play().then(() => {
+                resetControlsTimer();
+            });
         }
     }
 
@@ -80,31 +104,35 @@ if (lightbox) {
         lightboxVideo.pause();
         lightboxVideo.src = '';
         
-        // Clean up our classes on close
         if(customLoader) customLoader.classList.remove('is-loading');
         lightbox.classList.remove('is-loading');
+        
+        // NEW: Clean up controls when closing
+        showControls();
+        clearTimeout(controlsTimer);
 
-        // THIS IS THE FIX for the flashing bug.
-        // We delay removing the class slightly to allow the fade-out animation to finish.
         setTimeout(() => {
             lightboxContent.classList.remove('is-vertical');
-        }, 300); // 300ms matches your CSS transition duration
+        }, 300);
     }
     
     // --- Event Listeners for the video itself ---
     if (customLoader) {
-        // When the video starts buffering/loading, show the loader
         lightboxVideo.addEventListener('waiting', () => {
             customLoader.classList.add('is-loading');
             lightbox.classList.add('is-loading');
         });
-
-        // When the video has loaded enough to play, hide the loader
         lightboxVideo.addEventListener('canplay', () => {
             customLoader.classList.remove('is-loading');
             lightbox.classList.remove('is-loading');
         });
     }
+
+    // NEW: Event listeners for showing/hiding controls
+    lightboxContent.addEventListener('mousemove', resetControlsTimer); // Show on mouse move
+    lightboxContent.addEventListener('touchstart', resetControlsTimer); // Show on tap
+    lightboxVideo.addEventListener('play', resetControlsTimer);       // Reset timer on play
+    lightboxVideo.addEventListener('pause', showControls);            // Always show on pause
 
     // --- Click events to open and close the lightbox ---
     portfolioItems.forEach(item => {
@@ -112,17 +140,19 @@ if (lightbox) {
             event.preventDefault();
             const videoSrc = item.dataset.videoSrc;
             const aspectRatio = item.dataset.aspectRatio;
-            
             openLightbox(videoSrc, aspectRatio);
         });
     });
 
     closeButton.addEventListener('click', closeLightbox);
-    // Add the event listener for the overlay
     if (lightboxOverlay) {
         lightboxOverlay.addEventListener('click', closeLightbox);
     }
 }
+
+
+
+
 // --- Rellax Parallax Functionality ---
 if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
     var rellax = new Rellax('.rellax', {
