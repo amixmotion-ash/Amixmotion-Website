@@ -251,6 +251,9 @@ header.is-hidden {
     .mission-grid {
         grid-template-columns: 1fr; /* Stack vertically */
     }
+       .mission-image img {
+        object-position: -50px 50%; /* Shifts the image 50px to the left */
+    }
 
     .mission-image {
         height: 500px; /* Give a specific height on mobile */
