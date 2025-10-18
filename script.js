@@ -118,6 +118,9 @@ if (lightbox) {
     });
 
     // On desktop, when the mouse enters the video area, show the controls.
+        lightboxVideo.addEventListener('playing', () => {
+        lightboxVideo.classList.add('controls-hidden');
+    });
     lightboxContent.addEventListener('mouseenter', () => {
         lightboxVideo.classList.remove('controls-hidden');
     });
