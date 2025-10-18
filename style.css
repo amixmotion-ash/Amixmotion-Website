@@ -1337,11 +1337,22 @@ body.menu-cursor-active {
     /* This is the only rule you need. It makes the header and the scroller
        full-width, removing the need to adjust padding. */
     .homepage .testimonials-header,
+        /* ADD THIS RULE: This adds a 20px space to the left of the header text. */
+    .homepage .testimonials-header {
+        padding-left: 20px;
+        box-sizing: border-box; /* Ensures padding is included in the width */
+    }
+
+    /* ADD THIS RULE: This adds a 20px space to the left of the first card. */
+    .homepage .testimonials-track {
+        padding-left: 20px;
+    }
+}
     .homepage .testimonials-scroller {
         max-width: 100%; /* This overrides any desktop max-width */
     }
 
-}
+
 /* ============================================================ */
 /* == MOBILE: STACK PORTFOLIO PANELS == */
 /* ============================================================ */
