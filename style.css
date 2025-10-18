@@ -1351,6 +1351,9 @@ body.menu-cursor-active {
     .homepage .testimonials-scroller {
         max-width: 100%; /* This overrides any desktop max-width */
     }
+        .homepage .testimonials-section {
+        padding-top: 60px; /* Reduced from the desktop value (e.g., 120px) */
+    }
 
 
 /* ============================================================ */
