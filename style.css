@@ -63,18 +63,32 @@ header .nav-toggle,
 header .desktop-nav a {
     font-size: 1em;
     font-weight: bold;
-    color: #222222; /* Black Text */
     text-decoration: none;
     background: none;
     border: none;
     cursor: pointer;
-    -webkit-tap-highlight-color: transparent; /* Removes iOS tap highlight */
-    opacity: 0; /* Hidden by default to prevent flash */
+    -webkit-tap-highlight-color: transparent; 
     transition: color 0.3s ease, opacity 0.25s ease-in-out;
 }
+/* Header/navigation link color -- white for home, portfolio, about */
+.homepage header .nav-toggle,
+.homepage header .desktop-nav a,
+.portfolio-page header .nav-toggle,
+.portfolio-page header .desktop-nav a,
+.about-page header .nav-toggle,
+.about-page header .desktop-nav a {
+    color: #ffffff;
+}
 
-header .logo img {
-    filter: invert(1); /* White Logo BY DEFAULT */
+/* Header/navigation link color -- black for contact */
+.contact-page header .nav-toggle,
+.contact-page header .desktop-nav a {
+    color: #222222;
+}
+
+/* Logo: NO filter needed at all! */
+.logo img {
+    /* No filter! Your white PNG always displays white */
 }
 
 
@@ -85,23 +99,10 @@ body.js-page-loaded header .desktop-nav a {
     opacity: 1;
 }
 
-/* --- 4. Override for Contact Page --- */
-/* This is the only page that needs a different color logo. */
-.contact-page header .logo img {
-    filter: invert(0); /* Black Logo */
-}
-
-.homepage header .logo img {
-    filter: invert(1); /* White Logo */
-}
 
 /* --- 5. UNIVERSAL Rules for When the Menu is OPEN --- */
 body.body-no-scroll header .nav-toggle {
     color: #ffffff !important; /* "CLOSE" text must be white */
-}
-
-body.body-no-scroll header .logo img {
-    filter: invert(1) !important; /* Logo must be white */
 }
 
 body.body-no-scroll .desktop-nav {
