@@ -890,16 +890,42 @@ body.contact-page {
     gap: 0;
 }
 
-/* --- Responsive styles for profile grid --- */
+/* ================================================================= */
+/* == ABOUT PAGE: MOBILE-ONLY PROFILE IMAGE STACKING == */
+/* ================================================================= */
+
 @media (max-width: 900px) {
+
+    /* --- 1. Change the main section to a Flexbox layout on mobile --- */
     .profile-grid-section {
-        grid-template-columns: 1fr;
-        /* ADD THIS: Remove vertical padding for a full-bleed mobile look */
+        display: flex;
+        flex-direction: column; /* This stacks the columns vertically */
         padding: 0;
     }
-    .profile-grid-right-column {
-        gap: 40px; /* Re-introduce a gap for mobile stacking */
+
+    /* --- 2. Keep the big image at the top --- */
+    .profile-grid-main-image {
+        order: 1; /* This is the first item */
     }
+
+    /* --- 3. This is the container for the text and small images --- */
+    .profile-grid-right-column {
+        order: 2; /* This is the second item */
+        display: flex;
+        flex-direction: column; /* This creates a new stacking context inside */
+    }
+
+    /* --- 4. This is the KEY FIX: We re-order the items INSIDE the right column --- */
+    .profile-grid-text {
+        order: 2; /* The bio text now comes SECOND */
+    }
+
+    .profile-grid-secondary-images {
+        order: 1; /* The two small images now come FIRST */
+        margin-bottom: 40px; /* Adds a space between the small images and the bio text below them */
+    }
+
+    /* --- 5. Other mobile styles --- */
     .profile-grid-text .bio {
         font-size: 1.2rem;
     }
@@ -1706,7 +1732,7 @@ body.menu-cursor-active {
     /* This rule targets the 'Great Film...' title section and reduces its height and padding */
     .about-page .about-page-title-section {
         min-height: 50vh; /* Reduces the overall height of the section */
-        padding-top: 100px; /* Reduces the space above the text */
+        padding-top: 60px; /* Reduces the space above the text */
         padding-bottom: 60px; /* Reduces the space below the text */
     }
 }
