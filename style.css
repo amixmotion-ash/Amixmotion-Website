@@ -1585,4 +1585,20 @@ body.menu-cursor-active {
     color: #ffffff !important; /* Makes the text white for contrast */
 }
 
+/* ================================================================= */
+/* == ABOUT PAGE: MOBILE-ONLY "TRUSTED BY" SECTION FIX == */
+/* ================================================================= */
+
+/* This rule ONLY applies on screens 900px or smaller */
+@media (max-width: 900px) {
+
+    /* This rule targets the "Trusted By" section and ensures it fits
+       perfectly within the screen without causing a scrollbar. */
+    .about-page .trusted-by-section {
+        width: 100%;
+        box-sizing: border-box; /* This is crucial */
+    }
+
+}
+
 
