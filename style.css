@@ -1343,7 +1343,7 @@ body.menu-cursor-active {
     /* --- 1. Switch the main grid to a single column --- */
     .portfolio-page .portfolio-grid-container-new {
         grid-template-columns: 1fr;
-        gap: 40px; /* This now controls the vertical space between panels */
+        gap: 20px; /* This now controls the vertical space between panels */
     }
 
     /* --- 2. This "dissolves" the column wrappers --- */
@@ -1361,7 +1361,7 @@ body.menu-cursor-active {
 
     .homepage .portfolio-grid-container {
         grid-template-columns: 1fr; /* Switch from 4 columns to 1 */
-        gap: 40px; /* This now controls the vertical space between panels */
+        gap: 20px; /* This now controls the vertical space between panels */
     }
 
 }
@@ -1441,4 +1441,25 @@ body.menu-cursor-active {
     .homepage .client-scroller {
         padding-top: 60px; /* Reduced from 100px */
     }
+}
+/* ============================================================ */
+/* == MOBILE: FULL-BLEED PORTFOLIO PANELS == */
+/* ============================================================ */
+
+@media (max-width: 768px) {
+
+    /* --- 1. This makes the HOMEPAGE grid full-bleed --- */
+    /* It removes the left and right padding from the parent section. */
+    .homepage .portfolio-grid-section {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /* --- 2. This makes the PORTFOLIO PAGE grid full-bleed --- */
+    /* It also removes the left and right padding from its parent section. */
+    .portfolio-page .portfolio-grid-section {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
 }
