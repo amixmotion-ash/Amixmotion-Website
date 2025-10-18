@@ -1422,4 +1422,17 @@ body.menu-cursor-active {
         padding-top: 80px; /* Drastically reduce the top padding from the desktop value */
     }
 
+} 
+
+/* ============================================================ */
+/* == MOBILE: REDUCE SPACE AROUND CLIENT SCROLLER == */
+/* ============================================================ */
+
+@media (max-width: 768px) {
+
+    .client-scroller {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
 }
