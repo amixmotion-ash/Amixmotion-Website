@@ -1696,6 +1696,20 @@ body.menu-cursor-active {
   }
 }
 
+/* ================================================================= */
+/* == ABOUT PAGE: MOBILE-ONLY HEADER TITLE PADDING == */
+/* ================================================================= */
+
+/* This rule ONLY applies on screens 900px or smaller */
+@media (max-width: 900px) {
+
+    /* This rule targets the 'Great Film...' title section and reduces its height and padding */
+    .about-page .about-page-title-section {
+        min-height: 50vh; /* Reduces the overall height of the section */
+        padding-top: 100px; /* Reduces the space above the text */
+        padding-bottom: 60px; /* Reduces the space below the text */
+    }
+}
 
 
 
