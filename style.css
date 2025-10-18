@@ -1354,8 +1354,11 @@ body.menu-cursor-active {
         max-width: 100%; /* This overrides any desktop max-width */
     }
         .homepage .testimonials-section {
-        padding-top: 60px; /* Reduced from the desktop value (e.g., 120px) */
-    }
+        padding-top: 60px;
+            padding-left: 0;   /* ADD THIS LINE */
+    padding-right: 0;  /* ADD THIS LINE */
+} /* Reduced from the desktop value (e.g., 120px) */
+    
 
 
 /* ============================================================ */
