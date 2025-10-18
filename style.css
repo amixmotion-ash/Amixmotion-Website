@@ -19,23 +19,6 @@ body {
 .body-no-scroll {
     overflow: hidden;
 }
-/* ============================================================ */
-/* == DEFINITIVE FIX for Mobile Header Link Flash == */
-/* ============================================================ */
-
-/* --- Step 1: Forcefully remove the tap highlight on header links --- */
-.nav-toggle,
-.desktop-nav a {
-    -webkit-tap-highlight-color: transparent !important;
-}
-
-/* --- Step 2: Override the browser's default "active" state styles --- */
-/* This prevents any color change when a link is actively being tapped. */
-.nav-toggle:active,
-.desktop-nav a:active {
-    background-color: transparent !important; /* Prevents any background flash */
-    color: inherit !important; /* Prevents the text color from changing */
-}
 
 /* --- REUSABLE CONTAINER --- */
 .container {
@@ -45,7 +28,11 @@ body {
     box-sizing: border-box;
 }
 
-/* --- HEADER STYLES --- */
+/* ================================================================= */
+/* == DEFINITIVE & CONSOLIDATED HEADER STYLES (FINAL) == */
+/* ================================================================= */
+
+/* --- 1. Main Structural Styles --- */
 header {
     width: 100%;
     padding: 25px 40px;
@@ -56,56 +43,91 @@ header {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    box-sizing: border-box;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, opacity 0.25s ease-in-out;
 }
 
+header.is-hidden {
+    transform: translateY(-100%);
+}
 
+.logo { grid-column: 2 / 3; text-align: center; }
+.logo a { text-decoration: none; }
+.logo img { height: 50px; transition: filter 0.3s ease; }
 
+.nav-toggle { grid-column: 1 / 2; justify-self: start; }
+.desktop-nav { grid-column: 3 / 4; justify-self: end; }
+.desktop-nav ul { list-style: none; margin: 0; padding: 0; }
 
-/* ================================================================= */
-/* == DEFINITIVE & CONSOLIDATED HEADER STYLES == */
-/* ================================================================= */
-
-/* --- 1. Base Styles (for pages with a WHITE background like About/Contact) --- */
+/* --- 2. Base Appearance (for pages with a WHITE background) --- */
 header .nav-toggle,
 header .desktop-nav a {
-    color: #222222; /* Text is BLACK by default */
+    font-size: 1em;
     font-weight: bold;
+    color: #222222; /* Black Text */
     text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent; /* Removes iOS tap highlight */
+    opacity: 0; /* Hidden by default to prevent flash */
+    transition: color 0.3s ease, opacity 0.25s ease-in-out;
 }
 
 header .logo img {
-    filter: invert(0); /* Logo is BLACK by default */
-    transition: filter 0.3s ease;
+    filter: invert(0); /* Black Logo */
 }
 
-/* --- 2. Overrides for Pages with a DARK background (Homepage/Portfolio) --- */
+/* --- 3. Make Links Visible After Page Load --- */
+/* This is controlled by a tiny script at the bottom of your HTML files */
+body.js-page-loaded header .nav-toggle,
+body.js-page-loaded header .desktop-nav a {
+    opacity: 1;
+}
+
+/* --- 4. Overrides for Pages with a DARK background --- */
 .homepage header .nav-toggle,
 .homepage header .desktop-nav a,
 .portfolio-page header .nav-toggle,
 .portfolio-page header .desktop-nav a {
-    color: #ffffff; /* Text becomes WHITE */
+    color: #ffffff; /* White Text */
 }
 
 .homepage header .logo img,
 .portfolio-page header .logo img {
-    filter: invert(1); /* Logo becomes WHITE */
+    filter: invert(1); /* White Logo */
 }
 
-/* --- 3. UNIVERSAL RULES for when the menu is open --- */
-/* This is the final word and overrides everything else. */
+/* --- 5. UNIVERSAL Rules for When the Menu is OPEN --- */
 body.body-no-scroll header .nav-toggle {
-    color: #ffffff !important; /* "CLOSE" text MUST be WHITE */
+    color: #ffffff !important; /* "CLOSE" text must be white */
 }
 
 body.body-no-scroll header .logo img {
-    filter: invert(1) !important; /* Logo MUST be WHITE */
+    filter: invert(1) !important; /* Logo must be white */
 }
 
 body.body-no-scroll .desktop-nav {
-    display: none; /* "WORK +" button is hidden */
+    display: none; /* Hide "WORK +" button */
 }
+
+/* --- 6. Mobile-Specific Adjustments --- */
+@media (max-width: 768px) {
+    header .logo img {
+        height: 40px; /* Smaller logo on mobile */
+    }
+
+    header .nav-toggle,
+    header .desktop-nav a {
+        font-weight: 600; /* Consistent font weight on mobile */
+    }
+}
+
+
+
+
+
+
+
 
 /* --- FULL-SCREEN OVERLAY MENU (NEW SLIDE-IN STYLE) --- */
 
@@ -443,10 +465,6 @@ body.body-no-scroll .desktop-nav {
 @media (max-width: 1024px) { .grid-item-caption { font-size: 0.8em; } }
 @media (max-width: 600px) { .portfolio-grid-section { padding: 60px 20px; } .portfolio-grid-container { grid-template-columns: 1fr; gap: 40px; } .grid-item.rellax { transform: translate(0) !important; } }
 
-.portfolio-page header .nav-toggle,
-.portfolio-page header .desktop-nav a {
-    color: #ffffff; /* Make MENU and WORK text white */
-}
 
 
 .portfolio-grid-section {
@@ -1493,45 +1511,4 @@ body.menu-cursor-active {
         padding-right: 0;
     }
 
-}
-
-/* ============================================================ */
-/* == MOBILE: UNIFY HEADER BUTTON FONT WEIGHT == */
-/* ============================================================ */
-
-@media (max-width: 768px) {
-
-    /* This rule targets both header links and forces them to have the exact same font weight on mobile. */
-    .nav-toggle,
-    .desktop-nav a {
-        font-weight: 600 !important; /* A strong, consistent weight */
-    }
-
-}
-
-/* ============================================================ */
-/* == DEFINITIVE FIX for Header Link Flash on Page Load == */
-/* ============================================================ */
-
-/* --- Step 1: By default, make the header links invisible --- */
-header .nav-toggle,
-header .desktop-nav a {
-    opacity: 0;
-    transition: opacity 0.25s ease-in-out;
-}
-
-/* --- Step 2: When the page is loaded, make them visible --- */
-/* A small script will add the 'js-page-loaded' class to the body */
-body.js-page-loaded header .nav-toggle,
-body.js-page-loaded header .desktop-nav a {
-    opacity: 1;
-}
-/* ============================================================ */
-/* == MOBILE: REDUCE HEADER LOGO SIZE == */
-/* ============================================================ */
-
-@media (max-width: 768px) {
-    .logo img {
-        height: 40px; /* Reduced from the desktop size (e.g., 50px) */
-    }
 }
