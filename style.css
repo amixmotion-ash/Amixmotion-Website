@@ -1424,15 +1424,19 @@ body.menu-cursor-active {
 
 } 
 
-/* ============================================================ */
-/* == MOBILE: REDUCE SPACE AROUND CLIENT SCROLLER == */
-/* ============================================================ */
+/* ================================================================= */
+/* == MOBILE: DEFINITIVE FIX FOR SPACE BENEATH 'MORE WORK' BUTTON == */
+/* ================================================================= */
 
 @media (max-width: 768px) {
 
-    .client-scroller {
-        padding-top: 30px;
-        padding-bottom: 50px;
+    /* 1. This removes any bottom padding from the button's container. */
+    .homepage .portfolio-cta-container {
+        padding-bottom: 0;
     }
 
+    /* 2. This reduces the top padding of the client scroller below it. */
+    .homepage .client-scroller {
+        padding-top: 60px; /* Reduced from 100px */
+    }
 }
