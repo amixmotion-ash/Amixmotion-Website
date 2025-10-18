@@ -63,6 +63,8 @@ if (lightbox) {
         if (videoSrc) {
             // Apply aspect ratio class
             if (aspectRatio === '9:16') {
+
+                lightboxVideo.classList.add('controls-hidden');
                 lightboxContent.classList.add('is-vertical');
             } else {
                 lightboxContent.classList.remove('is-vertical');
