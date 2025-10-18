@@ -1425,18 +1425,21 @@ body.menu-cursor-active {
 } 
 
 /* ================================================================= */
-/* == MOBILE: DEFINITIVE FIX FOR SPACE BENEATH 'MORE WORK' BUTTON == */
+/* == MOBILE: FINAL FIX FOR 'MORE WORK' BUTTON SPACING == */
 /* ================================================================= */
 
 @media (max-width: 768px) {
 
-    /* 1. This removes any bottom padding from the button's container. */
+    /* This rule finds the button container and removes ALL space below it. */
     .homepage .portfolio-cta-container {
-        padding-bottom: 0;
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
     }
 
-    /* 2. This reduces the top padding of the client scroller below it. */
+    /* This rule finds the client scroller and removes ALL space above it,
+       then adds back a small, controlled amount of space. */
     .homepage .client-scroller {
-        padding-top: 60px; /* Reduced from 100px */
+        margin-top: 0 !important;
+        padding-top: 50px !important; /* This is now the ONLY space */
     }
 }
