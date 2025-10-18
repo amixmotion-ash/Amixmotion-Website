@@ -1331,40 +1331,32 @@ body.menu-cursor-active {
 }
 
 /* ================================================================= */
-/* == MOBILE: DEFINITIVE & CONSOLIDATED TESTIMONIALS LAYOUT == */
+/* == MOBILE: FINAL TESTIMONIALS MASKING & OVERFLOW FIX == */
 /* ================================================================= */
 
 @media (max-width: 768px) {
 
-    /* --- 1. Main Section Container --- */
-    /* This is the key to the full-bleed effect without overflow. */
+    /* --- 1. This is the only rule we need for the main container --- */
+    /* It removes the desktop padding and hides the overflow. */
     .homepage .testimonials-section {
-        width: 100vw; /* Forces the section to be exactly the screen width */
-        margin-left: 50%;
-        transform: translateX(-50%);
-        box-sizing: border-box; /* Ensures padding is calculated correctly */
         padding-top: 60px; /* Reduced top space */
-        padding-left: 20px; /* This becomes the new "inset" for all content */
-        padding-right: 20px; /* Creates the right-side inset */
+        padding-left: 0;
+        padding-right: 0;
+        overflow-x: hidden; /* This creates the "masking" effect at the screen edges */
     }
 
-    /* --- 2. Header Element --- */
-    /* Resets any conflicting desktop styles */
+    /* --- 2. This rule ensures the header text is not touching the edge --- */
     .homepage .testimonials-header {
-        max-width: 100%;
-        padding-left: 0; /* No longer needed, as the parent provides it */
+        padding-left: 20px;
+        padding-right: 20px;
+        max-width: 100%; /* Prevents it from overflowing */
+        box-sizing: border-box; /* Ensures padding is inside the width */
     }
 
-    /* --- 3. Scroller Element --- */
-    /* Resets any conflicting desktop styles */
-    .homepage .testimonials-scroller {
-        max-width: 100%;
-    }
-
-    /* --- 4. Scrolling Track --- */
-    /* Resets any conflicting desktop styles */
+    /* --- 3. This rule ensures the first and last cards are padded correctly --- */
     .homepage .testimonials-track {
-        padding-left: 0; /* No longer needed, as the parent provides it */
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }
     
