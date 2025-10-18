@@ -1557,3 +1557,18 @@ body.menu-cursor-active {
         opacity: 1;
     }
 }
+
+/* ================================================================= */
+/* == DEFINITIVE & FINAL FIX for Hiding Video Controls on Mobile == */
+/* ================================================================= */
+
+/* This rule targets the video player ONLY when it is playing,
+   and ONLY on mobile/tablet screens. */
+@media (max-width: 1024px) {
+    .lightbox-video:not(:paused) {
+        /* This is a special command to hide the native iOS/Android control bar */
+        -webkit-media-controls {
+            display: none !important;
+        }
+    }
+}
