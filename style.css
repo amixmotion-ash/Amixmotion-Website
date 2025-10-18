@@ -504,115 +504,75 @@ body.portfolio-page::before {
 .draggable { cursor: grab; user-select: none; }
 .draggable.is-dragging { cursor: grabbing; }
 
-/* ============================================================ */
-/* == NEW FOOTER STYLES == */
-/* ============================================================ */
+/* ================================================================= */
+/* == DEFINITIVE & COMPLETE FOOTER STYLES (DESKTOP & MOBILE) == */
+/* ================================================================= */
 
+/* --- 1. Main Desktop Styles --- */
+/* This is the base style for all large screens. */
 footer {
     background-color: #000000;
     color: #ffffff;
-    padding: 120px 40px ;
+    padding: 120px 40px; /* This is the original, correct desktop padding */
     font-family: 'Inter', sans-serif;
-    border: none; /* Removes any old borders */
 }
 
 .new-footer-container {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end; /* CHANGE THIS VALUE */
+    align-items: flex-end;
     gap: 40px;
 }
 
-/* --- Left Side: CTA --- */
 .footer-cta-new h2 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
-    font-size: clamp(4rem, 10vw, 8rem); /* INCREASED FONT SIZE */
+    font-size: clamp(4rem, 10vw, 8rem);
     text-transform: uppercase;
     line-height: 1.0;
     margin: 0;
 }
 
-.footer-cta-new span {
-    display: block; /* Puts each word on its own line */
-}
+.footer-cta-new span { display: block; }
+.cta-line-solid, .cta-line-outline { color: #ffffff; }
 
-.cta-line-solid {
-    color: #ffffff;
-}
-
-.cta-line-outline {
-    color: #ffffff;
-}
-
-/* --- Right Side: Navigation --- */
-.footer-nav-new {
-    display: flex;
-    align-items: flex-start;
-    gap: 50px;
-}
-
-.footer-nav-links {
-    display: flex;
-    gap: 50px;
-}
-
-.footer-nav-links ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.footer-nav-links li {
-    margin-bottom: 15px;
-}
-
-.footer-nav-links a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: color 0.3s ease;
-}
-
-.footer-nav-links a:hover {
-    color: #888;
-}
+.footer-nav-new { display: flex; align-items: flex-start; gap: 50px; }
+.footer-nav-links { display: flex; gap: 50px; }
+.footer-nav-links ul { list-style: none; margin: 0; padding: 0; }
+.footer-nav-links li { margin-bottom: 15px; }
+.footer-nav-links a { color: #ffffff; text-decoration: none; font-size: 1rem; transition: color 0.3s ease; }
+.footer-nav-links a:hover { color: #888; }
 
 
-/* ================================================================= */
-/* == DESKTOP-ONLY: Reduce Footer Bottom Padding == */
-/* ================================================================= */
-
-/* This rule only applies on screens WIDER than 901px */
+/* --- 2. Desktop-Only Adjustment --- */
+/* This rule ONLY applies on screens wider than 901px to reduce the bottom padding. */
 @media (min-width: 901px) {
     footer {
         padding-bottom: 80px;
     }
 }
-/* --- Responsive styles for the new footer --- */
+
+
+/* --- 3. Mobile-Only Styles --- */
+/* This rule ONLY applies on screens 900px and smaller. */
 @media (max-width: 900px) {
-    
-        footer {
-        padding-left: 20px;
-        padding-right: 20px;
-            padding-top: 80px;
-        padding-bottom: 80px; 
+    /* This rule adjusts the padding for mobile */
+    footer {
+        padding: 80px 20px;
     }
-    }
+
+    /* This rule stacks the footer content vertically on mobile */
     .new-footer-container {
         flex-direction: column;
         align-items: flex-start;
         gap: 80px;
     }
-      .footer-nav-new {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 30px;
-    }
 
+    /* This rule makes the headline bigger on mobile */
     .footer-cta-new h2 {
         font-size: clamp(2.5rem, 12vw, 4rem);
     }
+}
 
 
 /* --- VIDEO LIGHTBOX, CURSOR, and OTHER PAGE STYLES --- */
