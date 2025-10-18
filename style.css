@@ -181,7 +181,7 @@ header.is-hidden {
 
 /* --- MISSION SECTION --- */
 
-.mission-text .pre-title { font-family: 'Inter', sans-serif; text-transform: uppercase; font-weight: 400; font-size: 18px; color: #888; margin: 0 0 15px 0; }
+.mission-text .pre-title { font-family: 'Inter', sans-serif; text-transform: uppercase; font-weight: 400; font-size: 18px; color: #888; margin: 0 0 10px 0; }
 .mission-statement { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.4; margin: 0; }
 
 /* --- MISSION SECTION (Corrected Full-Bleed Layout) --- */
@@ -273,6 +273,12 @@ header.is-hidden {
     .mission-statement {
         font-size: 24px;
     }
+
+    @media (max-width: 600px) {
+    .mission-text .pre-title {
+        font-size: 16px; /* Makes the font smaller on mobile */
+    }
+}
 }
 
 /* --- CLIENT SCROLLER SECTION --- */
