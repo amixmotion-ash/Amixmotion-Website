@@ -150,6 +150,18 @@ header.is-hidden {
     font-size: clamp(2.5rem, 8vw, 4.5rem); /* Slightly larger font */
     font-weight: 600; /* A strong but not overly bold weight */
 }
+@media (max-width: 900px) {
+
+    .main-nav {
+        /* This pushes the content down from the top by 25% of the screen height */
+        padding-top: 25vh;
+
+        /* This ensures the padding is calculated inside the element's height,
+           preventing it from becoming taller than the screen. */
+        box-sizing: border-box;
+    }
+
+}
 
 /* --- HERO VIDEO SECTION --- */
 .hero-video { height: 100vh; position: -webkit-sticky; position: sticky; top: 0; z-index: 1; }
@@ -1350,7 +1362,8 @@ body.menu-cursor-active {
 
 /* On screens 1024px and smaller (tablets and phones), hide the cursor completely */
 @media (max-width: 1024px) {
-    .custom-cursor {
+    .custom-cursor,
+    .menu-cursor { /* ADD THIS LINE */
         display: none !important;
     }
 }
