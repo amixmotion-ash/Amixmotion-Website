@@ -1331,32 +1331,50 @@ body.menu-cursor-active {
 }
 
 /* ================================================================= */
-/* == MOBILE: FULL-WIDTH TESTIMONIALS SCROLLER (CORRECTED) == */
+/* == MOBILE: DEFINITIVE & COMPLETE TESTIMONIALS LAYOUT == */
 /* ================================================================= */
 
 @media (max-width: 768px) {
 
-    /* This is the only rule you need. It makes the header and the scroller
-       full-width, removing the need to adjust padding. */
-    .homepage .testimonials-header,
-        /* ADD THIS RULE: This adds a 20px space to the left of the header text. */
-    .homepage .testimonials-header {
-        padding-left: 20px;
-        box-sizing: border-box; /* Ensures padding is included in the width */
+    /* --- Step 1: Fix the Main Section Container --- */
+    /* This creates the full-bleed grey background and the masking effect. */
+    .homepage .testimonials-section {
+        padding-top: 60px; /* Reduced top space */
+        padding-bottom: 80px; /* Consistent bottom space */
+        
+        /* THE KEY FIX: Reset desktop layout properties */
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+        
+        overflow-x: hidden; /* This creates the "masking" at the screen edges */
     }
 
-    /* ADD THIS RULE: This adds a 20px space to the left of the first card. */
+    /* --- Step 2: Fix the Header --- */
+    /* This aligns the header text correctly. */
+    .homepage .testimonials-header {
+        max-width: 100%;
+        margin: 0 0 30px 0; /* Removes 'auto' centering, sets bottom margin */
+        padding-left: 20px; /* Indents the text */
+        padding-right: 20px;
+        box-sizing: border-box;
+    }
+
+    /* --- Step 3: Fix the Scroller --- */
+    /* This aligns the scroller correctly. */
+    .homepage .testimonials-scroller {
+        max-width: 100%;
+        margin: 0; /* Removes 'auto' centering */
+    }
+
+    /* --- Step 4: Fix the Scrolling Track --- */
+    /* This indents the first and last cards correctly. */
     .homepage .testimonials-track {
         padding-left: 20px;
+        padding-right: 20px;
     }
 }
-    .homepage .testimonials-scroller {
-        max-width: 100%; /* This overrides any desktop max-width */
-    }
-        .homepage .testimonials-section {
-        padding-top: 60px;
-         /* Reduced from the desktop value (e.g., 120px) */
-    }
 
 
 /* ============================================================ */
