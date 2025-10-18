@@ -592,7 +592,7 @@ footer {
     }
 
     .footer-cta-new h2 {
-        font-size: clamp(2rem, 10vw, 3rem);
+        font-size: clamp(2.5rem, 12vw, 4rem);
     }
 }
 
