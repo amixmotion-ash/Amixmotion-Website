@@ -1329,31 +1329,18 @@ body.menu-cursor-active {
 }
 
 /* ================================================================= */
-/* == MOBILE: FULL-WIDTH TESTIMONIALS SCROLLER == */
+/* == MOBILE: FULL-WIDTH TESTIMONIALS SCROLLER (CORRECTED) == */
 /* ================================================================= */
 
 @media (max-width: 768px) {
 
-    /* --- 1. Remove the horizontal padding from the main section --- */
-    /* This allows the scrolling area to be full-width. */
-    .homepage .testimonials-section {
-        padding-left: 0;
-        padding-right: 0;
+    /* This is the only rule you need. It makes the header and the scroller
+       full-width, removing the need to adjust padding. */
+    .homepage .testimonials-header,
+    .homepage .testimonials-scroller {
+        max-width: 100%; /* This overrides any desktop max-width */
     }
 
-    /* --- 2. Add padding back to the header text --- */
-    /* This prevents the "Don't take my word for it!" text from touching the screen edges. */
-    .homepage .testimonials-header {
-        padding-left: 25px;
-        padding-right: 25px;
-    }
-
-    /* --- 3. Add padding back to the scrolling track --- */
-    /* This ensures the first and last cards have some space from the screen edges. */
-    .homepage .testimonials-track {
-        padding-left: 25px;
-        padding-right: 25px;
-    }
 }
 /* ============================================================ */
 /* == MOBILE: STACK PORTFOLIO PANELS == */
