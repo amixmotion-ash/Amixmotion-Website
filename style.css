@@ -1564,18 +1564,25 @@ body.menu-cursor-active {
         opacity: 1;
     }
 }
-
 /* ================================================================= */
-/* == DEFINITIVE & FINAL FIX for Hiding Video Controls on Mobile == */
+/* == DEFINITIVE & FINAL FIX for Button Tap Color == */
 /* ================================================================= */
 
-/* This rule targets the video player ONLY when it is playing,
-   and ONLY on mobile/tablet screens. */
-@media (max-width: 1024px) {
-    .lightbox-video:not(:paused) {
-        /* This is a special command to hide the native iOS/Android control bar */
-        -webkit-media-controls {
-            display: none !important;
-        }
-    }
+/* --- Rule 1: For WHITE buttons on a DARK background --- */
+/* This targets the 'button-light' class used on your homepage and in the footer.
+   On tap, it will force the background to be solid WHITE. */
+.button-light:active {
+    background-color: #ffffff !important;
+    color: #000000 !important; /* Makes the text black for contrast */
 }
+
+
+/* --- Rule 2: For BLACK buttons on a LIGHT background --- */
+/* This targets the 'button-dark' class used on your homepage and about page.
+   On tap, it will force the background to be solid BLACK. */
+.button-dark:active {
+    background-color: #222222 !important;
+    color: #ffffff !important; /* Makes the text white for contrast */
+}
+
+
