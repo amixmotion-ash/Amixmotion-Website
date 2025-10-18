@@ -68,7 +68,6 @@ header .desktop-nav a {
     border: none;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent; 
-    transition: color 0.3s ease, opacity 0.25s ease-in-out;
 }
 /* Header/navigation link color -- white for home, portfolio, about */
 .homepage header .nav-toggle,
@@ -1522,4 +1521,25 @@ body.menu-cursor-active {
         padding-right: 0;
     }
 
+}
+/* ================================================================= */
+/* == MOBILE-ONLY FIX for Header Link Flash on Page Load == */
+/* ================================================================= */
+
+/* This media query targets tablets and phones */
+@media (max-width: 1024px) {
+
+    /* --- Step 1: By default on mobile, make the header links invisible --- */
+    header .nav-toggle,
+    header .desktop-nav a {
+        opacity: 0;
+        transition: opacity 0.25s ease-in-out;
+    }
+
+    /* --- Step 2: When the page is loaded, make them visible --- */
+    /* This is triggered by the script at the bottom of your HTML files */
+    body.js-page-loaded header .nav-toggle,
+    body.js-page-loaded header .desktop-nav a {
+        opacity: 1;
+    }
 }
