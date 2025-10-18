@@ -1331,34 +1331,33 @@ body.menu-cursor-active {
 }
 
 /* ================================================================= */
-/* == MOBILE: FINAL TESTIMONIALS MASKING & OVERFLOW FIX == */
+/* == MOBILE: FULL-WIDTH TESTIMONIALS SCROLLER (CORRECTED) == */
 /* ================================================================= */
 
 @media (max-width: 768px) {
 
-    /* --- 1. This is the only rule we need for the main container --- */
-    /* It removes the desktop padding and hides the overflow. */
-    .homepage .testimonials-section {
-        padding-top: 60px; /* Reduced top space */
-        padding-left: 0;
-        padding-right: 0;
-        overflow-x: hidden; /* This creates the "masking" effect at the screen edges */
-    }
-
-    /* --- 2. This rule ensures the header text is not touching the edge --- */
+    /* This is the only rule you need. It makes the header and the scroller
+       full-width, removing the need to adjust padding. */
+    .homepage .testimonials-header,
+        /* ADD THIS RULE: This adds a 20px space to the left of the header text. */
     .homepage .testimonials-header {
         padding-left: 20px;
-        padding-right: 20px;
-        max-width: 100%; /* Prevents it from overflowing */
-        box-sizing: border-box; /* Ensures padding is inside the width */
+        box-sizing: border-box; /* Ensures padding is included in the width */
     }
 
-    /* --- 3. This rule ensures the first and last cards are padded correctly --- */
+    /* ADD THIS RULE: This adds a 20px space to the left of the first card. */
     .homepage .testimonials-track {
         padding-left: 20px;
-        padding-right: 20px;
     }
 }
+    .homepage .testimonials-scroller {
+        max-width: 100%; /* This overrides any desktop max-width */
+    }
+        .homepage .testimonials-section {
+        padding-top: 60px;
+            padding-left: 0;   /* ADD THIS LINE */
+    padding-right: 0;  /* ADD THIS LINE */
+} /* Reduced from the desktop value (e.g., 120px) */
     
 
 
