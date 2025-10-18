@@ -1331,32 +1331,40 @@ body.menu-cursor-active {
 }
 
 /* ================================================================= */
-/* == MOBILE: FINAL TESTIMONIALS LAYOUT & OVERFLOW FIX == */
+/* == MOBILE: DEFINITIVE & CONSOLIDATED TESTIMONIALS LAYOUT == */
 /* ================================================================= */
 
 @media (max-width: 768px) {
 
-    /* --- 1. This is the KEY FIX. It resets the negative margins that cause the overflow. --- */
+    /* --- 1. Main Section Container --- */
+    /* This is the key to the full-bleed effect without overflow. */
     .homepage .testimonials-section {
-        margin-left: 0;
-        margin-right: 0;
-        padding-top: 60px; /* The reduced top space */
+        width: 100vw; /* Forces the section to be exactly the screen width */
+        margin-left: 50%;
+        transform: translateX(-50%);
+        box-sizing: border-box; /* Ensures padding is calculated correctly */
+        padding-top: 60px; /* Reduced top space */
+        padding-left: 20px; /* This becomes the new "inset" for all content */
+        padding-right: 20px; /* Creates the right-side inset */
     }
 
-    /* --- 2. This makes the header and scroller full-width inside the now-correct section. --- */
-    .homepage .testimonials-header,
+    /* --- 2. Header Element --- */
+    /* Resets any conflicting desktop styles */
+    .homepage .testimonials-header {
+        max-width: 100%;
+        padding-left: 0; /* No longer needed, as the parent provides it */
+    }
+
+    /* --- 3. Scroller Element --- */
+    /* Resets any conflicting desktop styles */
     .homepage .testimonials-scroller {
         max-width: 100%;
     }
 
-    /* --- 3. This correctly applies the left padding to the content. --- */
-    .homepage .testimonials-header {
-        padding-left: 20px;
-        box-sizing: border-box;
-    }
-
+    /* --- 4. Scrolling Track --- */
+    /* Resets any conflicting desktop styles */
     .homepage .testimonials-track {
-        padding-left: 20px;
+        padding-left: 0; /* No longer needed, as the parent provides it */
     }
 }
     
