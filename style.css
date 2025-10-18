@@ -1689,6 +1689,13 @@ body.menu-cursor-active {
   max-width: 100vw;
 }
 
+@media (max-width: 900px) {
+  .about-page .profile-grid-section {
+    position: static !important;
+    padding-bottom: 30px;
+  }
+}
+
 
 
 
