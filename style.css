@@ -74,8 +74,9 @@ header .desktop-nav a {
 }
 
 header .logo img {
-    filter: invert(0); /* Black Logo */
+    filter: invert(1); /* White Logo BY DEFAULT */
 }
+
 
 /* --- 3. Make Links Visible After Page Load --- */
 /* This is controlled by a tiny script at the bottom of your HTML files */
@@ -84,12 +85,10 @@ body.js-page-loaded header .desktop-nav a {
     opacity: 1;
 }
 
-/* --- 4. Overrides for Pages with a DARK background --- */
-.homepage header .nav-toggle,
-.homepage header .desktop-nav a,
-.portfolio-page header .nav-toggle,
-.portfolio-page header .desktop-nav a {
-    color: #ffffff; /* White Text */
+/* --- 4. Override for Contact Page --- */
+/* This is the only page that needs a different color logo. */
+.contact-page header .logo img {
+    filter: invert(0); /* Black Logo */
 }
 
 .homepage header .logo img {
