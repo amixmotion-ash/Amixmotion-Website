@@ -901,6 +901,7 @@ body.contact-page {
         display: flex;
         flex-direction: column; /* This stacks the columns vertically */
         padding: 0;
+        gap: 0;
     }
 
     /* --- 2. Keep the big image at the top --- */
