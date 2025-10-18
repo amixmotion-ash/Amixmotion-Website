@@ -1355,10 +1355,8 @@ body.menu-cursor-active {
     }
         .homepage .testimonials-section {
         padding-top: 60px;
-            padding-left: 0;   /* ADD THIS LINE */
-    padding-right: 0;  /* ADD THIS LINE */
-} /* Reduced from the desktop value (e.g., 120px) */
-    
+         /* Reduced from the desktop value (e.g., 120px) */
+    }
 
 
 /* ============================================================ */
