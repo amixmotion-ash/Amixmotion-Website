@@ -1533,3 +1533,12 @@ body.js-page-loaded header .nav-toggle,
 body.js-page-loaded header .desktop-nav a {
     opacity: 1;
 }
+/* ============================================================ */
+/* == MOBILE: REDUCE HEADER LOGO SIZE == */
+/* ============================================================ */
+
+@media (max-width: 768px) {
+    .logo img {
+        height: 40px; /* Reduced from the desktop size (e.g., 50px) */
+    }
+}
