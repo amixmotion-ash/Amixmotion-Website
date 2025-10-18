@@ -79,13 +79,13 @@ header .desktop-nav a {
 .about-page header .desktop-nav a {
     color: #ffffff;
 }
-/* Black logo on contact page by default */
+/* Make logo black by default on contact page */
 .contact-page header .logo img {
-    filter: brightness(0) invert(0);
+    filter: brightness(0);
 }
-/* White logo when the menu opens from contact page */
+/* Make logo white when menu is open (no filter) */
 body.contact-page.body-no-scroll header .logo img {
-    filter: invert(1) brightness(1) !important;
+    filter: none !important;
 }
 
 /* Header/navigation link color -- black for contact */
