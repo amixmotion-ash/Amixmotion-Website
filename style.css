@@ -1515,3 +1515,21 @@ body.menu-cursor-active {
     }
 
 }
+
+/* ============================================================ */
+/* == DEFINITIVE FIX for Header Link Flash on Page Load == */
+/* ============================================================ */
+
+/* --- Step 1: By default, make the header links invisible --- */
+header .nav-toggle,
+header .desktop-nav a {
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+}
+
+/* --- Step 2: When the page is loaded, make them visible --- */
+/* A small script will add the 'js-page-loaded' class to the body */
+body.js-page-loaded header .nav-toggle,
+body.js-page-loaded header .desktop-nav a {
+    opacity: 1;
+}

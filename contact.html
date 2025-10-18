@@ -4,27 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact | Amixmotion</title>
-<style>
-  /* Pre-hides elements to prevent a flash on page load */
-  .main-nav {
-    visibility: hidden;
-    transform: translateX(-100%);
-    transition: none;
-  }
-  .video-lightbox {
+         <style>
+      /* This pre-hides the menu to prevent a flash on page load */
+      .main-nav {
+        transform: translateX(-100%);
+        transition: none; /* Temporarily disable animation during load */
+      }
+        .video-lightbox {
     display: none;
   }
-  .visually-hidden {
-    position: absolute !important; /* ...etc... */
+    .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    border: 0 !important;
   }
-
-  /* ADD THIS NEW RULE: This prevents the blue/purple link flash */
-  .nav-toggle,
-  .desktop-nav a {
-      color: white; /* Sets a safe, non-flashing default color */
-      text-decoration: none; /* Prevents a flash of an underline */
-  }
-</style>
+    </style>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="contact-page">
@@ -119,5 +118,9 @@
 </footer>
 <div class="menu-cursor">&rarr;</div>
     <script src="script.js"></script>
+
+    <!-- PASTE THIS NEW SCRIPT TAG HERE -->
+    <script>document.body.classList.add('js-page-loaded');</script>
+
 </body>
-</html>
+</html>```
