@@ -1391,3 +1391,19 @@ body.menu-cursor-active {
     }
 
 }
+
+/* ============================================================ */
+/* == MOBILE: RESPONSIVE LINE BREAK IN MISSION STATEMENT == */
+/* ============================================================ */
+
+/* --- 1. By default, hide the line break on desktop --- */
+.mobile-break {
+    display: none;
+}
+
+/* --- 2. On mobile screens, show the line break --- */
+@media (max-width: 768px) {
+    .mobile-break {
+        display: block;
+    }
+}
