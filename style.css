@@ -276,7 +276,7 @@ header.is-hidden {
 
     @media (max-width: 600px) {
     .mission-text .pre-title {
-        font-size: 16px; /* Makes the font smaller on mobile */
+        font-size: 12px; /* Makes the font smaller on mobile */
     }
 }
 }
