@@ -276,7 +276,7 @@ header.is-hidden {
 
     @media (max-width: 600px) {
     .mission-text .pre-title {
-        font-size: 12px; /* Makes the font smaller on mobile */
+        font-size: 14px; /* Makes the font smaller on mobile */
     }
 }
 }
@@ -1372,4 +1372,22 @@ body.menu-cursor-active {
     .menu-cursor { /* ADD THIS LINE */
         display: none !important;
     }
+}
+
+/* ============================================================ */
+/* == MOBILE: ADJUST HOMEPAGE PARAGRAPH FONT SIZES == */
+/* ============================================================ */
+
+@media (max-width: 768px) {
+
+    /* --- 1. Reduces the size of the Mission Statement paragraph --- */
+    .mission-statement {
+        font-size: 28px; /* Or your preferred size */
+    }
+
+    /* --- 2. Reduces the size of the "Blending creativity..." paragraph --- */
+    .bridge-text {
+        font-size: 28px; /* Or your preferred size */
+    }
+
 }
