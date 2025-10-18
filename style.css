@@ -79,6 +79,9 @@ header .desktop-nav a {
 .about-page header .desktop-nav a {
     color: #ffffff;
 }
+.contact-page header .logo img {
+    filter: brightness(0) invert(0);
+}
 
 /* Header/navigation link color -- black for contact */
 .contact-page header .nav-toggle,
