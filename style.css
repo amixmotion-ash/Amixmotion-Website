@@ -1410,3 +1410,16 @@ body.menu-cursor-active {
         display: block;
     }
 }
+
+/* ============================================================ */
+/* == MOBILE: REDUCE SPACE ABOVE 'MORE WORK' BUTTON == */
+/* ============================================================ */
+
+@media (max-width: 768px) {
+
+    /* This targets the button's container ONLY on the homepage */
+    .homepage .portfolio-cta-container {
+        padding-top: 80px; /* Drastically reduce the top padding from the desktop value */
+    }
+
+}
