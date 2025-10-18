@@ -483,7 +483,7 @@ body.portfolio-page::before {
     margin-right: -40px;
 }
 .testimonials-header {
-    margin: 0 0 60px 0; /* Removes horizontal auto margins */
+    margin: 0 0 30px 0; /* Removes horizontal auto margins */
     padding: 0 40px;   /* This padding now aligns it with the track */
     box-sizing: border-box;
     text-align: left;
