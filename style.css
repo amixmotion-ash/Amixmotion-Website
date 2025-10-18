@@ -511,7 +511,7 @@ body.portfolio-page::before {
 footer {
     background-color: #000000;
     color: #ffffff;
-    padding: 120px 40px 80px 40px; ;
+    padding: 120px 40px ;
     font-family: 'Inter', sans-serif;
     border: none; /* Removes any old borders */
 }
