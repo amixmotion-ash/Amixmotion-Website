@@ -16,26 +16,18 @@ body {
     margin: 0;
     overflow-x: hidden;
 }
-
 /* ================================================================= */
-/* == GLOBAL FIX for Mobile Tap Highlight Color == */
+/* == DEFINITIVE & FINAL FIX for Browser Focus Outline == */
 /* ================================================================= */
 
-/* This rule applies to all links, buttons, and nav toggles */
-a,
-button,
-.nav-toggle {
-    /* Step 1: Forcefully remove the default semi-transparent highlight overlay */
-    -webkit-tap-highlight-color: transparent;
+/* This rule targets EVERY interactive element on the page when it
+   receives focus (e.g., on click) and removes the default outline. */
+a:focus,
+button:focus,
+.nav-toggle:focus {
+    outline: none !important;
 }
 
-/* This rule overrides the browser's default "active" state styles */
-a:active,
-button:active,
-.nav-toggle:active {
-    /* Step 2: Prevents any background color change on tap */
-    background-color: transparent !important;
-}
 .body-no-scroll {
     overflow: hidden;
 }
