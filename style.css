@@ -16,6 +16,26 @@ body {
     margin: 0;
     overflow-x: hidden;
 }
+
+/* ================================================================= */
+/* == GLOBAL FIX for Mobile Tap Highlight Color == */
+/* ================================================================= */
+
+/* This rule applies to all links, buttons, and nav toggles */
+a,
+button,
+.nav-toggle {
+    /* Step 1: Forcefully remove the default semi-transparent highlight overlay */
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* This rule overrides the browser's default "active" state styles */
+a:active,
+button:active,
+.nav-toggle:active {
+    /* Step 2: Prevents any background color change on tap */
+    background-color: transparent !important;
+}
 .body-no-scroll {
     overflow: hidden;
 }
@@ -127,11 +147,6 @@ body.body-no-scroll .desktop-nav {
         font-weight: 600; /* Consistent font weight on mobile */
     }
 }
-header .nav-toggle:active,
-header .desktop-nav a:active {
-    color: inherit !important;
-}
-
 
 
 
