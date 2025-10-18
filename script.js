@@ -43,7 +43,10 @@ if (testimonialsSection) {
     observer.observe(testimonialsSection);
 }
 
-// --- Video Lightbox Functionality (UPGRADED with Autohide Controls) ---
+// ======================================================================
+// == VIDEO LIGHTBOX (FINAL VERSION with Hover/Tap Controls) ==
+// ======================================================================
+
 const lightbox = document.querySelector('.video-lightbox');
 
 if (lightbox) {
@@ -55,46 +58,24 @@ if (lightbox) {
     const lightboxOverlay = lightbox.querySelector('.lightbox-overlay');
     const portfolioItems = document.querySelectorAll('.grid-item');
 
-    // NEW: A timer to track user inactivity
-    let controlsTimer;
-
-    // NEW: Function to hide the controls
-    function hideControls() {
-        lightboxVideo.classList.add('controls-hidden');
-    }
-
-    // NEW: Function to show the controls
-    function showControls() {
-        clearTimeout(controlsTimer); // Stop any pending hide action
-        lightboxVideo.classList.remove('controls-hidden');
-    }
-
-    // NEW: Function to show controls, then start a timer to hide them
-    function resetControlsTimer() {
-        showControls();
-        // Set a timer to hide the controls after 2.5 seconds of no activity
-        controlsTimer = setTimeout(hideControls, 500);
-    }
-
     // --- This function handles OPENING the lightbox ---
     function openLightbox(videoSrc, aspectRatio) {
         if (videoSrc) {
+            // Apply aspect ratio class
             if (aspectRatio === '9:16') {
                 lightboxContent.classList.add('is-vertical');
             } else {
                 lightboxContent.classList.remove('is-vertical');
             }
 
+            // Show loader and open lightbox
             if(customLoader) customLoader.classList.add('is-loading');
             lightbox.classList.add('is-loading');
-            
             lightboxVideo.src = videoSrc;
             lightbox.classList.add('is-visible');
-            
-            // NEW: When a video starts, begin the process of hiding controls
-            lightboxVideo.play().then(() => {
-                resetControlsTimer();
-            });
+
+            // Start playing the video
+            lightboxVideo.play();
         }
     }
 
@@ -106,17 +87,16 @@ if (lightbox) {
         
         if(customLoader) customLoader.classList.remove('is-loading');
         lightbox.classList.remove('is-loading');
-        
-        // NEW: Clean up controls when closing
-        showControls();
-        clearTimeout(controlsTimer);
+
+        // Ensure controls are visible for the next time
+        lightboxVideo.classList.remove('controls-hidden');
 
         setTimeout(() => {
             lightboxContent.classList.remove('is-vertical');
         }, 300);
     }
     
-    // --- Event Listeners for the video itself ---
+    // --- Event Listeners for the video's loading state ---
     if (customLoader) {
         lightboxVideo.addEventListener('waiting', () => {
             customLoader.classList.add('is-loading');
@@ -128,11 +108,37 @@ if (lightbox) {
         });
     }
 
-    // NEW: Event listeners for showing/hiding controls
-    lightboxContent.addEventListener('mousemove', resetControlsTimer); // Show on mouse move
-    lightboxContent.addEventListener('touchstart', resetControlsTimer); // Show on tap
-    lightboxVideo.addEventListener('play', resetControlsTimer);       // Reset timer on play
-    lightboxVideo.addEventListener('pause', showControls);            // Always show on pause
+    // --- NEW, SIMPLIFIED LOGIC FOR CONTROLS ---
+
+    // When the video starts playing, hide the controls immediately.
+    lightboxVideo.addEventListener('playing', () => {
+        lightboxVideo.classList.add('controls-hidden');
+    });
+
+    // On desktop, when the mouse enters the video area, show the controls.
+    lightboxContent.addEventListener('mouseenter', () => {
+        lightboxVideo.classList.remove('controls-hidden');
+    });
+
+    // On desktop, when the mouse leaves the video area, hide them again.
+    lightboxContent.addEventListener('mouseleave', () => {
+        if (!lightboxVideo.paused) { // Don't hide if the video is paused
+            lightboxVideo.classList.add('controls-hidden');
+        }
+    });
+
+    // On mobile, a single tap on the video will toggle the controls.
+    lightboxContent.addEventListener('click', () => {
+        // We check if the video is playing to avoid conflicts with the play/pause button
+        if (!lightboxVideo.paused) {
+            lightboxVideo.classList.toggle('controls-hidden');
+        }
+    });
+
+    // Always show controls when the video is paused.
+    lightboxVideo.addEventListener('pause', () => {
+        lightboxVideo.classList.remove('controls-hidden');
+    });
 
     // --- Click events to open and close the lightbox ---
     portfolioItems.forEach(item => {
