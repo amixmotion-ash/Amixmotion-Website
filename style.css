@@ -1431,7 +1431,7 @@ body.menu-cursor-active {
 @media (max-width: 768px) {
 
     .client-scroller {
-        padding-top: 50px;
+        padding-top: 30px;
         padding-bottom: 50px;
     }
 
