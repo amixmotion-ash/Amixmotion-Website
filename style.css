@@ -1378,7 +1378,7 @@ body.menu-cursor-active {
 /* == MOBILE: ADJUST HOMEPAGE PARAGRAPH FONT SIZES == */
 /* ============================================================ */
 
-@media (max-width: 770px) {
+@media (max-width: 780px) {
 
     /* --- 1. Reduces the size of the Mission Statement paragraph --- */
     .mission-statement {
