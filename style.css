@@ -19,8 +19,22 @@ body {
 .body-no-scroll {
     overflow: hidden;
 }
-* {
-    -webkit-tap-highlight-color: transparent;
+/* ============================================================ */
+/* == DEFINITIVE FIX for Mobile Header Link Flash == */
+/* ============================================================ */
+
+/* --- Step 1: Forcefully remove the tap highlight on header links --- */
+.nav-toggle,
+.desktop-nav a {
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+/* --- Step 2: Override the browser's default "active" state styles --- */
+/* This prevents any color change when a link is actively being tapped. */
+.nav-toggle:active,
+.desktop-nav a:active {
+    background-color: transparent !important; /* Prevents any background flash */
+    color: inherit !important; /* Prevents the text color from changing */
 }
 
 /* --- REUSABLE CONTAINER --- */
