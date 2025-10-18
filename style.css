@@ -578,6 +578,17 @@ footer {
     color: #888;
 }
 
+
+/* ================================================================= */
+/* == DESKTOP-ONLY: Reduce Footer Bottom Padding == */
+/* ================================================================= */
+
+/* This rule only applies on screens WIDER than 901px */
+@media (min-width: 901px) {
+    footer {
+        padding-bottom: 80px;
+    }
+}
 /* --- Responsive styles for the new footer --- */
 @media (max-width: 900px) {
     
