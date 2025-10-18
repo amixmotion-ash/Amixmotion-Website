@@ -59,60 +59,53 @@ header {
     box-sizing: border-box;
     transition: transform 0.3s ease-in-out;
 }
-/* --- Header text color for pages with white backgrounds --- */
 
+
+
+
+/* ================================================================= */
+/* == DEFINITIVE & CONSOLIDATED HEADER STYLES == */
+/* ================================================================= */
+
+/* --- 1. Base Styles (for pages with a WHITE background like About/Contact) --- */
+header .nav-toggle,
+header .desktop-nav a {
+    color: #222222; /* Text is BLACK by default */
+    font-weight: bold;
+    text-decoration: none;
+}
+
+header .logo img {
+    filter: invert(0); /* Logo is BLACK by default */
+    transition: filter 0.3s ease;
+}
+
+/* --- 2. Overrides for Pages with a DARK background (Homepage/Portfolio) --- */
 .homepage header .nav-toggle,
-.homepage header .logo a,
-.homepage header .desktop-nav a {
-    color: #ffffff;
-}
-.about-page header .nav-toggle,
-.about-page header .desktop-nav a,
-.contact-page header .nav-toggle,
-.contact-page header .desktop-nav a {
-    color: #ffffff;
-}
-/* --- DEFINITIVE Header text color for pages with white backgrounds --- */
-
-.contact-page header .nav-toggle,
-.contact-page header .desktop-nav a {
-    color: #222222 !important;
-}
-.nav-toggle { grid-column: 1 / 2; justify-self: start; font-size: 1em; font-weight: bold; color: #222; background: none; border: none; cursor: pointer; transition: color 0.3s ease; text-decoration: none; }
-.logo { grid-column: 2 / 3; text-align: center; }
-.logo a { text-decoration: none; }
-.logo img { height: 50px; width: auto; display: block; }
-.desktop-nav { grid-column: 3 / 4; justify-self: end; }
-.desktop-nav ul { list-style: none; margin: 0; padding: 0; }
-.desktop-nav a { color: #222; text-decoration: none; font-weight: bold; transition: color 0.3s ease; }
-.homepage.body-no-scroll header .nav-toggle,
-.homepage.body-no-scroll header .desktop-nav a { color: #222222; }
-.homepage.body-no-scroll header .logo img { filter: invert(1); }
-.about-page header .logo img, .contact-page header .logo img {
-    filter: invert(1);
-    
+.homepage header .desktop-nav a,
+.portfolio-page header .nav-toggle,
+.portfolio-page header .desktop-nav a {
+    color: #ffffff; /* Text becomes WHITE */
 }
 
-
-
-header.is-hidden {
-    transform: translateY(-100%); 
+.homepage header .logo img,
+.portfolio-page header .logo img {
+    filter: invert(1); /* Logo becomes WHITE */
 }
 
-
-
-.body-no-scroll .desktop-nav {
-    display: none;
+/* --- 3. UNIVERSAL RULES for when the menu is open --- */
+/* This is the final word and overrides everything else. */
+body.body-no-scroll header .nav-toggle {
+    color: #ffffff !important; /* "CLOSE" text MUST be WHITE */
 }
 
-
-.body-no-scroll .nav-toggle {
-    color: #ffffff !important;
+body.body-no-scroll header .logo img {
+    filter: invert(1) !important; /* Logo MUST be WHITE */
 }
 
-
-
-
+body.body-no-scroll .desktop-nav {
+    display: none; /* "WORK +" button is hidden */
+}
 
 /* --- FULL-SCREEN OVERLAY MENU (NEW SLIDE-IN STYLE) --- */
 
@@ -1061,7 +1054,7 @@ body.contact-page {
 .trusted-by-container { max-width: 1000px; margin: 0 auto; text-align: center; }
 .section-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; line-height: 1.1; margin: 0 0 80px 0;color: #222222; }
 .logo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 10px; align-items: center; }
-.logo-item img { max-width: 100%; width: auto; max-height: 100px; margin: 0 auto; filter: grayscale(100%); opacity: 1; }
+
 
 
 /* --- Responsive Styles for About Page --- */
