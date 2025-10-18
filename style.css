@@ -1331,33 +1331,34 @@ body.menu-cursor-active {
 }
 
 /* ================================================================= */
-/* == MOBILE: FULL-WIDTH TESTIMONIALS SCROLLER (CORRECTED) == */
+/* == MOBILE: FINAL TESTIMONIALS LAYOUT & OVERFLOW FIX == */
 /* ================================================================= */
 
 @media (max-width: 768px) {
 
-    /* This is the only rule you need. It makes the header and the scroller
-       full-width, removing the need to adjust padding. */
-    .homepage .testimonials-header,
-        /* ADD THIS RULE: This adds a 20px space to the left of the header text. */
-    .homepage .testimonials-header {
-        padding-left: 20px;
-        box-sizing: border-box; /* Ensures padding is included in the width */
+    /* --- 1. This is the KEY FIX. It resets the negative margins that cause the overflow. --- */
+    .homepage .testimonials-section {
+        margin-left: 0;
+        margin-right: 0;
+        padding-top: 60px; /* The reduced top space */
     }
 
-    /* ADD THIS RULE: This adds a 20px space to the left of the first card. */
+    /* --- 2. This makes the header and scroller full-width inside the now-correct section. --- */
+    .homepage .testimonials-header,
+    .homepage .testimonials-scroller {
+        max-width: 100%;
+    }
+
+    /* --- 3. This correctly applies the left padding to the content. --- */
+    .homepage .testimonials-header {
+        padding-left: 20px;
+        box-sizing: border-box;
+    }
+
     .homepage .testimonials-track {
         padding-left: 20px;
     }
 }
-    .homepage .testimonials-scroller {
-        max-width: 100%; /* This overrides any desktop max-width */
-    }
-        .homepage .testimonials-section {
-        padding-top: 60px;
-            padding-left: 0;   /* ADD THIS LINE */
-    padding-right: 0;  /* ADD THIS LINE */
-} /* Reduced from the desktop value (e.g., 120px) */
     
 
 
