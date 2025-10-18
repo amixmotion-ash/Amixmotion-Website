@@ -1382,12 +1382,12 @@ body.menu-cursor-active {
 
     /* --- 1. Reduces the size of the Mission Statement paragraph --- */
     .mission-statement {
-        font-size: 28px; /* Or your preferred size */
+        font-size: 25px; /* Or your preferred size */
     }
 
     /* --- 2. Reduces the size of the "Blending creativity..." paragraph --- */
     .bridge-text {
-        font-size: 28px; /* Or your preferred size */
+        font-size: 25px; /* Or your preferred size */
     }
 
 }
