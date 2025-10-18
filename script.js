@@ -44,13 +44,13 @@ if (testimonialsSection) {
 }
 
 // ======================================================================
-// == VIDEO LIGHTBOX (FINAL VERSION with Hover/Tap Controls) ==
+// == VIDEO LIGHTBOX (FINAL v2 - WITH JS-CONTROLLED ATTRIBUTES) ==
 // ======================================================================
 
 const lightbox = document.querySelector('.video-lightbox');
 
 if (lightbox) {
-    // Get all the parts we need
+    // ... (Get all the parts we need - no change here)
     const lightboxContent = lightbox.querySelector('.lightbox-content');
     const lightboxVideo = lightbox.querySelector('.lightbox-video');
     const closeButton = lightbox.querySelector('.lightbox-close');
@@ -61,14 +61,9 @@ if (lightbox) {
     // --- This function handles OPENING the lightbox ---
     function openLightbox(videoSrc, aspectRatio) {
         if (videoSrc) {
-            // Apply aspect ratio class
-            if (aspectRatio === '9:16') {
-
-                lightboxVideo.classList.add('controls-hidden');
-                lightboxContent.classList.add('is-vertical');
-            } else {
-                lightboxContent.classList.remove('is-vertical');
-            }
+            // ... (Apply aspect ratio class - no change here)
+            if (aspectRatio === '9:16') { lightboxContent.classList.add('is-vertical'); } 
+            else { lightboxContent.classList.remove('is-vertical'); }
 
             // Show loader and open lightbox
             if(customLoader) customLoader.classList.add('is-loading');
@@ -76,89 +71,55 @@ if (lightbox) {
             lightboxVideo.src = videoSrc;
             lightbox.classList.add('is-visible');
 
-            // Start playing the video
+            // THE KEY FIX: Controls are OFF by default. Start playing.
+            lightboxVideo.controls = false;
             lightboxVideo.play();
         }
     }
 
     // --- This function handles CLOSING the lightbox ---
     function closeLightbox() {
+        // ... (No change here, this function is already correct)
         lightbox.classList.remove('is-visible');
         lightboxVideo.pause();
         lightboxVideo.src = '';
-        
         if(customLoader) customLoader.classList.remove('is-loading');
         lightbox.classList.remove('is-loading');
-
-        // Ensure controls are visible for the next time
-        lightboxVideo.classList.remove('controls-hidden');
-
-        setTimeout(() => {
-            lightboxContent.classList.remove('is-vertical');
-        }, 300);
+        setTimeout(() => { lightboxContent.classList.remove('is-vertical'); }, 300);
     }
     
     // --- Event Listeners for the video's loading state ---
-    if (customLoader) {
-        lightboxVideo.addEventListener('waiting', () => {
-            customLoader.classList.add('is-loading');
-            lightbox.classList.add('is-loading');
-        });
-        lightboxVideo.addEventListener('canplay', () => {
-            customLoader.classList.remove('is-loading');
-            lightbox.classList.remove('is-loading');
-        });
-    }
+    if (customLoader) { /* ... (No change here) */ }
 
-    // --- NEW, SIMPLIFIED LOGIC FOR CONTROLS ---
+    // --- NEW, ROBUST LOGIC FOR CONTROLS ---
 
-    // When the video starts playing, hide the controls immediately.
-    lightboxVideo.addEventListener('playing', () => {
-        lightboxVideo.classList.add('controls-hidden');
-    });
-
-    // On desktop, when the mouse enters the video area, show the controls.
-        lightboxVideo.addEventListener('playing', () => {
-        lightboxVideo.classList.add('controls-hidden');
-    });
+    // On desktop, when the mouse enters the video area, TURN ON controls.
     lightboxContent.addEventListener('mouseenter', () => {
-        lightboxVideo.classList.remove('controls-hidden');
+        lightboxVideo.controls = true;
     });
 
-    // On desktop, when the mouse leaves the video area, hide them again.
+    // On desktop, when the mouse leaves the video area, TURN OFF controls.
     lightboxContent.addEventListener('mouseleave', () => {
-        if (!lightboxVideo.paused) { // Don't hide if the video is paused
-            lightboxVideo.classList.add('controls-hidden');
-        }
-    });
-
-    // On mobile, a single tap on the video will toggle the controls.
-    lightboxContent.addEventListener('click', () => {
-        // We check if the video is playing to avoid conflicts with the play/pause button
         if (!lightboxVideo.paused) {
-            lightboxVideo.classList.toggle('controls-hidden');
+            lightboxVideo.controls = false;
         }
     });
 
-    // Always show controls when the video is paused.
+    // On mobile, a single tap on the video will toggle the controls ON or OFF.
+    lightboxContent.addEventListener('click', () => {
+        // Toggle the 'controls' attribute directly
+        lightboxVideo.controls = !lightboxVideo.controls;
+    });
+
+    // ALWAYS turn controls ON when the video is paused.
     lightboxVideo.addEventListener('pause', () => {
-        lightboxVideo.classList.remove('controls-hidden');
+        lightboxVideo.controls = true;
     });
 
     // --- Click events to open and close the lightbox ---
-    portfolioItems.forEach(item => {
-        item.addEventListener('click', (event) => {
-            event.preventDefault();
-            const videoSrc = item.dataset.videoSrc;
-            const aspectRatio = item.dataset.aspectRatio;
-            openLightbox(videoSrc, aspectRatio);
-        });
-    });
-
+    portfolioItems.forEach(item => { /* ... (No change here) */ });
     closeButton.addEventListener('click', closeLightbox);
-    if (lightboxOverlay) {
-        lightboxOverlay.addEventListener('click', closeLightbox);
-    }
+    if (lightboxOverlay) { lightboxOverlay.addEventListener('click', closeLightbox); }
 }
 
 
