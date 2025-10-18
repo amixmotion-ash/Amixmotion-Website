@@ -121,6 +121,10 @@ body.body-no-scroll .desktop-nav {
         font-weight: 600; /* Consistent font weight on mobile */
     }
 }
+header .nav-toggle:active,
+header .desktop-nav a:active {
+    color: inherit !important;
+}
 
 
 
