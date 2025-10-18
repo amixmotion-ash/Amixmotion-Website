@@ -252,7 +252,7 @@ header.is-hidden {
         grid-template-columns: 1fr; /* Stack vertically */
     }
        .mission-image img {
-        object-position: 50px 50%; /* Shifts the image 50px to the left */
+       object-position: 75% 50%; /* Shifts the image 50px to the left */
     }
 
     .mission-image {
