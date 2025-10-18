@@ -73,7 +73,7 @@ if (lightbox) {
     function resetControlsTimer() {
         showControls();
         // Set a timer to hide the controls after 2.5 seconds of no activity
-        controlsTimer = setTimeout(hideControls, 2500);
+        controlsTimer = setTimeout(hideControls, 500);
     }
 
     // --- This function handles OPENING the lightbox ---
