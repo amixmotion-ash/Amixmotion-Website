@@ -1894,6 +1894,9 @@ body.menu-cursor-active {
     padding-top: 140px !important; /* adjust up if needed (try 80–110px) */
     padding-bottom: 40px !important;
   }
+  .portfolio-page .page-title-section h1 {
+    text-align: left !important;
+  }
 }
 
 
