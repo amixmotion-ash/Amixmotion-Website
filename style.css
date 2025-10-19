@@ -431,7 +431,7 @@ body.body-no-scroll .desktop-nav {
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 25px;
+    padding: 50px;
     box-sizing: border-box;
     z-index: 2;
 
@@ -439,6 +439,7 @@ body.body-no-scroll .desktop-nav {
     background-image: url('../images/gradient-overlay-portfolio.png');
     background-size: 100% 100%; /* Stretches the image to fill the container */
     background-repeat: no-repeat;
+     background-position: center bottom !important; /* BECOME MORE SPECIFIC and ADD !important */
 }
 
 /* This styles the text on BOTH pages */
@@ -1333,12 +1334,13 @@ body.contact-page {
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 25px;
+    padding: 50px;
     box-sizing: border-box;
     z-index: 2;
     background-image: url('../images/gradient-overlay-portfolio.png');
     background-size: 100% 100%; /* Stretches the image to fill the container */
     background-repeat: no-repeat;
+     background-position: center bottom !important; /* BECOME MORE SPECIFIC and ADD !important */
 }
 .portfolio-page .grid-item-title,
 .portfolio-page .grid-item-subtitle {
