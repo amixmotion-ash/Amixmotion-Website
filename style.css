@@ -434,13 +434,11 @@ body.body-no-scroll .desktop-nav {
     padding: 25px;
     box-sizing: border-box;
     z-index: 2;
-        background: linear-gradient(to top, 
-        rgba(0, 0, 0, 0.8) 0%,      /* Start with a solid dark base */
-        rgba(0, 0, 0, 0.7) 15%,     /* Quickly fade to a medium tone */
-        rgba(0, 0, 0, 0) 60%       /* Fade to completely transparent by the 60% mark */
-    );
-    opacity: 1;
-    transform: translateY(0);
+
+    /* --- THESE ARE THE NEW LINES --- */
+    background-image: url('../images/gradient-overlay-portfolio.png');
+    background-size: 100% 100%; /* Stretches the image to fill the container */
+    background-repeat: no-repeat;
 }
 
 /* This styles the text on BOTH pages */
