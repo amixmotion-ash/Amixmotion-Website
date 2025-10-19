@@ -350,3 +350,35 @@ if (document.body.classList.contains('homepage')) {
         });
     }
 }
+
+// ======================================================================
+// == HOMEPAGE: Hide Hero Video at Bottom of Page ==
+// ======================================================================
+
+if (document.body.classList.contains('homepage')) {
+    
+    const heroVideoSection = document.querySelector('.hero-video');
+
+    if (heroVideoSection) {
+        window.addEventListener('scroll', function() {
+            // This is the total height of the entire page
+            const scrollHeight = document.documentElement.scrollHeight;
+            // This is the height of the visible browser window
+            const clientHeight = document.documentElement.clientHeight;
+            // This is how far the user has scrolled from the top
+            const scrollTop = window.scrollY;
+
+            // This is the total scrollable distance
+            const maxScroll = scrollHeight - clientHeight;
+
+            // If the user has scrolled to the last 100px of the page
+            if (scrollTop >= (maxScroll - 100)) {
+                // Add the class to hide the video
+                heroVideoSection.classList.add('is-hidden');
+            } else {
+                // Otherwise, remove the class to show the video
+                heroVideoSection.classList.remove('is-hidden');
+            }
+        });
+    }
+}
