@@ -927,8 +927,11 @@ body.contact-page {
     }
 
     /* --- 5. Other mobile styles --- */
-    .profile-grid-text .bio {
-        font-size: 1.2rem;
+      .profile-grid-text .bio {
+        font-size: 25px;       /* This now matches the mission statement */
+        text-align: center;    /* This centers the text */
+        padding-left: 20px;    /* This adds a nice left margin */
+        padding-right: 20px;   /* This adds a nice right margin */
     }
 }
 
