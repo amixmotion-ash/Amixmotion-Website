@@ -1727,6 +1727,8 @@ body.menu-cursor-active {
         min-height: 50vh; /* Reduces the overall height of the section */
         padding-top: 60px; /* Reduces the space above the text */
         padding-bottom: 60px; /* Reduces the space below the text */
+        padding-left: 20px;    /* ADD THIS LINE */
+        padding-right: 20px; 
     }
 }
 /* ================================================================= */
