@@ -926,6 +926,10 @@ body.contact-page {
         margin-bottom: 20px; /* Adds a space between the small images and the bio text below them */
     }
 
+      .profile-grid-text {
+        padding-top: 0;
+    }
+
     /* --- 5. Other mobile styles --- */
     .profile-grid-text .bio {
         font-size: 25px;
