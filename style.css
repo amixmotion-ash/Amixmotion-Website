@@ -1810,6 +1810,34 @@ body.menu-cursor-active {
     }
 }
 
+/* ================================================================= */
+/* == ABOUT PAGE: MOBILE-ONLY Services Section Alignment == */
+/* ================================================================= */
+
+/* This rule ONLY applies on screens 900px or smaller */
+@media (max-width: 900px) {
+
+    /* --- 1. This rule targets the main headline --- */
+
+
+        .about-page .services-section {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .about-page .services-main-title {
+        text-align: left;
+    }
+
+    /* --- 2. This rule targets the paragraph below it --- */
+    .about-page .services-intro-paragraph {
+        text-align: left;
+        /* This removes the auto-centering margins */
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+
 
 
 
