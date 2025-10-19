@@ -1651,8 +1651,8 @@ body.menu-cursor-active {
 
     /* --- 3. This controls the size of the logo image itself --- */
     .about-page .logo-item img {
-        max-width: 120px;
-        max-height: 60px;
+        max-width: 150px;
+        max-height: 75px;
     }
 }
 
