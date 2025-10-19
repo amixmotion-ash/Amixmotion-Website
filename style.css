@@ -255,7 +255,7 @@ body.body-no-scroll .desktop-nav {
 }
 
 /* --- SCROLLING CONTENT WRAPPER --- */
-.scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; min-height: 100vh;  }
+.scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; }
 
 /* --- MISSION SECTION --- */
 
@@ -599,6 +599,9 @@ footer {
     color: #ffffff;
     padding: 120px 40px; /* This is the original, correct desktop padding */
     font-family: 'Inter', sans-serif;
+
+    position: relative; /* This is required to enable z-index */
+    z-index: 3;     
 }
 
 .new-footer-container {
