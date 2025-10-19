@@ -1888,21 +1888,29 @@ body.menu-cursor-active {
         padding-right: 20px;
     }
 }
+
 /* ================================================================= */
-/* == PORTFOLIO PAGE: MOBILE-ONLY Header Padding Reduction == */
+/* == PORTFOLIO PAGE: DEFINITIVE MOBILE-ONLY Header Spacing Fix == */
 /* ================================================================= */
 
 /* This rule ONLY applies on screens 900px or smaller */
 @media (max-width: 900px) {
 
-    /* This rule finds the header ONLY on the portfolio page and
-       reduces its vertical padding. */
+    /* --- Step 1: Reduce the padding of the header container --- */
+    /* This will correctly move the LOGO up. */
     .portfolio-page header {
         padding-top: 15px;
         padding-bottom: 15px;
     }
-}
 
+    /* --- Step 2: This is the KEY FIX. It moves the BUTTONS up. --- */
+    /* This rule finds the "MENU" and "WORK" buttons ONLY on the portfolio page
+       and overrides their 'top' position. */
+    .portfolio-page .nav-toggle,
+    .portfolio-page .desktop-nav {
+        top: 18px; /* A smaller value than the default 28px */
+    }
+}
 
 
 
