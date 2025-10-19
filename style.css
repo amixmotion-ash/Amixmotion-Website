@@ -1890,7 +1890,8 @@ body.menu-cursor-active {
 }
 @media (max-width: 768px) {
   .portfolio-page .page-title-section {
-    padding-top: 40px !important;
+    /* Enough space to clear the fixed header */
+    padding-top: 90px !important; /* adjust up if needed (try 80–110px) */
     padding-bottom: 40px !important;
   }
 }
