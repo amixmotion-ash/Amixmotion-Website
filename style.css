@@ -1864,17 +1864,24 @@ body.menu-cursor-active {
     }
 }
 /* ================================================================= */
-/* == MOBILE: GLOBAL HEADER PADDING == */
+/* == MOBILE: BRUTE-FORCE FIX for Header Button Alignment == */
 /* ================================================================= */
 
-/* This rule applies to ALL pages on screens 900px or smaller */
+/* This rule ONLY applies on screens 900px or smaller */
 @media (max-width: 900px) {
-    header {
-        padding-left: 20px;
-        padding-right: 20px;
+
+    /* This rule finds the "MENU" button and FORCES it to move
+       20 pixels to the left, overriding any grid or padding styles. */
+    .nav-toggle {
+        margin-left: -20px !important;
+    }
+
+    /* This rule finds the "WORK" button and FORCES it to move
+       20 pixels to the right, creating a symmetrical layout. */
+    .desktop-nav {
+        margin-right: -20px !important;
     }
 }
-
 
 
 
