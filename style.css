@@ -1383,18 +1383,7 @@ body.menu-cursor-active {
     cursor: none;
 }
 
-/* ============================================================ */
-/* == MOBILE: DEFINITIVE HOMEPAGE OVERFLOW FIXES == */
-/* ============================================================ */
 
-@media (max-width: 768px) {
-
-    /* --- 1. Header Fix --- */
-    /* This forces the header to be exactly the width of the screen and no wider. */
-    .homepage header {
-        width: 100vw;
-    }
-}
 
 /* ================================================================= */
 /* == MOBILE: DEFINITIVE & COMPLETE TESTIMONIALS LAYOUT == */
@@ -1872,6 +1861,17 @@ body.menu-cursor-active {
 
     .showcase-cta {
         margin-top: 40px;
+    }
+}
+/* ================================================================= */
+/* == MOBILE: GLOBAL HEADER PADDING == */
+/* ================================================================= */
+
+/* This rule applies to ALL pages on screens 900px or smaller */
+@media (max-width: 900px) {
+    header {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }
 
