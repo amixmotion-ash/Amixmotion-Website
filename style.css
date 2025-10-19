@@ -1796,6 +1796,20 @@ body.menu-cursor-active {
     }
 }
 
+/* ================================================================= */
+/* == ABOUT PAGE: MOBILE-ONLY "TRUSTED BY" LOGO FIX == */
+/* ================================================================= */
+
+/* This rule ONLY applies on screens 900px or smaller */
+@media (max-width: 900px) {
+
+    /* This rule targets each individual logo's container */
+    .about-page .logo-item {
+        /* This is the key fix. It gives the grid cell a minimum height,
+           allowing the image inside to scale correctly without being squashed. */
+        min-height: 80px;
+    }
+}
 
 
 
