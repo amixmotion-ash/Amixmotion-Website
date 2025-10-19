@@ -1823,7 +1823,7 @@ body.menu-cursor-active {
         .about-page .services-section {
         padding-left: 20px;
         padding-right: 20px;
-        padding-top: 80px;
+        padding-top: 70px;
     }
     .about-page .services-main-title {
         text-align: left;
@@ -1838,6 +1838,42 @@ body.menu-cursor-active {
     }
 }
 
+/* ================================================================= */
+/* == ABOUT PAGE: MOBILE-ONLY Art of the Edit Layout (Consolidated) == */
+/* ================================================================= */
+
+@media (max-width: 900px) {
+
+    /* --- 1. Make the parent section full-width and adjust top padding --- */
+    .about-page .editing-showcase-section {
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 60px;
+    }
+
+    /* --- 2. Keep the grid as a single column --- */
+    .showcase-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    /* --- 3. Left-align text and add padding ONLY to the text content --- */
+    .showcase-text-content {
+        text-align: left;
+        align-items: flex-start;
+        padding-left: 20px;  /* This aligns the text with the header */
+        padding-right: 20px; /* This adds space on the right */
+    }
+
+    /* --- 4. Other mobile styles --- */
+    .showcase-text-main p {
+        font-size: 1.2rem;
+    }
+
+    .showcase-cta {
+        margin-top: 40px;
+    }
+}
 
 
 
