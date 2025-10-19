@@ -1053,12 +1053,14 @@ body.contact-page {
     line-height: 1.1;
 }
 
+/* This rule now matches the 'Services' paragraph */
 .showcase-text-main p {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     line-height: 1.6;
     font-weight: 300;
     color: #222;
-    margin: 0; /* Removed bottom margin */
+    max-width: 650px; /* This matches the 'Services' paragraph width */
+    margin: 0 auto;   /* This centers the block */
 }
 
 /* The old .showcase-text selector is no longer needed */
@@ -1846,8 +1848,8 @@ body.menu-cursor-active {
 
     /* --- 1. Make the parent section full-width and adjust top padding --- */
     .about-page .editing-showcase-section {
-        padding-left: 0;
-        padding-right: 0;
+        padding-left: 20px;
+        padding-right: 20px;
         padding-top: 60px;
     }
 
@@ -1860,14 +1862,12 @@ body.menu-cursor-active {
     /* --- 3. Left-align text and add padding ONLY to the text content --- */
     .showcase-text-content {
         text-align: left;
-        align-items: flex-start;
-        padding-left: 20px;  /* This aligns the text with the header */
-        padding-right: 20px; /* This adds space on the right */
+        align-items: center;
     }
 
     /* --- 4. Other mobile styles --- */
     .showcase-text-main p {
-        font-size: 1.2rem;
+       font-size: 1.1rem;
     }
 
     .showcase-cta {
