@@ -1766,32 +1766,36 @@ body.menu-cursor-active {
 }
 
 /* ================================================================= */
-/* == ABOUT PAGE: BRUTE-FORCE ALIGNMENT for Process Section == */
+/* == ABOUT PAGE: MOBILE-ONLY PROCESS SECTION ALIGNMENT (CORRECTED) == */
 /* ================================================================= */
 
 /* This rule ONLY applies on screens 900px or smaller */
 @media (max-width: 900px) {
 
-    /* --- Step 1: Force the parent container to be full-width --- */
+    /* --- Step 1: Remove the padding from the parent section --- */
+    /* This allows the content inside to go full-width. */
     .about-page .process-section {
-        width: 100vw;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /* --- Step 2: Widen the header text and align it correctly --- */
+    .about-page .process-header-text {
+        max-width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
         box-sizing: border-box;
     }
 
-    /* --- Step 2: Brute-force the alignment of the text block --- */
-    .about-page .process-header-text {
-        /* Force it wider and pull it left to align */
-        width: calc(100% + 20px);
-        margin-left: -20px;
-    }
-
-    /* --- Step 3: Brute-force the alignment of the accordion --- */
+    /* --- Step 3: Widen the accordion and align it correctly --- */
     .about-page .accordion {
-        /* Force it wider and pull it left to align */
-        width: calc(100% + 20px);
-        margin-left: -20px;
+        max-width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+        box-sizing: border-box;
     }
 }
+
 
 
 
