@@ -1753,7 +1753,7 @@ body.menu-cursor-active {
     /* This rule finds the container for your bio text and
        FORCES it to move upwards by 60 pixels. */
     .about-page .profile-grid-text {
-        margin-top: -60px !important;
+        margin-top: -70px !important;
     }
 }
 
