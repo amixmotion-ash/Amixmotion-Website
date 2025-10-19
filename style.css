@@ -1888,6 +1888,20 @@ body.menu-cursor-active {
         padding-right: 20px;
     }
 }
+/* ================================================================= */
+/* == PORTFOLIO PAGE: MOBILE-ONLY Header Padding Reduction == */
+/* ================================================================= */
+
+/* This rule ONLY applies on screens 900px or smaller */
+@media (max-width: 900px) {
+
+    /* This rule finds the header ONLY on the portfolio page and
+       reduces its vertical padding. */
+    .portfolio-page header {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}
 
 
 
