@@ -1751,6 +1751,20 @@ body.menu-cursor-active {
     }
 }
 
+/* ================================================================= */
+/* == MOBILE: ADJUST HEADER PADDING == */
+/* ================================================================= */
+
+/* This rule ONLY applies on screens 900px or smaller */
+@media (max-width: 900px) {
+
+    header {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+}
+
 
 
 
