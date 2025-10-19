@@ -1081,6 +1081,7 @@ body.contact-page {
 
     .showcase-cta {
         margin-top: 40px; /* Add space above the button on mobile */
+        width: 100%;
     }
 }
 
