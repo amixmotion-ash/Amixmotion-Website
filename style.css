@@ -1808,20 +1808,6 @@ body.menu-cursor-active {
     }
 }
 
-/* ================================================================= */
-/* == ABOUT PAGE: MOBILE-ONLY SPACING for Art of the Edit Section == */
-/* ================================================================= */
 
-@media (max-width: 900px) {
-    .about-page .editing-showcase-section {
-        padding-top: 60px;
-    }
-
-    /* ADD THIS NEW RULE:
-       This targets the button's container and makes the button inside it full-width. */
-    .about-page .showcase-cta .button-outline {
-        width: 100%;
-    }
-}
 
 
