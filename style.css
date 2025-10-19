@@ -431,7 +431,15 @@ body.body-no-scroll .desktop-nav {
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 50px;
+
+    
+ min-height: 150px;         /* This now controls the gradient's height */
+    display: flex;             /* This enables flexbox */
+    flex-direction: column;    /* This stacks the title and subtitle */
+    justify-content: flex-end; /* This pins the text to the BOTTOM */
+
+
+    padding: 25px;
     box-sizing: border-box;
     z-index: 2;
 
@@ -1334,13 +1342,20 @@ body.contact-page {
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 50px;
+
+ min-height: 150px;         /* This now controls the gradient's height */
+    display: flex;             /* This enables flexbox */
+    flex-direction: column;    /* This stacks the title and subtitle */
+    justify-content: flex-end; /* This pins the text to the BOTTOM */
+
+
+    padding: 25px;
     box-sizing: border-box;
     z-index: 2;
     background-image: url('../images/gradient-overlay-portfolio.png');
-    background-size: 100% 100%; /* Stretches the image to fill the container */
+    background-size: 100% 100%; 
     background-repeat: no-repeat;
-     background-position: center bottom !important; /* BECOME MORE SPECIFIC and ADD !important */
+     background-position: center bottom !important; 
 }
 .portfolio-page .grid-item-title,
 .portfolio-page .grid-item-subtitle {
