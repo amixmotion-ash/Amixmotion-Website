@@ -1765,6 +1765,30 @@ body.menu-cursor-active {
 
 }
 
+/* ================================================================= */
+/* == ABOUT PAGE: MOBILE-ONLY PROCESS SECTION ALIGNMENT == */
+/* ================================================================= */
+
+/* This rule ONLY applies on screens 900px or smaller */
+@media (max-width: 900px) {
+
+    /* --- 1. This rule targets the text above the accordion --- */
+    .about-page .process-header-text {
+        max-width: 100%; /* Removes the desktop width constraint */
+        padding-left: 20px;
+        padding-right: 20px;
+        box-sizing: border-box; /* Ensures padding is inside the width */
+    }
+
+    /* --- 2. This rule targets the accordion (dropdown boxes) --- */
+    .about-page .accordion {
+        max-width: 100%; /* Removes the desktop width constraint */
+        padding-left: 20px;
+        padding-right: 20px;
+        box-sizing: border-box; /* Ensures padding is inside the width */
+    }
+}
+
 
 
 
