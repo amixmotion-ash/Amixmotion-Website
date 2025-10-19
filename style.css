@@ -1766,38 +1766,32 @@ body.menu-cursor-active {
 }
 
 /* ================================================================= */
-/* == ABOUT PAGE: MOBILE-ONLY PROCESS SECTION ALIGNMENT (CORRECTED) == */
+/* == ABOUT PAGE: BRUTE-FORCE ALIGNMENT for Process Section == */
 /* ================================================================= */
 
+/* This rule ONLY applies on screens 900px or smaller */
 @media (max-width: 900px) {
 
+    /* --- Step 1: Force the parent container to be full-width --- */
     .about-page .process-section {
-        padding-left: 0;
-        padding-right: 0;
+        width: 100vw;
+        box-sizing: border-box;
     }
 
+    /* --- Step 2: Brute-force the alignment of the text block --- */
     .about-page .process-header-text {
-        max-width: 100%;
-        padding-left: 20px;
-        padding-right: 20px;
-        box-sizing: border-box;
+        /* Force it wider and pull it left to align */
+        width: calc(100% + 20px);
+        margin-left: -20px;
     }
 
+    /* --- Step 3: Brute-force the alignment of the accordion --- */
     .about-page .accordion {
-        max-width: 100%;
-        padding-left: 20px;
-        padding-right: 20px;
-        box-sizing: border-box;
-    }
-
-    /* ADD THIS NEW RULE:
-       This is the KEY FIX. It removes the extra internal padding
-       on the left side of the accordion buttons. */
-    .about-page .accordion-toggle {
-        padding-left: 0;
+        /* Force it wider and pull it left to align */
+        width: calc(100% + 20px);
+        margin-left: -20px;
     }
 }
-
 
 
 
