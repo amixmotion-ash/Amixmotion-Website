@@ -1743,30 +1743,20 @@ body.menu-cursor-active {
         padding-bottom: 60px; /* Reduces the space below the text */
     }
 }
-
 /* ================================================================= */
-/* == ABOUT PAGE: DEFINITIVE & FINAL FIX for Image/Text Gap == */
+/* == ABOUT PAGE: BRUTE-FORCE FIX for Image/Text Gap == */
 /* ================================================================= */
 
 /* This rule ONLY applies on screens 900px or smaller */
 @media (max-width: 900px) {
 
-    /* --- Step 1: Fix the Container --- */
-    /* This rule finds the container for the text and small images and
-       resets its alignment, which is the root cause of the problem. */
-    .about-page .profile-grid-right-column {
-        justify-content: flex-start !important; /* This is the KEY FIX */
-        gap: 20px !important; /* This now becomes the ONLY space */
-    }
-
-    /* --- Step 2: The Safety Net --- */
-    /* This is a final guarantee to remove any lingering top margin or padding
-       from the text's own container. */
+    /* This rule finds the container for your bio text and
+       FORCES it to move upwards by 60 pixels. */
     .about-page .profile-grid-text {
-        margin-top: 0 !important;
-        padding-top: 0 !important;
+        margin-top: -60px !important;
     }
 }
+
 
 
 
