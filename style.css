@@ -432,7 +432,7 @@ body.body-no-scroll .desktop-nav {
     left: 0;
     width: 100%;
 
-    
+
  min-height: 150px;         /* This now controls the gradient's height */
     display: flex;             /* This enables flexbox */
     flex-direction: column;    /* This stacks the title and subtitle */
@@ -734,6 +734,25 @@ footer {
     padding: 120px 40px;
     box-sizing: border-box;
 }
+
+/* ================================================================= */
+/* == CONTACT PAGE: Override Browser Autofill Styles == */
+/* ================================================================= */
+
+/* This targets the input fields when they are autofilled by the browser */
+.contact-form input:-webkit-autofill,
+.contact-form input:-webkit-autofill:hover, 
+.contact-form input:-webkit-autofill:focus, 
+.contact-form input:-webkit-autofill:active {
+    
+    /* This is the key fix. It uses a very large, inset box-shadow
+       to "paint over" the browser's default blue background. */
+    -webkit-box-shadow: 0 0 0 30px #f9f9f9 inset !important;
+
+    /* Optional: If the autofilled text is the wrong color (e.g., black on black)
+       you can uncomment the line below to force it to be your standard text color. */
+    /* -webkit-text-fill-color: #222222 !important; */
+}
 .contact-layout-container {
     width: 100%;
     max-width: 1200px;
@@ -744,7 +763,7 @@ footer {
     align-items: start;
 }
 .contact-intro h1 {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     font-size: clamp(2.5rem, 8vw, 5rem);
     line-height: 1.1;
@@ -1923,6 +1942,19 @@ body.menu-cursor-active {
   }
 }
 
+/* ================================================================= */
+/* == MOBILE: GLOBAL Main Content Top Padding == */
+/* ================================================================= */
+
+/* This rule ONLY applies on screens 900px or smaller */
+@media (max-width: 900px) {
+
+    /* This rule finds the main content area of EVERY page and adds a
+       consistent space at the top to clear the header. */
+    main {
+        padding-top: 100px; /* Adjust this value as needed */
+    }
+}
 
 
 
