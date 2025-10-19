@@ -1952,7 +1952,7 @@ body.menu-cursor-active {
     /* This rule finds the main content area of EVERY page and adds a
        consistent space at the top to clear the header. */
     main {
-        padding-top: 100px; /* Adjust this value as needed */
+        padding-top: 150px; /* Adjust this value as needed */
     }
 }
 
