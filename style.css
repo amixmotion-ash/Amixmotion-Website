@@ -1769,17 +1769,13 @@ body.menu-cursor-active {
 /* == ABOUT PAGE: MOBILE-ONLY PROCESS SECTION ALIGNMENT (CORRECTED) == */
 /* ================================================================= */
 
-/* This rule ONLY applies on screens 900px or smaller */
 @media (max-width: 900px) {
 
-    /* --- Step 1: Remove the padding from the parent section --- */
-    /* This allows the content inside to go full-width. */
     .about-page .process-section {
         padding-left: 0;
         padding-right: 0;
     }
 
-    /* --- Step 2: Widen the header text and align it correctly --- */
     .about-page .process-header-text {
         max-width: 100%;
         padding-left: 20px;
@@ -1787,12 +1783,18 @@ body.menu-cursor-active {
         box-sizing: border-box;
     }
 
-    /* --- Step 3: Widen the accordion and align it correctly --- */
     .about-page .accordion {
         max-width: 100%;
         padding-left: 20px;
         padding-right: 20px;
         box-sizing: border-box;
+    }
+
+    /* ADD THIS NEW RULE:
+       This is the KEY FIX. It removes the extra internal padding
+       on the left side of the accordion buttons. */
+    .about-page .accordion-toggle {
+        padding-left: 0;
     }
 }
 
