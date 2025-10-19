@@ -923,7 +923,7 @@ body.contact-page {
 
     .profile-grid-secondary-images {
         order: 1; /* The two small images now come FIRST */
-        margin-bottom: 20px; /* Adds a space between the small images and the bio text below them */
+        margin-bottom: 0px; /* Adds a space between the small images and the bio text below them */
     }
 
       .profile-grid-text {
