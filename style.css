@@ -1766,26 +1766,32 @@ body.menu-cursor-active {
 }
 
 /* ================================================================= */
-/* == ABOUT PAGE: MOBILE-ONLY PROCESS SECTION ALIGNMENT == */
+/* == ABOUT PAGE: MOBILE-ONLY PROCESS SECTION ALIGNMENT (CORRECTED) == */
 /* ================================================================= */
 
 /* This rule ONLY applies on screens 900px or smaller */
 @media (max-width: 900px) {
 
-    /* --- 1. This rule targets the text above the accordion --- */
-    .about-page .process-header-text {
-        max-width: 100%; /* Removes the desktop width constraint */
-        padding-left: 20px;
-        padding-right: 20px;
-        box-sizing: border-box; /* Ensures padding is inside the width */
+    /* --- Step 1: Remove the padding from the parent section --- */
+    /* This allows the content inside to go full-width. */
+    .about-page .process-section {
+        padding-left: 0;
+        padding-right: 0;
     }
 
-    /* --- 2. This rule targets the accordion (dropdown boxes) --- */
-    .about-page .accordion {
-        max-width: 100%; /* Removes the desktop width constraint */
-        padding-left: 20px;
+    /* --- Step 2: Widen the header text and align it correctly --- */
+    .about-page .process-header-text {
+        max-width: 100%;
+        padding-left: 20px;  /* This creates the 20px inset */
         padding-right: 20px;
-        box-sizing: border-box; /* Ensures padding is inside the width */
+        box-sizing: border-box;
+    }
+
+    /* --- Step 3: Widen the accordion and align it correctly --- */
+    .about-page .accordion {
+        max-width: 100%;
+        /* The accordion items already have their own internal padding,
+           so we don't need to add extra padding here. */
     }
 }
 
