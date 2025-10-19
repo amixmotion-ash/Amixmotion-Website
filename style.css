@@ -255,7 +255,7 @@ body.body-no-scroll .desktop-nav {
 }
 
 /* --- SCROLLING CONTENT WRAPPER --- */
-.scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; }
+.scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; min-height: 100vh;  }
 
 /* --- MISSION SECTION --- */
 
