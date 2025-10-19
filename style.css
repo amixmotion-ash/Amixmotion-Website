@@ -118,6 +118,20 @@ body.js-page-loaded header .desktop-nav a {
     opacity: 1;
 }
 
+.nav-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
 
 /* --- 5. UNIVERSAL Rules for When the Menu is OPEN --- */
 body.body-no-scroll header .nav-toggle {
@@ -1864,24 +1878,17 @@ body.menu-cursor-active {
     }
 }
 /* ================================================================= */
-/* == MOBILE: BRUTE-FORCE FIX for Header Button Alignment == */
+/* == MOBILE: GLOBAL HEADER PADDING == */
 /* ================================================================= */
 
-/* This rule ONLY applies on screens 900px or smaller */
+/* This rule applies to ALL pages on screens 900px or smaller */
 @media (max-width: 900px) {
-
-    /* This rule finds the "MENU" button and FORCES it to move
-       20 pixels to the left, overriding any grid or padding styles. */
-    .nav-toggle {
-        margin-left: -20px !important;
-    }
-
-    /* This rule finds the "WORK" button and FORCES it to move
-       20 pixels to the right, creating a symmetrical layout. */
-    .desktop-nav {
-        margin-right: -20px !important;
+    header {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }
+
 
 
 
