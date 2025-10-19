@@ -1763,6 +1763,11 @@ body.menu-cursor-active {
 /* This rule ONLY applies on screens 900px or smaller */
 @media (max-width: 900px) {
 
+        .about-page .trusted-by-section {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+
     /* --- Step 1: Remove the padding from the parent section --- */
     /* This allows the content inside to go full-width. */
     .about-page .process-section {
