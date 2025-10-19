@@ -731,7 +731,7 @@ footer {
     display: flex;
     align-items: center;
     min-height: 100vh;
-    padding: 130px 40px 120px 40px; /* Top is now 80px, Right/Left are 40px, Bottom is 120px */
+    padding: 120px 40px;
     box-sizing: border-box;
 }
 
@@ -1942,19 +1942,7 @@ body.menu-cursor-active {
   }
 }
 
-/* ================================================================= */
-/* == MOBILE: GLOBAL Main Content Top Padding == */
-/* ================================================================= */
 
-/* This rule ONLY applies on screens 900px or smaller */
-@media (max-width: 900px) {
-
-    /* This rule finds the main content area of EVERY page and adds a
-       consistent space at the top to clear the header. */
-    main {
-        padding-top: 150px; /* Adjust this value as needed */
-    }
-}
 
 
 
