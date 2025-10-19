@@ -1891,7 +1891,7 @@ body.menu-cursor-active {
 @media (max-width: 768px) {
   .portfolio-page .page-title-section {
     padding-top: 140px !important;
-    padding-bottom: 40px !important;
+    padding-bottom: 30px !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
