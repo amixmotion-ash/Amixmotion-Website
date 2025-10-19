@@ -605,17 +605,19 @@ footer {
     footer {
         padding: 80px 20px;
     }
-
-    /* This rule stacks the footer content vertically on mobile */
     .new-footer-container {
         flex-direction: column;
         align-items: flex-start;
         gap: 80px;
     }
-
-    /* This rule makes the headline bigger on mobile */
     .footer-cta-new h2 {
         font-size: clamp(2.5rem, 12vw, 4rem);
+    }
+
+    .footer-nav-new {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px;
     }
 }
 
@@ -1389,14 +1391,6 @@ body.menu-cursor-active {
     .homepage header {
         width: 100vw;
     }
-
-    /* --- 3. Footer Fix --- */
-    /* This forces the right side of the footer to stack vertically, giving the button room. */
-    .homepage .footer-nav-new {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 30px;
-    }
 }
 
 /* ================================================================= */
@@ -1753,7 +1747,7 @@ body.menu-cursor-active {
     /* This rule finds the container for your bio text and
        FORCES it to move upwards by 60 pixels. */
     .about-page .profile-grid-text {
-        margin-top: -70px !important;
+        margin-top: -60px !important;
     }
 }
 
