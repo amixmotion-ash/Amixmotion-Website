@@ -731,7 +731,7 @@ footer {
     display: flex;
     align-items: center;
     min-height: 100vh;
-    padding: 120px 40px;
+    padding: 80px 40px 120px 40px; /* Top is now 80px, Right/Left are 40px, Bottom is 120px */
     box-sizing: border-box;
 }
 
