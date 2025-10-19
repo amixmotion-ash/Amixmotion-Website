@@ -1941,7 +1941,56 @@ body.menu-cursor-active {
     text-align: left !important;
   }
 }
+/* ================================================================= */
+/* == HOMEPAGE: Scroll Down Indicator == */
+/* ================================================================= */
 
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px; /* Adjust this to control distance from the bottom */
+    left: 50%;
+    transform: translateX(-50%); /* This perfectly centers the element */
+    z-index: 5; /* Places it above the video but below other content */
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    opacity: 0.8;
+}
+
+.scroll-text {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.scroll-arrow {
+    width: 20px;
+    height: 20px;
+    margin-top: 10px;
+    border-left: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    transform: rotate(-45deg);
+
+    /* --- This creates the bouncing animation --- */
+    animation: bounce 2s infinite;
+}
+
+/* This is the animation keyframes */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) rotate(-45deg);
+    }
+    40% {
+        transform: translateY(-10px) rotate(-45deg);
+    }
+    60% {
+        transform: translateY(-5px) rotate(-45deg);
+    }
+}
 
 
 
