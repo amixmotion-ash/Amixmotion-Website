@@ -1888,6 +1888,12 @@ body.menu-cursor-active {
         padding-right: 20px;
     }
 }
+@media (max-width: 768px) {
+  .portfolio-page .page-title-section {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+}
 
 
 
