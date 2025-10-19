@@ -239,6 +239,20 @@ body.body-no-scroll .desktop-nav {
     /* ADD THIS LINE: This aligns the top of the video with the top of the container */
     object-position: center top;
 }
+.hero-video::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px; /* Adjust the height of the gradient as needed */
+    
+    /* This creates a gradient from transparent at the top to black at the bottom */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+
+    z-index: 4; /* Sits just below the scroll indicator (z-index 5) */
+    pointer-events: none; /* Ensures it doesn't interfere with mouse clicks */
+}
 
 /* --- SCROLLING CONTENT WRAPPER --- */
 .scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; }

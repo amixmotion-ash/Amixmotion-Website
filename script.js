@@ -322,3 +322,31 @@ window.addEventListener('mousemove', (e) => {
         });
     });
 }
+
+// ======================================================================
+// == HOMEPAGE: Fade Out Scroll Indicator ==
+// ======================================================================
+
+// This script only runs if we are on the homepage
+if (document.body.classList.contains('homepage')) {
+    
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+
+    // Make sure the element actually exists on the page
+    if (scrollIndicator) {
+        
+        // --- First, add a smooth transition to the CSS ---
+        scrollIndicator.style.transition = 'opacity 0.3s ease-out';
+
+        window.addEventListener('scroll', function() {
+            // Check if the user has scrolled down more than a tiny amount (e.g., 50 pixels)
+            if (window.scrollY > 50) {
+                // If they have, fade the indicator out
+                scrollIndicator.style.opacity = '0';
+            } else {
+                // If they scroll back to the very top, fade it back in
+                scrollIndicator.style.opacity = '0.8';
+            }
+        });
+    }
+}
