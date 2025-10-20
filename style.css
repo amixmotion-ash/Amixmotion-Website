@@ -2038,6 +2038,19 @@ body.menu-cursor-active {
     text-decoration: none;
 }
 
+/* ================================================================= */
+/* == MOBILE: Disable Portfolio Image Zoom on Hover == */
+/* ================================================================= */
+
+/* This rule ONLY applies on screens 1024px or smaller (tablets and phones) */
+@media (max-width: 1024px) {
+
+    /* This finds the hover rule and tells the image NOT to transform. */
+    .grid-item:hover .grid-item-image img {
+        transform: none; /* Disables the 'scale(1.1)' effect */
+    }
+}
+
 
 
 
