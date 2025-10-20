@@ -2030,8 +2030,15 @@ body.menu-cursor-active {
 /* The 'is-visible' class will be added by our JavaScript. */
 .fade-in-on-scroll.is-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform:
+     translateY(0);
 }
+/* --- Removes underline from the new scroll indicator link --- */
+.scroll-indicator-link {
+    text-decoration: none;
+}
+
+
 
 
 

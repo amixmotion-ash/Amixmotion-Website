@@ -412,3 +412,31 @@ if (elementsToFadeIn.length > 0) {
         observer.observe(element);
     });
 }
+
+// ======================================================================
+// == HOMEPAGE: Smooth Scroll for "Scroll Down" Button ==
+// ======================================================================
+
+// 1. Find the link we just created
+const scrollLink = document.querySelector('.scroll-indicator-link');
+
+// 2. Make sure the link exists on the page
+if (scrollLink) {
+    
+    // 3. Add a click event listener
+    scrollLink.addEventListener('click', function(event) {
+        // First, prevent the default "jump" behavior of the link
+        event.preventDefault();
+
+        // Find the target section we want to scroll to (the one with id="mission")
+        const targetSection = document.querySelector('#mission');
+
+        if (targetSection) {
+            // This is the modern, built-in browser command to perform a smooth scroll
+            targetSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+}
