@@ -2014,6 +2014,24 @@ body.menu-cursor-active {
     }
 }
 
+/* ================================================================= */
+/* == GLOBAL: Scroll-Triggered Fade-In Animation == */
+/* ================================================================= */
+
+/* --- 1. This is the default state of any element we want to animate --- */
+/* By default, it's invisible and shifted slightly downwards. */
+.fade-in-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* --- 2. This is the state when the element becomes visible --- */
+/* The 'is-visible' class will be added by our JavaScript. */
+.fade-in-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 
 

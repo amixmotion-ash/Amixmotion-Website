@@ -382,3 +382,33 @@ if (document.body.classList.contains('homepage')) {
         });
     }
 }
+// ======================================================================
+// == GLOBAL: General Purpose Fade-In on Scroll ==
+// ======================================================================
+
+// 1. Find all elements that have our new animation class
+const elementsToFadeIn = document.querySelectorAll('.fade-in-on-scroll');
+
+// 2. Make sure there are elements to animate
+if (elementsToFadeIn.length > 0) {
+    
+    // 3. Set up the Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            // If the element is on the screen...
+            if (entry.isIntersecting) {
+                // ...add the 'is-visible' class to trigger the animation
+                entry.target.classList.add('is-visible');
+                // ...and then stop watching this element to save resources
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1 // Trigger when 10% of the element is visible
+    });
+
+    // 4. Tell the observer to watch each of our elements
+    elementsToFadeIn.forEach(element => {
+        observer.observe(element);
+    });
+}
