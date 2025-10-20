@@ -81,22 +81,24 @@ if (lightbox) {
         }
     }
 
-    // --- This function handles CLOSING the lightbox ---
-    function closeLightbox() {
-        lightbox.classList.remove('is-visible');
+  function closeLightbox() {
+    // --- Step 1: Start the fade-out animation ---
+    lightbox.classList.remove('is-visible');
+
+    // --- Step 2: WAIT for the animation to finish ---
+    // We will set a timeout that is the same duration as your CSS fade animation (300ms)
+    setTimeout(() => {
+        // --- Step 3: NOW that the video is hidden, we can safely stop it ---
         lightboxVideo.pause();
         lightboxVideo.src = '';
-        
+
+        // Clean up loader and vertical classes
         if(customLoader) customLoader.classList.remove('is-loading');
         lightbox.classList.remove('is-loading');
+        lightboxContent.classList.remove('is-vertical');
 
-        // Ensure controls are visible for the next time
-        lightboxVideo.classList.remove('controls-hidden');
-
-        setTimeout(() => {
-            lightboxContent.classList.remove('is-vertical');
-        }, 300);
-    }
+    }, 300); // 300ms matches your CSS 'transition: opacity 0.3s'
+}
     
     // --- Event Listeners for the video's loading state ---
     if (customLoader) {
