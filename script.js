@@ -442,3 +442,29 @@ if (scrollLink) {
         }
     });
 }
+
+// ======================================================================
+// == HOMEPAGE: Mission Statement FEATHERED Scroll-Wipe Effect ==
+// ======================================================================
+
+const missionTextWipe = document.querySelector('.mission-statement-scroll-effect');
+
+if (missionTextWipe) {
+    const foregroundWrapper = missionTextWipe.querySelector('.mission-statement-foreground-wrapper');
+
+    window.addEventListener('scroll', function() {
+        const rect = missionTextWipe.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+
+        // Use the same start point as before
+        const startPoint = viewportHeight * 0.9;
+        const endPoint = 0;
+        
+        const progress = Math.max(0, Math.min(1, (startPoint - rect.top) / (startPoint - endPoint)));
+
+        // --- THIS IS THE NEW LOGIC ---
+        // We update the '--progress' CSS variable based on the scroll.
+        // The value is passed as a percentage.
+        foregroundWrapper.style.setProperty('--progress', (progress * 100) + '%');
+    });
+}
