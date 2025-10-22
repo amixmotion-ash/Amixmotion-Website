@@ -444,41 +444,27 @@ if (scrollLink) {
 }
 
 // ======================================================================
-// == HOMEPAGE: Mission Section Scroll Animations (FINAL) ==
+// == HOMEPAGE: Mission Statement Scroll-Wipe Effect ==
 // ======================================================================
 
-if (document.body.classList.contains('homepage')) {
-    
-    const missionSection = document.querySelector('.mission-section');
-    const foregroundWrapper = document.querySelector('.mission-statement-foreground-wrapper');
-    const aboutButton = document.querySelector('.mission-section .slide-up-on-scroll');
+const missionTextWipe = document.querySelector('.mission-statement-scroll-effect');
 
-    if (missionSection && foregroundWrapper && aboutButton) {
+if (missionTextWipe) {
+    const foregroundWrapper = missionTextWipe.querySelector('.mission-statement-foreground-wrapper');
 
-        window.addEventListener('scroll', function() {
-            const rect = missionSection.getBoundingClientRect();
-            const viewportHeight = window.innerHeight;
+    window.addEventListener('scroll', function() {
+        const rect = missionTextWipe.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
 
-            // --- THIS IS THE CORRECT, SIMPLIFIED LOGIC ---
+        // Start the effect when the top of the element is 3/4 of the way down the screen
+        const startPoint = viewportHeight * 0.75;
+        // End the effect when the top of the element reaches the top of the screen
+        const endPoint = 0;
+        
+        // Calculate the progress of the scroll through the trigger zone
+        const progress = Math.max(0, Math.min(1, (startPoint - rect.top) / (startPoint - endPoint)));
 
-            // Let's define when the animation should start and end.
-            // Start when the top of the section is 80% down the screen.
-            const startScroll = viewportHeight * 0.8;
-            // End when the top of the section is at the 20% mark (near the top).
-            const endScroll = viewportHeight * 0.2;
-            
-            // Calculate the progress through this specific scroll zone.
-            const progress = Math.max(0, Math.min(1, (startScroll - rect.top) / (startScroll - endScroll)));
-            
-            // Update the CSS variable for the text wipe
-            foregroundWrapper.style.setProperty('--progress', (progress * 100) + '%');
-
-            // Trigger the button animation when the text wipe is more than halfway done
-            if (progress > 0.5) {
-                aboutButton.classList.add('is-visible');
-            } else {
-                aboutButton.classList.remove('is-visible');
-            }
-        });
-    }
+        // Update the WIDTH of the mask based on the scroll progress
+        foregroundWrapper.style.width = (progress * 100) + '%';
+    });
 }
