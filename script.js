@@ -444,7 +444,7 @@ if (scrollLink) {
 }
 
 // ======================================================================
-// == HOMEPAGE: Mission Statement Scroll-Wipe Effect ==
+// == HOMEPAGE: Mission Statement Scroll-Wipe Effect (Clip-Path Version) ==
 // ======================================================================
 
 const missionTextWipe = document.querySelector('.mission-statement-scroll-effect');
@@ -456,15 +456,12 @@ if (missionTextWipe) {
         const rect = missionTextWipe.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
 
-        // Start the effect when the top of the element is 3/4 of the way down the screen
         const startPoint = viewportHeight * 0.75;
-        // End the effect when the top of the element reaches the top of the screen
         const endPoint = 0;
         
-        // Calculate the progress of the scroll through the trigger zone
         const progress = Math.max(0, Math.min(1, (startPoint - rect.top) / (startPoint - endPoint)));
 
-        // Update the WIDTH of the mask based on the scroll progress
-        foregroundWrapper.style.width = (progress * 100) + '%';
+        // Update the CLIP-PATH of the mask based on the scroll progress
+        foregroundWrapper.style.clipPath = `inset(0 ${100 - (progress * 100)}% 0 0)`;
     });
 }
