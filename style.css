@@ -2112,12 +2112,11 @@ body.menu-cursor-active {
                 transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* --- The universal "is-visible" trigger class --- */
 .fade-in-on-scroll.is-visible,
 .slide-up-on-scroll.is-visible,
-.slide-from-right-on-scroll.is-visible { /* ADD THE NEW CLASS HERE */
+.slide-from-right-on-scroll.is-visible {
     opacity: 1;
-    transform: none; /* Changed to 'none' for better compatibility */
+    transform: translate(0); /* THIS IS THE CORRECT VALUE */
 }
 
 /* ================================================================= */
