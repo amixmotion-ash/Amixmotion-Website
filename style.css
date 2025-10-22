@@ -2123,57 +2123,61 @@ body.menu-cursor-active {
 }
 
 /* ================================================================= */
-/* == PORTFOLIO PAGE: Alternating Cascade Animation == */
+/* == PORTFOLIO PAGE: DEFINITIVE Non-Conflicting Cascade Animation == */
 /* ================================================================= */
 
-/* --- Step 1: Default (Hidden) State --- */
-/* By default, all columns are invisible, but have NO transform.
-   This is the key to avoiding the conflict with Rellax.js. */
+/* --- Step 1: Wrap the entire grid in an animation container --- */
+/* We will animate this container instead of the columns. */
+.portfolio-grid-container-new {
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* --- Step 2: Set the default (hidden) state for the columns --- */
+/* CRITICAL: We only control opacity here. No transform! */
 .portfolio-column {
     opacity: 0;
-    transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* --- Step 2: Define the "Animate Down" and "Animate Up" Keyframes --- */
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* --- Step 3: Define the slide-in animations --- */
+@keyframes slideInDown {
+    from { transform: translateY(-50px); }
+    to { transform: translateY(0); }
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes slideInUp {
+    from { transform: translateY(50px); }
+    to { transform: translateY(0); }
 }
 
-/* --- Step 3: Apply the Animations When Triggered --- */
-/* This 'animate-in' class will be added by our JavaScript. */
+/* --- Step 4: Apply the animations when triggered --- */
+/* The 'animate-in' class will be added by our JavaScript. */
+.animate-in .portfolio-column {
+    /* The ONLY thing we animate here is opacity, with a delay */
+    opacity: 1;
+    transition: opacity 0.8s ease-out;
+}
+
+/* We apply the temporary slide-in animation, which Rellax can then override */
 .animate-in .portfolio-column:nth-child(1) {
-    animation: fadeInDown 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    animation-delay: 0.1s;
+    transition-delay: 0.1s;
+    animation: slideInDown 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 .animate-in .portfolio-column:nth-child(2) {
-    animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    animation-delay: 0.2s;
+    transition-delay: 0.2s;
+    animation: slideInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 .animate-in .portfolio-column:nth-child(3) {
-    animation: fadeInDown 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    animation-delay: 0.3s;
+    transition-delay: 0.3s;
+    animation: slideInDown 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 .animate-in .portfolio-column:nth-child(4) {
-    animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    animation-delay: 0.4s;
+    transition-delay: 0.4s;
+    animation: slideInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 
