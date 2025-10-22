@@ -2104,6 +2104,15 @@ body.menu-cursor-active {
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
+/* --- 2. The "Mask In from Below" Effect --- */
+/* This is our new animation for the button */
+.slide-up-on-scroll {
+    opacity: 0;
+    transform: translateY(100%); /* Start 100% below its final position */
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
 /* --- 2. This is the state when the element becomes visible --- */
 /* The 'is-visible' class will be added by our JavaScript. */
 .fade-in-on-scroll.is-visible {
