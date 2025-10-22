@@ -294,7 +294,52 @@ body.body-no-scroll .desktop-nav {
 /* --- MISSION SECTION --- */
 
 .mission-text .pre-title { font-family: 'Inter', sans-serif; text-transform: uppercase; font-weight: 400; font-size: 18px; color: #888; margin: 0 0 10px 0; }
-.mission-statement { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 33px; line-height: 1.4; margin: 0; }
+/* ================================================================= */
+/* == MISSION SECTION: Scroll-Wipe Text Effect == */
+/* ================================================================= */
+
+/* --- 1. The Main Container --- */
+.mission-statement-scroll-effect {
+    position: relative;
+}
+
+/* --- 2. Shared Styles for Both Text Layers --- */
+.mission-statement-background,
+.mission-statement-foreground {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 33px;
+    line-height: 1.4;
+    margin: 0;
+    padding: 0; /* Add padding: 0 for consistency */
+    white-space: normal; /* Ensure text wraps normally */
+}
+
+/* --- 3. The Bottom Layer (Grey Text) --- */
+.mission-statement-background {
+    color: #555; /* The starting grey color */
+}
+
+/* --- 4. The Top Layer (White Text) --- */
+/* The foreground text must NOT wrap, so the wipe is clean */
+.mission-statement-foreground {
+    color: #ffffff; /* The final white color */
+    white-space: nowrap; /* Prevents text from wrapping inside the mask */
+}
+
+/* --- 5. The Masking Wrapper --- */
+/* This is the KEY to the effect. It's the "curtain" that reveals the white text. */
+.mission-statement-foreground-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    
+    /* By default, the mask is closed (0% width), hiding all the white text */
+    width: 0;
+}
 
 /* --- MISSION SECTION (Corrected Full-Bleed Layout) --- */
 .mission-section {
@@ -1451,8 +1496,8 @@ body.contact-page {
     top: 0;
     left: 0;
     z-index: 1100;
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     
     background-color:  rgba(255, 255, 255, 0.8); /* This makes the circle white */
     color: #000000;            /* This makes the arrow black */
