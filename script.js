@@ -468,3 +468,22 @@ if (missionTextWipe) {
         foregroundWrapper.style.setProperty('--progress', (progress * 100) + '%');
     });
 }
+
+// ======================================================================
+// == PORTFOLIO PAGE: Trigger Cascade Animation on Load ==
+// ======================================================================
+
+// This script only runs if we are on the portfolio page
+if (document.body.classList.contains('portfolio-page')) {
+
+    const portfolioGrid = document.querySelector('.portfolio-grid-container-new');
+
+    // Make sure the grid container exists
+    if (portfolioGrid) {
+        // This is a safe way to wait until the page is fully loaded and ready
+        window.addEventListener('load', function() {
+            // Add the 'animate-in' class to the grid container
+            portfolioGrid.classList.add('animate-in');
+        });
+    }
+}
