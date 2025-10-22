@@ -470,7 +470,7 @@ if (missionTextWipe) {
 }
 
 // ======================================================================
-// == PORTFOLIO PAGE: Trigger Cascade Animation on Load ==
+// == PORTFOLIO PAGE: FINAL Trigger for Cascade Animation ==
 // ======================================================================
 
 if (document.body.classList.contains('portfolio-page')) {
