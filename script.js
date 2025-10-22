@@ -458,7 +458,7 @@ if (missionTextWipe) {
 
         // Use the same start point as before
         const startPoint = viewportHeight * 0.9;
-        const endPoint = 0;
+        const endPoint = 0.5;
         
         const progress = Math.max(0, Math.min(1, (startPoint - rect.top) / (startPoint - endPoint)));
 
