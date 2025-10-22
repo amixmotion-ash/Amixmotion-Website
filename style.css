@@ -230,6 +230,32 @@ body.body-no-scroll .desktop-nav {
 
 }
 
+/* ================================================================= */
+/* == MENU: Staggered "Cascade" Animation == */
+/* ================================================================= */
+
+/* --- Step 1: Default (Hidden) State --- */
+/* By default, we make each menu item invisible and slightly shifted. */
+.main-nav li {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* --- Step 2: Visible State --- */
+/* When the menu is open, we fade and slide them in. */
+.main-nav.nav-open li {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* --- Step 3: The Stagger Delay --- */
+/* This is the key. We apply a progressively longer delay to each item. */
+.main-nav.nav-open li:nth-child(1) { transition-delay: 0.25s; } /* Home */
+.main-nav.nav-open li:nth-child(2) { transition-delay: 0.35s; } /* Work */
+.main-nav.nav-open li:nth-child(3) { transition-delay: 0.45s; } /* About */
+.main-nav.nav-open li:nth-child(4) { transition-delay: 0.55s; } /* Contact */
+
 /* --- HERO VIDEO SECTION --- */
 .hero-video { height: 100vh; position: -webkit-sticky; position: sticky; top: 0; z-index: 1; }
 #bgvideo {
@@ -1428,7 +1454,7 @@ body.contact-page {
     width: 80px;
     height: 80px;
     
-    background-color: #ffffff; /* This makes the circle white */
+    background-color:  rgba(255, 255, 255, 0.8); /* This makes the circle white */
     color: #000000;            /* This makes the arrow black */
     
     border-radius: 50%;
