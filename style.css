@@ -329,12 +329,23 @@ body.body-no-scroll .desktop-nav {
     color: #ffffff; /* White text */
 }
 
-/* This is the KEY FIX. The wrapper now uses clip-path. */
 .mission-statement-foreground-wrapper {
     width: 100%;
     height: 100%;
-    /* Create a rectangular mask. It starts with 0% width. */
-    clip-path: inset(0 100% 0 0);
+    
+    /* --- THIS IS THE NEW MASKING TECHNIQUE --- */
+    /* We create a gradient that acts as a mask.
+       '--progress' is a custom variable that our JavaScript will control. */
+    -webkit-mask-image: linear-gradient(to right,
+        black 0%,
+        black calc(var(--progress, 0%) - 10%), /* The solid part of the mask */
+        transparent calc(var(--progress, 0%) + 10%) /* The feathered edge */
+    );
+    mask-image: linear-gradient(to right,
+        black 0%,
+        black calc(var(--progress, 0%) - 10%),
+        transparent calc(var(--progress, 0%) + 10%)
+    );
 }
 
 /* --- MISSION SECTION (Corrected Full-Bleed Layout) --- */

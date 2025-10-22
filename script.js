@@ -444,7 +444,7 @@ if (scrollLink) {
 }
 
 // ======================================================================
-// == HOMEPAGE: Mission Statement Scroll-Wipe Effect (Clip-Path Version) ==
+// == HOMEPAGE: Mission Statement FEATHERED Scroll-Wipe Effect ==
 // ======================================================================
 
 const missionTextWipe = document.querySelector('.mission-statement-scroll-effect');
@@ -456,12 +456,15 @@ if (missionTextWipe) {
         const rect = missionTextWipe.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
 
-        const startPoint = viewportHeight * 0.75;
+        // Use the same start point as before
+        const startPoint = viewportHeight * 0.9;
         const endPoint = 0;
         
         const progress = Math.max(0, Math.min(1, (startPoint - rect.top) / (startPoint - endPoint)));
 
-        // Update the CLIP-PATH of the mask based on the scroll progress
-        foregroundWrapper.style.clipPath = `inset(0 ${100 - (progress * 100)}% 0 0)`;
+        // --- THIS IS THE NEW LOGIC ---
+        // We update the '--progress' CSS variable based on the scroll.
+        // The value is passed as a percentage.
+        foregroundWrapper.style.setProperty('--progress', (progress * 100) + '%');
     });
 }
