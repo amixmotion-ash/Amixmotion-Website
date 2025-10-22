@@ -2086,27 +2086,38 @@ body.menu-cursor-active {
 }
 
 /* ================================================================= */
-/* == GLOBAL: Scroll-Triggered Fade-In Animation == */
+/* == GLOBAL: Scroll-Triggered Animations == */
 /* ================================================================= */
 
-/* --- 1. This is the default state of any element we want to animate --- */
-/* By default, it's invisible and shifted slightly downwards. */
+/* --- 1. The "Fade and Slide Up" Effect (default) --- */
 .fade-in-on-scroll {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-/* --- 2. This is the state when the element becomes visible --- */
-/* The 'is-visible' class will be added by our JavaScript. */
-.fade-in-on-scroll.is-visible {
-    opacity: 1;
-    transform:
-     translateY(0);
+/* --- 2. The "Mask In from Below" Effect --- */
+.slide-up-on-scroll {
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-/* --- Removes underline from the new scroll indicator link --- */
-.scroll-indicator-link {
-    text-decoration: none;
+
+/* --- ADD THIS NEW RULE: The "Fade and Slide from Right" Effect --- */
+.slide-from-right-on-scroll {
+    opacity: 0;
+    transform: translateX(50px); /* Start 50px to the RIGHT */
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* --- The universal "is-visible" trigger class --- */
+.fade-in-on-scroll.is-visible,
+.slide-up-on-scroll.is-visible,
+.slide-from-right-on-scroll.is-visible { /* ADD THE NEW CLASS HERE */
+    opacity: 1;
+    transform: none; /* Changed to 'none' for better compatibility */
 }
 
 /* ================================================================= */
