@@ -469,14 +469,13 @@ if (missionTextWipe) {
     });
 }
 
-// ======================================================================
-// == PORTFOLIO PAGE: FINAL Trigger for Cascade Animation ==
-// ======================================================================
+
+
 if (document.body.classList.contains('portfolio-page')) {
-    const portfolioGrid = document.querySelector('.portfolio-grid-container-new');
-    if (portfolioGrid) {
+    const gridSection = document.querySelector('.portfolio-grid-section');
+    if (gridSection) {
         window.addEventListener('load', function() {
-            portfolioGrid.classList.add('animate-in');
+            gridSection.classList.add('animate-in');
         });
     }
 }
