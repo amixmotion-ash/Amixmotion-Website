@@ -470,26 +470,11 @@ if (missionTextWipe) {
 }
 
 // ======================================================================
-// == PORTFOLIO PAGE: Trigger "Mask-In" Animation (Corrected) ==
+// == PORTFOLIO PAGE: FINAL Trigger for Cascade Animation ==
 // ======================================================================
-
 if (document.body.classList.contains('portfolio-page')) {
     const portfolioGrid = document.querySelector('.portfolio-grid-container-new');
-    const portfolioColumns = document.querySelectorAll('.portfolio-column');
-
-    if (portfolioGrid && portfolioColumns.length > 0) {
-        // --- Step 1: Set the initial "hidden" state for each column ---
-        portfolioColumns.forEach((column, index) => {
-            // If it's an odd column (1st, 3rd), hide it from the top (slide down).
-            // If it's an even column (2nd, 4th), hide it from the bottom (slide up).
-            if ((index + 1) % 2 !== 0) {
-                column.classList.add('hidden-from-top');
-            } else {
-                column.classList.add('hidden-from-bottom');
-            }
-        });
-
-        // --- Step 2: Wait for the page to load, then trigger the animation ---
+    if (portfolioGrid) {
         window.addEventListener('load', function() {
             portfolioGrid.classList.add('animate-in');
         });

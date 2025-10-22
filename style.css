@@ -2123,40 +2123,48 @@ body.menu-cursor-active {
 }
 
 /* ================================================================= */
-/* == PORTFOLIO PAGE: FINAL Non-Conflicting "Mask-In" Animation == */
+/* == PORTFOLIO PAGE: FINAL & CORRECT Non-Conflicting Animation == */
 /* ================================================================= */
 
-/* --- Step 1: Default (Hidden) State --- */
-/* By default, each column is invisible and "masked".
-   CRITICAL: We DO NOT touch the 'transform' property here. */
+/* --- Step 1: The Parent Column --- */
+/* This is what Rellax controls. We make it a "mask". */
 .portfolio-column {
     opacity: 0;
-    transition: opacity 0.8s ease-out, clip-path 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    overflow: hidden; /* This is critical */
+    transition: opacity 0.8s ease-out;
 }
 
-/* --- Step 2: Define the "Hidden from Bottom" and "Hidden from Top" states --- */
-.portfolio-column.hidden-from-bottom {
-    clip-path: inset(100% 0 0 0); /* Masked from the bottom up */
-}
-.portfolio-column.hidden-from-top {
-    clip-path: inset(0 0 100% 0); /* Masked from the top down */
+/* --- Step 2: The Inner Content --- */
+/* This is what we animate. It does not conflict with Rellax. */
+.column-content-wrapper {
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* --- Step 3: The "Revealed" State --- */
-/* When the 'animate-in' class is added, we reveal the columns. */
+/* --- Step 3: Define the "Hidden" States --- */
+.portfolio-column:nth-child(1) .column-content-wrapper,
+.portfolio-column:nth-child(3) .column-content-wrapper {
+    transform: translateY(-100%); /* Start off-screen UP */
+}
+
+.portfolio-column:nth-child(2) .column-content-wrapper,
+.portfolio-column:nth-child(4) .column-content-wrapper {
+    transform: translateY(100%); /* Start off-screen DOWN */
+}
+
+/* --- Step 4: The "Revealed" State --- */
+/* When the 'animate-in' class is added, everything animates to its final state. */
 .animate-in .portfolio-column {
-    opacity: 1;
-    clip-path: inset(0 0 0 0); /* No mask - fully visible */
+    opacity: 1; /* The mask becomes visible */
+}
+.animate-in .column-content-wrapper {
+    transform: translateY(0); /* The content slides into the mask */
 }
 
-/* --- Step 4: The Stagger Delay --- */
-/* We apply a delay to the transition for the cascade effect. */
+/* --- Step 5: The Stagger Delay --- */
 .animate-in .portfolio-column:nth-child(1) { transition-delay: 0.1s; }
 .animate-in .portfolio-column:nth-child(2) { transition-delay: 0.2s; }
 .animate-in .portfolio-column:nth-child(3) { transition-delay: 0.3s; }
 .animate-in .portfolio-column:nth-child(4) { transition-delay: 0.4s; }
-
-
 
 
 
