@@ -479,3 +479,16 @@ if (document.body.classList.contains('portfolio-page')) {
         });
     }
 }
+// ======================================================================
+// == PORTFOLIO PAGE: Trigger Title Animation on Load ==
+// ======================================================================
+
+// This script only runs if we are on the portfolio page
+if (document.body.classList.contains('portfolio-page')) {
+
+    // This is a safe way to wait until the page is fully loaded and ready
+    window.addEventListener('load', function() {
+        // Add the 'animate-in' class to the BODY tag
+        document.body.classList.add('animate-in');
+    });
+}
