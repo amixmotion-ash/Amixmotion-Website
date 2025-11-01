@@ -1100,110 +1100,55 @@ body.contact-page {
 }
 
 
-/* ================================================================= */
-/* == ABOUT PAGE: Interactive "Pile-Up" Services Cards == */
-/* ================================================================= */
+/* --- Services Section Styles --- */
+
+
+.services-intro-paragraph {
+    /* These styles are based on .showcase-text p */
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    color: #222;
+
+    /* These are the custom styles you requested */
+    font-size: 1.1rem; /* Smaller font size */
+    max-width: 650px;  /* Controls the width to create ~4 lines */
+    margin: 0 auto 80px auto; /* Centers the block and adds 80px of space below it */
+}
+
+.services-main-title {
+    /* These styles are copied from .showcase-text h2 to match exactly */
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-transform: uppercase;
+    line-height: 1.1;
+    
+    /* This adds the space between the title and the "PRE-PRODUCTION" subheading */
+    margin: 0 0 20px 0;
+}
+
 
 .services-section {
+    /* THIS IS THE FIX: It forces the section to contain all its children
+       and respect the normal page flow, "grouping" everything together. */
     display: flow-root;
+
     background-color: #f2f2f2;
     padding: 120px 40px;
     text-align: center;
 }
-
-.services-main-title,
-.services-intro-paragraph {
-    /* These styles remain the same */
-    /* ... */
+.services-row { margin-bottom: 60px; position: relative; }
+.row-title { color: #aaa; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8em; margin-bottom: 20px; position: relative; display: inline-block; }
+.row-title::after {
+    /* CHANGED: This will hide the vertical line */
+    display: none;
 }
-
-.services-row {
-    margin-bottom: 60px;
-    position: relative;
-}
-
-.row-title {
-    color: #aaa;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-size: 0.8em;
-    margin-bottom: 20px;
-}
-
-/* --- THIS IS THE NEW LOGIC FOR THE INTERACTIVE CARDS --- */
-
-.cards-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-
-    /* For the interactive "Production" section */
-    &.is-interactive {
-        position: relative;
-        height: 200px; /* Give the container a fixed height to contain the pile */
-        margin-top: 40px;
-    }
-}
-
-.service-card {
-    background-color: #000000;
-    color: #ffffff;
-    padding: 30px;
-    flex-basis: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 120px;
-    text-align: center;
-    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
+.cards-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.service-card { background-color: #000000; color: #ffffff; padding: 30px; border-radius: 0; flex-basis: 250px; display: flex; flex-direction: column; justify-content: center; min-height: 120px; text-align: center; }
 .service-card h3 { font-size: 1.2rem; font-weight: 600; margin: 0 0 10px 0; }
 .service-card p { font-size: 0.9rem; line-height: 1.5; color: #aaa; margin: 0; }
-
-/* --- Default "Pile" State for the Interactive Section --- */
-.is-interactive .service-card {
-    position: absolute;
-    top: 0;
-    left: 50%; /* Center the pile */
-}
-
-/* We apply a unique transform to each of the 5 cards */
-.is-interactive .service-card:nth-child(1) { transform: translateX(-50%) rotate(-8deg) translateY(10px); }
-.is-interactive .service-card:nth-child(2) { transform: translateX(-50%) rotate(5deg) translateY(5px); }
-.is-interactive .service-card:nth-child(3) { transform: translateX(-50%) rotate(-3deg); }
-.is-interactive .service-card:nth-child(4) { transform: translateX(-50%) rotate(10deg) translateY(-5px); }
-.is-interactive .service-card:nth-child(5) { transform: translateX(-50%) rotate(2deg) translateY(-10px); }
-
-/* --- Hover "Fan Out" State for the Interactive Section --- */
-.is-interactive:hover .service-card {
-    /* On hover, we move each card to its final horizontal position */
-    transform: translateX(0); /* This is a placeholder, we'll override it */
-}
-
-.is-interactive:hover .service-card:nth-child(1) { transform: translateX(-220%); }
-.is-interactive:hover .service-card:nth-child(2) { transform: translateX(-110%); }
-.is-interactive:hover .service-card:nth-child(3) { transform: translateX(0%); } /* The middle card stays put */
-.is-interactive:hover .service-card:nth-child(4) { transform: translateX(110%); }
-.is-interactive:hover .service-card:nth-child(5) { transform: translateX(220%); }
-
-
 .services-cta { margin-top: 80px; }
-
-/* --- Mobile Fallback --- */
-/* On mobile, we disable this complex hover effect for a simple grid */
-@media (max-width: 900px) {
-    .is-interactive {
-        height: auto; /* Revert to auto height */
-        margin-top: 0;
-    }
-    .is-interactive .service-card {
-        position: static; /* Revert to normal positioning */
-        transform: none !important; /* IMPORTANT: Disable all transforms */
-    }
-}
 
 
 /* --- EDITING SHOWCASE SECTION --- */
