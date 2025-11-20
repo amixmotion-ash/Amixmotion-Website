@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Sent | Amixmotion</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body.success-page {
+            background-color: #000000; /* Dark theme for impact */
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .success-message h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: clamp(3rem, 8vw, 6rem);
+            text-transform: uppercase;
+            margin: 0 0 20px 0;
+            line-height: 1;
+        }
+        .success-message p {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 1.2rem;
+            color: #bbbbbb;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            line-height: 1.5;
+        }
+        /* Override button style for white-on-black */
+        .success-page .button-outline {
+            border-color: #ffffff;
+            color: #ffffff;
+        }
+        .success-page .button-outline:hover {
+            background-color: #ffffff;
+            color: #000000;
+        }
+    </style>
+</head>
+<body class="success-page">
+
+    <div class="success-message">
+        <h1>Message<br>Received</h1>
+        <p>Thanks for reaching out. I'll review your message and get back to you shortly.</p>
+        <a href="index.html" class="button-outline">BACK TO HOME</a>
+    </div>
+
+    <!-- Fade in effect on load -->
+    <script>
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.8s ease';
+        window.onload = function() {
+            document.body.style.opacity = '1';
+        };
+    </script>
+
+</body>
+</html>

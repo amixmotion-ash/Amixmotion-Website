@@ -68,16 +68,28 @@
                 </div>
             </div>
             <div class="contact-form-container">
-                <form class="contact-form" action="https://formspree.io/f/mjkezjao" method="POST">
+       <form class="contact-form" action="https://formspree.io/f/mjkezjao" method="POST">
+                    
+                    <!-- Redirect to the success page after submission -->
+                    <!-- Note: Ensure 'success.html' is in your root folder -->
+                    <input type="hidden" name="_next" value="success.html">
+
+                    <!-- Subject line for the email you receive -->
+                    <input type="hidden" name="_subject" value="New Lead from Amixmotion Website">
+
                     <div class="form-group-cluster">
                         <label>YOUR DETAILS</label>
-                        <input type="text" name="Full Name" placeholder="Full Name" required>
-                        <input type="tel" name="Phone Number" placeholder="Phone Number" required>
-                        <input type="email" name="Email Address" placeholder="Email Address" required>
+                        <!-- 'name="name"' helps Formspree identify the sender's name -->
+                        <input type="text" name="name" placeholder="Full Name" required>
+                        
+                        <input type="tel" name="phone" placeholder="Phone Number" required>
+                        
+                        <!-- 'name="email"' enables the Reply-To feature -->
+                        <input type="email" name="email" placeholder="Email Address" required>
                     </div>
                     <div class="form-group-cluster">
                         <label>YOUR MESSAGE</label>
-                        <textarea name="Message" rows="8" required></textarea>
+                        <textarea name="message" rows="8" required></textarea>
                     </div>
                     <button type="submit" class="button-outline button-dark">SUBMIT</button>
                 </form>
