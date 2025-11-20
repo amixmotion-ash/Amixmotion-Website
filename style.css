@@ -2178,7 +2178,56 @@ body.menu-cursor-active {
 
 
 
+/* ================================================================= */
+/* == PORTFOLIO PAGE REDESIGN (White Theme & Top Alignment) == */
+/* ================================================================= */
 
+/* 1. White Background */
+body.portfolio-page {
+    background-color: #ffffff;
+    color: #222222;
+}
+
+/* 2. Remove the dark header gradient overlay */
+body.portfolio-page::before {
+    display: none;
+}
+
+/* 3. Invert Header Colors (Make Logo & Text Black) */
+.portfolio-page header .nav-toggle,
+.portfolio-page header .desktop-nav a {
+    color: #222222;
+}
+
+/* 4. Force the Logo to be Black */
+.portfolio-page header .logo img {
+    filter: brightness(0);
+}
+
+/* 5. Invert the "Menu Cursor" so it is visible on white */
+.portfolio-page .menu-cursor {
+    background-color: rgba(0, 0, 0, 0.8); /* Black circle */
+    color: #ffffff; /* White arrow */
+}
+
+/* 6. Move the Grid to the Top */
+.portfolio-page .portfolio-grid-section {
+    /* 
+       We use 100px to clear the fixed header/logo so images 
+       don't slide underneath the navigation.
+    */
+    padding-top: 100px; 
+    
+    /* Remove extra bottom space if desired */
+    padding-bottom: 100px; 
+}
+
+/* MOBILE ADJUSTMENT: Keep the top spacing tight on phones */
+@media (max-width: 768px) {
+    .portfolio-page .portfolio-grid-section {
+        padding-top: 80px;
+    }
+}
 
 
 
