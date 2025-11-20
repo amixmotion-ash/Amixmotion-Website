@@ -479,3 +479,61 @@ if (document.body.classList.contains('portfolio-page')) {
         });
     }
 }
+
+// ======================================================================
+// == CONTACT PAGE: Handle Form Submission via AJAX ==
+// ======================================================================
+
+const contactForm = document.querySelector('.contact-form');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', function(event) {
+        // 1. Stop the browser from redirecting to Formspree
+        event.preventDefault();
+
+        const statusBtn = contactForm.querySelector('button');
+        const originalText = statusBtn.textContent;
+
+        // 2. Change button text to show it's working
+        statusBtn.textContent = 'SENDING...';
+        statusBtn.disabled = true;
+        statusBtn.style.opacity = '0.7';
+
+        // 3. Collect the form data
+        const formData = new FormData(contactForm);
+
+        // 4. Send it to Formspree using JavaScript (Fetch API)
+        fetch(contactForm.action, {
+            method: contactForm.method,
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                // 5. SUCCESS: Go to the success page
+                // Since we are using JS, a relative path works perfectly here!
+                window.location.href = 'success.html';
+            } else {
+                // 6. ERROR: Formspree rejected it (usually spam filter or activation issue)
+                response.json().then(data => {
+                    if (Object.hasOwn(data, 'errors')) {
+                        alert(data["errors"].map(error => error["message"]).join(", "));
+                    } else {
+                        alert("Oops! There was a problem submitting your form");
+                    }
+                    // Reset button
+                    statusBtn.textContent = originalText;
+                    statusBtn.disabled = false;
+                    statusBtn.style.opacity = '1';
+                });
+            }
+        }).catch(error => {
+            // Network error
+            alert("Oops! There was a problem submitting your form");
+            statusBtn.textContent = originalText;
+            statusBtn.disabled = false;
+            statusBtn.style.opacity = '1';
+        });
+    });
+}
