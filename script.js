@@ -548,53 +548,55 @@ if (contactForm) {
 }
 
 // ======================================================================
-// == GLOBAL: Page Transition Effect (Wipe to Black) ==
+// == GLOBAL: Page Transition Effect (Wipe Right-to-Left) ==
 // ======================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Inject the transition curtain into the page automatically
+    // 1. Inject the transition curtain into the page
     const curtain = document.createElement('div');
     curtain.classList.add('page-transition-curtain');
     document.body.appendChild(curtain);
 
-    // 2. Select all links that point to the Portfolio page
-    // (You can add other pages to this selector if you want the effect elsewhere)
+    // 2. HANDLE "OUT" ANIMATION (Page Load)
+    // Check if we are on the Portfolio page (matches "portfolio.html" or just "portfolio")
+    if (window.location.href.indexOf('portfolio') > -1) {
+        
+        // A. Force the curtain to cover the screen IMMEDIATELY
+        curtain.style.transition = 'none'; // Turn off animation so it jumps instantly
+        curtain.style.transform = 'translateX(0%)'; // Center of screen
+        
+        // B. Force a Browser Reflow (The Magic Fix)
+        // This line forces the browser to paint the black screen BEFORE moving on.
+        void curtain.offsetWidth; 
+
+        // C. Slide it away to the LEFT after a tiny delay
+        setTimeout(() => {
+            curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)'; // Turn animation back on
+            curtain.style.transform = 'translateX(-100%)'; // Move off-screen Left
+        }, 50);
+    }
+
+    // 3. HANDLE "IN" ANIMATION (Link Click)
     const transitionLinks = document.querySelectorAll('a[href="portfolio.html"]');
 
     transitionLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             
-            // Check if we are already on the portfolio page (avoid reload loop)
-            if (window.location.pathname.includes('portfolio.html')) return;
+            // Prevent infinite loops if already on the page
+            if (window.location.href.indexOf('portfolio') > -1) return;
 
-            // 3. Stop the immediate jump
             e.preventDefault();
             const targetUrl = this.href;
 
-            // 4. Trigger the "Wipe Up" animation
+            // Trigger the "Wipe In" (Right to Center)
+            // Note: We don't need to manually set styles here because the CSS class handles it
             curtain.classList.add('is-active');
 
-            // 5. Wait for the animation to finish (600ms), then go to the page
+            // Wait for animation, then go
             setTimeout(() => {
                 window.location.href = targetUrl;
-            }, 600); // Matches the 0.6s CSS transition time
-        })
-    })
-})
-
-// Optional: If on Portfolio page, continue the wipe (Center -> Left)
-if (window.location.pathname.includes('portfolio.html')) {
-    const curtain = document.querySelector('.page-transition-curtain');
-    if (curtain) {
-        // 1. Force curtain to cover screen immediately (no animation yet)
-        curtain.style.transition = 'none';
-        curtain.style.transform = 'translateX(0%)'; 
-        
-        // 2. Wait a split second, then wipe it off to the LEFT
-        setTimeout(() => {
-            curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
-            curtain.style.transform = 'translateX(-100%)'; // Move to Left
-        }, 50);
-    }
-}
+            }, 600); 
+        });
+    });
+});
