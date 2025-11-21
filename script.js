@@ -558,22 +558,24 @@ document.addEventListener('DOMContentLoaded', () => {
     curtain.classList.add('page-transition-curtain');
     document.body.appendChild(curtain);
 
-    // 2. HANDLE "OUT" ANIMATION (Page Load)
-    // Check if we are on the Portfolio page (matches "portfolio.html" or just "portfolio")
+// 2. HANDLE "OUT" ANIMATION (Page Load on Portfolio)
+    // Check if we are on the Portfolio page
     if (window.location.href.indexOf('portfolio') > -1) {
         
-        // A. Force the curtain to cover the screen IMMEDIATELY
-        curtain.style.transition = 'none'; // Turn off animation so it jumps instantly
-        curtain.style.transform = 'translateX(0%)'; // Center of screen
+        // A. Force the curtain to cover the screen IMMEDIATELY (Center)
+        curtain.style.transition = 'none'; 
+        curtain.style.transform = 'translateX(0%)'; 
         
-        // B. Force a Browser Reflow (The Magic Fix)
-        // This line forces the browser to paint the black screen BEFORE moving on.
+        // B. Force a Browser Reflow (Crucial step)
         void curtain.offsetWidth; 
 
-        // C. Slide it away to the LEFT after a tiny delay
+        // C. Slide it back to the RIGHT (Reveal content)
         setTimeout(() => {
-            curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)'; // Turn animation back on
-            curtain.style.transform = 'translateX(-100%)'; // Move off-screen Left
+            // Restore animation speed
+            curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)'; 
+            
+            // CHANGED: Move to 100% (Back to the Right) instead of -100%
+            curtain.style.transform = 'translateX(100%)'; 
         }, 50);
     }
 
