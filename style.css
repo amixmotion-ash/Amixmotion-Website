@@ -474,7 +474,7 @@ body.body-no-scroll .desktop-nav {
 }
 .portfolio-page .portfolio-column {
     display: grid;
-    gap: 40px;
+    gap: 20px;
 }
 
 
