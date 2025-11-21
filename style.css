@@ -2230,10 +2230,9 @@ body.portfolio-page::before {
     }
 }
 /* ================================================================= */
-/* == PAGE TRANSITION (The "Wipe" Effect) == */
+/* == PAGE TRANSITION (Wipe Right-to-Left) == */
 /* ================================================================= */
 
-/* The black curtain layer */
 .page-transition-curtain {
     position: fixed;
     top: 0;
@@ -2241,20 +2240,20 @@ body.portfolio-page::before {
     width: 100%;
     height: 100%;
     background-color: #000000;
-    z-index: 9999; /* Must be on top of EVERYTHING */
+    z-index: 9999; 
     
-    /* Start hidden below the screen */
-    transform: translateY(100%);
+    /* CHANGED: Start off-screen to the RIGHT */
+    transform: translateX(100%);
     
-    /* Smooth, cinematic easing */
+    /* Cinematic easing */
     transition: transform 0.6s cubic-bezier(0.83, 0, 0.17, 1);
-    pointer-events: none; /* Let clicks pass through when hidden */
+    pointer-events: none;
 }
 
-/* The active state (covers the screen) */
 .page-transition-curtain.is-active {
-    transform: translateY(0%);
-    pointer-events: auto; /* Block clicks while animating */
+    /* CHANGED: Slide to the CENTER */
+    transform: translateX(0%);
+    pointer-events: auto;
 }
 
 

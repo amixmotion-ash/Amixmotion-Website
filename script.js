@@ -579,6 +579,22 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 window.location.href = targetUrl;
             }, 600); // Matches the 0.6s CSS transition time
-        });
-    });
-});
+        })
+    })
+})
+
+// Optional: If on Portfolio page, continue the wipe (Center -> Left)
+if (window.location.pathname.includes('portfolio.html')) {
+    const curtain = document.querySelector('.page-transition-curtain');
+    if (curtain) {
+        // 1. Force curtain to cover screen immediately (no animation yet)
+        curtain.style.transition = 'none';
+        curtain.style.transform = 'translateX(0%)'; 
+        
+        // 2. Wait a split second, then wipe it off to the LEFT
+        setTimeout(() => {
+            curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
+            curtain.style.transform = 'translateX(-100%)'; // Move to Left
+        }, 50);
+    }
+}
