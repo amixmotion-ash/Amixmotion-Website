@@ -548,34 +548,36 @@ if (contactForm) {
 }
 
 // ======================================================================
-// == GLOBAL: Page Transition Effect (Wipe Right-to-Left) ==
+// == GLOBAL: Page Transition Effect (No-Flash Version) ==
 // ======================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Inject the transition curtain into the page
-    const curtain = document.createElement('div');
-    curtain.classList.add('page-transition-curtain');
-    document.body.appendChild(curtain);
+    // 1. Check if the curtain exists in HTML (Portfolio), otherwise create it (Other pages)
+    let curtain = document.querySelector('.page-transition-curtain');
+    
+    if (!curtain) {
+        curtain = document.createElement('div');
+        curtain.classList.add('page-transition-curtain');
+        document.body.appendChild(curtain);
+    }
 
-// 2. HANDLE "OUT" ANIMATION (Page Load on Portfolio)
-    // Check if we are on the Portfolio page
+    // 2. HANDLE "OUT" ANIMATION (Reveal Portfolio)
     if (window.location.href.indexOf('portfolio') > -1) {
         
-        // A. Force the curtain to cover the screen IMMEDIATELY (Center)
-        curtain.style.transition = 'none'; 
-        curtain.style.transform = 'translateX(0%)'; 
-        
-        // B. Force a Browser Reflow (Crucial step)
-        void curtain.offsetWidth; 
-
-        // C. Slide it back to the RIGHT (Reveal content)
+        // The curtain is already there and black (thanks to the HTML edit)
+        // We just need to wait a tiny moment to ensure the render is stable
         setTimeout(() => {
             // Restore animation speed
             curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)'; 
             
-            // CHANGED: Move to 100% (Back to the Right) instead of -100%
+            // Slide it away to the RIGHT
             curtain.style.transform = 'translateX(100%)'; 
+            
+            // Optional cleanup: remove the 'is-active' class after animation
+            setTimeout(() => {
+                curtain.classList.remove('is-active');
+            }, 600);
         }, 50);
     }
 
@@ -585,17 +587,18 @@ document.addEventListener('DOMContentLoaded', () => {
     transitionLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             
-            // Prevent infinite loops if already on the page
             if (window.location.href.indexOf('portfolio') > -1) return;
 
             e.preventDefault();
             const targetUrl = this.href;
 
-            // Trigger the "Wipe In" (Right to Center)
-            // Note: We don't need to manually set styles here because the CSS class handles it
+            // Reset transition to ensure it starts from the right place
+            curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
+            
+            // Add class to slide it to CENTER
             curtain.classList.add('is-active');
+            curtain.style.transform = 'translateX(0%)'; // Enforce center position
 
-            // Wait for animation, then go
             setTimeout(() => {
                 window.location.href = targetUrl;
             }, 600); 
