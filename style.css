@@ -2256,4 +2256,36 @@ body.portfolio-page::before {
     pointer-events: auto;
 }
 
+/* ================================================================= */
+/* == PAGE TRANSITION LOADER == */
+/* ================================================================= */
+
+.page-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px; 
+    height: 80px;
+    z-index: 10000; /* Above the black curtain */
+    
+    /* Your Logo */
+    background-image: url('logo.png'); 
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* The Spinning Ring */
+.page-loader::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.2); /* Faint white track */
+    border-top-color: #ffffff; /* Bright white spinner */
+    animation: spin 1s linear infinite;
+}
+
 

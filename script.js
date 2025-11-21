@@ -548,37 +548,41 @@ if (contactForm) {
 }
 
 // ======================================================================
-// == GLOBAL: Page Transition Effect (No-Flash Version) ==
+// == GLOBAL: Page Transition with Loader ==
 // ======================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Check if the curtain exists in HTML (Portfolio), otherwise create it (Other pages)
+    // 1. Check/Create the Curtain
     let curtain = document.querySelector('.page-transition-curtain');
     
+    // If curtain doesn't exist (e.g. on Homepage), create it WITH the loader
     if (!curtain) {
         curtain = document.createElement('div');
         curtain.classList.add('page-transition-curtain');
+        // Inject the loader HTML dynamically
+        curtain.innerHTML = '<div class="page-loader"></div>';
         document.body.appendChild(curtain);
     }
 
-    // 2. HANDLE "OUT" ANIMATION (Reveal Portfolio)
+    // 2. HANDLE "OUT" ANIMATION (On Portfolio Page)
     if (window.location.href.indexOf('portfolio') > -1) {
         
-        // The curtain is already there and black (thanks to the HTML edit)
-        // We just need to wait a tiny moment to ensure the render is stable
-        setTimeout(() => {
-            // Restore animation speed
-            curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)'; 
+        // IMPORTANT: We use 'load' (wait for images) instead of just 'DOMContentLoaded'
+        window.addEventListener('load', () => {
             
-            // Slide it away to the RIGHT
-            curtain.style.transform = 'translateX(100%)'; 
-            
-            // Optional cleanup: remove the 'is-active' class after animation
+            // Wait just a tiny bit extra (500ms) so the user actually sees the loaded state
+            // This prevents the spinner from flickering too fast on fast connections
             setTimeout(() => {
-                curtain.classList.remove('is-active');
-            }, 600);
-        }, 50);
+                curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
+                curtain.style.transform = 'translateX(100%)'; // Slide to Right
+                
+                // Cleanup after animation
+                setTimeout(() => {
+                    curtain.classList.remove('is-active');
+                }, 800);
+            }, 500);
+        });
     }
 
     // 3. HANDLE "IN" ANIMATION (Link Click)
@@ -592,13 +596,12 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const targetUrl = this.href;
 
-            // Reset transition to ensure it starts from the right place
+            // Reset to left side so it can slide to center
             curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
-            
-            // Add class to slide it to CENTER
             curtain.classList.add('is-active');
-            curtain.style.transform = 'translateX(0%)'; // Enforce center position
+            curtain.style.transform = 'translateX(0%)'; 
 
+            // Wait for slide-in to finish, then navigate
             setTimeout(() => {
                 window.location.href = targetUrl;
             }, 600); 
