@@ -288,17 +288,27 @@ if (header) {
         lastScrollY = window.scrollY;
     });
 }
-// --- Rellax Parallax Functionality ---
+// --- Rellax Parallax Functionality (Smart Page Detection) ---
 if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
-    // center: false ensures elements start at 0 (aligned) and move from there
-    var rellax = new Rellax('.rellax', {
-        center: false,
-        speed: -2, 
+    
+    // 1. Define base options (Good for Portfolio Page)
+    let options = {
+        center: false, // Start aligned at the top
+        speed: -2,
         wrapper: null, 
         round: true, 
         vertical: true, 
         horizontal: false
-    });
+    };
+
+    // 2. Check if we are on the Homepage
+    if (document.body.classList.contains('homepage')) {
+        // If Homepage, force "center: true" so items meet in the middle
+        options.center = true;
+    }
+
+    // 3. Initialize Rellax with the correct options for that page
+    var rellax = new Rellax('.rellax', options);
 }
 
 // --- Custom Menu Cursor ---
