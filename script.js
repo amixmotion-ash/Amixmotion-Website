@@ -166,12 +166,7 @@ if (lightbox) {
 
 
 
-// --- Rellax Parallax Functionality ---
-if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
-    var rellax = new Rellax('.rellax', {
-        center: true
-    });
-}
+
 
 // --- Custom Cursor Functionality (Homepage Only) ---
 const bodyForCursor = document.querySelector('body');
@@ -295,10 +290,14 @@ if (header) {
 }
 // --- Rellax Parallax Functionality ---
 if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
-    // THIS IS THE FIX: Initialize Rellax with the "center: true" option.
-    // This forces all elements to align in the middle of the screen as you scroll.
+    // center: false ensures elements start at 0 (aligned) and move from there
     var rellax = new Rellax('.rellax', {
-        center: false
+        center: false,
+        speed: -2, 
+        wrapper: null, 
+        round: true, 
+        vertical: true, 
+        horizontal: false
     });
 }
 

@@ -470,6 +470,7 @@ body.body-no-scroll .desktop-nav {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
+    align-items: start;
 }
 .portfolio-page .portfolio-column {
     display: grid;
