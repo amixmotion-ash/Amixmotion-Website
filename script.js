@@ -546,3 +546,39 @@ if (contactForm) {
         });
     });
 }
+
+// ======================================================================
+// == GLOBAL: Page Transition Effect (Wipe to Black) ==
+// ======================================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Inject the transition curtain into the page automatically
+    const curtain = document.createElement('div');
+    curtain.classList.add('page-transition-curtain');
+    document.body.appendChild(curtain);
+
+    // 2. Select all links that point to the Portfolio page
+    // (You can add other pages to this selector if you want the effect elsewhere)
+    const transitionLinks = document.querySelectorAll('a[href="portfolio.html"]');
+
+    transitionLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            
+            // Check if we are already on the portfolio page (avoid reload loop)
+            if (window.location.pathname.includes('portfolio.html')) return;
+
+            // 3. Stop the immediate jump
+            e.preventDefault();
+            const targetUrl = this.href;
+
+            // 4. Trigger the "Wipe Up" animation
+            curtain.classList.add('is-active');
+
+            // 5. Wait for the animation to finish (600ms), then go to the page
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 600); // Matches the 0.6s CSS transition time
+        });
+    });
+});
