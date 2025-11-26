@@ -293,53 +293,58 @@ if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
 }
 
 // ======================================================================
-// == HIGH PERFORMANCE CURSOR ENGINE ==
+// == GPU CURSOR ENGINE (Zero Lag) ==
 // ======================================================================
 
-// 1. Setup Variables
 const customCursor = document.querySelector('.custom-cursor');
 const menuCursor = document.querySelector('.menu-cursor');
 const bodyForCursor = document.querySelector('body');
 
-// These variables store the mouse position efficiently
+// 1. Auto-Upgrade DOM Structure
+// We wrap the content in a 'visual' div so we can separate movement (outer) from animation (inner)
+if (customCursor && !customCursor.querySelector('.cursor-visual')) {
+    const content = customCursor.innerHTML;
+    customCursor.innerHTML = `<div class="cursor-visual">${content}</div>`;
+}
+if (menuCursor && !menuCursor.querySelector('.menu-cursor-visual')) {
+    const content = menuCursor.innerHTML;
+    menuCursor.innerHTML = `<div class="menu-cursor-visual">${content}</div>`;
+}
+
+// 2. Track Mouse
 let mouseX = 0;
 let mouseY = 0;
+let isMoving = false;
 
-// 2. Track Mouse Movement (Data Only)
-// This runs super fast but DOES NOT touch the DOM (no lag)
 window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
+    if (!isMoving) {
+        isMoving = true;
+        requestAnimationFrame(animateCursors);
+    }
 });
 
-// 3. The Animation Loop (Visuals)
-// This runs 60 times per second, synced with your screen refresh rate
+// 3. GPU Animation Loop
 function animateCursors() {
+    // We use translate3d because it forces the GPU to handle the movement
+    // preventing the CPU lag you were feeling.
     
-    // Update "Play" Cursor (if it exists)
     if (customCursor) {
-        customCursor.style.left = mouseX + 'px';
-        customCursor.style.top = mouseY + 'px';
+        customCursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
     }
 
-    // Update "Arrow" Cursor (if it exists)
     if (menuCursor) {
-        menuCursor.style.left = mouseX + 'px';
-        menuCursor.style.top = mouseY + 'px';
+        menuCursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
     }
 
-    // Keep the loop running
     requestAnimationFrame(animateCursors);
 }
 
-// Start the engine
-animateCursors();
-
-// 4. Hover Logic (Triggers)
-// This handles the scaling/hiding, which doesn't need to be in the loop
+// 4. Hover Logic (Triggers animations on the INNER visual element)
 if (bodyForCursor) {
     
-    // Logic for "Play" Cursor (Portfolio Items)
+    // Logic for "Play" Cursor
     const portfolioItemsForCursor = document.querySelectorAll('.portfolio-grid-section .grid-item');
     if (portfolioItemsForCursor.length > 0) {
         portfolioItemsForCursor.forEach(item => {
@@ -348,7 +353,7 @@ if (bodyForCursor) {
         });
     }
 
-    // Logic for "Arrow" Cursor (Menu Links)
+    // Logic for "Arrow" Cursor
     const navLinks = document.querySelectorAll('.main-nav a');
     if (navLinks.length > 0) {
         navLinks.forEach(link => {
