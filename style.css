@@ -2392,3 +2392,31 @@ body.portfolio-page::before {
     transform: translateX(0); 
 }
 
+/* ================================================================= */
+/* == PORTFOLIO PAGE: Slide-In Animation == */
+/* ================================================================= */
+
+/* 1. Initial State: Hidden and shifted LEFT */
+.portfolio-page .grid-item {
+    opacity: 0;
+    transform: translateX(-60px); /* Start 60px to the left */
+    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* 2. Visible State: Fully opaque and centered */
+/* This triggers when we add the 'slide-in-active' class to the parent section */
+.portfolio-page .portfolio-grid-section.slide-in-active .grid-item {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* 3. Staggered Delays by Column */
+/* Column 1 items arrive first */
+.portfolio-page .portfolio-column:nth-child(1) .grid-item { transition-delay: 0.1s; }
+/* Column 2 items arrive second */
+.portfolio-page .portfolio-column:nth-child(2) .grid-item { transition-delay: 0.2s; }
+/* Column 3 items arrive third */
+.portfolio-page .portfolio-column:nth-child(3) .grid-item { transition-delay: 0.3s; }
+/* Column 4 items arrive last */
+.portfolio-page .portfolio-column:nth-child(4) .grid-item { transition-delay: 0.4s; }
+
