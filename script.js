@@ -577,60 +577,62 @@ if (contactForm) {
 }
 
 // ======================================================================
-// == GLOBAL: Page Transition with Loader ==
+// == UNIVERSAL PAGE TRANSITIONS (All Pages) ==
 // ======================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Check/Create the Curtain
+    // 1. Setup Curtain
+    // We check if it exists (from your HTML edits). If not, we create it just to be safe.
     let curtain = document.querySelector('.page-transition-curtain');
-    
-    // If curtain doesn't exist (e.g. on Homepage), create it WITH the loader
     if (!curtain) {
         curtain = document.createElement('div');
         curtain.classList.add('page-transition-curtain');
-        // Inject the loader HTML dynamically
-        curtain.innerHTML = '<div class="page-loader"></div>';
+        curtain.innerHTML = '<div class="page-loader"></div>'; // Add loader
         document.body.appendChild(curtain);
     }
 
-    // 2. HANDLE "OUT" ANIMATION (On Portfolio Page)
-    if (window.location.href.indexOf('portfolio') > -1) {
-        
-        // IMPORTANT: We use 'load' (wait for images) instead of just 'DOMContentLoaded'
-        window.addEventListener('load', () => {
+    // 2. HANDLE "OUT" ANIMATION (Reveal Page on Load)
+    // We run this on EVERY page now.
+    window.addEventListener('load', () => {
+        // Wait 500ms to show the branding/loader
+        setTimeout(() => {
+            curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
+            curtain.style.transform = 'translateX(100%)'; // Slide away to Right
             
-            // Wait just a tiny bit extra (500ms) so the user actually sees the loaded state
-            // This prevents the spinner from flickering too fast on fast connections
+            // Cleanup class after animation
             setTimeout(() => {
-                curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
-                curtain.style.transform = 'translateX(100%)'; // Slide to Right
-                
-                // Cleanup after animation
-                setTimeout(() => {
-                    curtain.classList.remove('is-active');
-                }, 800);
-            }, 500);
-        });
-    }
+                curtain.classList.remove('is-active');
+            }, 800);
+        }, 500);
+    });
 
-    // 3. HANDLE "IN" ANIMATION (Link Click)
-    const transitionLinks = document.querySelectorAll('a[href="portfolio.html"]');
+    // 3. HANDLE "IN" ANIMATION (Link Clicks)
+    // We select ALL internal navigation links
+    const internalLinks = document.querySelectorAll('a[href="index.html"], a[href="about.html"], a[href="portfolio.html"], a[href="contact.html"], a[href="./"]');
 
-    transitionLinks.forEach(link => {
+    internalLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             
-            if (window.location.href.indexOf('portfolio') > -1) return;
+            const targetUrl = this.getAttribute('href');
+            const currentUrl = window.location.href;
+
+            // Don't transition if:
+            // 1. We are already on that page
+            // 2. It's an anchor link on the same page (like #mission)
+            if (currentUrl.includes(targetUrl) && !targetUrl.includes('#')) return;
+            if (targetUrl.startsWith('#')) return;
 
             e.preventDefault();
-            const targetUrl = this.href;
 
-            // Reset to left side so it can slide to center
+            // Prepare curtain (move to Left side, ready to slide in)
             curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
             curtain.classList.add('is-active');
+            
+            // Slide to Center (Cover Screen)
             curtain.style.transform = 'translateX(0%)'; 
 
-            // Wait for slide-in to finish, then navigate
+            // Wait for animation, then go to new page
             setTimeout(() => {
                 window.location.href = targetUrl;
             }, 600); 
