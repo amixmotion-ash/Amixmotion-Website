@@ -378,21 +378,24 @@ if (contactForm) {
 }
 
 // ======================================================================
-// == 12. UNIVERSAL PAGE TRANSITIONS (Final - No Curtain on Home) ==
+// == 12. UNIVERSAL PAGE TRANSITIONS (Final Refined) ==
 // ======================================================================
 document.addEventListener('DOMContentLoaded', function() {
     
     // 1. Setup/Check Curtain
     var curtain = document.querySelector('.page-transition-curtain');
     
-    // FAILSAFE: If on Homepage, hide curtain immediately
+    // FAILSAFE: If we are on the Homepage, we NEVER want the curtain to block the view.
+    // We check this immediately to prevent any "glitch" or flash of black.
     if (document.body.classList.contains('homepage')) {
         if (curtain) {
+            // If it exists (hardcoded), force it off-screen immediately
             curtain.style.transition = 'none';
             curtain.style.transform = 'translateX(100%)';
             curtain.classList.remove('is-active');
         }
     } else {
+        // For all other pages, create the curtain if missing
         if (!curtain) {
             curtain = document.createElement('div');
             curtain.classList.add('page-transition-curtain');
@@ -404,23 +407,32 @@ document.addEventListener('DOMContentLoaded', function() {
     // 2. HANDLE "OUT" ANIMATION (Reveal Page on Load)
     window.addEventListener('load', function() {
         
-        // If Homepage, stop here (No reveal animation)
+        // Double Check: If Homepage, do nothing (ensure it stays hidden)
         if (document.body.classList.contains('homepage')) {
-            return;
+            if (curtain) {
+                curtain.style.transition = 'none';
+                curtain.style.transform = 'translateX(100%)';
+            }
+            return; // Stop here
         }
 
-        // For other pages...
+        // For other pages (About, Portfolio, Contact)...
         setTimeout(function() {
+            // Restore animation speed
             curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
+            
+            // Slide to the Right (Reveal content)
             curtain.style.transform = 'translateX(100%)'; 
 
-            // Delayed Text (About Page)
+            // --- DELAYED TEXT ANIMATION (About Page) ---
             var aboutTitle = document.querySelector('.about-hero-title');
             if (aboutTitle) {
+                // Wait 400ms after the curtain starts moving before showing text
                 setTimeout(function() {
                     aboutTitle.classList.add('is-visible');
                 }, 400); 
             }
+            // -------------------------------------------
             
             setTimeout(function() {
                 curtain.classList.remove('is-active');
@@ -440,6 +452,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             e.preventDefault();
 
+            // Ensure curtain exists (in case we are on Homepage where we hid it)
+            if (!curtain) {
+                 curtain = document.createElement('div');
+                 curtain.classList.add('page-transition-curtain');
+                 curtain.innerHTML = '<div class="page-loader"></div>';
+                 document.body.appendChild(curtain);
+            }
+            
+            // Make sure it's visible again for the transition
+            curtain.style.display = 'block';
+
             // --- MENU EXIT SEQUENCE ---
             var exitDelay = 0;
             var parentNav = this.closest('.main-nav');
@@ -450,47 +473,26 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             // --------------------------
 
-            // CHECK: Are we going to the Homepage?
-            var isGoingHome = targetUrl.indexOf('index.html') > -1 || targetUrl === './' || targetUrl === '/';
-
             setTimeout(function() {
                 
-                if (isGoingHome) {
-                    // OPTION A: Going Home -> NO CURTAIN
-                    // We just navigate immediately after the menu delay
+                // RESET TRANSITION
+                curtain.style.transition = 'none'; 
+                curtain.classList.add('is-active');
+
+                // Start from LEFT
+                curtain.style.transform = 'translateX(-100%)'; 
+                
+                // FORCE REFLOW
+                curtain.getBoundingClientRect();
+
+                // Animate RIGHT to Center
+                curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
+                curtain.style.transform = 'translateX(0%)';
+
+                // Navigation
+                setTimeout(function() {
                     window.location.href = targetUrl;
-
-                } else {
-                    // OPTION B: Going Elsewhere -> USE CURTAIN
-                    
-                    // Re-create curtain if missing (e.g. starting from Home)
-                    if (!curtain) {
-                        curtain = document.createElement('div');
-                        curtain.classList.add('page-transition-curtain');
-                        curtain.innerHTML = '<div class="page-loader"></div>';
-                        document.body.appendChild(curtain);
-                    }
-                    
-                    // RESET TRANSITION
-                    curtain.style.display = 'block'; // Ensure visible
-                    curtain.style.transition = 'none'; 
-                    curtain.classList.add('is-active');
-
-                    // Start from LEFT
-                    curtain.style.transform = 'translateX(-100%)'; 
-                    
-                    // Force Reflow
-                    curtain.getBoundingClientRect();
-
-                    // Animate RIGHT to Center
-                    curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
-                    curtain.style.transform = 'translateX(0%)';
-
-                    // Navigation
-                    setTimeout(function() {
-                        window.location.href = targetUrl;
-                    }, 600); 
-                }
+                }, 600); 
 
             }, exitDelay); 
         });
