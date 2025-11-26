@@ -393,17 +393,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 2. HANDLE "OUT" ANIMATION (Reveal Page on Load)
     window.addEventListener('load', function() {
-        setTimeout(function() {
-            // Restore animation speed
-            curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
+        
+        // CHECK: Is this the Homepage?
+        if (document.body.classList.contains('homepage')) {
             
-            // ALWAYS wipe to the Right (Reveal content)
-            curtain.style.transform = 'translateX(100%)'; 
+            // YES: Hide curtain immediately (No animation)
+            curtain.style.transition = 'none';
+            curtain.style.transform = 'translateX(100%)';
+            curtain.classList.remove('is-active');
+
+        } else {
             
+            // NO (Portfolio, About, Contact): Run the smooth reveal
             setTimeout(function() {
-                curtain.classList.remove('is-active');
-            }, 800);
-        }, 500);
+                // Restore animation speed
+                curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
+                
+                // Slide to the Right (Reveal content)
+                curtain.style.transform = 'translateX(100%)'; 
+
+                // --- NEW: Trigger About Page Title Animation ---
+                var aboutTitle = document.querySelector('.about-hero-title');
+                if (aboutTitle) {
+                    aboutTitle.classList.add('is-visible');
+                }
+                // -----------------------------------------------
+                
+                setTimeout(function() {
+                    curtain.classList.remove('is-active');
+                }, 800);
+            }, 500);
+        }
     });
 
     // 3. HANDLE "IN" ANIMATION (Link Clicks)

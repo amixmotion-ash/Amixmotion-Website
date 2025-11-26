@@ -2374,4 +2374,21 @@ body.portfolio-page::before {
     animation: spin 1s linear infinite;
 }
 
+/* ================================================================= */
+/* == ABOUT PAGE: Header Text Animation == */
+/* ================================================================= */
+
+.about-hero-title {
+    opacity: 0;
+    /* Start 80px to the LEFT */
+    transform: translateX(-80px); 
+    /* A long, smooth ease-out to match the curtain feel */
+    transition: opacity 1.0s ease-out, transform 1.0s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.about-hero-title.is-visible {
+    opacity: 1;
+    /* Move to natural position */
+    transform: translateX(0); 
+}
 
