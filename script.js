@@ -577,7 +577,7 @@ if (contactForm) {
 }
 
 // ======================================================================
-// == SMART PAGE TRANSITIONS (Directional) ==
+// == SMART PAGE TRANSITIONS (With Menu Exit Animation) ==
 // ======================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -593,24 +593,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. HANDLE "OUT" ANIMATION (Reveal Page on Load)
     window.addEventListener('load', () => {
-        // Wait 500ms to show the loader/branding
         setTimeout(() => {
-            // Restore animation speed
             curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
-
+            
             // CHECK: Are we on the About Page?
             if (window.location.href.indexOf('about') > -1) {
-                // VERTICAL REVEAL (Slide Down back to bottom)
-                curtain.style.transform = 'translateY(100%)'; 
+                curtain.style.transform = 'translateY(100%)'; // Vertical Reveal
             } else {
-                // STANDARD REVEAL (Slide Right)
-                curtain.style.transform = 'translateX(100%)';
+                curtain.style.transform = 'translateX(100%)'; // Horizontal Reveal
             }
             
-            // Cleanup
             setTimeout(() => {
                 curtain.classList.remove('is-active');
-                curtain.classList.remove('is-vertical'); // Reset helper class
+                curtain.classList.remove('is-vertical'); 
             }, 800);
         }, 500);
     });
@@ -629,44 +624,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
             e.preventDefault();
 
-            // RESET TRANSITION & POSITION before starting
-            curtain.style.transition = 'none'; 
-            curtain.classList.add('is-active');
+            // --- NEW LOGIC: MENU EXIT SEQUENCE ---
+            let exitDelay = 0;
+            const parentNav = this.closest('.main-nav');
 
-            // --- LOGIC: WHERE ARE WE GOING? ---
-            if (targetUrl.includes('about.html')) {
-                
-                // GOING TO ABOUT: Use Vertical (Bottom -> Up)
-                curtain.classList.add('is-vertical');
-                curtain.style.transform = 'translateY(100%)'; // Start at Bottom
-                
-                // Force Reflow (Magic Fix)
-                void curtain.offsetWidth;
-
-                // Animate UP to Center
-                curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
-                curtain.style.transform = 'translateY(0%)';
-
-            } else {
-                
-                // GOING ELSEWHERE: Use Horizontal (Left -> Right)
-                curtain.classList.remove('is-vertical');
-                // We want to enter from the LEFT for the "Camera Shutter" effect
-                // So we place it off-screen LEFT first
-                curtain.style.transform = 'translateX(-100%)'; 
-                
-                // Force Reflow
-                void curtain.offsetWidth;
-
-                // Animate RIGHT to Center
-                curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
-                curtain.style.transform = 'translateX(0%)';
+            // If the link clicked is INSIDE the main menu...
+            if (parentNav) {
+                // 1. Add the class to trigger the CSS "Slide Right" animation
+                parentNav.classList.add('menu-exiting');
+                // 2. Set a delay to allow the animation to play before the curtain comes
+                exitDelay = 500; 
             }
+            // -------------------------------------
 
-            // Wait for animation, then navigate
+            // Run the Page Transition after the optional delay
             setTimeout(() => {
-                window.location.href = targetUrl;
-            }, 600); 
+                
+                // RESET TRANSITION & POSITION
+                curtain.style.transition = 'none'; 
+                curtain.classList.add('is-active');
+
+                // DETERMINE DIRECTION (Smart Logic)
+                if (targetUrl.includes('about.html')) {
+                    // GOING TO ABOUT: Vertical (Bottom -> Up)
+                    curtain.classList.add('is-vertical');
+                    curtain.style.transform = 'translateY(100%)'; 
+                    void curtain.offsetWidth; // Force Reflow
+                    curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
+                    curtain.style.transform = 'translateY(0%)';
+
+                } else {
+                    // GOING ELSEWHERE: Horizontal (Left -> Right)
+                    curtain.classList.remove('is-vertical');
+                    curtain.style.transform = 'translateX(-100%)'; 
+                    void curtain.offsetWidth; // Force Reflow
+                    curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
+                    curtain.style.transform = 'translateX(0%)';
+                }
+
+                // Final Navigation
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 600); 
+
+            }, exitDelay); // This uses the delay we set above (0ms or 500ms)
         });
     });
 });

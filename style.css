@@ -231,6 +231,25 @@ body.body-no-scroll .desktop-nav {
 }
 
 /* ================================================================= */
+/* == MENU EXIT ANIMATION (Slide Right) == */
+/* ================================================================= */
+
+/* 1. The Exit State */
+/* When the menu has this class, items move RIGHT and fade out */
+.main-nav.menu-exiting li {
+    opacity: 0;
+    transform: translateX(60px) !important; /* Move 60px to the Right */
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* 2. Staggered Exit Delays */
+/* Top item leaves first, then the next, etc. */
+.main-nav.menu-exiting li:nth-child(1) { transition-delay: 0.0s; }
+.main-nav.menu-exiting li:nth-child(2) { transition-delay: 0.1s; }
+.main-nav.menu-exiting li:nth-child(3) { transition-delay: 0.2s; }
+.main-nav.menu-exiting li:nth-child(4) { transition-delay: 0.3s; }
+
+/* ================================================================= */
 /* == MENU: Staggered "Cascade" Animation == */
 /* ================================================================= */
 
