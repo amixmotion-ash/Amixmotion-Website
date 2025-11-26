@@ -378,52 +378,66 @@ if (contactForm) {
 }
 
 // ======================================================================
-// == 12. UNIVERSAL PAGE TRANSITIONS (Final) ==
+// == 12. UNIVERSAL PAGE TRANSITIONS (Final Refined) ==
 // ======================================================================
 document.addEventListener('DOMContentLoaded', function() {
     
     // 1. Setup/Check Curtain
     var curtain = document.querySelector('.page-transition-curtain');
-    if (!curtain) {
-        curtain = document.createElement('div');
-        curtain.classList.add('page-transition-curtain');
-        curtain.innerHTML = '<div class="page-loader"></div>';
-        document.body.appendChild(curtain);
+    
+    // FAILSAFE: If we are on the Homepage, we NEVER want the curtain to block the view.
+    // We check this immediately to prevent any "glitch" or flash of black.
+    if (document.body.classList.contains('homepage')) {
+        if (curtain) {
+            // If it exists (hardcoded), force it off-screen immediately
+            curtain.style.transition = 'none';
+            curtain.style.transform = 'translateX(100%)';
+            curtain.classList.remove('is-active');
+        }
+    } else {
+        // For all other pages, create the curtain if missing
+        if (!curtain) {
+            curtain = document.createElement('div');
+            curtain.classList.add('page-transition-curtain');
+            curtain.innerHTML = '<div class="page-loader"></div>';
+            document.body.appendChild(curtain);
+        }
     }
 
     // 2. HANDLE "OUT" ANIMATION (Reveal Page on Load)
     window.addEventListener('load', function() {
         
-        // CHECK: Is this the Homepage?
+        // Double Check: If Homepage, do nothing (ensure it stays hidden)
         if (document.body.classList.contains('homepage')) {
-            
-            // YES: Hide curtain immediately (No animation)
-            curtain.style.transition = 'none';
-            curtain.style.transform = 'translateX(100%)';
-            curtain.classList.remove('is-active');
-
-        } else {
-            
-            // NO (Portfolio, About, Contact): Run the smooth reveal
-            setTimeout(function() {
-                // Restore animation speed
-                curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
-                
-                // Slide to the Right (Reveal content)
-                curtain.style.transform = 'translateX(100%)'; 
-
-                // --- NEW: Trigger About Page Title Animation ---
-                var aboutTitle = document.querySelector('.about-hero-title');
-                if (aboutTitle) {
-                    aboutTitle.classList.add('is-visible');
-                }
-                // -----------------------------------------------
-                
-                setTimeout(function() {
-                    curtain.classList.remove('is-active');
-                }, 800);
-            }, 500);
+            if (curtain) {
+                curtain.style.transition = 'none';
+                curtain.style.transform = 'translateX(100%)';
+            }
+            return; // Stop here
         }
+
+        // For other pages (About, Portfolio, Contact)...
+        setTimeout(function() {
+            // Restore animation speed
+            curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
+            
+            // Slide to the Right (Reveal content)
+            curtain.style.transform = 'translateX(100%)'; 
+
+            // --- DELAYED TEXT ANIMATION (About Page) ---
+            var aboutTitle = document.querySelector('.about-hero-title');
+            if (aboutTitle) {
+                // Wait 400ms after the curtain starts moving before showing text
+                setTimeout(function() {
+                    aboutTitle.classList.add('is-visible');
+                }, 400); 
+            }
+            // -------------------------------------------
+            
+            setTimeout(function() {
+                curtain.classList.remove('is-active');
+            }, 800);
+        }, 500);
     });
 
     // 3. HANDLE "IN" ANIMATION (Link Clicks)
@@ -434,10 +448,20 @@ document.addEventListener('DOMContentLoaded', function() {
             
             var targetUrl = this.getAttribute('href');
 
-            // Ignore anchor links (like #mission)
             if (targetUrl.startsWith('#')) return;
 
             e.preventDefault();
+
+            // Ensure curtain exists (in case we are on Homepage where we hid it)
+            if (!curtain) {
+                 curtain = document.createElement('div');
+                 curtain.classList.add('page-transition-curtain');
+                 curtain.innerHTML = '<div class="page-loader"></div>';
+                 document.body.appendChild(curtain);
+            }
+            
+            // Make sure it's visible again for the transition
+            curtain.style.display = 'block';
 
             // --- MENU EXIT SEQUENCE ---
             var exitDelay = 0;
@@ -445,7 +469,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (parentNav) {
                 parentNav.classList.add('menu-exiting');
-                exitDelay = 500; // Wait for menu text to fly away
+                exitDelay = 500; 
             }
             // --------------------------
 
