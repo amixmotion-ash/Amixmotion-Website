@@ -2322,6 +2322,21 @@ body.portfolio-page::before {
     background-position: center;
 }
 
+/* ================================================================= */
+/* == PAGE TRANSITION VARIANT (Vertical for About Page) == */
+/* ================================================================= */
+
+/* When this class is present, we switch to Vertical movement */
+.page-transition-curtain.is-vertical {
+    /* Start at the BOTTOM (100%) instead of the Right */
+    transform: translateY(100%); 
+}
+
+/* Override the active state for vertical */
+.page-transition-curtain.is-vertical.is-active {
+    transform: translateY(0%);
+}
+
 /* The Spinning Ring */
 .page-loader::after {
     content: '';

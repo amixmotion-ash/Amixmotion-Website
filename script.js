@@ -577,38 +577,45 @@ if (contactForm) {
 }
 
 // ======================================================================
-// == UNIVERSAL PAGE TRANSITIONS (All Pages) ==
+// == SMART PAGE TRANSITIONS (Directional) ==
 // ======================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Setup Curtain
-    // We check if it exists (from your HTML edits). If not, we create it just to be safe.
+    // 1. Setup/Check Curtain
     let curtain = document.querySelector('.page-transition-curtain');
     if (!curtain) {
         curtain = document.createElement('div');
         curtain.classList.add('page-transition-curtain');
-        curtain.innerHTML = '<div class="page-loader"></div>'; // Add loader
+        curtain.innerHTML = '<div class="page-loader"></div>';
         document.body.appendChild(curtain);
     }
 
     // 2. HANDLE "OUT" ANIMATION (Reveal Page on Load)
-    // We run this on EVERY page now.
     window.addEventListener('load', () => {
-        // Wait 500ms to show the branding/loader
+        // Wait 500ms to show the loader/branding
         setTimeout(() => {
+            // Restore animation speed
             curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
-            curtain.style.transform = 'translateX(100%)'; // Slide away to Right
+
+            // CHECK: Are we on the About Page?
+            if (window.location.href.indexOf('about') > -1) {
+                // VERTICAL REVEAL (Slide Down back to bottom)
+                curtain.style.transform = 'translateY(100%)'; 
+            } else {
+                // STANDARD REVEAL (Slide Right)
+                curtain.style.transform = 'translateX(100%)';
+            }
             
-            // Cleanup class after animation
+            // Cleanup
             setTimeout(() => {
                 curtain.classList.remove('is-active');
+                curtain.classList.remove('is-vertical'); // Reset helper class
             }, 800);
         }, 500);
     });
 
     // 3. HANDLE "IN" ANIMATION (Link Clicks)
-    // We select ALL internal navigation links
     const internalLinks = document.querySelectorAll('a[href="index.html"], a[href="about.html"], a[href="portfolio.html"], a[href="contact.html"], a[href="./"]');
 
     internalLinks.forEach(link => {
@@ -617,22 +624,46 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetUrl = this.getAttribute('href');
             const currentUrl = window.location.href;
 
-            // Don't transition if:
-            // 1. We are already on that page
-            // 2. It's an anchor link on the same page (like #mission)
             if (currentUrl.includes(targetUrl) && !targetUrl.includes('#')) return;
             if (targetUrl.startsWith('#')) return;
 
             e.preventDefault();
 
-            // Prepare curtain (move to Left side, ready to slide in)
-            curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
+            // RESET TRANSITION & POSITION before starting
+            curtain.style.transition = 'none'; 
             curtain.classList.add('is-active');
-            
-            // Slide to Center (Cover Screen)
-            curtain.style.transform = 'translateX(0%)'; 
 
-            // Wait for animation, then go to new page
+            // --- LOGIC: WHERE ARE WE GOING? ---
+            if (targetUrl.includes('about.html')) {
+                
+                // GOING TO ABOUT: Use Vertical (Bottom -> Up)
+                curtain.classList.add('is-vertical');
+                curtain.style.transform = 'translateY(100%)'; // Start at Bottom
+                
+                // Force Reflow (Magic Fix)
+                void curtain.offsetWidth;
+
+                // Animate UP to Center
+                curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
+                curtain.style.transform = 'translateY(0%)';
+
+            } else {
+                
+                // GOING ELSEWHERE: Use Horizontal (Left -> Right)
+                curtain.classList.remove('is-vertical');
+                // We want to enter from the LEFT for the "Camera Shutter" effect
+                // So we place it off-screen LEFT first
+                curtain.style.transform = 'translateX(-100%)'; 
+                
+                // Force Reflow
+                void curtain.offsetWidth;
+
+                // Animate RIGHT to Center
+                curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
+                curtain.style.transform = 'translateX(0%)';
+            }
+
+            // Wait for animation, then navigate
             setTimeout(() => {
                 window.location.href = targetUrl;
             }, 600); 
