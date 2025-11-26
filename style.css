@@ -231,27 +231,25 @@ body.body-no-scroll .desktop-nav {
 }
 
 /* ================================================================= */
-/* == MENU EXIT ANIMATION (Separate Lines & Text) == */
+/* == MENU EXIT ANIMATION (Instant Lines & Far Slide) == */
 /* ================================================================= */
 
 /* 1. The Lines (The List Items) */
-/* As soon as we click, the border fades out instantly with NO movement */
+/* CHANGED: Transition time reduced to 0.05s (Virtually instant) */
 .main-nav.menu-exiting li {
     border-bottom-color: transparent;
-    transition: border-bottom-color 0.2s ease;
+    transition: border-bottom-color 0.05s linear;
 }
 
 /* 2. The Text (The Links inside) */
-/* The text detaches and flies to the right */
+/* CHANGED: Moves 50vw (Half the screen width) to the right */
 .main-nav.menu-exiting a {
     opacity: 0;
-    /* Move significantly further (200px) */
-    transform: translateX(200px); 
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateX(50vw); 
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 /* 3. Staggered Delays for the TEXT only */
-/* We target the 'a' tag so the text flies out one by one */
 .main-nav.menu-exiting li:nth-child(1) a { transition-delay: 0.0s; }
 .main-nav.menu-exiting li:nth-child(2) a { transition-delay: 0.1s; }
 .main-nav.menu-exiting li:nth-child(3) a { transition-delay: 0.2s; }
