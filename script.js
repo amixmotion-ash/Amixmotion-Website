@@ -1,4 +1,6 @@
-// --- Full-Screen Menu Toggle ---
+// ======================================================================
+// == 1. MENU TOGGLE ==
+// ======================================================================
 const navToggle = document.querySelector('.nav-toggle');
 const mainNav = document.querySelector('.main-nav');
 const body = document.querySelector('body');
@@ -8,16 +10,40 @@ if (navToggle && mainNav && body) {
         mainNav.classList.toggle('nav-open');
         body.classList.toggle('body-no-scroll');
         if (mainNav.classList.contains('nav-open')) {
-        navToggle.textContent = '× CLOSE';
+            navToggle.textContent = '× CLOSE';
         } else {
             navToggle.textContent = 'MENU';
         }
     });
 }
 
-// --- Animation Trigger for Mission Section ---
-const animatedSection = document.querySelector('.mission-section');
-if (animatedSection) {
+// ======================================================================
+// == 2. HEADER HIDE ON SCROLL ==
+// ======================================================================
+const header = document.querySelector('header');
+let lastScrollY = window.scrollY;
+
+if (header) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) { 
+            if (lastScrollY < window.scrollY) {
+                header.classList.add('is-hidden');
+            } else {
+                header.classList.remove('is-hidden');
+            }
+        } else {
+            header.classList.remove('is-hidden');
+        }
+        lastScrollY = window.scrollY;
+    });
+}
+
+// ======================================================================
+// == 3. ANIMATION TRIGGERS (Scroll Reveal) ==
+// ======================================================================
+const elementsToFadeIn = document.querySelectorAll('.fade-in-on-scroll, .mission-section, .testimonials-section');
+
+if (elementsToFadeIn.length > 0) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -25,32 +51,34 @@ if (animatedSection) {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.4 });
-    observer.observe(animatedSection);
-}
+    }, { threshold: 0.15 });
 
-// --- Animation Trigger for Testimonials Section ---
-const testimonialsSection = document.querySelector('.testimonials-section');
-if (testimonialsSection) {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.2 });
-    observer.observe(testimonialsSection);
+    elementsToFadeIn.forEach(element => {
+        observer.observe(element);
+    });
 }
 
 // ======================================================================
-// == VIDEO LIGHTBOX (FINAL VERSION with Hover/Tap Controls) ==
+// == 4. MISSION SCROLL WIPE ==
 // ======================================================================
+const missionTextWipe = document.querySelector('.mission-statement-scroll-effect');
+if (missionTextWipe) {
+    const foregroundWrapper = missionTextWipe.querySelector('.mission-statement-foreground-wrapper');
+    window.addEventListener('scroll', function() {
+        const rect = missionTextWipe.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const startPoint = viewportHeight * 0.9;
+        const endPoint = 0;
+        const progress = Math.max(0, Math.min(1, (startPoint - rect.top) / (startPoint - endPoint)));
+        foregroundWrapper.style.setProperty('--progress', (progress * 100) + '%');
+    });
+}
 
+// ======================================================================
+// == 5. VIDEO LIGHTBOX ==
+// ======================================================================
 const lightbox = document.querySelector('.video-lightbox');
-
 if (lightbox) {
-    // Get all the parts we need
     const lightboxContent = lightbox.querySelector('.lightbox-content');
     const lightboxVideo = lightbox.querySelector('.lightbox-video');
     const closeButton = lightbox.querySelector('.lightbox-close');
@@ -58,49 +86,33 @@ if (lightbox) {
     const lightboxOverlay = lightbox.querySelector('.lightbox-overlay');
     const portfolioItems = document.querySelectorAll('.grid-item');
 
-    // --- This function handles OPENING the lightbox ---
     function openLightbox(videoSrc, aspectRatio) {
         if (videoSrc) {
-            // Apply aspect ratio class
             if (aspectRatio === '9:16') {
-
                 lightboxVideo.classList.add('controls-hidden');
                 lightboxContent.classList.add('is-vertical');
             } else {
                 lightboxContent.classList.remove('is-vertical');
             }
-
-            // Show loader and open lightbox
             if(customLoader) customLoader.classList.add('is-loading');
             lightbox.classList.add('is-loading');
             lightboxVideo.src = videoSrc;
             lightbox.classList.add('is-visible');
-
-            // Start playing the video
             lightboxVideo.play();
         }
     }
 
-  function closeLightbox() {
-    // --- Step 1: Start the fade-out animation ---
-    lightbox.classList.remove('is-visible');
-
-    // --- Step 2: WAIT for the animation to finish ---
-    // We will set a timeout that is the same duration as your CSS fade animation (300ms)
-    setTimeout(() => {
-        // --- Step 3: NOW that the video is hidden, we can safely stop it ---
-        lightboxVideo.pause();
-        lightboxVideo.src = '';
-
-        // Clean up loader and vertical classes
-        if(customLoader) customLoader.classList.remove('is-loading');
-        lightbox.classList.remove('is-loading');
-        lightboxContent.classList.remove('is-vertical');
-
-    }, 300); // 300ms matches your CSS 'transition: opacity 0.3s'
-}
+    function closeLightbox() {
+        lightbox.classList.remove('is-visible');
+        setTimeout(() => {
+            lightboxVideo.pause();
+            lightboxVideo.src = '';
+            if(customLoader) customLoader.classList.remove('is-loading');
+            lightbox.classList.remove('is-loading');
+            lightboxContent.classList.remove('is-vertical');
+        }, 300);
+    }
     
-    // --- Event Listeners for the video's loading state ---
     if (customLoader) {
         lightboxVideo.addEventListener('waiting', () => {
             customLoader.classList.add('is-loading');
@@ -112,65 +124,61 @@ if (lightbox) {
         });
     }
 
-    // --- NEW, SIMPLIFIED LOGIC FOR CONTROLS ---
-
-    // When the video starts playing, hide the controls immediately.
-    lightboxVideo.addEventListener('playing', () => {
-        lightboxVideo.classList.add('controls-hidden');
-    });
-
-    // On desktop, when the mouse enters the video area, show the controls.
-        lightboxVideo.addEventListener('playing', () => {
-        lightboxVideo.classList.add('controls-hidden');
-    });
-    lightboxContent.addEventListener('mouseenter', () => {
-        lightboxVideo.classList.remove('controls-hidden');
-    });
-
-    // On desktop, when the mouse leaves the video area, hide them again.
+    // Controls Logic
+    lightboxVideo.addEventListener('playing', () => lightboxVideo.classList.add('controls-hidden'));
+    lightboxContent.addEventListener('mouseenter', () => lightboxVideo.classList.remove('controls-hidden'));
     lightboxContent.addEventListener('mouseleave', () => {
-        if (!lightboxVideo.paused) { // Don't hide if the video is paused
-            lightboxVideo.classList.add('controls-hidden');
-        }
+        if (!lightboxVideo.paused) lightboxVideo.classList.add('controls-hidden');
     });
-
-    // On mobile, a single tap on the video will toggle the controls.
     lightboxContent.addEventListener('click', () => {
-        // We check if the video is playing to avoid conflicts with the play/pause button
-        if (!lightboxVideo.paused) {
-            lightboxVideo.classList.toggle('controls-hidden');
-        }
+        if (!lightboxVideo.paused) lightboxVideo.classList.toggle('controls-hidden');
     });
+    lightboxVideo.addEventListener('pause', () => lightboxVideo.classList.remove('controls-hidden'));
 
-    // Always show controls when the video is paused.
-    lightboxVideo.addEventListener('pause', () => {
-        lightboxVideo.classList.remove('controls-hidden');
-    });
-
-    // --- Click events to open and close the lightbox ---
     portfolioItems.forEach(item => {
         item.addEventListener('click', (event) => {
             event.preventDefault();
-            const videoSrc = item.dataset.videoSrc;
-            const aspectRatio = item.dataset.aspectRatio;
-            openLightbox(videoSrc, aspectRatio);
+            openLightbox(item.dataset.videoSrc, item.dataset.aspectRatio);
         });
     });
 
     closeButton.addEventListener('click', closeLightbox);
-    if (lightboxOverlay) {
-        lightboxOverlay.addEventListener('click', closeLightbox);
-    }
+    if (lightboxOverlay) lightboxOverlay.addEventListener('click', closeLightbox);
 }
 
+// ======================================================================
+// == 6. RELLAX PARALLAX (Smart Detection) ==
+// ======================================================================
+if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
+    let options = {
+        center: false, // Default: Start aligned at top
+        speed: -2,
+        wrapper: null, 
+        round: true, 
+        vertical: true, 
+        horizontal: false
+    };
 
+    if (document.body.classList.contains('homepage')) {
+        options.center = true; // Homepage: Meet in middle
+    }
 
+    // Add animate-in class for Portfolio Page
+    if (document.body.classList.contains('portfolio-page')) {
+        const gridSection = document.querySelector('.portfolio-grid-section');
+        if (gridSection) {
+            window.addEventListener('load', function() {
+                gridSection.classList.add('animate-in');
+            });
+        }
+    }
 
+    var rellax = new Rellax('.rellax', options);
+}
 
-
-
-
-// --- Click and Drag Functionality for Testimonials Scroller ---
+// ======================================================================
+// == 7. TESTIMONIALS DRAG ==
+// ======================================================================
 const slider = document.querySelector('.testimonials-scroller.draggable');
 if (slider) {
     let isDown = false;
@@ -199,45 +207,26 @@ if (slider) {
     });
 }
 
-// --- Seamless Image Carousel Duplication for About Page ---
-const carouselTrack = document.querySelector('.image-carousel-track');
-if (carouselTrack) {
-    const images = Array.from(carouselTrack.children);
-    images.forEach(image => {
-        const duplicate = image.cloneNode(true);
-        duplicate.setAttribute('aria-hidden', true);
-        carouselTrack.appendChild(duplicate);
-    });
-}
-// --- Accordion Functionality for Process Section (Final, Smooth Version) ---
+// ======================================================================
+// == 8. ACCORDION (Process) ==
+// ======================================================================
 const accordionItems = document.querySelectorAll('.accordion-item');
-
 if (accordionItems.length > 0) {
     accordionItems.forEach(item => {
         const toggle = item.querySelector('.accordion-toggle');
         const content = item.querySelector('.accordion-content');
-
         toggle.addEventListener('click', () => {
-            // Find the item that is currently open (if any)
             const currentlyOpenItem = document.querySelector('.accordion-item.is-open');
-
-            // --- CASE 1: The user clicked the item that was already open ---
             if (currentlyOpenItem && currentlyOpenItem === item) {
-                // Just close it and do nothing else.
                 item.classList.remove('is-open');
                 toggle.setAttribute('aria-expanded', 'false');
                 content.style.maxHeight = null;
-            }
-            // --- CASE 2: The user clicked a new item ---
-            else {
-                // First, if there IS an open item, close it.
+            } else {
                 if (currentlyOpenItem) {
                     currentlyOpenItem.classList.remove('is-open');
                     currentlyOpenItem.querySelector('.accordion-toggle').setAttribute('aria-expanded', 'false');
                     currentlyOpenItem.querySelector('.accordion-content').style.maxHeight = null;
                 }
-
-                // Now, open the new item that was clicked.
                 item.classList.add('is-open');
                 toggle.setAttribute('aria-expanded', 'true');
                 content.style.maxHeight = content.scrollHeight + 'px';
@@ -245,63 +234,58 @@ if (accordionItems.length > 0) {
         });
     });
 }
-// --- Hiding Header on Scroll ---
-const header = document.querySelector('header');
-let lastScrollY = window.scrollY; // Store the initial scroll position
 
-if (header) {
-    window.addEventListener('scroll', () => {
-        // Only run the function if the user has scrolled a little bit
-        if (window.scrollY > 50) { 
-            if (lastScrollY < window.scrollY) {
-                // User is scrolling DOWN
-                header.classList.add('is-hidden');
+// ======================================================================
+// == 9. HOMEPAGE EXTRAS (Scroll Down + Hero Hide) ==
+// ======================================================================
+if (document.body.classList.contains('homepage')) {
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (scrollIndicator) {
+        scrollIndicator.style.transition = 'opacity 0.3s ease-out';
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                scrollIndicator.style.opacity = '0';
             } else {
-                // User is scrolling UP
-                header.classList.remove('is-hidden');
+                scrollIndicator.style.opacity = '0.8';
             }
-        } else {
-            // If at the very top of the page, always show the header
-            header.classList.remove('is-hidden');
-        }
-
-        // Update the last scroll position for the next event
-        lastScrollY = window.scrollY;
-    });
-}
-// --- Rellax Parallax Functionality (Smart Page Detection) ---
-if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
-    
-    // 1. Define base options (Good for Portfolio Page)
-    let options = {
-        center: false, // Start aligned at the top
-        speed: -2,
-        wrapper: null, 
-        round: true, 
-        vertical: true, 
-        horizontal: false
-    };
-
-    // 2. Check if we are on the Homepage
-    if (document.body.classList.contains('homepage')) {
-        // If Homepage, force "center: true" so items meet in the middle
-        options.center = true;
+        });
     }
 
-    // 3. Initialize Rellax with the correct options for that page
-    var rellax = new Rellax('.rellax', options);
+    const heroVideoSection = document.querySelector('.hero-video');
+    if (heroVideoSection) {
+        window.addEventListener('scroll', function() {
+            const scrollHeight = document.documentElement.scrollHeight;
+            const clientHeight = document.documentElement.clientHeight;
+            const scrollTop = window.scrollY;
+            const maxScroll = scrollHeight - clientHeight;
+            if (scrollTop >= (maxScroll - 100)) {
+                heroVideoSection.classList.add('is-hidden');
+            } else {
+                heroVideoSection.classList.remove('is-hidden');
+            }
+        });
+    }
+
+    const scrollLink = document.querySelector('.scroll-indicator-link');
+    if (scrollLink) {
+        scrollLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            const targetSection = document.querySelector('#mission');
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
 }
 
 // ======================================================================
-// == GPU CURSOR ENGINE (Zero Lag) ==
+// == 10. GPU CURSOR ENGINE (Zero Lag) ==
 // ======================================================================
-
 const customCursor = document.querySelector('.custom-cursor');
 const menuCursor = document.querySelector('.menu-cursor');
 const bodyForCursor = document.querySelector('body');
 
-// 1. Auto-Upgrade DOM Structure
-// We wrap the content in a 'visual' div so we can separate movement (outer) from animation (inner)
+// Auto-Upgrade Structure
 if (customCursor && !customCursor.querySelector('.cursor-visual')) {
     const content = customCursor.innerHTML;
     customCursor.innerHTML = `<div class="cursor-visual">${content}</div>`;
@@ -311,7 +295,6 @@ if (menuCursor && !menuCursor.querySelector('.menu-cursor-visual')) {
     menuCursor.innerHTML = `<div class="menu-cursor-visual">${content}</div>`;
 }
 
-// 2. Track Mouse
 let mouseX = 0;
 let mouseY = 0;
 let isMoving = false;
@@ -325,26 +308,17 @@ window.addEventListener('mousemove', (e) => {
     }
 });
 
-// 3. GPU Animation Loop
 function animateCursors() {
-    // We use translate3d because it forces the GPU to handle the movement
-    // preventing the CPU lag you were feeling.
-    
     if (customCursor) {
         customCursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
     }
-
     if (menuCursor) {
         menuCursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
     }
-
     requestAnimationFrame(animateCursors);
 }
 
-// 4. Hover Logic (Triggers animations on the INNER visual element)
 if (bodyForCursor) {
-    
-    // Logic for "Play" Cursor
     const portfolioItemsForCursor = document.querySelectorAll('.portfolio-grid-section .grid-item');
     if (portfolioItemsForCursor.length > 0) {
         portfolioItemsForCursor.forEach(item => {
@@ -352,8 +326,6 @@ if (bodyForCursor) {
             item.addEventListener('mouseleave', () => bodyForCursor.classList.remove('cursor-hover'));
         });
     }
-
-    // Logic for "Arrow" Cursor
     const navLinks = document.querySelectorAll('.main-nav a');
     if (navLinks.length > 0) {
         navLinks.forEach(link => {
@@ -364,210 +336,39 @@ if (bodyForCursor) {
 }
 
 // ======================================================================
-// == HOMEPAGE: Fade Out Scroll Indicator ==
+// == 11. AJAX CONTACT FORM (No Redirect) ==
 // ======================================================================
-
-// This script only runs if we are on the homepage
-if (document.body.classList.contains('homepage')) {
-    
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-
-    // Make sure the element actually exists on the page
-    if (scrollIndicator) {
-        
-        // --- First, add a smooth transition to the CSS ---
-        scrollIndicator.style.transition = 'opacity 0.3s ease-out';
-
-        window.addEventListener('scroll', function() {
-            // Check if the user has scrolled down more than a tiny amount (e.g., 50 pixels)
-            if (window.scrollY > 50) {
-                // If they have, fade the indicator out
-                scrollIndicator.style.opacity = '0';
-            } else {
-                // If they scroll back to the very top, fade it back in
-                scrollIndicator.style.opacity = '0.8';
-            }
-        });
-    }
-}
-
-// ======================================================================
-// == HOMEPAGE: Hide Hero Video at Bottom of Page ==
-// ======================================================================
-
-if (document.body.classList.contains('homepage')) {
-    
-    const heroVideoSection = document.querySelector('.hero-video');
-
-    if (heroVideoSection) {
-        window.addEventListener('scroll', function() {
-            // This is the total height of the entire page
-            const scrollHeight = document.documentElement.scrollHeight;
-            // This is the height of the visible browser window
-            const clientHeight = document.documentElement.clientHeight;
-            // This is how far the user has scrolled from the top
-            const scrollTop = window.scrollY;
-
-            // This is the total scrollable distance
-            const maxScroll = scrollHeight - clientHeight;
-
-            // If the user has scrolled to the last 100px of the page
-            if (scrollTop >= (maxScroll - 100)) {
-                // Add the class to hide the video
-                heroVideoSection.classList.add('is-hidden');
-            } else {
-                // Otherwise, remove the class to show the video
-                heroVideoSection.classList.remove('is-hidden');
-            }
-        });
-    }
-}
-// ======================================================================
-// == GLOBAL: General Purpose Fade-In on Scroll ==
-// ======================================================================
-
-// 1. Find all elements that have our new animation class
-const elementsToFadeIn = document.querySelectorAll('.fade-in-on-scroll');
-
-// 2. Make sure there are elements to animate
-if (elementsToFadeIn.length > 0) {
-    
-    // 3. Set up the Intersection Observer
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            // If the element is on the screen...
-            if (entry.isIntersecting) {
-                // ...add the 'is-visible' class to trigger the animation
-                entry.target.classList.add('is-visible');
-                // ...and then stop watching this element to save resources
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1 // Trigger when 10% of the element is visible
-    });
-
-    // 4. Tell the observer to watch each of our elements
-    elementsToFadeIn.forEach(element => {
-        observer.observe(element);
-    });
-}
-
-// ======================================================================
-// == HOMEPAGE: Smooth Scroll for "Scroll Down" Button ==
-// ======================================================================
-
-// 1. Find the link we just created
-const scrollLink = document.querySelector('.scroll-indicator-link');
-
-// 2. Make sure the link exists on the page
-if (scrollLink) {
-    
-    // 3. Add a click event listener
-    scrollLink.addEventListener('click', function(event) {
-        // First, prevent the default "jump" behavior of the link
-        event.preventDefault();
-
-        // Find the target section we want to scroll to (the one with id="mission")
-        const targetSection = document.querySelector('#mission');
-
-        if (targetSection) {
-            // This is the modern, built-in browser command to perform a smooth scroll
-            targetSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-}
-
-// ======================================================================
-// == HOMEPAGE: Mission Statement FEATHERED Scroll-Wipe Effect ==
-// ======================================================================
-
-const missionTextWipe = document.querySelector('.mission-statement-scroll-effect');
-
-if (missionTextWipe) {
-    const foregroundWrapper = missionTextWipe.querySelector('.mission-statement-foreground-wrapper');
-
-    window.addEventListener('scroll', function() {
-        const rect = missionTextWipe.getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
-
-        // Use the same start point as before
-        const startPoint = viewportHeight * 0.9;
-        const endPoint = 0;
-        
-        const progress = Math.max(0, Math.min(1, (startPoint - rect.top) / (startPoint - endPoint)));
-
-        // --- THIS IS THE NEW LOGIC ---
-        // We update the '--progress' CSS variable based on the scroll.
-        // The value is passed as a percentage.
-        foregroundWrapper.style.setProperty('--progress', (progress * 100) + '%');
-    });
-}
-
-
-
-if (document.body.classList.contains('portfolio-page')) {
-    const gridSection = document.querySelector('.portfolio-grid-section');
-    if (gridSection) {
-        window.addEventListener('load', function() {
-            gridSection.classList.add('animate-in');
-        });
-    }
-}
-
-// ======================================================================
-// == CONTACT PAGE: Handle Form Submission via AJAX ==
-// ======================================================================
-
 const contactForm = document.querySelector('.contact-form');
-
 if (contactForm) {
     contactForm.addEventListener('submit', function(event) {
-        // 1. Stop the browser from redirecting to Formspree
         event.preventDefault();
-
         const statusBtn = contactForm.querySelector('button');
         const originalText = statusBtn.textContent;
-
-        // 2. Change button text to show it's working
         statusBtn.textContent = 'SENDING...';
         statusBtn.disabled = true;
         statusBtn.style.opacity = '0.7';
 
-        // 3. Collect the form data
         const formData = new FormData(contactForm);
-
-        // 4. Send it to Formspree using JavaScript (Fetch API)
         fetch(contactForm.action, {
             method: contactForm.method,
             body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
+            headers: { 'Accept': 'application/json' }
         }).then(response => {
             if (response.ok) {
-                // 5. SUCCESS: Go to the success page
-                // Since we are using JS, a relative path works perfectly here!
                 window.location.href = 'success.html';
             } else {
-                // 6. ERROR: Formspree rejected it (usually spam filter or activation issue)
                 response.json().then(data => {
                     if (Object.hasOwn(data, 'errors')) {
                         alert(data["errors"].map(error => error["message"]).join(", "));
                     } else {
                         alert("Oops! There was a problem submitting your form");
                     }
-                    // Reset button
                     statusBtn.textContent = originalText;
                     statusBtn.disabled = false;
                     statusBtn.style.opacity = '1';
                 });
             }
         }).catch(error => {
-            // Network error
             alert("Oops! There was a problem submitting your form");
             statusBtn.textContent = originalText;
             statusBtn.disabled = false;
@@ -577,13 +378,12 @@ if (contactForm) {
 }
 
 // ======================================================================
-// == UNIVERSAL PAGE TRANSITIONS (Standardized) ==
+// == 12. UNIVERSAL PAGE TRANSITIONS (Final) ==
 // ======================================================================
-
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
     
     // 1. Setup/Check Curtain
-    let curtain = document.querySelector('.page-transition-curtain');
+    var curtain = document.querySelector('.page-transition-curtain');
     if (!curtain) {
         curtain = document.createElement('div');
         curtain.classList.add('page-transition-curtain');
@@ -592,37 +392,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 2. HANDLE "OUT" ANIMATION (Reveal Page on Load)
-    window.addEventListener('load', () => {
-        setTimeout(() => {
+    window.addEventListener('load', function() {
+        setTimeout(function() {
             // Restore animation speed
             curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
             
             // ALWAYS wipe to the Right (Reveal content)
             curtain.style.transform = 'translateX(100%)'; 
             
-            setTimeout(() => {
+            setTimeout(function() {
                 curtain.classList.remove('is-active');
             }, 800);
         }, 500);
     });
 
     // 3. HANDLE "IN" ANIMATION (Link Clicks)
-    const internalLinks = document.querySelectorAll('a[href="index.html"], a[href="about.html"], a[href="portfolio.html"], a[href="contact.html"], a[href="./"]');
+    var internalLinks = document.querySelectorAll('a[href="index.html"], a[href="about.html"], a[href="portfolio.html"], a[href="contact.html"], a[href="./"]');
 
-    internalLinks.forEach(link => {
+    internalLinks.forEach(function(link) {
         link.addEventListener('click', function(e) {
             
-            const targetUrl = this.getAttribute('href');
-            const currentUrl = window.location.href;
+            var targetUrl = this.getAttribute('href');
 
-            if (currentUrl.includes(targetUrl) && !targetUrl.includes('#')) return;
+            // Ignore anchor links (like #mission)
             if (targetUrl.startsWith('#')) return;
 
             e.preventDefault();
 
             // --- MENU EXIT SEQUENCE ---
-            let exitDelay = 0;
-            const parentNav = this.closest('.main-nav');
+            var exitDelay = 0;
+            var parentNav = this.closest('.main-nav');
 
             if (parentNav) {
                 parentNav.classList.add('menu-exiting');
@@ -630,23 +429,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             // --------------------------
 
-            setTimeout(() => {
+            setTimeout(function() {
                 
                 // RESET TRANSITION
                 curtain.style.transition = 'none'; 
                 curtain.classList.add('is-active');
 
-                // UNIFIED LOGIC: Always start from LEFT
+                // Start from LEFT
                 curtain.style.transform = 'translateX(-100%)'; 
                 
-                void curtain.offsetWidth; // Force Reflow
+                // FORCE REFLOW
+                curtain.getBoundingClientRect();
 
                 // Animate RIGHT to Center
                 curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
                 curtain.style.transform = 'translateX(0%)';
 
                 // Navigation
-                setTimeout(() => {
+                setTimeout(function() {
                     window.location.href = targetUrl;
                 }, 600); 
 
