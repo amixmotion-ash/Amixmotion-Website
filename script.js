@@ -168,26 +168,7 @@ if (lightbox) {
 
 
 
-// --- Custom Cursor Functionality (Homepage Only) ---
-const bodyForCursor = document.querySelector('body');
-if (bodyForCursor && (bodyForCursor.classList.contains('homepage') || bodyForCursor.classList.contains('portfolio-page'))) {
-    const customCursor = document.querySelector('.custom-cursor');
-    const portfolioItemsForCursor = document.querySelectorAll('.portfolio-grid-section .grid-item');
-    if (customCursor && portfolioItemsForCursor.length > 0) {
-        window.addEventListener('mousemove', (e) => {
-            customCursor.style.left = e.clientX + 'px';
-            customCursor.style.top = e.clientY + 'px';
-        });
-        portfolioItemsForCursor.forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                bodyForCursor.classList.add('cursor-hover');
-            });
-            item.addEventListener('mouseleave', () => {
-                bodyForCursor.classList.remove('cursor-hover');
-            });
-        });
-    }
-}
+
 
 // --- Click and Drag Functionality for Testimonials Scroller ---
 const slider = document.querySelector('.testimonials-scroller.draggable');
@@ -311,27 +292,70 @@ if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
     var rellax = new Rellax('.rellax', options);
 }
 
-// --- Custom Menu Cursor ---
-const menuCursor = document.querySelector('.menu-cursor');
-const navLinks = document.querySelectorAll('.main-nav a');
+// ======================================================================
+// == HIGH PERFORMANCE CURSOR ENGINE ==
+// ======================================================================
 
-if (menuCursor && navLinks.length > 0) {
-    // 1. Move the cursor
+// 1. Setup Variables
+const customCursor = document.querySelector('.custom-cursor');
+const menuCursor = document.querySelector('.menu-cursor');
+const bodyForCursor = document.querySelector('body');
+
+// These variables store the mouse position efficiently
+let mouseX = 0;
+let mouseY = 0;
+
+// 2. Track Mouse Movement (Data Only)
+// This runs super fast but DOES NOT touch the DOM (no lag)
 window.addEventListener('mousemove', (e) => {
-    // This positions the cursor's top-left corner at the pointer
-    menuCursor.style.left = e.clientX + 'px';
-    menuCursor.style.top = e.clientY + 'px';
+    mouseX = e.clientX;
+    mouseY = e.clientY;
 });
 
-    // 2. Show/Hide the cursor on link hover
-  navLinks.forEach(link => {
-        link.addEventListener('mouseenter', () => {
-            document.body.classList.add('menu-cursor-active');
+// 3. The Animation Loop (Visuals)
+// This runs 60 times per second, synced with your screen refresh rate
+function animateCursors() {
+    
+    // Update "Play" Cursor (if it exists)
+    if (customCursor) {
+        customCursor.style.left = mouseX + 'px';
+        customCursor.style.top = mouseY + 'px';
+    }
+
+    // Update "Arrow" Cursor (if it exists)
+    if (menuCursor) {
+        menuCursor.style.left = mouseX + 'px';
+        menuCursor.style.top = mouseY + 'px';
+    }
+
+    // Keep the loop running
+    requestAnimationFrame(animateCursors);
+}
+
+// Start the engine
+animateCursors();
+
+// 4. Hover Logic (Triggers)
+// This handles the scaling/hiding, which doesn't need to be in the loop
+if (bodyForCursor) {
+    
+    // Logic for "Play" Cursor (Portfolio Items)
+    const portfolioItemsForCursor = document.querySelectorAll('.portfolio-grid-section .grid-item');
+    if (portfolioItemsForCursor.length > 0) {
+        portfolioItemsForCursor.forEach(item => {
+            item.addEventListener('mouseenter', () => bodyForCursor.classList.add('cursor-hover'));
+            item.addEventListener('mouseleave', () => bodyForCursor.classList.remove('cursor-hover'));
         });
-        link.addEventListener('mouseleave', () => {
-            document.body.classList.remove('menu-cursor-active');
+    }
+
+    // Logic for "Arrow" Cursor (Menu Links)
+    const navLinks = document.querySelectorAll('.main-nav a');
+    if (navLinks.length > 0) {
+        navLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => bodyForCursor.classList.add('menu-cursor-active'));
+            link.addEventListener('mouseleave', () => bodyForCursor.classList.remove('menu-cursor-active'));
         });
-    });
+    }
 }
 
 // ======================================================================

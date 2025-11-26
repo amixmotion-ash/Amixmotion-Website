@@ -799,7 +799,9 @@ footer {
     transform-origin: 0 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
+    will-change: top, left, opacity, transform; 
 }
+
 .cursor-hover .custom-cursor { opacity: 1; transform: scale(1) translate(20px, -50%); }
 .cursor-hover { cursor: none; }
 
@@ -1518,7 +1520,9 @@ body.contact-page {
      transform-origin: 0 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
+    will-change: top, left, opacity, transform;
 }
+
 
 /* This class will be added by JavaScript to show the cursor */
 body.menu-cursor-active .menu-cursor {
