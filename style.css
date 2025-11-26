@@ -1460,7 +1460,7 @@ body.contact-page {
 }
 
 /* ================================================================= */
-/* == GPU ACCELERATED CURSORS (Final No-Lag Fix) == */
+/* == GPU ACCELERATED CURSORS (Final Safety Version) == */
 /* ================================================================= */
 
 /* --- 1. The "Play" Cursor (Outer Wrapper) --- */
@@ -1471,29 +1471,35 @@ body.contact-page {
     z-index: 1100;
     pointer-events: none;
     
-    /* Center the cursor point (80px width / 2 = -40px) */
+    /* Center the cursor point */
     width: 80px;
     height: 80px;
-    margin-left: -20px; /* Offset to center under mouse */
+    margin-left: -20px; 
     margin-top: -40px;
     
+    /* FORCE TRANSPARENCY (Fixes the Black Square Box) */
+    background: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    
     /* CRITICAL: No transition here! Movement must be instant. */
-    transition: none; 
+    transition: none !important; 
     
     /* Forces GPU Acceleration */
     will-change: transform;
 }
 
 /* --- 2. The "Play" Visuals (Inner Animated Part) --- */
-/* The Javascript will automatically wrap your text in this class */
 .cursor-visual {
     width: 100%;
     height: 100%;
     
-    /* Visual Styles */
+    /* This creates the circle */
     background-color: rgba(0, 0, 0, 0.8);
     color: #ffffff;
     border-radius: 50%;
+    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1526,7 +1532,13 @@ body.contact-page {
     margin-left: -30px;
     margin-top: -30px;
     
-    transition: none; /* Instant movement */
+    /* FORCE TRANSPARENCY (Fixes the Black Square Box) */
+    background: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    
+    transition: none !important; 
     will-change: transform;
 }
 
@@ -1535,10 +1547,11 @@ body.contact-page {
     width: 100%;
     height: 100%;
     
-    /* Visual Styles */
+    /* This creates the circle */
     background-color: rgba(255, 255, 255, 0.8);
     color: #000000;
     border-radius: 50%;
+    
     display: flex;
     justify-content: center;
     align-items: center;
