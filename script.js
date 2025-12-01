@@ -500,7 +500,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == ABOUT PAGE: Cinematic Scroll Depth ==
+// == ABOUT PAGE: Cinematic Scroll Depth (Parallax + Blur) ==
 // ======================================================================
 if (document.body.classList.contains('about-page')) {
     
@@ -510,30 +510,36 @@ if (document.body.classList.contains('about-page')) {
     if (stickySection && incomingSection) {
         window.addEventListener('scroll', () => {
             
-            // 1. Where is the incoming section relative to the top of the screen?
             const incomingPosition = incomingSection.getBoundingClientRect().top;
             const windowHeight = window.innerHeight;
 
-            // 2. Only animate when the incoming section is entering the screen
             if (incomingPosition < windowHeight && incomingPosition > 0) {
                 
-                // Calculate progress (0 = just entered bottom, 1 = hit the top)
-                // We map the distance to a 0.0 - 1.0 scale
+                // Calculate progress (0.0 to 1.0)
                 let progress = 1 - (incomingPosition / windowHeight);
 
-                // 3. Apply the "Receding" Effect
-                // Scale down slightly (to 0.95)
+                // 1. Scale Effect (Shrink slightly to create depth)
                 const scale = 1 - (progress * 0.05); 
-                // Darken slightly (to 50% brightness)
-                const brightness = 1 - (progress * 0.5);
+                
+                // 2. Brightness Effect (Darken as it goes back)
+                const brightness = 1 - (progress * 0.4); 
 
-                stickySection.style.transform = `scale(${scale})`;
-                stickySection.style.filter = `brightness(${brightness})`;
+                // 3. Blur Effect (Rack Focus)
+                const blurAmount = progress * 10; 
+                
+                // 4. Parallax Slide (The "Slow Down" Effect) - NEW!
+                // Instead of stopping dead, we move it UP by 200px over the course of the scroll.
+                const yPos = -(progress * 200);
+
+                // Apply styles
+                // IMPORTANT: We use translate3d for GPU acceleration
+                stickySection.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
+                stickySection.style.filter = `brightness(${brightness}) blur(${blurAmount}px)`;
 
             } else if (incomingPosition >= windowHeight) {
-                // RESET (If we scroll back up)
-                stickySection.style.transform = 'scale(1)';
-                stickySection.style.filter = 'brightness(1)';
+                // RESET
+                stickySection.style.transform = 'translate3d(0, 0, 0) scale(1)';
+                stickySection.style.filter = 'brightness(1) blur(0px)';
             }
         });
     }

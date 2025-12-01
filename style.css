@@ -2413,7 +2413,9 @@ body.portfolio-page::before {
     transition: transform 0.1s linear, filter 0.1s linear;
     /* Ensure it stays behind */
     z-index: 0;
+     will-change: transform, filter; 
 }
+
 
 
 
