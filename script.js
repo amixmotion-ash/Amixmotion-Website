@@ -500,7 +500,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == ABOUT PAGE: Cinematic Scroll Depth (Parallax + Blur) ==
+// == ABOUT PAGE: Cinematic Scroll Depth (Parallax, No Blur) ==
 // ======================================================================
 if (document.body.classList.contains('about-page')) {
     
@@ -524,22 +524,18 @@ if (document.body.classList.contains('about-page')) {
                 // 2. Brightness Effect (Darken as it goes back)
                 const brightness = 1 - (progress * 0.4); 
 
-                // 3. Blur Effect (Rack Focus)
-                const blurAmount = progress * 10; 
-                
-                // 4. Parallax Slide (The "Slow Down" Effect) - NEW!
-                // Instead of stopping dead, we move it UP by 200px over the course of the scroll.
+                // 3. Parallax Slide (The "Slow Down" Effect)
+                // Move UP by 200px over the course of the scroll.
                 const yPos = -(progress * 200);
 
-                // Apply styles
-                // IMPORTANT: We use translate3d for GPU acceleration
+                // Apply styles (REMOVED BLUR)
                 stickySection.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
-                stickySection.style.filter = `brightness(${brightness}) blur(${blurAmount}px)`;
+                stickySection.style.filter = `brightness(${brightness})`;
 
             } else if (incomingPosition >= windowHeight) {
                 // RESET
                 stickySection.style.transform = 'translate3d(0, 0, 0) scale(1)';
-                stickySection.style.filter = 'brightness(1) blur(0px)';
+                stickySection.style.filter = 'brightness(1)';
             }
         });
     }
