@@ -2392,5 +2392,28 @@ body.portfolio-page::before {
     transform: translateX(0); 
 }
 
+/* ================================================================= */
+/* == ABOUT PAGE: Scroll Depth Polish == */
+/* ================================================================= */
+
+/* 1. Add a shadow to the sliding "Services" section */
+.about-page .services-section {
+    /* This creates a soft shadow pointing upwards */
+    box-shadow: 0px -20px 40px rgba(0, 0, 0, 0.2); 
+    /* Ensure the background is solid so we don't see through it */
+    background-color: #f2f2f2; 
+    /* Ensure it sits on top */
+    position: relative;
+    z-index: 2;
+}
+
+/* 2. Prepare the Profile section for animation */
+.about-page .profile-grid-section {
+    /* We need this so the JS can animate smoothly */
+    transition: transform 0.1s linear, filter 0.1s linear;
+    /* Ensure it stays behind */
+    z-index: 0;
+}
+
 
 

@@ -498,3 +498,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// ======================================================================
+// == ABOUT PAGE: Cinematic Scroll Depth ==
+// ======================================================================
+if (document.body.classList.contains('about-page')) {
+    
+    const stickySection = document.querySelector('.profile-grid-section');
+    const incomingSection = document.querySelector('.services-section');
+
+    if (stickySection && incomingSection) {
+        window.addEventListener('scroll', () => {
+            
+            // 1. Where is the incoming section relative to the top of the screen?
+            const incomingPosition = incomingSection.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            // 2. Only animate when the incoming section is entering the screen
+            if (incomingPosition < windowHeight && incomingPosition > 0) {
+                
+                // Calculate progress (0 = just entered bottom, 1 = hit the top)
+                // We map the distance to a 0.0 - 1.0 scale
+                let progress = 1 - (incomingPosition / windowHeight);
+
+                // 3. Apply the "Receding" Effect
+                // Scale down slightly (to 0.95)
+                const scale = 1 - (progress * 0.05); 
+                // Darken slightly (to 50% brightness)
+                const brightness = 1 - (progress * 0.5);
+
+                stickySection.style.transform = `scale(${scale})`;
+                stickySection.style.filter = `brightness(${brightness})`;
+
+            } else if (incomingPosition >= windowHeight) {
+                // RESET (If we scroll back up)
+                stickySection.style.transform = 'scale(1)';
+                stickySection.style.filter = 'brightness(1)';
+            }
+        });
+    }
+}
