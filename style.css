@@ -2435,24 +2435,6 @@ body.portfolio-page::before {
     transform: translateY(0);
 }
 
-/* ================================================================= */
-/* == ABOUT PAGE: Bio Wipe Override == */
-/* ================================================================= */
-
-/* Override the default centered/large text of the homepage effect */
-.mission-statement-scroll-effect.about-bio-override,
-.mission-statement-scroll-effect.about-bio-override .mission-statement-background,
-.mission-statement-scroll-effect.about-bio-override .mission-statement-foreground {
-    text-align: left;
-    font-size: clamp(1.1rem, 2vw, 1.3rem); /* Smaller font for bio */
-    line-height: 1.6;
-    font-weight: 300;
-}
-
-/* Ensure the scroll indicator fits on the About page */
-.about-page-title-section .scroll-indicator {
-    bottom: 40px; /* Position it nicely at the bottom of the 100vh section */
-}
 
 
 
