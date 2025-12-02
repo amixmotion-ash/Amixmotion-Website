@@ -41,17 +41,24 @@ if (header) {
 // ======================================================================
 // == 3. ANIMATION TRIGGERS (Scroll Reveal) ==
 // ======================================================================
-const elementsToFadeIn = document.querySelectorAll('.fade-in-on-scroll, .mission-section, .testimonials-section');
+
+// I ADDED '.profile-grid-section' TO THIS LIST:
+const elementsToFadeIn = document.querySelectorAll('.fade-in-on-scroll, .mission-section, .testimonials-section, .profile-grid-section');
 
 if (elementsToFadeIn.length > 0) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
+                // This adds the class that triggers the CSS opacity change
                 entry.target.classList.add('is-visible');
+                
+                // Once it's visible, we stop watching it so it doesn't flicker
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.15 });
+    }, { 
+        threshold: 0.15 // Trigger when 15% of the element is visible
+    });
 
     elementsToFadeIn.forEach(element => {
         observer.observe(element);

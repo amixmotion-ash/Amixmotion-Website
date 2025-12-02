@@ -952,7 +952,7 @@ body.contact-page {
     box-sizing: border-box;
 
     /* THIS IS THE FIX: Set a large height and use Flexbox for centering */
-    min-height: 80vh; /* Make the section 80% of the screen height */
+    min-height: 100vh; /* Make the section 80% of the screen height */
     display: flex;
     align-items: center; /* This vertically centers the h1 */
 }
@@ -2414,6 +2414,25 @@ body.portfolio-page::before {
     /* Ensure it stays behind */
     z-index: 0;
      will-change: transform, filter; 
+}
+
+/* ================================================================= */
+/* == ABOUT PAGE: Profile Entry Animation == */
+/* ================================================================= */
+
+/* Initially hide the profile content slightly */
+.profile-grid-main-image,
+.profile-grid-right-column {
+    opacity: 0;
+    transform: translateY(50px); /* Push it down a bit */
+    transition: opacity 1s ease-out, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* When the class 'is-visible' is added, float it up */
+.profile-grid-section.is-visible .profile-grid-main-image,
+.profile-grid-section.is-visible .profile-grid-right-column {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 
