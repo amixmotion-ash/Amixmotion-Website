@@ -66,18 +66,28 @@ if (elementsToFadeIn.length > 0) {
 }
 
 // ======================================================================
-// == 4. MISSION SCROLL WIPE ==
+// == 4. UNIVERSAL SCROLL WIPE (Mission & Bio) ==
 // ======================================================================
-const missionTextWipe = document.querySelector('.mission-statement-scroll-effect');
-if (missionTextWipe) {
-    const foregroundWrapper = missionTextWipe.querySelector('.mission-statement-foreground-wrapper');
+const textWipes = document.querySelectorAll('.mission-statement-scroll-effect');
+
+if (textWipes.length > 0) {
     window.addEventListener('scroll', function() {
-        const rect = missionTextWipe.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
-        const startPoint = viewportHeight * 0.9;
-        const endPoint = 0;
-        const progress = Math.max(0, Math.min(1, (startPoint - rect.top) / (startPoint - endPoint)));
-        foregroundWrapper.style.setProperty('--progress', (progress * 100) + '%');
+
+        textWipes.forEach(wipe => {
+            const foregroundWrapper = wipe.querySelector('.mission-statement-foreground-wrapper');
+            const rect = wipe.getBoundingClientRect();
+            
+            // Start revealing when the text enters the bottom 90% of the screen
+            const startPoint = viewportHeight * 0.9;
+            const endPoint = viewportHeight * 0.3; // Finish reveal earlier
+            
+            const progress = Math.max(0, Math.min(1, (startPoint - rect.top) / (startPoint - endPoint)));
+            
+            if (foregroundWrapper) {
+                foregroundWrapper.style.setProperty('--progress', (progress * 100) + '%');
+            }
+        });
     });
 }
 
@@ -243,21 +253,39 @@ if (accordionItems.length > 0) {
 }
 
 // ======================================================================
-// == 9. HOMEPAGE EXTRAS (Scroll Down + Hero Hide) ==
+// == 9. PAGE EXTRAS (Scroll Down + Hero Hide) ==
 // ======================================================================
-if (document.body.classList.contains('homepage')) {
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    if (scrollIndicator) {
-        scrollIndicator.style.transition = 'opacity 0.3s ease-out';
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                scrollIndicator.style.opacity = '0';
-            } else {
-                scrollIndicator.style.opacity = '0.8';
-            }
-        });
-    }
 
+// 1. Scroll Indicator Fade Out (Works on Home AND About)
+const scrollIndicator = document.querySelector('.scroll-indicator');
+if (scrollIndicator) {
+    scrollIndicator.style.transition = 'opacity 0.3s ease-out';
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            scrollIndicator.style.opacity = '0';
+        } else {
+            scrollIndicator.style.opacity = '0.8';
+        }
+    });
+}
+
+// 2. Scroll Indicator Click Action (Smooth Scroll)
+const scrollLink = document.querySelector('.scroll-indicator-link');
+if (scrollLink) {
+    scrollLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        
+        // Try to find the mission (Home) OR the profile (About)
+        const targetSection = document.querySelector('#mission') || document.querySelector('#profile-start');
+        
+        if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+}
+
+// 3. Homepage Specifics (Video Hide)
+if (document.body.classList.contains('homepage')) {
     const heroVideoSection = document.querySelector('.hero-video');
     if (heroVideoSection) {
         window.addEventListener('scroll', function() {
@@ -269,17 +297,6 @@ if (document.body.classList.contains('homepage')) {
                 heroVideoSection.classList.add('is-hidden');
             } else {
                 heroVideoSection.classList.remove('is-hidden');
-            }
-        });
-    }
-
-    const scrollLink = document.querySelector('.scroll-indicator-link');
-    if (scrollLink) {
-        scrollLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            const targetSection = document.querySelector('#mission');
-            if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     }
