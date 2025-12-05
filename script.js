@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Balanced Tunnel) ==
+// == 13. ABOUT PAGE: Intro Sequence (Big Delays) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -498,13 +498,14 @@ if (scrollTrigger) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // --- PHASE 2: PARAGRAPH (15% - 40%) ---
+            // --- PHASE 2: PARAGRAPH (15% - 35%) ---
+            // Adjusted to fade out slightly earlier to make room for Image 1
             let paraOpacity = 0;
-            if (progress > 0.15 && progress < 0.45) {
+            if (progress > 0.15 && progress < 0.40) {
                 if (progress < 0.25) {
                     paraOpacity = (progress - 0.15) * 10; 
-                } else if (progress > 0.35) {
-                    paraOpacity = 1 - ((progress - 0.35) * 10); 
+                } else if (progress > 0.30) {
+                    paraOpacity = 1 - ((progress - 0.30) * 10); 
                 } else {
                     paraOpacity = 1; 
                 }
@@ -516,15 +517,16 @@ if (scrollTrigger) {
                 paragraph.style.transform = 'translate(-50%, calc(-30% + ' + currentY + 'px))';
             }
 
-            // --- PHASE 3: IMAGE 1 (Left Lane | 40% - 90%) ---
+            // --- PHASE 3: IMAGE 1 (Left Lane | Starts 0.35) ---
             if (image1) {
                 let imgOpacity = 0;
                 let scale = 0.5;
                 let xMove = -50; 
                 let blur = 0;
 
-                if (progress > 0.4 && progress < 0.90) {
-                    let localProg = (progress - 0.4) / 0.5;
+                // Range: 0.35 to 0.85
+                if (progress > 0.35 && progress < 0.90) {
+                    let localProg = (progress - 0.35) / 0.5; // Duration 0.5
                     
                     if (localProg < 0.15) imgOpacity = localProg * 6.6; 
                     else if (localProg > 0.85) {
@@ -533,8 +535,6 @@ if (scrollTrigger) {
                     } else imgOpacity = 1;
 
                     scale = 0.5 + (localProg * 2.0);
-
-                    // BALANCED SPREAD: 150
                     xMove = -80 - (localProg * 150); 
                 }
                 
@@ -543,15 +543,17 @@ if (scrollTrigger) {
                 image1.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
 
-            // --- PHASE 4: IMAGE 2 (Right Lane | 50% - 100%) ---
+            // --- PHASE 4: IMAGE 2 (Right Lane | Starts 0.55) ---
+            // 0.20 Delay after Image 1
             if (image2) {
                 let imgOpacity = 0;
                 let scale = 0.5;
                 let xMove = -50; 
                 let blur = 0;
 
-                if (progress > 0.5) {
-                    let localProg = (progress - 0.5) / 0.5;
+                // Range: 0.55 to 1.0
+                if (progress > 0.55) {
+                    let localProg = (progress - 0.55) / 0.45; // Duration 0.45
                     localProg = Math.min(1, localProg);
 
                     if (localProg < 0.15) imgOpacity = localProg * 6.6; 
@@ -561,8 +563,6 @@ if (scrollTrigger) {
                     } else imgOpacity = 1;
 
                     scale = 0.5 + (localProg * 2.0);
-
-                    // BALANCED SPREAD: 150
                     xMove = -20 + (localProg * 150); 
                 }
 
@@ -571,23 +571,25 @@ if (scrollTrigger) {
                 image2.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
 
-            // --- PHASE 5: PROFILE TEXT (Center Lane | 60% - 100%) ---
+            // --- PHASE 5: PROFILE TEXT (Center | Starts 0.75) ---
+            // 0.20 Delay after Image 2
             if (profileText) {
                 let txtOpacity = 0;
                 let scale = 0.5;
                 let blur = 0;
 
-                if (progress > 0.6) {
-                    let localProg = (progress - 0.6) / 0.4; 
+                // Range: 0.75 to 1.0
+                if (progress > 0.75) {
+                    let localProg = (progress - 0.75) / 0.25; // Duration 0.25 (Fast finish)
                     localProg = Math.min(1, localProg);
 
-                    if (localProg < 0.15) txtOpacity = localProg * 6.6; 
-                    else if (localProg > 0.85) {
-                        txtOpacity = 1 - ((localProg - 0.85) * 6.6); 
-                        blur = (localProg - 0.85) * 30; 
+                    if (localProg < 0.2) txtOpacity = localProg * 5; 
+                    else if (localProg > 0.8) {
+                        txtOpacity = 1 - ((localProg - 0.8) * 5); 
+                        blur = (localProg - 0.8) * 30; 
                     } else txtOpacity = 1;
 
-                    scale = 0.5 + (localProg * 1.0);
+                    scale = 0.5 + (localProg * 1.5);
                 }
 
                 profileText.style.opacity = Math.max(0, Math.min(1, txtOpacity));
