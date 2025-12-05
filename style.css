@@ -2495,6 +2495,32 @@ body.portfolio-page::before {
     background-color: #000000; /* Ensure it covers the text */
 }
 
+/* ================================================================= */
+/* == ABOUT PAGE: Layout Fixes == */
+/* ================================================================= */
+
+/* 1. FIX THE DELAY: Remove top padding so sticky starts immediately */
+.about-page .about-page-main {
+    padding-top: 0 !important;
+}
+
+/* 2. FIX THE ICON: Use 'dvh' (Dynamic Height) to fit screen perfectly */
+.sticky-title-wrapper {
+    /* Changed from 100vh to 100dvh (accounts for browser bars) */
+    height: 100dvh !important; 
+}
+
+/* 3. Raise the indicator slightly so it's definitely visible */
+.about-scroll-trigger .scroll-indicator {
+    bottom: 80px !important; /* Raised from 40px to be safe */
+}
+
+/* 4. Speed up the trigger slightly */
+.about-scroll-trigger {
+    /* Reduced from 200vh to 180vh so the animation finishes faster */
+    height: 180vh; 
+}
+
 
 
 

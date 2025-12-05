@@ -559,7 +559,7 @@ if (document.body.classList.contains('about-page')) {
 }
 
 // ======================================================================
-// == ABOUT PAGE: Intro Sequence (Fade Swap) ==
+// == ABOUT PAGE: Intro Sequence (Instant Start) ==
 // ======================================================================
 
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
@@ -572,41 +572,45 @@ if (scrollTrigger) {
     window.addEventListener('scroll', () => {
         
         const rect = scrollTrigger.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
         
-        // "progress" goes from 0 (top) to 1 (bottom of container)
-        // We calculate how much of the container has scrolled past the top of the viewport
+        // We calculate distance based on the Top of the viewport
         const distanceScrolled = -rect.top;
+        
+        // Since we removed the padding, this should start immediately
+        // but we add a tiny offset so it feels responsive
+        const effectiveProgress = Math.max(0, distanceScrolled);
+        
+        const windowHeight = window.innerHeight;
         const totalDistance = rect.height - windowHeight;
         
-        let progress = Math.max(0, Math.min(1, distanceScrolled / totalDistance));
+        // Progress 0 to 1
+        let progress = Math.max(0, Math.min(1, effectiveProgress / totalDistance));
 
-        if (distanceScrolled > -100 && rect.bottom > 0) {
+        // Only run math if we are inside the active zone
+        if (rect.bottom > 0) {
             
-            // PHASE 1: Fade OUT Title (0% to 30% scroll)
-            // Normalized 0 to 1 range
-            let titleOpacity = 1 - (progress * 3.33); 
+            // PHASE 1: Fade OUT Title (0% to 25% scroll) -> Faster fade
+            // Multiplied by 4 means it's gone by the time you scroll 25%
+            let titleOpacity = 1 - (progress * 4); 
             titleOpacity = Math.max(0, Math.min(1, titleOpacity));
             
             if (title) {
                 title.style.opacity = titleOpacity;
-                // Move up slightly
-                title.style.transform = `translateY(-${progress * 50}px)`;
+                title.style.transform = `translateY(-${progress * 80}px)`; // Move up faster
             }
             if (indicator) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // PHASE 2: Fade IN Paragraph (40% to 80% scroll)
-            // We start fading in after the title is mostly gone
-            let paraOpacity = (progress - 0.3) * 2; 
+            // PHASE 2: Fade IN Paragraph (30% to 70% scroll)
+            // We start fading in earlier now
+            let paraOpacity = (progress - 0.25) * 2.5; 
             paraOpacity = Math.max(0, Math.min(1, paraOpacity));
 
             if (paragraph) {
                 paragraph.style.opacity = paraOpacity;
-                // Move up slightly
-                // We start at translateY(-30%) (defined in CSS) and move up
-                paragraph.style.transform = `translateY(calc(-30% - ${progress * 50}px))`;
+                // Start slightly lower and float up to center
+                paragraph.style.transform = `translateY(calc(-30% - ${progress * 40}px))`;
             }
         }
     });
