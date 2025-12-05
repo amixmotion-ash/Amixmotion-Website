@@ -2521,19 +2521,22 @@ body.portfolio-page::before {
     height: 180vh; 
 }
 
-/* 2. Style the Flying Image */
+/* Update this block in style.css */
 .intro-flying-image {
     position: absolute;
     top: 50%;
     left: 50%;
-    /* Start centered */
     transform: translate(-50%, -50%); 
     
-    /* Size of the image container */
-    width: 60vw; /* Starts reasonable size */
-    height: 40vh;
+    /* CHANGED: Make it square */
+    width: 35vw; /* Sets the size relative to screen width */
+    aspect-ratio: 1 / 1; /* Forces a perfect 1:1 square */
+    height: auto; /* Let the aspect-ratio decide the height */
     
-    opacity: 0; /* Hidden initially */
+    /* Mobile Safety: Don't let it get taller than the screen */
+    max-height: 70vh; 
+    
+    opacity: 0; 
     pointer-events: none;
     will-change: transform, opacity, filter;
 }
@@ -2546,6 +2549,11 @@ body.portfolio-page::before {
     border-radius: 4px; 
 }
 
+@media (max-width: 768px) {
+    .intro-flying-image {
+        width: 60vw; /* Bigger square on mobile */
+    }
+}
 
 
 
