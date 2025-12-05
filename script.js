@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Narrower Tunnel) ==
+// == 13. ABOUT PAGE: Intro Sequence (Balanced Tunnel) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -534,8 +534,8 @@ if (scrollTrigger) {
 
                     scale = 0.5 + (localProg * 2.0);
 
-                    // REDUCED SPREAD: From 200 to 100
-                    xMove = -80 - (localProg * 100); 
+                    // BALANCED SPREAD: 150
+                    xMove = -80 - (localProg * 150); 
                 }
                 
                 image1.style.opacity = Math.max(0, Math.min(1, imgOpacity));
@@ -562,8 +562,8 @@ if (scrollTrigger) {
 
                     scale = 0.5 + (localProg * 2.0);
 
-                    // REDUCED SPREAD: From 200 to 100
-                    xMove = -20 + (localProg * 100); 
+                    // BALANCED SPREAD: 150
+                    xMove = -20 + (localProg * 150); 
                 }
 
                 image2.style.opacity = Math.max(0, Math.min(1, imgOpacity));
