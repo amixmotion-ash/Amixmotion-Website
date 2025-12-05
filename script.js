@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Linear + Separate Lanes) ==
+// == 13. ABOUT PAGE: Intro Sequence (Wider Lanes) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -536,9 +536,8 @@ if (scrollTrigger) {
                     // Scale
                     scale = 0.5 + (localProg * 2.0);
 
-                    // LANE 1: Start LEFT of Center (-70%)
-                    // Move further Left (-270%)
-                    xMove = -70 - (localProg * 200); 
+                    // LANE 1: Start wider LEFT (-80%)
+                    xMove = -80 - (localProg * 200); 
                 }
                 
                 image1.style.opacity = Math.max(0, Math.min(1, imgOpacity));
@@ -568,9 +567,9 @@ if (scrollTrigger) {
                     // Scale
                     scale = 0.5 + (localProg * 2.0);
 
-                    // LANE 2: Start RIGHT of Center (-30%)
-                    // Move further Right (+170%)
-                    xMove = -30 + (localProg * 200); 
+                    // LANE 2: Start wider RIGHT (-20%)
+                    // Note: -20% is much further right than the center (-50%)
+                    xMove = -20 + (localProg * 200); 
                 }
 
                 image2.style.opacity = Math.max(0, Math.min(1, imgOpacity));
