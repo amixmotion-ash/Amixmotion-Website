@@ -559,7 +559,7 @@ if (document.body.classList.contains('about-page')) {
 }
 
 // ======================================================================
-// == ABOUT PAGE: Intro Sequence (In -> Hold -> Out) ==
+// == ABOUT PAGE: Intro Sequence (Assembly Zoom) ==
 // ======================================================================
 
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
@@ -568,6 +568,11 @@ if (scrollTrigger) {
     const title = scrollTrigger.querySelector('.about-hero-title');
     const paragraph = scrollTrigger.querySelector('.about-intro-paragraph');
     const indicator = scrollTrigger.querySelector('.scroll-indicator');
+    
+    // The 3 Pieces
+    const piece1 = scrollTrigger.querySelector('.zoom-piece-1'); // Main Image
+    const piece2 = scrollTrigger.querySelector('.zoom-piece-2'); // Bio Text
+    const piece3 = scrollTrigger.querySelector('.zoom-piece-3'); // Small Images
 
     window.addEventListener('scroll', function() {
         
@@ -577,14 +582,12 @@ if (scrollTrigger) {
         const distanceScrolled = -rect.top;
         const totalDistance = rect.height - windowHeight;
         
-        // Progress 0 to 1
         let progress = Math.max(0, Math.min(1, distanceScrolled / totalDistance));
 
         if (rect.bottom > 0) {
             
-            // --- PART 1: TITLE (Exit) ---
-            // Fades out fast (0 to 25%)
-            let titleOpacity = 1 - (progress * 4); 
+            // --- PART 1: TITLE (Exit 0-20%) ---
+            let titleOpacity = 1 - (progress * 5); 
             titleOpacity = Math.max(0, Math.min(1, titleOpacity));
             
             if (title) {
@@ -595,40 +598,56 @@ if (scrollTrigger) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // --- PART 2: PARAGRAPH (Enter -> Read -> Exit) ---
-            
+            // --- PART 2: PARAGRAPH (Enter 20% - Exit 50%) ---
             let paraOpacity = 0;
-            
-            if (progress < 0.3) {
-                // Not visible yet
-                paraOpacity = 0;
-            } else if (progress >= 0.3 && progress < 0.5) {
-                // Fading IN (30% to 50%)
-                paraOpacity = (progress - 0.3) * 5; 
-            } else if (progress >= 0.5 && progress < 0.7) {
-                // Fully Visible (Read time: 50% to 70%)
-                paraOpacity = 1;
-            } else if (progress >= 0.7 && progress < 0.95) {
-                // Fading OUT (70% to 95%)
-                paraOpacity = 1 - ((progress - 0.7) * 4);
-            } else {
-                // Gone (95% to 100%) - Pure Black Screen
-                paraOpacity = 0;
+            if (progress > 0.2 && progress < 0.5) {
+                if (progress < 0.35) {
+                    paraOpacity = (progress - 0.2) * 6.6; // Fade In
+                } else {
+                    paraOpacity = 1 - ((progress - 0.35) * 6.6); // Fade Out
+                }
             }
-
-            // Safety clamp
-            paraOpacity = Math.max(0, Math.min(1, paraOpacity));
-
-            // Continuous Upward Movement
-            // Starts 300px DOWN, Ends 500px UP (Total travel 800px)
-            // It just keeps floating up the whole time
+            
             let currentY = 300 - (progress * 800);
-
             if (paragraph) {
-                paragraph.style.opacity = paraOpacity;
-                // Keep horizontal centering (-50%)
+                paragraph.style.opacity = Math.max(0, Math.min(1, paraOpacity));
                 paragraph.style.transform = 'translate(-50%, calc(-30% + ' + currentY + 'px))';
             }
+
+            // --- PART 3: PROFILE ASSEMBLY (50% - 100%) ---
+            
+            // Helper function to animate a piece
+            // startAt: when to start (0.0 to 1.0)
+            // duration: how long the zoom takes
+            function animatePiece(element, startAt, duration) {
+                if (!element) return;
+                
+                if (progress < startAt) {
+                    // Reset if we scroll back up
+                    element.style.opacity = 0;
+                    element.style.transform = 'scale(0.6) translateY(50px)';
+                } else {
+                    // Calculate local progress for this specific piece
+                    let localProgress = (progress - startAt) / duration;
+                    localProgress = Math.min(1, localProgress); // Clamp at 1
+                    
+                    // Fade In
+                    element.style.opacity = localProgress;
+                    
+                    // Zoom: 0.6 -> 1.0
+                    let scale = 0.6 + (localProgress * 0.4);
+                    // Move: 50px -> 0px
+                    let moveY = 50 - (localProgress * 50);
+                    
+                    element.style.transform = 'scale(' + scale + ') translateY(' + moveY + 'px)';
+                }
+            }
+
+            // Animate pieces sequentially
+            animatePiece(piece1, 0.50, 0.15); // Main Image (starts at 50%)
+            animatePiece(piece2, 0.60, 0.15); // Bio Text (starts at 60%)
+            animatePiece(piece3, 0.70, 0.15); // Small Images (starts at 70%)
+            
         }
     });
 }

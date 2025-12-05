@@ -53,20 +53,51 @@
 
         <main class="about-page-main">
 
-   <!-- START: About Scroll Sequence -->
-    <!-- This wrapper creates the "Height" to allow us to scroll for a while -->
+<!-- START: About Scroll Sequence -->
     <div class="about-scroll-trigger">
-        
-        <!-- This is your ORIGINAL section. We keep the class name so it looks exactly the same. -->
-        <section class="about-page-title-section sticky-title-wrapper">
+        <div class="sticky-title-wrapper">
             
-            <!-- The Original Title -->
+            <!-- Part 1: The Title -->
             <h1 class="about-hero-title">GREAT FILM IS MORE<br>THAN JUST VISUALS</h1>
             
-            <!-- The New Paragraph (Hidden by default) -->
+            <!-- Part 2: The Floating Paragraph -->
             <p class="about-intro-paragraph">
                 It's about rhythm, pacing, and emotion. Crafting narratives that resonate with the audience long after the screen goes dark.
             </p>
+
+            <!-- Part 3: The Profile Assembly (Zoom Content) -->
+            <div class="about-zoom-content">
+                <div class="profile-grid-section">
+                    
+                    <!-- Piece 1: Main Image -->
+                    <div class="profile-grid-main-image zoom-piece-1">
+                        <img src="images/about-image-1.jpg" alt="Videographer holding a camera">
+                    </div>
+                    
+                    <div class="profile-grid-right-column">
+                        <!-- Piece 2: Bio Text -->
+                        <div class="profile-grid-text zoom-piece-2">
+                             <div class="mission-statement-scroll-effect about-bio-override">
+                                <p class="mission-statement-background">
+                                    After 14 years as a creative in digital design, I discovered my passion for visual storytelling while traveling through Asia. Now based in London and always happy to travel I specialise in videography and editing that blends design sensibility with cinematic technique. From creative concepts and shot planning to dynamic cinematography and polished edits, I craft engaging narratives that bring brands, events, and ideas to life through compelling visual content.
+                                </p>
+                                <div class="mission-statement-foreground-wrapper">
+                                    <p class="mission-statement-foreground">
+                                        After 14 years as a creative in digital design, I discovered my passion for visual storytelling while traveling through Asia. Now based in London and always happy to travel I specialise in videography and editing that blends design sensibility with cinematic technique. From creative concepts and shot planning to dynamic cinematography and polished edits, I craft engaging narratives that bring brands, events, and ideas to life through compelling visual content.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Piece 3: Secondary Images -->
+                        <div class="profile-grid-secondary-images zoom-piece-3">
+                            <img src="images/about-secondary-1.jpg" alt="Videographer holding a Lumix camera">
+                            <img src="images/about-image-2.jpg" alt="Videographer portrait">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
             <!-- The Scroll Indicator -->
             <div class="scroll-indicator">
@@ -74,8 +105,9 @@
                 <div class="scroll-arrow"></div>
             </div>
 
-        </section>
+        </div>
     </div>
+    <!-- END: About Scroll Sequence -->
     <!-- END: About Scroll Sequence -->
     
     <!-- END: New Edge-to-Edge Profile Section -->
