@@ -559,7 +559,7 @@ if (document.body.classList.contains('about-page')) {
 }
 
 // ======================================================================
-// == ABOUT PAGE: Intro Sequence (Title -> Para -> Flying Image) ==
+// == ABOUT PAGE: Intro Sequence (Late Fade / Far Left) ==
 // ======================================================================
 
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
@@ -578,6 +578,7 @@ if (scrollTrigger) {
         const distanceScrolled = -rect.top;
         const totalDistance = rect.height - windowHeight;
         
+        // Progress 0 to 1
         let progress = Math.max(0, Math.min(1, distanceScrolled / totalDistance));
 
         if (rect.bottom > 0) {
@@ -613,43 +614,43 @@ if (scrollTrigger) {
                 paragraph.style.transform = 'translate(-50%, calc(-30% + ' + currentY + 'px))';
             }
 
-            // --- PHASE 3: FLYING IMAGE (50% - 90%) ---
+            // --- PHASE 3: FLYING IMAGE (50% - 95%) ---
             if (flyingImage) {
                 let imgOpacity = 0;
                 let scale = 0.5;
                 let xMove = -50; // Starts at -50% (Center)
                 let blur = 0;
 
-                // Active range: 0.5 to 0.9
-                if (progress > 0.5 && progress < 0.95) {
+                // Active range: 0.5 to 0.95
+                if (progress > 0.5 && progress < 1.0) {
                     
                     // Normalize this phase to 0.0 - 1.0
-                    let imgProgress = (progress - 0.5) / 0.4;
+                    let imgProgress = (progress - 0.5) / 0.45;
                     
-                    // 1. Opacity (Fade in fast, fade out at end)
-                    if (imgProgress < 0.2) {
-                        imgOpacity = imgProgress * 5; // Fade In
-                    } else if (imgProgress > 0.8) {
-                        imgOpacity = 1 - ((imgProgress - 0.8) * 5); // Fade Out
-                        // Add blur only at the end
-                        blur = (imgProgress - 0.8) * 50; // 0px to 10px
+                    // 1. Opacity (Fade in fast, Fade out VERY LATE)
+                    if (imgProgress < 0.15) {
+                        imgOpacity = imgProgress * 6.6; // Fade In
+                    } else if (imgProgress > 0.9) {
+                        // START FADING ONLY AT 90% (Late!)
+                        imgOpacity = 1 - ((imgProgress - 0.9) * 10); 
+                        // Add blur only at the very end
+                        blur = (imgProgress - 0.9) * 100; 
                     } else {
-                        imgOpacity = 1;
+                        imgOpacity = 1; // Stay fully visible
                     }
 
                     // 2. Scale (Zoom In)
                     // Goes from 0.5 to 1.3
                     scale = 0.5 + (imgProgress * 0.8);
 
-                    // 3. Pan Left
+                    // 3. Pan Left (Aggressive)
                     // Starts at -50% (Center)
-                    // Moves to -120% (Off screen left)
-                    xMove = -50 - (imgProgress * 70); 
+                    // Moves to -180% (Way off screen left)
+                    xMove = -50 - (imgProgress * 130); 
                 }
 
                 flyingImage.style.opacity = Math.max(0, Math.min(1, imgOpacity));
                 flyingImage.style.filter = 'blur(' + blur + 'px)';
-                // Apply Transform
                 flyingImage.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
         }
