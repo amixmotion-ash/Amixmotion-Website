@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Lanes + Consistent Speed) ==
+// == 13. ABOUT PAGE: Intro Sequence (Delayed Text) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -517,14 +517,14 @@ if (scrollTrigger) {
             }
 
             // =========================================================
-            // CONSTANT SETTINGS (Ensures uniform speed)
+            // CONSTANT SETTINGS
             // =========================================================
-            const DURATION = 0.50; // Every element takes 50% of scroll to finish
-            const ZOOM_AMT = 2.0;  // How much they grow
-            const PAN_AMT = 150;   // How far they move sideways
+            const DURATION = 0.50; 
+            const ZOOM_AMT = 2.0;  
+            const PAN_AMT = 150;   
 
             // --- PHASE 3: IMAGE 1 (Left Lane) ---
-            // Start: 0.30 | End: 0.80
+            // Start: 0.30
             if (image1) {
                 let startAt = 0.30;
                 let imgOpacity = 0;
@@ -535,18 +535,13 @@ if (scrollTrigger) {
                 if (progress > startAt && progress < (startAt + DURATION + 0.1)) {
                     let localProg = (progress - startAt) / DURATION;
                     
-                    // Fade In/Out
                     if (localProg < 0.2) imgOpacity = localProg * 5; 
                     else if (localProg > 0.8) {
                         imgOpacity = 1 - ((localProg - 0.8) * 5); 
                         blur = (localProg - 0.8) * 60; 
                     } else imgOpacity = 1;
 
-                    // Linear Scale
                     scale = 0.5 + (localProg * ZOOM_AMT);
-
-                    // LANE 1: Start at -80 (Left)
-                    // Move further Left
                     xMove = -80 - (localProg * PAN_AMT); 
                 }
                 
@@ -556,8 +551,7 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 4: IMAGE 2 (Right Lane) ---
-            // Start: 0.45 | End: 0.95
-            // Uses exact same DURATION and ZOOM_AMT as Image 1
+            // Start: 0.45
             if (image2) {
                 let startAt = 0.45;
                 let imgOpacity = 0;
@@ -575,9 +569,6 @@ if (scrollTrigger) {
                     } else imgOpacity = 1;
 
                     scale = 0.5 + (localProg * ZOOM_AMT);
-
-                    // LANE 2: Start at -20 (Right)
-                    // Move further Right
                     xMove = -20 + (localProg * PAN_AMT); 
                 }
 
@@ -587,10 +578,9 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 5: PROFILE TEXT (Center Lane) ---
-            // Start: 0.60 | End: 1.10
-            // Uses exact same DURATION and ZOOM_AMT as Images
+            // Start: 0.70 (Increased Delay)
             if (profileText) {
-                let startAt = 0.60;
+                let startAt = 0.70; 
                 let txtOpacity = 0;
                 let scale = 0.5;
                 let blur = 0;
