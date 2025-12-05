@@ -2583,6 +2583,32 @@ body.portfolio-page::before {
     will-change: opacity, transform;
 }
 
+/* Style for the Flying Text */
+.intro-flying-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Start centered and small */
+    transform: translate(-50%, -50%) scale(0.5);
+    
+    width: 80%;
+    max-width: 600px; /* Keep line length readable */
+    text-align: center;
+    color: #ffffff;
+    
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform, opacity, filter;
+}
+
+.intro-flying-text p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    line-height: 1.6;
+    margin: 0;
+}
+
 
 
 

@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Wider Lanes) ==
+// == 13. ABOUT PAGE: Intro Sequence (Images + Center Text) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -470,6 +470,7 @@ if (scrollTrigger) {
     const paragraph = scrollTrigger.querySelector('.about-intro-paragraph');
     const image1 = scrollTrigger.querySelector('.intro-flying-image-1');
     const image2 = scrollTrigger.querySelector('.intro-flying-image-2'); 
+    const profileText = scrollTrigger.querySelector('.intro-flying-text'); // New Text
     const indicator = scrollTrigger.querySelector('.scroll-indicator');
 
     window.addEventListener('scroll', function() {
@@ -522,21 +523,16 @@ if (scrollTrigger) {
                 let xMove = -50; 
                 let blur = 0;
 
-                // Active Range: 0.40 to 0.90
                 if (progress > 0.4 && progress < 0.90) {
                     let localProg = (progress - 0.4) / 0.5;
                     
-                    // Opacity
                     if (localProg < 0.15) imgOpacity = localProg * 6.6; 
                     else if (localProg > 0.85) {
                         imgOpacity = 1 - ((localProg - 0.85) * 6.6); 
                         blur = (localProg - 0.85) * 60; 
                     } else imgOpacity = 1;
 
-                    // Scale
                     scale = 0.5 + (localProg * 2.0);
-
-                    // LANE 1: Start wider LEFT (-80%)
                     xMove = -80 - (localProg * 200); 
                 }
                 
@@ -552,29 +548,51 @@ if (scrollTrigger) {
                 let xMove = -50; 
                 let blur = 0;
 
-                // Active Range: 0.50 to 1.0
                 if (progress > 0.5) {
                     let localProg = (progress - 0.5) / 0.5;
                     localProg = Math.min(1, localProg);
 
-                    // Opacity
                     if (localProg < 0.15) imgOpacity = localProg * 6.6; 
                     else if (localProg > 0.85) {
                         imgOpacity = 1 - ((localProg - 0.85) * 6.6); 
                         blur = (localProg - 0.85) * 60; 
                     } else imgOpacity = 1;
 
-                    // Scale
                     scale = 0.5 + (localProg * 2.0);
-
-                    // LANE 2: Start wider RIGHT (-20%)
-                    // Note: -20% is much further right than the center (-50%)
                     xMove = -20 + (localProg * 200); 
                 }
 
                 image2.style.opacity = Math.max(0, Math.min(1, imgOpacity));
                 image2.style.filter = 'blur(' + blur + 'px)';
                 image2.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
+            }
+
+            // --- PHASE 5: PROFILE TEXT (Center Lane | 60% - 100%) ---
+            if (profileText) {
+                let txtOpacity = 0;
+                let scale = 0.5;
+                let blur = 0;
+
+                // Starts later at 0.60
+                if (progress > 0.6) {
+                    let localProg = (progress - 0.6) / 0.4; // 0.6 to 1.0 duration
+                    localProg = Math.min(1, localProg);
+
+                    // Fade In (Fast) -> Hold -> Fade Out (Slow)
+                    if (localProg < 0.15) txtOpacity = localProg * 6.6; 
+                    else if (localProg > 0.85) {
+                        txtOpacity = 1 - ((localProg - 0.85) * 6.6); 
+                        blur = (localProg - 0.85) * 30; // Subtle blur
+                    } else txtOpacity = 1;
+
+                    // Zoom: 0.5 -> 1.5
+                    scale = 0.5 + (localProg * 1.0);
+                }
+
+                profileText.style.opacity = Math.max(0, Math.min(1, txtOpacity));
+                profileText.style.filter = 'blur(' + blur + 'px)';
+                // Maintain perfectly centered position
+                profileText.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
             }
         }
     });
