@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Images + Center Text) ==
+// == 13. ABOUT PAGE: Intro Sequence (Narrower Tunnel) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -470,7 +470,7 @@ if (scrollTrigger) {
     const paragraph = scrollTrigger.querySelector('.about-intro-paragraph');
     const image1 = scrollTrigger.querySelector('.intro-flying-image-1');
     const image2 = scrollTrigger.querySelector('.intro-flying-image-2'); 
-    const profileText = scrollTrigger.querySelector('.intro-flying-text'); // New Text
+    const profileText = scrollTrigger.querySelector('.intro-flying-text');
     const indicator = scrollTrigger.querySelector('.scroll-indicator');
 
     window.addEventListener('scroll', function() {
@@ -533,7 +533,9 @@ if (scrollTrigger) {
                     } else imgOpacity = 1;
 
                     scale = 0.5 + (localProg * 2.0);
-                    xMove = -80 - (localProg * 200); 
+
+                    // REDUCED SPREAD: From 200 to 100
+                    xMove = -80 - (localProg * 100); 
                 }
                 
                 image1.style.opacity = Math.max(0, Math.min(1, imgOpacity));
@@ -559,7 +561,9 @@ if (scrollTrigger) {
                     } else imgOpacity = 1;
 
                     scale = 0.5 + (localProg * 2.0);
-                    xMove = -20 + (localProg * 200); 
+
+                    // REDUCED SPREAD: From 200 to 100
+                    xMove = -20 + (localProg * 100); 
                 }
 
                 image2.style.opacity = Math.max(0, Math.min(1, imgOpacity));
@@ -573,25 +577,21 @@ if (scrollTrigger) {
                 let scale = 0.5;
                 let blur = 0;
 
-                // Starts later at 0.60
                 if (progress > 0.6) {
-                    let localProg = (progress - 0.6) / 0.4; // 0.6 to 1.0 duration
+                    let localProg = (progress - 0.6) / 0.4; 
                     localProg = Math.min(1, localProg);
 
-                    // Fade In (Fast) -> Hold -> Fade Out (Slow)
                     if (localProg < 0.15) txtOpacity = localProg * 6.6; 
                     else if (localProg > 0.85) {
                         txtOpacity = 1 - ((localProg - 0.85) * 6.6); 
-                        blur = (localProg - 0.85) * 30; // Subtle blur
+                        blur = (localProg - 0.85) * 30; 
                     } else txtOpacity = 1;
 
-                    // Zoom: 0.5 -> 1.5
                     scale = 0.5 + (localProg * 1.0);
                 }
 
                 profileText.style.opacity = Math.max(0, Math.min(1, txtOpacity));
                 profileText.style.filter = 'blur(' + blur + 'px)';
-                // Maintain perfectly centered position
                 profileText.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
             }
         }
