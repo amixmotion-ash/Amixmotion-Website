@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Linear Zoom) ==
+// == 13. ABOUT PAGE: Intro Sequence (Linear + Separate Lanes) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -515,7 +515,7 @@ if (scrollTrigger) {
                 paragraph.style.transform = 'translate(-50%, calc(-30% + ' + currentY + 'px))';
             }
 
-            // --- PHASE 3: IMAGE 1 (Left Side | 40% - 90%) ---
+            // --- PHASE 3: IMAGE 1 (Left Lane | 40% - 90%) ---
             if (image1) {
                 let imgOpacity = 0;
                 let scale = 0.5;
@@ -533,13 +533,12 @@ if (scrollTrigger) {
                         blur = (localProg - 0.85) * 60; 
                     } else imgOpacity = 1;
 
-                    // Scale (Grows larger)
+                    // Scale
                     scale = 0.5 + (localProg * 2.0);
 
-                    // LINEAR PAN LEFT
-                    // Start at -50 (Center)
-                    // Subtract 200 (Move strict Left)
-                    xMove = -50 - (localProg * 200); 
+                    // LANE 1: Start LEFT of Center (-70%)
+                    // Move further Left (-270%)
+                    xMove = -70 - (localProg * 200); 
                 }
                 
                 image1.style.opacity = Math.max(0, Math.min(1, imgOpacity));
@@ -547,7 +546,7 @@ if (scrollTrigger) {
                 image1.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
 
-            // --- PHASE 4: IMAGE 2 (Right Side | 50% - 100%) ---
+            // --- PHASE 4: IMAGE 2 (Right Lane | 50% - 100%) ---
             if (image2) {
                 let imgOpacity = 0;
                 let scale = 0.5;
@@ -569,10 +568,9 @@ if (scrollTrigger) {
                     // Scale
                     scale = 0.5 + (localProg * 2.0);
 
-                    // LINEAR PAN RIGHT
-                    // Start at -50 (Center)
-                    // Add 200 (Move strict Right)
-                    xMove = -50 + (localProg * 200); 
+                    // LANE 2: Start RIGHT of Center (-30%)
+                    // Move further Right (+170%)
+                    xMove = -30 + (localProg * 200); 
                 }
 
                 image2.style.opacity = Math.max(0, Math.min(1, imgOpacity));
