@@ -559,7 +559,7 @@ if (document.body.classList.contains('about-page')) {
 }
 
 // ======================================================================
-// == ABOUT PAGE: Intro Sequence (Centered + Big Movement) ==
+// == ABOUT PAGE: Intro Sequence (In -> Hold -> Out) ==
 // ======================================================================
 
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
@@ -577,41 +577,56 @@ if (scrollTrigger) {
         const distanceScrolled = -rect.top;
         const totalDistance = rect.height - windowHeight;
         
+        // Progress 0 to 1
         let progress = Math.max(0, Math.min(1, distanceScrolled / totalDistance));
 
         if (rect.bottom > 0) {
             
-            // --- PART 1: TITLE ---
+            // --- PART 1: TITLE (Exit) ---
+            // Fades out fast (0 to 25%)
             let titleOpacity = 1 - (progress * 4); 
             titleOpacity = Math.max(0, Math.min(1, titleOpacity));
             
             if (title) {
                 title.style.opacity = titleOpacity;
-                // Title moves UP fast
                 title.style.transform = 'translateY(-' + (progress * 400) + 'px)';
             }
             if (indicator) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // --- PART 2: PARAGRAPH ---
-            // Fade In Logic (Starts at 45%)
-            let paraOpacity = (progress - 0.45) * 3; 
+            // --- PART 2: PARAGRAPH (Enter -> Read -> Exit) ---
+            
+            let paraOpacity = 0;
+            
+            if (progress < 0.3) {
+                // Not visible yet
+                paraOpacity = 0;
+            } else if (progress >= 0.3 && progress < 0.5) {
+                // Fading IN (30% to 50%)
+                paraOpacity = (progress - 0.3) * 5; 
+            } else if (progress >= 0.5 && progress < 0.7) {
+                // Fully Visible (Read time: 50% to 70%)
+                paraOpacity = 1;
+            } else if (progress >= 0.7 && progress < 0.95) {
+                // Fading OUT (70% to 95%)
+                paraOpacity = 1 - ((progress - 0.7) * 4);
+            } else {
+                // Gone (95% to 100%) - Pure Black Screen
+                paraOpacity = 0;
+            }
+
+            // Safety clamp
             paraOpacity = Math.max(0, Math.min(1, paraOpacity));
 
-            // MOVEMENT LOGIC:
-            // 1. Start 300px LOWER (Positive value = Down)
-            // 2. End 100px HIGHER (Negative value = Up)
-            // 3. We MUST add 'translate(-50%, ...)' to keep it centered horizontally!
-            
-            let startY = 300; // Start 300px down
-            let travelDist = 400; // Move 400px total
-            let currentY = startY - (progress * travelDist);
+            // Continuous Upward Movement
+            // Starts 300px DOWN, Ends 500px UP (Total travel 800px)
+            // It just keeps floating up the whole time
+            let currentY = 300 - (progress * 800);
 
             if (paragraph) {
                 paragraph.style.opacity = paraOpacity;
-                // translate(-50%, ...) centers it horizontally
-                // translateY(calc(-30% + ...)) positions it vertically relative to center
+                // Keep horizontal centering (-50%)
                 paragraph.style.transform = 'translate(-50%, calc(-30% + ' + currentY + 'px))';
             }
         }
