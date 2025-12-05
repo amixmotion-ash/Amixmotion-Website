@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Consistent Speed) ==
+// == 13. ABOUT PAGE: Intro Sequence (Lanes + Consistent Speed) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -517,14 +517,14 @@ if (scrollTrigger) {
             }
 
             // =========================================================
-            // CONSTANT SPEED SETTINGS
+            // CONSTANT SETTINGS (Ensures uniform speed)
             // =========================================================
-            // We give every element the exact same duration (0.45)
-            // This ensures they move at the exact same speed relative to scroll.
-            const DURATION = 0.45; 
+            const DURATION = 0.50; // Every element takes 50% of scroll to finish
+            const ZOOM_AMT = 2.0;  // How much they grow
+            const PAN_AMT = 150;   // How far they move sideways
 
             // --- PHASE 3: IMAGE 1 (Left Lane) ---
-            // Start: 0.30 | End: 0.75
+            // Start: 0.30 | End: 0.80
             if (image1) {
                 let startAt = 0.30;
                 let imgOpacity = 0;
@@ -532,22 +532,22 @@ if (scrollTrigger) {
                 let xMove = -50; 
                 let blur = 0;
 
-                if (progress > startAt && progress < (startAt + DURATION)) {
+                if (progress > startAt && progress < (startAt + DURATION + 0.1)) {
                     let localProg = (progress - startAt) / DURATION;
                     
-                    // Smoother Fade In/Out
+                    // Fade In/Out
                     if (localProg < 0.2) imgOpacity = localProg * 5; 
                     else if (localProg > 0.8) {
                         imgOpacity = 1 - ((localProg - 0.8) * 5); 
                         blur = (localProg - 0.8) * 60; 
                     } else imgOpacity = 1;
 
-                    // Linear Scale (0.5 -> 2.5)
-                    scale = 0.5 + (localProg * 2.0);
+                    // Linear Scale
+                    scale = 0.5 + (localProg * ZOOM_AMT);
 
-                    // Linear Pan Left (-50 -> -250)
-                    // Multiplier 200 ensures consistent lateral speed
-                    xMove = -50 - (localProg * 200); 
+                    // LANE 1: Start at -80 (Left)
+                    // Move further Left
+                    xMove = -80 - (localProg * PAN_AMT); 
                 }
                 
                 image1.style.opacity = Math.max(0, Math.min(1, imgOpacity));
@@ -556,8 +556,8 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 4: IMAGE 2 (Right Lane) ---
-            // Start: 0.45 | End: 0.90
-            // Exact same duration and multipliers as Image 1
+            // Start: 0.45 | End: 0.95
+            // Uses exact same DURATION and ZOOM_AMT as Image 1
             if (image2) {
                 let startAt = 0.45;
                 let imgOpacity = 0;
@@ -565,7 +565,7 @@ if (scrollTrigger) {
                 let xMove = -50; 
                 let blur = 0;
 
-                if (progress > startAt && progress < (startAt + DURATION)) {
+                if (progress > startAt && progress < (startAt + DURATION + 0.1)) {
                     let localProg = (progress - startAt) / DURATION;
 
                     if (localProg < 0.2) imgOpacity = localProg * 5; 
@@ -574,11 +574,11 @@ if (scrollTrigger) {
                         blur = (localProg - 0.8) * 60; 
                     } else imgOpacity = 1;
 
-                    scale = 0.5 + (localProg * 2.0);
+                    scale = 0.5 + (localProg * ZOOM_AMT);
 
-                    // Linear Pan Right (-50 -> +150)
-                    // Multiplier 200 matches Image 1 speed
-                    xMove = -50 + (localProg * 200); 
+                    // LANE 2: Start at -20 (Right)
+                    // Move further Right
+                    xMove = -20 + (localProg * PAN_AMT); 
                 }
 
                 image2.style.opacity = Math.max(0, Math.min(1, imgOpacity));
@@ -587,7 +587,8 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 5: PROFILE TEXT (Center Lane) ---
-            // Start: 0.60 | End: 1.05
+            // Start: 0.60 | End: 1.10
+            // Uses exact same DURATION and ZOOM_AMT as Images
             if (profileText) {
                 let startAt = 0.60;
                 let txtOpacity = 0;
@@ -597,7 +598,6 @@ if (scrollTrigger) {
                 if (progress > startAt) {
                     let localProg = (progress - startAt) / DURATION;
                     
-                    // Clamp at 1.0 (End of scroll)
                     if (localProg > 1) localProg = 1;
 
                     if (localProg < 0.2) txtOpacity = localProg * 5; 
@@ -606,8 +606,7 @@ if (scrollTrigger) {
                         blur = (localProg - 0.8) * 30; 
                     } else txtOpacity = 1;
 
-                    // Same scale speed as images
-                    scale = 0.5 + (localProg * 2.0);
+                    scale = 0.5 + (localProg * ZOOM_AMT);
                 }
 
                 profileText.style.opacity = Math.max(0, Math.min(1, txtOpacity));
