@@ -41,24 +41,17 @@ if (header) {
 // ======================================================================
 // == 3. ANIMATION TRIGGERS (Scroll Reveal) ==
 // ======================================================================
-
-// I ADDED '.profile-grid-section' TO THIS LIST:
 const elementsToFadeIn = document.querySelectorAll('.fade-in-on-scroll, .mission-section, .testimonials-section, .profile-grid-section');
 
 if (elementsToFadeIn.length > 0) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // This adds the class that triggers the CSS opacity change
                 entry.target.classList.add('is-visible');
-                
-                // Once it's visible, we stop watching it so it doesn't flicker
                 observer.unobserve(entry.target);
             }
         });
-    }, { 
-        threshold: 0.15 // Trigger when 15% of the element is visible
-    });
+    }, { threshold: 0.15 });
 
     elementsToFadeIn.forEach(element => {
         observer.observe(element);
@@ -77,11 +70,8 @@ if (textWipes.length > 0) {
         textWipes.forEach(wipe => {
             const foregroundWrapper = wipe.querySelector('.mission-statement-foreground-wrapper');
             const rect = wipe.getBoundingClientRect();
-            
-            // Start revealing when the text enters the bottom 90% of the screen
             const startPoint = viewportHeight * 0.9;
-            const endPoint = viewportHeight * 0.3; // Finish reveal earlier
-            
+            const endPoint = viewportHeight * 0.3; 
             const progress = Math.max(0, Math.min(1, (startPoint - rect.top) / (startPoint - endPoint)));
             
             if (foregroundWrapper) {
@@ -141,7 +131,6 @@ if (lightbox) {
         });
     }
 
-    // Controls Logic
     lightboxVideo.addEventListener('playing', () => lightboxVideo.classList.add('controls-hidden'));
     lightboxContent.addEventListener('mouseenter', () => lightboxVideo.classList.remove('controls-hidden'));
     lightboxContent.addEventListener('mouseleave', () => {
@@ -168,7 +157,7 @@ if (lightbox) {
 // ======================================================================
 if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
     let options = {
-        center: false, // Default: Start aligned at top
+        center: false, 
         speed: -2,
         wrapper: null, 
         round: true, 
@@ -177,17 +166,7 @@ if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
     };
 
     if (document.body.classList.contains('homepage')) {
-        options.center = true; // Homepage: Meet in middle
-    }
-
-    // Add animate-in class for Portfolio Page
-    if (document.body.classList.contains('portfolio-page')) {
-        const gridSection = document.querySelector('.portfolio-grid-section');
-        if (gridSection) {
-            window.addEventListener('load', function() {
-                gridSection.classList.add('animate-in');
-            });
-        }
+        options.center = true; 
     }
 
     var rellax = new Rellax('.rellax', options);
@@ -253,21 +232,32 @@ if (accordionItems.length > 0) {
 }
 
 // ======================================================================
-// == 9. HOMEPAGE EXTRAS (Scroll Down + Hero Hide) ==
+// == 9. PAGE EXTRAS (Scroll Down + Hero Hide) ==
 // ======================================================================
-if (document.body.classList.contains('homepage')) {
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    if (scrollIndicator) {
-        scrollIndicator.style.transition = 'opacity 0.3s ease-out';
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                scrollIndicator.style.opacity = '0';
-            } else {
-                scrollIndicator.style.opacity = '0.8';
-            }
-        });
-    }
+const scrollIndicator = document.querySelector('.scroll-indicator');
+if (scrollIndicator) {
+    scrollIndicator.style.transition = 'opacity 0.3s ease-out';
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            scrollIndicator.style.opacity = '0';
+        } else {
+            scrollIndicator.style.opacity = '0.8';
+        }
+    });
+}
 
+const scrollLink = document.querySelector('.scroll-indicator-link');
+if (scrollLink) {
+    scrollLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        const targetSection = document.querySelector('#mission') || document.querySelector('#profile-start');
+        if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+}
+
+if (document.body.classList.contains('homepage')) {
     const heroVideoSection = document.querySelector('.hero-video');
     if (heroVideoSection) {
         window.addEventListener('scroll', function() {
@@ -282,17 +272,6 @@ if (document.body.classList.contains('homepage')) {
             }
         });
     }
-
-    const scrollLink = document.querySelector('.scroll-indicator-link');
-    if (scrollLink) {
-        scrollLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            const targetSection = document.querySelector('#mission');
-            if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    }
 }
 
 // ======================================================================
@@ -302,7 +281,6 @@ const customCursor = document.querySelector('.custom-cursor');
 const menuCursor = document.querySelector('.menu-cursor');
 const bodyForCursor = document.querySelector('body');
 
-// Auto-Upgrade Structure
 if (customCursor && !customCursor.querySelector('.cursor-visual')) {
     const content = customCursor.innerHTML;
     customCursor.innerHTML = `<div class="cursor-visual">${content}</div>`;
@@ -395,24 +373,19 @@ if (contactForm) {
 }
 
 // ======================================================================
-// == 12. UNIVERSAL PAGE TRANSITIONS (Final Refined) ==
+// == 12. UNIVERSAL PAGE TRANSITIONS (Final - No Curtain on Home) ==
 // ======================================================================
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 1. Setup/Check Curtain
     var curtain = document.querySelector('.page-transition-curtain');
     
-    // FAILSAFE: If we are on the Homepage, we NEVER want the curtain to block the view.
-    // We check this immediately to prevent any "glitch" or flash of black.
     if (document.body.classList.contains('homepage')) {
         if (curtain) {
-            // If it exists (hardcoded), force it off-screen immediately
             curtain.style.transition = 'none';
             curtain.style.transform = 'translateX(100%)';
             curtain.classList.remove('is-active');
         }
     } else {
-        // For all other pages, create the curtain if missing
         if (!curtain) {
             curtain = document.createElement('div');
             curtain.classList.add('page-transition-curtain');
@@ -421,35 +394,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // 2. HANDLE "OUT" ANIMATION (Reveal Page on Load)
     window.addEventListener('load', function() {
-        
-        // Double Check: If Homepage, do nothing (ensure it stays hidden)
         if (document.body.classList.contains('homepage')) {
-            if (curtain) {
-                curtain.style.transition = 'none';
-                curtain.style.transform = 'translateX(100%)';
-            }
-            return; // Stop here
+            return;
         }
 
-        // For other pages (About, Portfolio, Contact)...
         setTimeout(function() {
-            // Restore animation speed
             curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
-            
-            // Slide to the Right (Reveal content)
             curtain.style.transform = 'translateX(100%)'; 
 
-            // --- DELAYED TEXT ANIMATION (About Page) ---
-            var aboutTitle = document.querySelector('.about-hero-title');
-            if (aboutTitle) {
-                // Wait 400ms after the curtain starts moving before showing text
+            // Trigger Portfolio Panels
+            var portfolioGrid = document.querySelector('.portfolio-grid-section');
+            if (portfolioGrid) {
                 setTimeout(function() {
-                    aboutTitle.classList.add('is-visible');
-                }, 400); 
+                    portfolioGrid.classList.add('animate-in');
+                }, 400);
             }
-            // -------------------------------------------
             
             setTimeout(function() {
                 curtain.classList.remove('is-active');
@@ -457,111 +417,52 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
     });
 
-    // 3. HANDLE "IN" ANIMATION (Link Clicks)
     var internalLinks = document.querySelectorAll('a[href="index.html"], a[href="about.html"], a[href="portfolio.html"], a[href="contact.html"], a[href="./"]');
 
     internalLinks.forEach(function(link) {
         link.addEventListener('click', function(e) {
-            
             var targetUrl = this.getAttribute('href');
-
             if (targetUrl.startsWith('#')) return;
-
             e.preventDefault();
 
-            // Ensure curtain exists (in case we are on Homepage where we hid it)
-            if (!curtain) {
-                 curtain = document.createElement('div');
-                 curtain.classList.add('page-transition-curtain');
-                 curtain.innerHTML = '<div class="page-loader"></div>';
-                 document.body.appendChild(curtain);
-            }
-            
-            // Make sure it's visible again for the transition
-            curtain.style.display = 'block';
-
-            // --- MENU EXIT SEQUENCE ---
             var exitDelay = 0;
             var parentNav = this.closest('.main-nav');
-
             if (parentNav) {
                 parentNav.classList.add('menu-exiting');
                 exitDelay = 500; 
             }
-            // --------------------------
+
+            var isGoingHome = targetUrl.indexOf('index.html') > -1 || targetUrl === './' || targetUrl === '/';
 
             setTimeout(function() {
-                
-                // RESET TRANSITION
-                curtain.style.transition = 'none'; 
-                curtain.classList.add('is-active');
-
-                // Start from LEFT
-                curtain.style.transform = 'translateX(-100%)'; 
-                
-                // FORCE REFLOW
-                curtain.getBoundingClientRect();
-
-                // Animate RIGHT to Center
-                curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
-                curtain.style.transform = 'translateX(0%)';
-
-                // Navigation
-                setTimeout(function() {
+                if (isGoingHome) {
                     window.location.href = targetUrl;
-                }, 600); 
-
+                } else {
+                    if (!curtain) {
+                        curtain = document.createElement('div');
+                        curtain.classList.add('page-transition-curtain');
+                        curtain.innerHTML = '<div class="page-loader"></div>';
+                        document.body.appendChild(curtain);
+                    }
+                    curtain.style.display = 'block'; 
+                    curtain.style.transition = 'none'; 
+                    curtain.classList.add('is-active');
+                    curtain.style.transform = 'translateX(-100%)'; 
+                    curtain.getBoundingClientRect();
+                    curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
+                    curtain.style.transform = 'translateX(0%)';
+                    setTimeout(function() {
+                        window.location.href = targetUrl;
+                    }, 600); 
+                }
             }, exitDelay); 
         });
     });
 });
 
 // ======================================================================
-// == ABOUT PAGE: Cinematic Scroll Depth (Parallax, No Blur) ==
+// == 13. ABOUT PAGE: Intro Sequence (Final Trajectory) ==
 // ======================================================================
-if (document.body.classList.contains('about-page')) {
-    
-    const stickySection = document.querySelector('.profile-grid-section');
-    const incomingSection = document.querySelector('.services-section');
-
-    if (stickySection && incomingSection) {
-        window.addEventListener('scroll', () => {
-            
-            const incomingPosition = incomingSection.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
-
-            if (incomingPosition < windowHeight && incomingPosition > 0) {
-                
-                // Calculate progress (0.0 to 1.0)
-                let progress = 1 - (incomingPosition / windowHeight);
-
-                // 1. Scale Effect (Shrink slightly to create depth)
-                const scale = 1 - (progress * 0.05); 
-                
-                // 2. Brightness Effect (Darken as it goes back)
-                const brightness = 1 - (progress * 0.4); 
-
-                // 3. Parallax Slide (The "Slow Down" Effect)
-                // Move UP by 200px over the course of the scroll.
-                const yPos = -(progress * 200);
-
-                // Apply styles (REMOVED BLUR)
-                stickySection.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
-                stickySection.style.filter = `brightness(${brightness})`;
-
-            } else if (incomingPosition >= windowHeight) {
-                // RESET
-                stickySection.style.transform = 'translate3d(0, 0, 0) scale(1)';
-                stickySection.style.filter = 'brightness(1)';
-            }
-        });
-    }
-}
-
-// ======================================================================
-// == ABOUT PAGE: Intro Sequence (Aggressive Left Pan) ==
-// ======================================================================
-
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
 if (scrollTrigger) {
@@ -581,7 +482,6 @@ if (scrollTrigger) {
         // Progress 0 to 1
         let progress = Math.max(0, Math.min(1, distanceScrolled / totalDistance));
 
-        // Only animate if active
         if (rect.bottom > 0) {
             
             // --- PHASE 1: TITLE (0% - 15%) ---
@@ -590,22 +490,20 @@ if (scrollTrigger) {
             
             if (title) {
                 title.style.opacity = titleOpacity;
-                
-                // FIXED: We use calc() to preserve the vertical centering (-50%)
-                // whilst adding the upward scrolling movement
+                // Move UP while maintaining -50% centering
                 title.style.transform = 'translateY(calc(-50% - ' + (progress * 400) + 'px))';
             }
             if (indicator) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // --- PHASE 2: PARAGRAPH ---
+            // --- PHASE 2: PARAGRAPH (15% - 40%) ---
             let paraOpacity = 0;
-            if (progress > 0.2 && progress < 0.5) {
-                if (progress < 0.3) {
-                    paraOpacity = (progress - 0.2) * 10; 
-                } else if (progress > 0.4) {
-                    paraOpacity = 1 - ((progress - 0.4) * 10); 
+            if (progress > 0.15 && progress < 0.45) {
+                if (progress < 0.25) {
+                    paraOpacity = (progress - 0.15) * 10; 
+                } else if (progress > 0.35) {
+                    paraOpacity = 1 - ((progress - 0.35) * 10); 
                 } else {
                     paraOpacity = 1; 
                 }
@@ -617,21 +515,21 @@ if (scrollTrigger) {
                 paragraph.style.transform = 'translate(-50%, calc(-30% + ' + currentY + 'px))';
             }
 
-            // --- PHASE 3: FLYING IMAGE (Moves More Left) ---
+            // --- PHASE 3: FLYING IMAGE (40% - 95%) ---
             if (flyingImage) {
                 let imgOpacity = 0;
                 let scale = 0.5;
                 let xMove = -50; 
                 let blur = 0;
 
-                // Active range: 0.50 to 0.95
-                if (progress > 0.5 && progress < 0.95) {
+                // Active range: 0.40 to 0.95
+                if (progress > 0.4 && progress < 0.95) {
                     
-                    let imgProgress = (progress - 0.5) / 0.45;
+                    let imgProgress = (progress - 0.4) / 0.55;
                     
                     // 1. OPACITY
-                    if (imgProgress < 0.2) {
-                        imgOpacity = imgProgress * 5; 
+                    if (imgProgress < 0.15) {
+                        imgOpacity = imgProgress * 6.6; 
                     } else if (imgProgress > 0.85) {
                         imgOpacity = 1 - ((imgProgress - 0.85) * 6.6); 
                         blur = (imgProgress - 0.85) * 60; 
@@ -642,10 +540,8 @@ if (scrollTrigger) {
                     // 2. SCALE
                     scale = 0.5 + (imgProgress * 2.0);
 
-                    // 3. PAN LEFT (Updated Logic)
-                    // -50% is Center. 
-                    // We subtract 160% (instead of 100%) to push it WAY left.
-                    xMove = -50 - (imgProgress * 160); 
+                    // 3. PAN LEFT (Starts Left, Exits Deep Left)
+                    xMove = -80 - (imgProgress * 200); 
                 }
 
                 flyingImage.style.opacity = Math.max(0, Math.min(1, imgOpacity));
@@ -654,4 +550,30 @@ if (scrollTrigger) {
             }
         }
     });
+}
+
+// ======================================================================
+// == 14. ABOUT PAGE: Cinematic Scroll Depth (Parallax, No Blur) ==
+// ======================================================================
+if (document.body.classList.contains('about-page')) {
+    const stickySection = document.querySelector('.profile-grid-section');
+    const incomingSection = document.querySelector('.services-section');
+
+    if (stickySection && incomingSection) {
+        window.addEventListener('scroll', () => {
+            const incomingPosition = incomingSection.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            if (incomingPosition < windowHeight && incomingPosition > 0) {
+                let progress = 1 - (incomingPosition / windowHeight);
+                const scale = 1 - (progress * 0.05); 
+                const brightness = 1 - (progress * 0.4); 
+                const yPos = -(progress * 200);
+                stickySection.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
+                stickySection.style.filter = `brightness(${brightness})`;
+            } else if (incomingPosition >= windowHeight) {
+                stickySection.style.transform = 'translate3d(0, 0, 0) scale(1)';
+                stickySection.style.filter = 'brightness(1)';
+            }
+        });
+    }
 }
