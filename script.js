@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Delayed Text) ==
+// == 13. ABOUT PAGE: Intro Sequence (No Overlap + Consistent Spacing) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -499,12 +499,13 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 2: PARAGRAPH (15% - 35%) ---
+            // UPDATED: Ends earlier (0.35) to clear room for Image 1
             let paraOpacity = 0;
-            if (progress > 0.15 && progress < 0.40) {
-                if (progress < 0.25) {
-                    paraOpacity = (progress - 0.15) * 10; 
-                } else if (progress > 0.30) {
-                    paraOpacity = 1 - ((progress - 0.30) * 10); 
+            if (progress > 0.15 && progress < 0.35) {
+                if (progress < 0.22) {
+                    paraOpacity = (progress - 0.15) * 14; // Fade In
+                } else if (progress > 0.28) {
+                    paraOpacity = 1 - ((progress - 0.28) * 14); // Fade Out
                 } else {
                     paraOpacity = 1; 
                 }
@@ -519,14 +520,14 @@ if (scrollTrigger) {
             // =========================================================
             // CONSTANT SETTINGS
             // =========================================================
-            const DURATION = 0.50; 
+            const DURATION = 0.45; // Slightly faster to fit everything in
             const ZOOM_AMT = 2.0;  
             const PAN_AMT = 150;   
 
             // --- PHASE 3: IMAGE 1 (Left Lane) ---
-            // Start: 0.30
+            // START: 0.40 (Delay added to avoid text overlap)
             if (image1) {
-                let startAt = 0.30;
+                let startAt = 0.40;
                 let imgOpacity = 0;
                 let scale = 0.5;
                 let xMove = -50; 
@@ -551,9 +552,9 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 4: IMAGE 2 (Right Lane) ---
-            // Start: 0.45
+            // START: 0.55 (Maintains 0.15 gap from Image 1)
             if (image2) {
-                let startAt = 0.45;
+                let startAt = 0.55;
                 let imgOpacity = 0;
                 let scale = 0.5;
                 let xMove = -50; 
@@ -578,9 +579,9 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 5: PROFILE TEXT (Center Lane) ---
-            // Start: 0.70 (Increased Delay)
+            // START: 0.80 (Maintains 0.25 gap from Image 2)
             if (profileText) {
-                let startAt = 0.70; 
+                let startAt = 0.80; 
                 let txtOpacity = 0;
                 let scale = 0.5;
                 let blur = 0;
