@@ -53,27 +53,30 @@
 
         <main class="about-page-main">
 
-   <!-- START: About Intro Sequence (Pinned Scroll) -->
-    <section class="about-intro-sequence">
-        <div class="about-sequence-sticky">
+   <!-- START: About Scroll Sequence -->
+    <!-- This wrapper creates the "Height" to allow us to scroll for a while -->
+    <div class="about-scroll-trigger">
+        
+        <!-- This is your ORIGINAL section. We keep the class name so it looks exactly the same. -->
+        <section class="about-page-title-section sticky-title-wrapper">
             
-            <!-- Part 1: The Title -->
-            <h1 class="about-hero-title sequence-part-1">GREAT FILM IS MORE<br>THAN JUST VISUALS</h1>
+            <!-- The Original Title -->
+            <h1 class="about-hero-title">GREAT FILM IS MORE<br>THAN JUST VISUALS</h1>
             
-            <!-- Part 2: The New Paragraph (Initially Hidden) -->
-            <p class="about-intro-text sequence-part-2">
+            <!-- The New Paragraph (Hidden by default) -->
+            <p class="about-intro-paragraph">
                 It's about rhythm, pacing, and emotion. Crafting narratives that resonate with the audience long after the screen goes dark.
             </p>
 
-            <!-- Scroll Indicator (Fades out with Part 1) -->
-            <div class="scroll-indicator sequence-indicator">
+            <!-- The Scroll Indicator -->
+            <div class="scroll-indicator">
                 <div class="scroll-text">SCROLL</div>
                 <div class="scroll-arrow"></div>
             </div>
-            
-        </div>
-    </section>
-    <!-- END: About Intro Sequence -->
+
+        </section>
+    </div>
+    <!-- END: About Scroll Sequence -->
     
     <!-- END: New Edge-to-Edge Profile Section -->
 

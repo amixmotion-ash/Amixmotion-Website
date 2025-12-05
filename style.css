@@ -2435,87 +2435,64 @@ body.portfolio-page::before {
     transform: translateY(0);
 }
 /* ================================================================= */
-/* == ABOUT PAGE: Intro Sequence Styles == */
+/* == ABOUT PAGE: Intro Sequence (Safe Version) == */
 /* ================================================================= */
 
-/* 1. The Container: Make it tall to create scroll space */
-.about-intro-sequence {
-    height: 250vh; /* 2.5 screens tall */
+/* 1. The Container: Creates the vertical space to scroll through */
+.about-scroll-trigger {
+    height: 200vh; /* 2 screens tall */
     position: relative;
-    background-color: #000000;
     z-index: 1; /* Keep it below the profile section */
+    background-color: #000000;
 }
 
-/* 2. The Sticky Wrapper: Pins content to the screen */
-.about-sequence-sticky {
+/* 2. The Wrapper: Locks the text to the screen */
+.sticky-title-wrapper {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
-    height: 100vh;
+    height: 100vh; /* Takes up full screen */
     width: 100%;
-    overflow: hidden;
+    
+    /* Ensure the text stacks correctly */
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0 40px;
-    box-sizing: border-box;
+    justify-content: center; 
+    overflow: hidden;
 }
 
-/* 3. The Title (Part 1) */
-.about-hero-title.sequence-part-1 {
-    /* Use absolute positioning to center it perfectly */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    max-width: 1000px; /* Or whatever width looks best */
-    margin: 0;
-    text-align: left; /* Keep left alignment */
-    will-change: opacity, transform;
-}
-
-/* 4. The Paragraph (Part 2) */
-.about-intro-text.sequence-part-2 {
+/* 3. The New Paragraph: Position it relative to the Title */
+.about-intro-paragraph {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
-    font-size: clamp(1.5rem, 3vw, 2.2rem); /* Nice readable size */
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
     color: #ffffff;
-    line-height: 1.5;
-    text-align: center; /* Paragraphs usually look better centered in this flow */
-    max-width: 800px;
+    line-height: 1.6;
+    max-width: 700px;
     
+    /* Position absolutely so it sits in the same spot as the title */
     position: absolute;
-    top: 50%; /* Start slightly below center */
-    left: 50%;
-    transform: translate(-50%, -40%); /* Offset slightly down */
+    /* Match the padding of your main title (40px) */
+    left: 40px; 
+    top: 50%;
+    transform: translateY(-30%); /* Adjust to center visually */
     
     opacity: 0; /* Hidden by default */
     will-change: opacity, transform;
+    pointer-events: none; /* Let clicks pass through */
 }
 
-/* 5. The Indicator */
-.sequence-indicator {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+/* Ensure the title fades smoothly */
+.about-hero-title {
+    will-change: opacity, transform;
 }
 
-/* Mobile Adjustments */
-@media (max-width: 900px) {
-    .about-hero-title.sequence-part-1 {
-        text-align: left;
-        padding: 0 20px;
-    }
-    .about-intro-text.sequence-part-2 {
-        text-align: left;
-        padding: 0 20px;
-        transform: translate(-50%, -40%); /* Reset transform for mobile if needed */
-        width: 100%;
-        left: 50%;
-    }
+/* FIX for the Profile Section disappearing: */
+/* We ensure the Profile Section (which comes next) sits ON TOP */
+.profile-grid-section {
+    position: relative; 
+    z-index: 2; /* Higher than the scroll trigger */
+    background-color: #000000; /* Ensure it covers the text */
 }
 
 

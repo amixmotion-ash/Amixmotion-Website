@@ -559,55 +559,55 @@ if (document.body.classList.contains('about-page')) {
 }
 
 // ======================================================================
-// == ABOUT PAGE: Intro Text Sequence (Scrollytelling) ==
+// == ABOUT PAGE: Intro Sequence (Fade Swap) ==
 // ======================================================================
 
-const sequenceSection = document.querySelector('.about-intro-sequence');
+const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
-if (sequenceSection) {
-    const part1 = sequenceSection.querySelector('.sequence-part-1'); // The Title
-    const part2 = sequenceSection.querySelector('.sequence-part-2'); // The Paragraph
-    const indicator = sequenceSection.querySelector('.sequence-indicator');
+if (scrollTrigger) {
+    const title = scrollTrigger.querySelector('.about-hero-title');
+    const paragraph = scrollTrigger.querySelector('.about-intro-paragraph');
+    const indicator = scrollTrigger.querySelector('.scroll-indicator');
 
     window.addEventListener('scroll', () => {
         
-        // 1. Calculate how far we are into the section
-        const rect = sequenceSection.getBoundingClientRect();
+        const rect = scrollTrigger.getBoundingClientRect();
         const windowHeight = window.innerHeight;
         
-        // This value goes from 0 (start) to ~1.5 (end of section)
-        // We use Math.abs because rect.top becomes negative as we scroll down
-        const scrollDistance = -rect.top;
+        // "progress" goes from 0 (top) to 1 (bottom of container)
+        // We calculate how much of the container has scrolled past the top of the viewport
+        const distanceScrolled = -rect.top;
+        const totalDistance = rect.height - windowHeight;
         
-        if (scrollDistance > 0 && rect.bottom > 0) {
+        let progress = Math.max(0, Math.min(1, distanceScrolled / totalDistance));
+
+        if (distanceScrolled > -100 && rect.bottom > 0) {
             
-            // PHASE 1: Fade Out Title (0px to 400px scroll)
-            // Normalized 0 to 1
-            let phase1Progress = Math.min(1, Math.max(0, scrollDistance / (windowHeight * 0.5)));
+            // PHASE 1: Fade OUT Title (0% to 30% scroll)
+            // Normalized 0 to 1 range
+            let titleOpacity = 1 - (progress * 3.33); 
+            titleOpacity = Math.max(0, Math.min(1, titleOpacity));
             
-            if (part1) {
-                // Fade out
-                part1.style.opacity = 1 - phase1Progress;
-                // Move Up slightly (-50% is center, so we go to -80%)
-                part1.style.transform = `translate(-50%, ${-50 - (phase1Progress * 20)}%)`;
+            if (title) {
+                title.style.opacity = titleOpacity;
+                // Move up slightly
+                title.style.transform = `translateY(-${progress * 50}px)`;
             }
             if (indicator) {
-                indicator.style.opacity = 1 - phase1Progress;
+                 indicator.style.opacity = titleOpacity;
             }
 
-            // PHASE 2: Fade In Paragraph (400px to 800px scroll)
-            // We start this phase later so there is a gap
-            let phase2Start = windowHeight * 0.6;
-            let phase2Progress = Math.min(1, Math.max(0, (scrollDistance - phase2Start) / (windowHeight * 0.5)));
+            // PHASE 2: Fade IN Paragraph (40% to 80% scroll)
+            // We start fading in after the title is mostly gone
+            let paraOpacity = (progress - 0.3) * 2; 
+            paraOpacity = Math.max(0, Math.min(1, paraOpacity));
 
-            if (part2) {
-                // Fade In
-                part2.style.opacity = phase2Progress;
-                // Move Up from slightly lower position
-                // Start at -40% (CSS) and move to -50% (Center)
-                part2.style.transform = `translate(-50%, ${-40 - (phase2Progress * 10)}%)`;
+            if (paragraph) {
+                paragraph.style.opacity = paraOpacity;
+                // Move up slightly
+                // We start at translateY(-30%) (defined in CSS) and move up
+                paragraph.style.transform = `translateY(calc(-30% - ${progress * 50}px))`;
             }
-
         }
     });
 }
