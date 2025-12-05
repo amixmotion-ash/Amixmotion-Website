@@ -2438,50 +2438,12 @@ body.portfolio-page::before {
 /* == ABOUT PAGE: Intro Sequence (Safe Version) == */
 /* ================================================================= */
 
-/* 1. Make the scroll area taller to fit the 3-step zoom */
+/* 1. The Container: Creates the vertical space to scroll through */
 .about-scroll-trigger {
-    height: 400vh; /* 4 screens tall for a long, smooth build-up */
+    height: 450vh; 
     position: relative;
     z-index: 1;
     background-color: #000000;
-}
-
-/* 2. Position the Zoom Container */
-.about-zoom-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Flexbox to hold the profile grid centered/full */
-    display: flex;
-    align-items: center; 
-    pointer-events: none; /* Let clicks pass through initially */
-}
-/* 3. Ensure the Profile Grid inside fits perfectly */
-.about-zoom-content .profile-grid-section {
-    width: 100%;
-    height: 100%;
-    /* Remove default sticky behavior here, we handle it manually */
-    position: relative !important; 
-    top: auto !important;
-    background: transparent !important;
-}
-/* 4. Prepare the Pieces for Animation */
-.zoom-piece-1, 
-.zoom-piece-2, 
-.zoom-piece-3 {
-    opacity: 0; /* Hidden start */
-    transform: scale(0.6) translateY(50px); /* Start small and slightly down */
-    will-change: opacity, transform;
-    transform-origin: center center;
-}
-
-/* Ensure images cover their boxes */
-.zoom-piece-1 img, .zoom-piece-3 img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
 }
 
 /* 2. The Wrapper: Locks the text to the screen */
@@ -2557,6 +2519,31 @@ body.portfolio-page::before {
 .about-scroll-trigger {
     /* Reduced from 200vh to 180vh so the animation finishes faster */
     height: 180vh; 
+}
+
+/* 2. Style the Flying Image */
+.intro-flying-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Start centered */
+    transform: translate(-50%, -50%); 
+    
+    /* Size of the image container */
+    width: 60vw; /* Starts reasonable size */
+    height: 40vh;
+    
+    opacity: 0; /* Hidden initially */
+    pointer-events: none;
+    will-change: transform, opacity, filter;
+}
+
+.intro-flying-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Optional: Rounded corners look nice for flying cards */
+    border-radius: 4px; 
 }
 
 
