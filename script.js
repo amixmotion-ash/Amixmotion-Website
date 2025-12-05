@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Big Delays) ==
+// == 13. ABOUT PAGE: Intro Sequence (Consistent Speed) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -499,7 +499,6 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 2: PARAGRAPH (15% - 35%) ---
-            // Adjusted to fade out slightly earlier to make room for Image 1
             let paraOpacity = 0;
             if (progress > 0.15 && progress < 0.40) {
                 if (progress < 0.25) {
@@ -517,25 +516,38 @@ if (scrollTrigger) {
                 paragraph.style.transform = 'translate(-50%, calc(-30% + ' + currentY + 'px))';
             }
 
-            // --- PHASE 3: IMAGE 1 (Left Lane | Starts 0.35) ---
+            // =========================================================
+            // CONSTANT SPEED SETTINGS
+            // =========================================================
+            // We give every element the exact same duration (0.45)
+            // This ensures they move at the exact same speed relative to scroll.
+            const DURATION = 0.45; 
+
+            // --- PHASE 3: IMAGE 1 (Left Lane) ---
+            // Start: 0.30 | End: 0.75
             if (image1) {
+                let startAt = 0.30;
                 let imgOpacity = 0;
                 let scale = 0.5;
                 let xMove = -50; 
                 let blur = 0;
 
-                // Range: 0.35 to 0.85
-                if (progress > 0.35 && progress < 0.90) {
-                    let localProg = (progress - 0.35) / 0.5; // Duration 0.5
+                if (progress > startAt && progress < (startAt + DURATION)) {
+                    let localProg = (progress - startAt) / DURATION;
                     
-                    if (localProg < 0.15) imgOpacity = localProg * 6.6; 
-                    else if (localProg > 0.85) {
-                        imgOpacity = 1 - ((localProg - 0.85) * 6.6); 
-                        blur = (localProg - 0.85) * 60; 
+                    // Smoother Fade In/Out
+                    if (localProg < 0.2) imgOpacity = localProg * 5; 
+                    else if (localProg > 0.8) {
+                        imgOpacity = 1 - ((localProg - 0.8) * 5); 
+                        blur = (localProg - 0.8) * 60; 
                     } else imgOpacity = 1;
 
+                    // Linear Scale (0.5 -> 2.5)
                     scale = 0.5 + (localProg * 2.0);
-                    xMove = -80 - (localProg * 150); 
+
+                    // Linear Pan Left (-50 -> -250)
+                    // Multiplier 200 ensures consistent lateral speed
+                    xMove = -50 - (localProg * 200); 
                 }
                 
                 image1.style.opacity = Math.max(0, Math.min(1, imgOpacity));
@@ -543,27 +555,30 @@ if (scrollTrigger) {
                 image1.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
 
-            // --- PHASE 4: IMAGE 2 (Right Lane | Starts 0.55) ---
-            // 0.20 Delay after Image 1
+            // --- PHASE 4: IMAGE 2 (Right Lane) ---
+            // Start: 0.45 | End: 0.90
+            // Exact same duration and multipliers as Image 1
             if (image2) {
+                let startAt = 0.45;
                 let imgOpacity = 0;
                 let scale = 0.5;
                 let xMove = -50; 
                 let blur = 0;
 
-                // Range: 0.55 to 1.0
-                if (progress > 0.55) {
-                    let localProg = (progress - 0.55) / 0.45; // Duration 0.45
-                    localProg = Math.min(1, localProg);
+                if (progress > startAt && progress < (startAt + DURATION)) {
+                    let localProg = (progress - startAt) / DURATION;
 
-                    if (localProg < 0.15) imgOpacity = localProg * 6.6; 
-                    else if (localProg > 0.85) {
-                        imgOpacity = 1 - ((localProg - 0.85) * 6.6); 
-                        blur = (localProg - 0.85) * 60; 
+                    if (localProg < 0.2) imgOpacity = localProg * 5; 
+                    else if (localProg > 0.8) {
+                        imgOpacity = 1 - ((localProg - 0.8) * 5); 
+                        blur = (localProg - 0.8) * 60; 
                     } else imgOpacity = 1;
 
                     scale = 0.5 + (localProg * 2.0);
-                    xMove = -20 + (localProg * 150); 
+
+                    // Linear Pan Right (-50 -> +150)
+                    // Multiplier 200 matches Image 1 speed
+                    xMove = -50 + (localProg * 200); 
                 }
 
                 image2.style.opacity = Math.max(0, Math.min(1, imgOpacity));
@@ -571,17 +586,19 @@ if (scrollTrigger) {
                 image2.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
 
-            // --- PHASE 5: PROFILE TEXT (Center | Starts 0.75) ---
-            // 0.20 Delay after Image 2
+            // --- PHASE 5: PROFILE TEXT (Center Lane) ---
+            // Start: 0.60 | End: 1.05
             if (profileText) {
+                let startAt = 0.60;
                 let txtOpacity = 0;
                 let scale = 0.5;
                 let blur = 0;
 
-                // Range: 0.75 to 1.0
-                if (progress > 0.75) {
-                    let localProg = (progress - 0.75) / 0.25; // Duration 0.25 (Fast finish)
-                    localProg = Math.min(1, localProg);
+                if (progress > startAt) {
+                    let localProg = (progress - startAt) / DURATION;
+                    
+                    // Clamp at 1.0 (End of scroll)
+                    if (localProg > 1) localProg = 1;
 
                     if (localProg < 0.2) txtOpacity = localProg * 5; 
                     else if (localProg > 0.8) {
@@ -589,7 +606,8 @@ if (scrollTrigger) {
                         blur = (localProg - 0.8) * 30; 
                     } else txtOpacity = 1;
 
-                    scale = 0.5 + (localProg * 1.5);
+                    // Same scale speed as images
+                    scale = 0.5 + (localProg * 2.0);
                 }
 
                 profileText.style.opacity = Math.max(0, Math.min(1, txtOpacity));
