@@ -2521,7 +2521,7 @@ body.portfolio-page::before {
     height: 180vh; 
 }
 
-/* Shared Styles for both flying images */
+/* Update this rule */
 .intro-flying-image {
     position: absolute;
     top: 50%;
@@ -2536,6 +2536,9 @@ body.portfolio-page::before {
     opacity: 0; 
     pointer-events: none;
     will-change: transform, opacity, filter;
+
+    /* ADD THIS LINE: Puts images on top */
+    z-index: 10; 
 }
 
 .intro-flying-image img {
@@ -2583,22 +2586,24 @@ body.portfolio-page::before {
     will-change: opacity, transform;
 }
 
-/* Style for the Flying Text */
+/* Update this rule */
 .intro-flying-text {
     position: absolute;
     top: 50%;
     left: 50%;
-    /* Start centered and small */
     transform: translate(-50%, -50%) scale(0.5);
     
     width: 80%;
-    max-width: 600px; /* Keep line length readable */
+    max-width: 600px; 
     text-align: center;
     color: #ffffff;
     
     opacity: 0;
     pointer-events: none;
     will-change: transform, opacity, filter;
+
+    /* ADD THIS LINE: Puts text behind images */
+    z-index: 5; 
 }
 
 .intro-flying-text p {
