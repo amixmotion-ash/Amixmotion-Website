@@ -559,7 +559,7 @@ if (document.body.classList.contains('about-page')) {
 }
 
 // ======================================================================
-// == ABOUT PAGE: Intro Sequence (Late Fade / Far Left) ==
+// == ABOUT PAGE: Intro Sequence (Final Full-Height Zoom) ==
 // ======================================================================
 
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
@@ -581,10 +581,11 @@ if (scrollTrigger) {
         // Progress 0 to 1
         let progress = Math.max(0, Math.min(1, distanceScrolled / totalDistance));
 
+        // Only animate if active
         if (rect.bottom > 0) {
             
-            // --- PHASE 1: TITLE (0% - 15%) ---
-            let titleOpacity = 1 - (progress * 6.6); 
+            // --- PHASE 1: TITLE (0% - 20%) ---
+            let titleOpacity = 1 - (progress * 5); 
             titleOpacity = Math.max(0, Math.min(1, titleOpacity));
             
             if (title) {
@@ -595,13 +596,13 @@ if (scrollTrigger) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // --- PHASE 2: PARAGRAPH (15% - 45%) ---
+            // --- PHASE 2: PARAGRAPH (20% - 50%) ---
             let paraOpacity = 0;
-            if (progress > 0.15 && progress < 0.45) {
-                if (progress < 0.25) {
-                    paraOpacity = (progress - 0.15) * 10; // Fade In
-                } else if (progress > 0.35) {
-                    paraOpacity = 1 - ((progress - 0.35) * 10); // Fade Out
+            if (progress > 0.2 && progress < 0.5) {
+                if (progress < 0.3) {
+                    paraOpacity = (progress - 0.2) * 10; // Fade In
+                } else if (progress > 0.4) {
+                    paraOpacity = 1 - ((progress - 0.4) * 10); // Fade Out
                 } else {
                     paraOpacity = 1; // Hold
                 }
@@ -618,35 +619,33 @@ if (scrollTrigger) {
             if (flyingImage) {
                 let imgOpacity = 0;
                 let scale = 0.5;
-                let xMove = -50; // Starts at -50% (Center)
+                let xMove = -50; 
                 let blur = 0;
 
-                // Active range: 0.5 to 0.95
-                if (progress > 0.5 && progress < 1.0) {
+                // Active range: 0.50 to 0.95
+                if (progress > 0.5 && progress < 0.95) {
                     
-                    // Normalize this phase to 0.0 - 1.0
+                    // Normalize (0 to 1 scale for just this phase)
                     let imgProgress = (progress - 0.5) / 0.45;
                     
-                    // 1. Opacity (Fade in fast, Fade out VERY LATE)
-                    if (imgProgress < 0.15) {
-                        imgOpacity = imgProgress * 6.6; // Fade In
-                    } else if (imgProgress > 0.9) {
-                        // START FADING ONLY AT 90% (Late!)
-                        imgOpacity = 1 - ((imgProgress - 0.9) * 10); 
-                        // Add blur only at the very end
-                        blur = (imgProgress - 0.9) * 100; 
+                    // 1. OPACITY (Delayed Fade)
+                    if (imgProgress < 0.2) {
+                        imgOpacity = imgProgress * 5; // Fade In
+                    } else if (imgProgress > 0.85) {
+                        // START FADE OUT LATE (85%)
+                        imgOpacity = 1 - ((imgProgress - 0.85) * 6.6); 
+                        blur = (imgProgress - 0.85) * 60; // Add blur at end
                     } else {
-                        imgOpacity = 1; // Stay fully visible
+                        imgOpacity = 1;
                     }
 
-                    // 2. Scale (Zoom In)
-                    // Goes from 0.5 to 1.3
-                    scale = 0.5 + (imgProgress * 0.8);
+                    // 2. SCALE (Grow to fill height)
+                    // 0.5 -> 2.5
+                    scale = 0.5 + (imgProgress * 2.0);
 
-                    // 3. Pan Left (Aggressive)
-                    // Starts at -50% (Center)
-                    // Moves to -180% (Way off screen left)
-                    xMove = -50 - (imgProgress * 130); 
+                    // 3. PAN LEFT (Exit screen)
+                    // -50% (Center) -> -150% (Off Left)
+                    xMove = -50 - (imgProgress * 100); 
                 }
 
                 flyingImage.style.opacity = Math.max(0, Math.min(1, imgOpacity));
