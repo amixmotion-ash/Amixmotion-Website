@@ -557,3 +557,57 @@ if (document.body.classList.contains('about-page')) {
         });
     }
 }
+
+// ======================================================================
+// == ABOUT PAGE: Intro Text Sequence (Scrollytelling) ==
+// ======================================================================
+
+const sequenceSection = document.querySelector('.about-intro-sequence');
+
+if (sequenceSection) {
+    const part1 = sequenceSection.querySelector('.sequence-part-1'); // The Title
+    const part2 = sequenceSection.querySelector('.sequence-part-2'); // The Paragraph
+    const indicator = sequenceSection.querySelector('.sequence-indicator');
+
+    window.addEventListener('scroll', () => {
+        
+        // 1. Calculate how far we are into the section
+        const rect = sequenceSection.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        // This value goes from 0 (start) to ~1.5 (end of section)
+        // We use Math.abs because rect.top becomes negative as we scroll down
+        const scrollDistance = -rect.top;
+        
+        if (scrollDistance > 0 && rect.bottom > 0) {
+            
+            // PHASE 1: Fade Out Title (0px to 400px scroll)
+            // Normalized 0 to 1
+            let phase1Progress = Math.min(1, Math.max(0, scrollDistance / (windowHeight * 0.5)));
+            
+            if (part1) {
+                // Fade out
+                part1.style.opacity = 1 - phase1Progress;
+                // Move Up slightly (-50% is center, so we go to -80%)
+                part1.style.transform = `translate(-50%, ${-50 - (phase1Progress * 20)}%)`;
+            }
+            if (indicator) {
+                indicator.style.opacity = 1 - phase1Progress;
+            }
+
+            // PHASE 2: Fade In Paragraph (400px to 800px scroll)
+            // We start this phase later so there is a gap
+            let phase2Start = windowHeight * 0.6;
+            let phase2Progress = Math.min(1, Math.max(0, (scrollDistance - phase2Start) / (windowHeight * 0.5)));
+
+            if (part2) {
+                // Fade In
+                part2.style.opacity = phase2Progress;
+                // Move Up from slightly lower position
+                // Start at -40% (CSS) and move to -50% (Center)
+                part2.style.transform = `translate(-50%, ${-40 - (phase2Progress * 10)}%)`;
+            }
+
+        }
+    });
+}

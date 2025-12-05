@@ -2434,6 +2434,91 @@ body.portfolio-page::before {
     opacity: 1;
     transform: translateY(0);
 }
+/* ================================================================= */
+/* == ABOUT PAGE: Intro Sequence Styles == */
+/* ================================================================= */
+
+/* 1. The Container: Make it tall to create scroll space */
+.about-intro-sequence {
+    height: 250vh; /* 2.5 screens tall */
+    position: relative;
+    background-color: #000000;
+    z-index: 1; /* Keep it below the profile section */
+}
+
+/* 2. The Sticky Wrapper: Pins content to the screen */
+.about-sequence-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+/* 3. The Title (Part 1) */
+.about-hero-title.sequence-part-1 {
+    /* Use absolute positioning to center it perfectly */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 1000px; /* Or whatever width looks best */
+    margin: 0;
+    text-align: left; /* Keep left alignment */
+    will-change: opacity, transform;
+}
+
+/* 4. The Paragraph (Part 2) */
+.about-intro-text.sequence-part-2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(1.5rem, 3vw, 2.2rem); /* Nice readable size */
+    color: #ffffff;
+    line-height: 1.5;
+    text-align: center; /* Paragraphs usually look better centered in this flow */
+    max-width: 800px;
+    
+    position: absolute;
+    top: 50%; /* Start slightly below center */
+    left: 50%;
+    transform: translate(-50%, -40%); /* Offset slightly down */
+    
+    opacity: 0; /* Hidden by default */
+    will-change: opacity, transform;
+}
+
+/* 5. The Indicator */
+.sequence-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 900px) {
+    .about-hero-title.sequence-part-1 {
+        text-align: left;
+        padding: 0 20px;
+    }
+    .about-intro-text.sequence-part-2 {
+        text-align: left;
+        padding: 0 20px;
+        transform: translate(-50%, -40%); /* Reset transform for mobile if needed */
+        width: 100%;
+        left: 50%;
+    }
+}
+
+
 
 
 
