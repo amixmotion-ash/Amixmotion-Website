@@ -559,7 +559,7 @@ if (document.body.classList.contains('about-page')) {
 }
 
 // ======================================================================
-// == ABOUT PAGE: Intro Sequence (In -> Hold -> Out) ==
+// == ABOUT PAGE: Intro Sequence (Title -> Para -> Flying Image) ==
 // ======================================================================
 
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
@@ -567,6 +567,7 @@ const scrollTrigger = document.querySelector('.about-scroll-trigger');
 if (scrollTrigger) {
     const title = scrollTrigger.querySelector('.about-hero-title');
     const paragraph = scrollTrigger.querySelector('.about-intro-paragraph');
+    const flyingImage = scrollTrigger.querySelector('.intro-flying-image');
     const indicator = scrollTrigger.querySelector('.scroll-indicator');
 
     window.addEventListener('scroll', function() {
@@ -577,14 +578,12 @@ if (scrollTrigger) {
         const distanceScrolled = -rect.top;
         const totalDistance = rect.height - windowHeight;
         
-        // Progress 0 to 1
         let progress = Math.max(0, Math.min(1, distanceScrolled / totalDistance));
 
         if (rect.bottom > 0) {
             
-            // --- PART 1: TITLE (Exit) ---
-            // Fades out fast (0 to 25%)
-            let titleOpacity = 1 - (progress * 4); 
+            // --- PHASE 1: TITLE (0% - 15%) ---
+            let titleOpacity = 1 - (progress * 6.6); 
             titleOpacity = Math.max(0, Math.min(1, titleOpacity));
             
             if (title) {
@@ -595,39 +594,63 @@ if (scrollTrigger) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // --- PART 2: PARAGRAPH (Enter -> Read -> Exit) ---
-            
+            // --- PHASE 2: PARAGRAPH (15% - 45%) ---
             let paraOpacity = 0;
+            if (progress > 0.15 && progress < 0.45) {
+                if (progress < 0.25) {
+                    paraOpacity = (progress - 0.15) * 10; // Fade In
+                } else if (progress > 0.35) {
+                    paraOpacity = 1 - ((progress - 0.35) * 10); // Fade Out
+                } else {
+                    paraOpacity = 1; // Hold
+                }
+            }
             
-            if (progress < 0.3) {
-                // Not visible yet
-                paraOpacity = 0;
-            } else if (progress >= 0.3 && progress < 0.5) {
-                // Fading IN (30% to 50%)
-                paraOpacity = (progress - 0.3) * 5; 
-            } else if (progress >= 0.5 && progress < 0.7) {
-                // Fully Visible (Read time: 50% to 70%)
-                paraOpacity = 1;
-            } else if (progress >= 0.7 && progress < 0.95) {
-                // Fading OUT (70% to 95%)
-                paraOpacity = 1 - ((progress - 0.7) * 4);
-            } else {
-                // Gone (95% to 100%) - Pure Black Screen
-                paraOpacity = 0;
+            // Move Up
+            let currentY = 300 - (progress * 800);
+            if (paragraph) {
+                paragraph.style.opacity = Math.max(0, Math.min(1, paraOpacity));
+                paragraph.style.transform = 'translate(-50%, calc(-30% + ' + currentY + 'px))';
             }
 
-            // Safety clamp
-            paraOpacity = Math.max(0, Math.min(1, paraOpacity));
+            // --- PHASE 3: FLYING IMAGE (50% - 90%) ---
+            if (flyingImage) {
+                let imgOpacity = 0;
+                let scale = 0.5;
+                let xMove = -50; // Starts at -50% (Center)
+                let blur = 0;
 
-            // Continuous Upward Movement
-            // Starts 300px DOWN, Ends 500px UP (Total travel 800px)
-            // It just keeps floating up the whole time
-            let currentY = 300 - (progress * 800);
+                // Active range: 0.5 to 0.9
+                if (progress > 0.5 && progress < 0.95) {
+                    
+                    // Normalize this phase to 0.0 - 1.0
+                    let imgProgress = (progress - 0.5) / 0.4;
+                    
+                    // 1. Opacity (Fade in fast, fade out at end)
+                    if (imgProgress < 0.2) {
+                        imgOpacity = imgProgress * 5; // Fade In
+                    } else if (imgProgress > 0.8) {
+                        imgOpacity = 1 - ((imgProgress - 0.8) * 5); // Fade Out
+                        // Add blur only at the end
+                        blur = (imgProgress - 0.8) * 50; // 0px to 10px
+                    } else {
+                        imgOpacity = 1;
+                    }
 
-            if (paragraph) {
-                paragraph.style.opacity = paraOpacity;
-                // Keep horizontal centering (-50%)
-                paragraph.style.transform = 'translate(-50%, calc(-30% + ' + currentY + 'px))';
+                    // 2. Scale (Zoom In)
+                    // Goes from 0.5 to 1.3
+                    scale = 0.5 + (imgProgress * 0.8);
+
+                    // 3. Pan Left
+                    // Starts at -50% (Center)
+                    // Moves to -120% (Off screen left)
+                    xMove = -50 - (imgProgress * 70); 
+                }
+
+                flyingImage.style.opacity = Math.max(0, Math.min(1, imgOpacity));
+                flyingImage.style.filter = 'blur(' + blur + 'px)';
+                // Apply Transform
+                flyingImage.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
         }
     });
