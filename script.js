@@ -559,7 +559,7 @@ if (document.body.classList.contains('about-page')) {
 }
 
 // ======================================================================
-// == ABOUT PAGE: Intro Sequence (Instant Start) ==
+// == ABOUT PAGE: Intro Sequence (No Overlap) ==
 // ======================================================================
 
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
@@ -569,48 +569,55 @@ if (scrollTrigger) {
     const paragraph = scrollTrigger.querySelector('.about-intro-paragraph');
     const indicator = scrollTrigger.querySelector('.scroll-indicator');
 
-    window.addEventListener('scroll', () => {
+    window.addEventListener('scroll', function() {
         
         const rect = scrollTrigger.getBoundingClientRect();
         
-        // We calculate distance based on the Top of the viewport
+        // Calculate distance from top of viewport
         const distanceScrolled = -rect.top;
         
-        // Since we removed the padding, this should start immediately
-        // but we add a tiny offset so it feels responsive
-        const effectiveProgress = Math.max(0, distanceScrolled);
-        
+        // Calculate total scrollable area
         const windowHeight = window.innerHeight;
         const totalDistance = rect.height - windowHeight;
         
-        // Progress 0 to 1
-        let progress = Math.max(0, Math.min(1, effectiveProgress / totalDistance));
+        // Progress: 0 (Start) to 1 (End of section)
+        let progress = Math.max(0, Math.min(1, distanceScrolled / totalDistance));
 
-        // Only run math if we are inside the active zone
+        // Only animate if we are actively scrolling this section
         if (rect.bottom > 0) {
             
-            // PHASE 1: Fade OUT Title (0% to 25% scroll) -> Faster fade
-            // Multiplied by 4 means it's gone by the time you scroll 25%
-            let titleOpacity = 1 - (progress * 4); 
+            // --- PART 1: TITLE (The Departure) ---
+            // Fades out fast (by 30% scroll)
+            // Moves UP fast (300px) to get out of the way
+            let titleOpacity = 1 - (progress * 3.5); 
             titleOpacity = Math.max(0, Math.min(1, titleOpacity));
             
             if (title) {
                 title.style.opacity = titleOpacity;
-                title.style.transform = `translateY(-${progress * 80}px)`; // Move up faster
+                // Move UP by 300px based on progress
+                title.style.transform = 'translateY(-' + (progress * 300) + 'px)';
             }
             if (indicator) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // PHASE 2: Fade IN Paragraph (30% to 70% scroll)
-            // We start fading in earlier now
-            let paraOpacity = (progress - 0.25) * 2.5; 
+            // --- PART 2: PARAGRAPH (The Arrival) ---
+            // Starts fading in later (at 30% scroll)
+            // Starts LOW and moves UP into place
+            
+            // Fade Logic:
+            let paraOpacity = (progress - 0.3) * 3; 
             paraOpacity = Math.max(0, Math.min(1, paraOpacity));
+
+            // Position Logic:
+            // We start it 100px LOWER than its CSS position
+            // As we scroll, we reduce that 100px to 0px, then keep it moving up slightly
+            // 'calc(-30% ...)' preserves the CSS centering we added earlier
+            let paraMove = 100 - (progress * 200);
 
             if (paragraph) {
                 paragraph.style.opacity = paraOpacity;
-                // Start slightly lower and float up to center
-                paragraph.style.transform = `translateY(calc(-30% - ${progress * 40}px))`;
+                paragraph.style.transform = 'translateY(calc(-30% + ' + paraMove + 'px))';
             }
         }
     });
