@@ -559,7 +559,7 @@ if (document.body.classList.contains('about-page')) {
 }
 
 // ======================================================================
-// == ABOUT PAGE: Intro Sequence (Distinct Gap) ==
+// == ABOUT PAGE: Intro Sequence (Centered + Big Movement) ==
 // ======================================================================
 
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
@@ -574,42 +574,45 @@ if (scrollTrigger) {
         const rect = scrollTrigger.getBoundingClientRect();
         const windowHeight = window.innerHeight;
         
-        // Calculate progress (0 to 1) based on scroll position
         const distanceScrolled = -rect.top;
         const totalDistance = rect.height - windowHeight;
         
         let progress = Math.max(0, Math.min(1, distanceScrolled / totalDistance));
 
-        // Only animate if active
         if (rect.bottom > 0) {
             
-            // --- PART 1: TITLE (Gone by 25%) ---
-            // Multiplier 4 means: 1 / 4 = 0.25 (25% progress point)
+            // --- PART 1: TITLE ---
             let titleOpacity = 1 - (progress * 4); 
             titleOpacity = Math.max(0, Math.min(1, titleOpacity));
             
             if (title) {
                 title.style.opacity = titleOpacity;
-                // Move UP fast (400px) to clear the stage
+                // Title moves UP fast
                 title.style.transform = 'translateY(-' + (progress * 400) + 'px)';
             }
             if (indicator) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // --- PART 2: PARAGRAPH (Starts at 45%) ---
-            // We subtract 0.45, so it stays at 0 opacity until 45% scroll
+            // --- PART 2: PARAGRAPH ---
+            // Fade In Logic (Starts at 45%)
             let paraOpacity = (progress - 0.45) * 3; 
             paraOpacity = Math.max(0, Math.min(1, paraOpacity));
 
-            // Position Logic:
-            // It starts 100px lower and floats up
-            let paraMove = 100 - (progress * 150);
+            // MOVEMENT LOGIC:
+            // 1. Start 300px LOWER (Positive value = Down)
+            // 2. End 100px HIGHER (Negative value = Up)
+            // 3. We MUST add 'translate(-50%, ...)' to keep it centered horizontally!
+            
+            let startY = 300; // Start 300px down
+            let travelDist = 400; // Move 400px total
+            let currentY = startY - (progress * travelDist);
 
             if (paragraph) {
                 paragraph.style.opacity = paraOpacity;
-                // 'calc(-30%...)' keeps the CSS alignment we set earlier
-                paragraph.style.transform = 'translateY(calc(-30% + ' + paraMove + 'px))';
+                // translate(-50%, ...) centers it horizontally
+                // translateY(calc(-30% + ...)) positions it vertically relative to center
+                paragraph.style.transform = 'translate(-50%, calc(-30% + ' + currentY + 'px))';
             }
         }
     });
