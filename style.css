@@ -2555,6 +2555,36 @@ body.portfolio-page::before {
     }
 }
 
+/* ================================================================= */
+/* == ABOUT PAGE: Header Title Fix == */
+/* ================================================================= */
+
+.about-hero-title {
+    /* 1. Restore Original Typography */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 10vw, 7rem); /* Big, responsive sizing */
+    color: #ffffff;
+    text-transform: uppercase;
+    line-height: 1.1;
+    text-align: center;
+    
+    /* 2. Center Positioning */
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    
+    /* Vertically align to center */
+    transform: translateY(-50%);
+    
+    /* 3. Ensure it's fully visible at start */
+    opacity: 1;
+    margin: 0;
+    z-index: 10;
+    will-change: opacity, transform;
+}
+
 
 
 

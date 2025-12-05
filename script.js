@@ -584,13 +584,16 @@ if (scrollTrigger) {
         // Only animate if active
         if (rect.bottom > 0) {
             
-            // --- PHASE 1: TITLE ---
-            let titleOpacity = 1 - (progress * 5); 
+            // --- PHASE 1: TITLE (0% - 15%) ---
+            let titleOpacity = 1 - (progress * 6.6); 
             titleOpacity = Math.max(0, Math.min(1, titleOpacity));
             
             if (title) {
                 title.style.opacity = titleOpacity;
-                title.style.transform = 'translateY(-' + (progress * 400) + 'px)';
+                
+                // FIXED: We use calc() to preserve the vertical centering (-50%)
+                // whilst adding the upward scrolling movement
+                title.style.transform = 'translateY(calc(-50% - ' + (progress * 400) + 'px))';
             }
             if (indicator) {
                  indicator.style.opacity = titleOpacity;
