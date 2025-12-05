@@ -559,7 +559,7 @@ if (document.body.classList.contains('about-page')) {
 }
 
 // ======================================================================
-// == ABOUT PAGE: Intro Sequence (Final Full-Height Zoom) ==
+// == ABOUT PAGE: Intro Sequence (Aggressive Left Pan) ==
 // ======================================================================
 
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
@@ -584,7 +584,7 @@ if (scrollTrigger) {
         // Only animate if active
         if (rect.bottom > 0) {
             
-            // --- PHASE 1: TITLE (0% - 20%) ---
+            // --- PHASE 1: TITLE ---
             let titleOpacity = 1 - (progress * 5); 
             titleOpacity = Math.max(0, Math.min(1, titleOpacity));
             
@@ -596,26 +596,25 @@ if (scrollTrigger) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // --- PHASE 2: PARAGRAPH (20% - 50%) ---
+            // --- PHASE 2: PARAGRAPH ---
             let paraOpacity = 0;
             if (progress > 0.2 && progress < 0.5) {
                 if (progress < 0.3) {
-                    paraOpacity = (progress - 0.2) * 10; // Fade In
+                    paraOpacity = (progress - 0.2) * 10; 
                 } else if (progress > 0.4) {
-                    paraOpacity = 1 - ((progress - 0.4) * 10); // Fade Out
+                    paraOpacity = 1 - ((progress - 0.4) * 10); 
                 } else {
-                    paraOpacity = 1; // Hold
+                    paraOpacity = 1; 
                 }
             }
             
-            // Move Up
             let currentY = 300 - (progress * 800);
             if (paragraph) {
                 paragraph.style.opacity = Math.max(0, Math.min(1, paraOpacity));
                 paragraph.style.transform = 'translate(-50%, calc(-30% + ' + currentY + 'px))';
             }
 
-            // --- PHASE 3: FLYING IMAGE (50% - 95%) ---
+            // --- PHASE 3: FLYING IMAGE (Moves More Left) ---
             if (flyingImage) {
                 let imgOpacity = 0;
                 let scale = 0.5;
@@ -625,27 +624,25 @@ if (scrollTrigger) {
                 // Active range: 0.50 to 0.95
                 if (progress > 0.5 && progress < 0.95) {
                     
-                    // Normalize (0 to 1 scale for just this phase)
                     let imgProgress = (progress - 0.5) / 0.45;
                     
-                    // 1. OPACITY (Delayed Fade)
+                    // 1. OPACITY
                     if (imgProgress < 0.2) {
-                        imgOpacity = imgProgress * 5; // Fade In
+                        imgOpacity = imgProgress * 5; 
                     } else if (imgProgress > 0.85) {
-                        // START FADE OUT LATE (85%)
                         imgOpacity = 1 - ((imgProgress - 0.85) * 6.6); 
-                        blur = (imgProgress - 0.85) * 60; // Add blur at end
+                        blur = (imgProgress - 0.85) * 60; 
                     } else {
                         imgOpacity = 1;
                     }
 
-                    // 2. SCALE (Grow to fill height)
-                    // 0.5 -> 2.5
+                    // 2. SCALE
                     scale = 0.5 + (imgProgress * 2.0);
 
-                    // 3. PAN LEFT (Exit screen)
-                    // -50% (Center) -> -150% (Off Left)
-                    xMove = -50 - (imgProgress * 100); 
+                    // 3. PAN LEFT (Updated Logic)
+                    // -50% is Center. 
+                    // We subtract 160% (instead of 100%) to push it WAY left.
+                    xMove = -50 - (imgProgress * 160); 
                 }
 
                 flyingImage.style.opacity = Math.max(0, Math.min(1, imgOpacity));
