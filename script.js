@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Dual Images) ==
+// == 13. ABOUT PAGE: Intro Sequence (Linear Zoom) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -469,7 +469,7 @@ if (scrollTrigger) {
     const title = scrollTrigger.querySelector('.about-hero-title');
     const paragraph = scrollTrigger.querySelector('.about-intro-paragraph');
     const image1 = scrollTrigger.querySelector('.intro-flying-image-1');
-    const image2 = scrollTrigger.querySelector('.intro-flying-image-2'); // New Image
+    const image2 = scrollTrigger.querySelector('.intro-flying-image-2'); 
     const indicator = scrollTrigger.querySelector('.scroll-indicator');
 
     window.addEventListener('scroll', function() {
@@ -522,7 +522,7 @@ if (scrollTrigger) {
                 let xMove = -50; 
                 let blur = 0;
 
-                // Range: 0.40 to 0.90
+                // Active Range: 0.40 to 0.90
                 if (progress > 0.4 && progress < 0.90) {
                     let localProg = (progress - 0.4) / 0.5;
                     
@@ -533,11 +533,13 @@ if (scrollTrigger) {
                         blur = (localProg - 0.85) * 60; 
                     } else imgOpacity = 1;
 
-                    // Scale
+                    // Scale (Grows larger)
                     scale = 0.5 + (localProg * 2.0);
 
-                    // Pan Left (Starts -80%, Exits -280%)
-                    xMove = -80 - (localProg * 200); 
+                    // LINEAR PAN LEFT
+                    // Start at -50 (Center)
+                    // Subtract 200 (Move strict Left)
+                    xMove = -50 - (localProg * 200); 
                 }
                 
                 image1.style.opacity = Math.max(0, Math.min(1, imgOpacity));
@@ -546,14 +548,13 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 4: IMAGE 2 (Right Side | 50% - 100%) ---
-            // Starts later, moves Right
             if (image2) {
                 let imgOpacity = 0;
                 let scale = 0.5;
                 let xMove = -50; 
                 let blur = 0;
 
-                // Range: 0.50 to 1.0
+                // Active Range: 0.50 to 1.0
                 if (progress > 0.5) {
                     let localProg = (progress - 0.5) / 0.5;
                     localProg = Math.min(1, localProg);
@@ -568,10 +569,10 @@ if (scrollTrigger) {
                     // Scale
                     scale = 0.5 + (localProg * 2.0);
 
-                    // Pan RIGHT (Starts -20%, Exits +180%)
-                    // Note: -20% is slightly to the right of center (-50%)
-                    // +200 moves it towards the positive (Right)
-                    xMove = -20 + (localProg * 200); 
+                    // LINEAR PAN RIGHT
+                    // Start at -50 (Center)
+                    // Add 200 (Move strict Right)
+                    xMove = -50 + (localProg * 200); 
                 }
 
                 image2.style.opacity = Math.max(0, Math.min(1, imgOpacity));
