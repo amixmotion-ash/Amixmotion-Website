@@ -461,14 +461,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Final Trajectory) ==
+// == 13. ABOUT PAGE: Intro Sequence (Dual Images) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
 if (scrollTrigger) {
     const title = scrollTrigger.querySelector('.about-hero-title');
     const paragraph = scrollTrigger.querySelector('.about-intro-paragraph');
-    const flyingImage = scrollTrigger.querySelector('.intro-flying-image');
+    const image1 = scrollTrigger.querySelector('.intro-flying-image-1');
+    const image2 = scrollTrigger.querySelector('.intro-flying-image-2'); // New Image
     const indicator = scrollTrigger.querySelector('.scroll-indicator');
 
     window.addEventListener('scroll', function() {
@@ -490,7 +491,6 @@ if (scrollTrigger) {
             
             if (title) {
                 title.style.opacity = titleOpacity;
-                // Move UP while maintaining -50% centering
                 title.style.transform = 'translateY(calc(-50% - ' + (progress * 400) + 'px))';
             }
             if (indicator) {
@@ -515,38 +515,68 @@ if (scrollTrigger) {
                 paragraph.style.transform = 'translate(-50%, calc(-30% + ' + currentY + 'px))';
             }
 
-            // --- PHASE 3: FLYING IMAGE (40% - 95%) ---
-            if (flyingImage) {
+            // --- PHASE 3: IMAGE 1 (Left Side | 40% - 90%) ---
+            if (image1) {
                 let imgOpacity = 0;
                 let scale = 0.5;
                 let xMove = -50; 
                 let blur = 0;
 
-                // Active range: 0.40 to 0.95
-                if (progress > 0.4 && progress < 0.95) {
+                // Range: 0.40 to 0.90
+                if (progress > 0.4 && progress < 0.90) {
+                    let localProg = (progress - 0.4) / 0.5;
                     
-                    let imgProgress = (progress - 0.4) / 0.55;
-                    
-                    // 1. OPACITY
-                    if (imgProgress < 0.15) {
-                        imgOpacity = imgProgress * 6.6; 
-                    } else if (imgProgress > 0.85) {
-                        imgOpacity = 1 - ((imgProgress - 0.85) * 6.6); 
-                        blur = (imgProgress - 0.85) * 60; 
-                    } else {
-                        imgOpacity = 1;
-                    }
+                    // Opacity
+                    if (localProg < 0.15) imgOpacity = localProg * 6.6; 
+                    else if (localProg > 0.85) {
+                        imgOpacity = 1 - ((localProg - 0.85) * 6.6); 
+                        blur = (localProg - 0.85) * 60; 
+                    } else imgOpacity = 1;
 
-                    // 2. SCALE
-                    scale = 0.5 + (imgProgress * 2.0);
+                    // Scale
+                    scale = 0.5 + (localProg * 2.0);
 
-                    // 3. PAN LEFT (Starts Left, Exits Deep Left)
-                    xMove = -80 - (imgProgress * 200); 
+                    // Pan Left (Starts -80%, Exits -280%)
+                    xMove = -80 - (localProg * 200); 
+                }
+                
+                image1.style.opacity = Math.max(0, Math.min(1, imgOpacity));
+                image1.style.filter = 'blur(' + blur + 'px)';
+                image1.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
+            }
+
+            // --- PHASE 4: IMAGE 2 (Right Side | 50% - 100%) ---
+            // Starts later, moves Right
+            if (image2) {
+                let imgOpacity = 0;
+                let scale = 0.5;
+                let xMove = -50; 
+                let blur = 0;
+
+                // Range: 0.50 to 1.0
+                if (progress > 0.5) {
+                    let localProg = (progress - 0.5) / 0.5;
+                    localProg = Math.min(1, localProg);
+
+                    // Opacity
+                    if (localProg < 0.15) imgOpacity = localProg * 6.6; 
+                    else if (localProg > 0.85) {
+                        imgOpacity = 1 - ((localProg - 0.85) * 6.6); 
+                        blur = (localProg - 0.85) * 60; 
+                    } else imgOpacity = 1;
+
+                    // Scale
+                    scale = 0.5 + (localProg * 2.0);
+
+                    // Pan RIGHT (Starts -20%, Exits +180%)
+                    // Note: -20% is slightly to the right of center (-50%)
+                    // +200 moves it towards the positive (Right)
+                    xMove = -20 + (localProg * 200); 
                 }
 
-                flyingImage.style.opacity = Math.max(0, Math.min(1, imgOpacity));
-                flyingImage.style.filter = 'blur(' + blur + 'px)';
-                flyingImage.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
+                image2.style.opacity = Math.max(0, Math.min(1, imgOpacity));
+                image2.style.filter = 'blur(' + blur + 'px)';
+                image2.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
         }
     });

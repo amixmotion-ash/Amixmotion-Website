@@ -2521,19 +2521,16 @@ body.portfolio-page::before {
     height: 180vh; 
 }
 
-/* Update this block in style.css */
+/* Shared Styles for both flying images */
 .intro-flying-image {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); 
     
-    /* CHANGED: Make it square */
-    width: 35vw; /* Sets the size relative to screen width */
-    aspect-ratio: 1 / 1; /* Forces a perfect 1:1 square */
-    height: auto; /* Let the aspect-ratio decide the height */
-    
-    /* Mobile Safety: Don't let it get taller than the screen */
+    width: 35vw; 
+    aspect-ratio: 1 / 1; 
+    height: auto; 
     max-height: 70vh; 
     
     opacity: 0; 
@@ -2549,9 +2546,10 @@ body.portfolio-page::before {
     border-radius: 4px; 
 }
 
+/* Mobile Adjustments */
 @media (max-width: 768px) {
     .intro-flying-image {
-        width: 60vw; /* Bigger square on mobile */
+        width: 60vw; 
     }
 }
 
