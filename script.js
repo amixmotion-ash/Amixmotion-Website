@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Wider Exit) ==
+// == 13. ABOUT PAGE: Intro Sequence (Tighter Images) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -522,7 +522,7 @@ if (scrollTrigger) {
             // =========================================================
             const DURATION = 0.45;
             const ZOOM_AMT = 2.0;  
-            const PAN_AMT = 220; // INCREASED: Pushes images further off-screen
+            const PAN_AMT = 220;   
 
             // --- PHASE 3: IMAGE 1 (Left Lane) ---
             // START: 0.40
@@ -552,9 +552,9 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 4: IMAGE 2 (Right Lane) ---
-            // START: 0.55
+            // START: 0.48 (Earlier start, so it finishes earlier)
             if (image2) {
-                let startAt = 0.55;
+                let startAt = 0.48;
                 let imgOpacity = 0;
                 let scale = 0.5;
                 let xMove = -50; 
@@ -580,8 +580,9 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 5: PROFILE TEXT (Center Lane) ---
-            // START: 0.80
+            // START: 0.80 (Unchanged)
             if (profileText) {
+                let startAt = 0.80; 
                 let txtOpacity = 0;
                 let scale = 0.5;
                 let blur = 0;
