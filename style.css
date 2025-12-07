@@ -2614,6 +2614,20 @@ body.portfolio-page::before {
     margin: 0;
 }
 
+/* ================================================================= */
+/* == ABOUT PAGE: Fix Fast Scroll Overlap (Disable CSS Lag) == */
+/* ================================================================= */
+
+/* We must disable CSS transitions so the JavaScript controls the 
+   animation frame-by-frame based strictly on scroll position. 
+   This prevents "ghosting" or overlaps during fast scrolls. */
+
+.about-scroll-trigger .about-hero-title,
+.about-scroll-trigger .about-intro-paragraph,
+.about-scroll-trigger .intro-flying-image,
+.about-scroll-trigger .intro-flying-text {
+    transition: none !important;
+}
 
 
 
