@@ -2440,7 +2440,7 @@ body.portfolio-page::before {
 
 /* 1. The Container: Creates the vertical space to scroll through */
 .about-scroll-trigger {
-    height: 1300vh !important; 
+    height: 1100vh !important; 
     position: relative;
     z-index: 1;
     background-color: #000000;
