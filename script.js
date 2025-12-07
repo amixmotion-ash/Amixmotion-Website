@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Slower Text, Later Start) ==
+// == 13. ABOUT PAGE: Intro Sequence (Tuned Fades) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -564,9 +564,11 @@ if (scrollTrigger) {
                     let localProg = (progress - startAt) / DURATION;
 
                     if (localProg < 0.2) imgOpacity = localProg * 5; 
-                    else if (localProg > 0.8) {
-                        imgOpacity = 1 - ((localProg - 0.8) * 5); 
-                        blur = (localProg - 0.8) * 60; 
+                    
+                    // UPDATED: FADE OUT EARLIER (at 0.7 instead of 0.8)
+                    else if (localProg > 0.7) {
+                        imgOpacity = 1 - ((localProg - 0.7) * 3.3); 
+                        blur = (localProg - 0.7) * 60; 
                     } else imgOpacity = 1;
 
                     scale = 0.5 + (localProg * ZOOM_AMT);
@@ -578,8 +580,8 @@ if (scrollTrigger) {
                 image2.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
 
-            // --- PHASE 5: PROFILE TEXT (Center Lane - Late & Slow) ---
-            // START: 0.80 (Much Later)
+            // --- PHASE 5: PROFILE TEXT (Center Lane) ---
+            // START: 0.80
             if (profileText) {
                 let txtOpacity = 0;
                 let scale = 0.5;
@@ -588,24 +590,23 @@ if (scrollTrigger) {
                 // Active from 0.80 to 1.0
                 if (progress > 0.80) {
                     
-                    let localProg = (progress - 0.80) / 0.20; // Short window
+                    let localProg = (progress - 0.80) / 0.20; 
                     if (localProg > 1) localProg = 1;
 
                     // Fade In (Fast)
                     if (localProg < 0.2) {
                         txtOpacity = localProg * 5; 
                     } 
-                    // Fade Out (VERY EARLY - starts at 40% of this phase)
-                    else if (localProg > 0.4) {
-                        // Slow, long fade out
-                        txtOpacity = 1 - ((localProg - 0.4) * 1.6); 
-                        // Gentle blur
-                        blur = (localProg - 0.4) * 20; 
+                    // UPDATED: FADE OUT MID-WAY (at 0.6 instead of 0.4)
+                    // This keeps it visible for 20% longer than the previous version
+                    else if (localProg > 0.6) {
+                        txtOpacity = 1 - ((localProg - 0.6) * 2.5); 
+                        blur = (localProg - 0.6) * 40; 
                     } else {
                         txtOpacity = 1;
                     }
 
-                    // ZOOM: Very Gentle (Max 2.0x scale)
+                    // ZOOM: Gentle (Max 2.0x scale)
                     scale = 0.5 + (localProg * 1.5);
                 }
 
