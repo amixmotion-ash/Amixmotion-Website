@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Fly-Through to Black) ==
+// == 13. ABOUT PAGE: Intro Sequence (Slower Zoom, Early Fade) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -578,8 +578,8 @@ if (scrollTrigger) {
                 image2.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
 
-            // --- PHASE 5: PROFILE TEXT (Center Zoom Through) ---
-            // START: 0.70 (Earlier start to allow full zoom)
+            // --- PHASE 5: PROFILE TEXT (Center Zoom) ---
+            // START: 0.70
             if (profileText) {
                 let txtOpacity = 0;
                 let scale = 0.5;
@@ -588,23 +588,23 @@ if (scrollTrigger) {
                 // Active from 0.70 to 0.98
                 if (progress > 0.70 && progress < 0.98) {
                     
-                    // Normalize (Duration 0.28)
                     let localProg = (progress - 0.70) / 0.28;
                     
                     // Fade In (Fast)
                     if (localProg < 0.2) {
                         txtOpacity = localProg * 5; 
                     } 
-                    // Fade Out (Late - starts at 70% of local progress)
-                    else if (localProg > 0.7) {
-                        txtOpacity = 1 - ((localProg - 0.7) * 3.3); 
-                        blur = (localProg - 0.7) * 50; 
+                    // Fade Out (EARLY - starts at 50% of the sequence)
+                    else if (localProg > 0.5) {
+                        // A longer, slower fade out
+                        txtOpacity = 1 - ((localProg - 0.5) * 2); 
+                        blur = (localProg - 0.5) * 40; 
                     } else {
                         txtOpacity = 1;
                     }
 
-                    // ZOOM: 0.5 -> 5.0 (Massive Zoom)
-                    scale = 0.5 + (localProg * 4.5);
+                    // ZOOM: Slower rate (Max 3.5x instead of 5.0x)
+                    scale = 0.5 + (localProg * 3.0);
                 }
 
                 profileText.style.opacity = Math.max(0, Math.min(1, txtOpacity));
@@ -614,7 +614,6 @@ if (scrollTrigger) {
         }
     });
 }
-
 // ======================================================================
 // == 14. ABOUT PAGE: Cinematic Scroll Depth (Parallax, No Blur) ==
 // ======================================================================
