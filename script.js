@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Final Text Fly-Through) ==
+// == 13. ABOUT PAGE: Intro Sequence (Fly-Through to Black) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -578,33 +578,33 @@ if (scrollTrigger) {
                 image2.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
 
-            // --- PHASE 5: PROFILE TEXT (Center Lane - Aggressive Zoom) ---
-            // START: 0.80
+            // --- PHASE 5: PROFILE TEXT (Center Zoom Through) ---
+            // START: 0.70 (Earlier start to allow full zoom)
             if (profileText) {
-                let startAt = 0.80; 
                 let txtOpacity = 0;
                 let scale = 0.5;
                 let blur = 0;
 
-                if (progress > startAt) {
-                    let localProg = (progress - startAt) / DURATION;
+                // Active from 0.70 to 0.98
+                if (progress > 0.70 && progress < 0.98) {
                     
-                    if (localProg > 1) localProg = 1;
-
+                    // Normalize (Duration 0.28)
+                    let localProg = (progress - 0.70) / 0.28;
+                    
                     // Fade In (Fast)
                     if (localProg < 0.2) {
                         txtOpacity = localProg * 5; 
                     } 
-                    // Fade Out (LATE - starts at 90%)
-                    else if (localProg > 0.90) {
-                        txtOpacity = 1 - ((localProg - 0.90) * 10); 
-                        blur = (localProg - 0.90) * 100; // Strong Blur
+                    // Fade Out (Late - starts at 70% of local progress)
+                    else if (localProg > 0.7) {
+                        txtOpacity = 1 - ((localProg - 0.7) * 3.3); 
+                        blur = (localProg - 0.7) * 50; 
                     } else {
                         txtOpacity = 1;
                     }
 
-                    // ZOOM: Goes much bigger (0.5 -> 4.5) to "hit the camera"
-                    scale = 0.5 + (localProg * 4.0);
+                    // ZOOM: 0.5 -> 5.0 (Massive Zoom)
+                    scale = 0.5 + (localProg * 4.5);
                 }
 
                 profileText.style.opacity = Math.max(0, Math.min(1, txtOpacity));
