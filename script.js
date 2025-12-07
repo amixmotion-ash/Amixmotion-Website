@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (No Overlap + Consistent Spacing) ==
+// == 13. ABOUT PAGE: Intro Sequence (Centered Text Replacement) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -492,6 +492,7 @@ if (scrollTrigger) {
             
             if (title) {
                 title.style.opacity = titleOpacity;
+                // Moves UP from Center (-50%)
                 title.style.transform = 'translateY(calc(-50% - ' + (progress * 400) + 'px))';
             }
             if (indicator) {
@@ -499,7 +500,6 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 2: PARAGRAPH (15% - 35%) ---
-            // UPDATED: Ends earlier (0.35) to clear room for Image 1
             let paraOpacity = 0;
             if (progress > 0.15 && progress < 0.35) {
                 if (progress < 0.22) {
@@ -511,21 +511,27 @@ if (scrollTrigger) {
                 }
             }
             
-            let currentY = 300 - (progress * 800);
+            // MATH UPDATE:
+            // The goal is to pass through 0px offset at 0.25 (middle of phase)
+            // Multiplier 1000 controls the speed of the upward float
+            let paraMove = (progress - 0.25) * 1000; 
+
             if (paragraph) {
                 paragraph.style.opacity = Math.max(0, Math.min(1, paraOpacity));
-                paragraph.style.transform = 'translate(-50%, calc(-30% + ' + currentY + 'px))';
+                // CHANGED: anchored at -50% (Dead Center)
+                // We subtract paraMove to make it go UP as progress increases
+                paragraph.style.transform = 'translate(-50%, calc(-50% - ' + paraMove + 'px))';
             }
 
             // =========================================================
             // CONSTANT SETTINGS
             // =========================================================
-            const DURATION = 0.45; // Slightly faster to fit everything in
+            const DURATION = 0.45;
             const ZOOM_AMT = 2.0;  
             const PAN_AMT = 150;   
 
             // --- PHASE 3: IMAGE 1 (Left Lane) ---
-            // START: 0.40 (Delay added to avoid text overlap)
+            // START: 0.40
             if (image1) {
                 let startAt = 0.40;
                 let imgOpacity = 0;
@@ -552,7 +558,7 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 4: IMAGE 2 (Right Lane) ---
-            // START: 0.55 (Maintains 0.15 gap from Image 1)
+            // START: 0.55
             if (image2) {
                 let startAt = 0.55;
                 let imgOpacity = 0;
@@ -579,7 +585,7 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 5: PROFILE TEXT (Center Lane) ---
-            // START: 0.80 (Maintains 0.25 gap from Image 2)
+            // START: 0.80
             if (profileText) {
                 let startAt = 0.80; 
                 let txtOpacity = 0;
