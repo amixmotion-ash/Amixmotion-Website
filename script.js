@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Centered Text Replacement) ==
+// == 13. ABOUT PAGE: Intro Sequence (Gap + Lifted Text) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -487,40 +487,41 @@ if (scrollTrigger) {
         if (rect.bottom > 0) {
             
             // --- PHASE 1: TITLE (0% - 15%) ---
+            // Ends at 0.15.
             let titleOpacity = 1 - (progress * 6.6); 
             titleOpacity = Math.max(0, Math.min(1, titleOpacity));
             
             if (title) {
                 title.style.opacity = titleOpacity;
-                // Moves UP from Center (-50%)
                 title.style.transform = 'translateY(calc(-50% - ' + (progress * 400) + 'px))';
             }
             if (indicator) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // --- PHASE 2: PARAGRAPH (15% - 35%) ---
+            // --- PHASE 2: PARAGRAPH (20% - 40%) ---
+            // STARTS: 0.20 (Creates a 0.05 "Black Gap" after title)
+            // ENDS: 0.40 (Just before Image 1)
             let paraOpacity = 0;
-            if (progress > 0.15 && progress < 0.35) {
-                if (progress < 0.22) {
-                    paraOpacity = (progress - 0.15) * 14; // Fade In
-                } else if (progress > 0.28) {
-                    paraOpacity = 1 - ((progress - 0.28) * 14); // Fade Out
+            if (progress > 0.20 && progress < 0.40) {
+                if (progress < 0.25) {
+                    paraOpacity = (progress - 0.20) * 20; // Fade In
+                } else if (progress > 0.35) {
+                    paraOpacity = 1 - ((progress - 0.35) * 20); // Fade Out
                 } else {
                     paraOpacity = 1; 
                 }
             }
             
-            // MATH UPDATE:
-            // The goal is to pass through 0px offset at 0.25 (middle of phase)
-            // Multiplier 1000 controls the speed of the upward float
-            let paraMove = (progress - 0.25) * 1000; 
+            // LIFT LOGIC:
+            // Centered around 0.30 (Middle of phase)
+            // CHANGED: Base position is now -65% (Higher up) instead of -50%
+            let paraMove = (progress - 0.30) * 1000; 
 
             if (paragraph) {
                 paragraph.style.opacity = Math.max(0, Math.min(1, paraOpacity));
-                // CHANGED: anchored at -50% (Dead Center)
-                // We subtract paraMove to make it go UP as progress increases
-                paragraph.style.transform = 'translate(-50%, calc(-50% - ' + paraMove + 'px))';
+                // Move UP relative to the new higher baseline (-65%)
+                paragraph.style.transform = 'translate(-50%, calc(-65% - ' + paraMove + 'px))';
             }
 
             // =========================================================
@@ -531,7 +532,7 @@ if (scrollTrigger) {
             const PAN_AMT = 150;   
 
             // --- PHASE 3: IMAGE 1 (Left Lane) ---
-            // START: 0.40
+            // START: 0.40 (Safe after paragraph)
             if (image1) {
                 let startAt = 0.40;
                 let imgOpacity = 0;
