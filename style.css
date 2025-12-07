@@ -70,8 +70,21 @@ header.is-hidden {
 .logo img { height: 50px; transition: filter 0.3s ease; }
 
 .nav-toggle { grid-column: 1 / 2; justify-self: start; }
-.desktop-nav { grid-column: 3 / 4; justify-self: end; }
-.desktop-nav ul { list-style: none; margin: 0; padding: 0; }
+.desktop-nav { 
+    grid-column: 3 / 4; 
+    justify-self: end; 
+}
+
+.desktop-nav ul { 
+    list-style: none; 
+    margin: 0; 
+    padding: 0;
+    
+    /* ADDED: Makes links sit side-by-side */
+    display: flex; 
+    /* ADDED: Spacing between WORK and CONTACT */
+    gap: 40px; 
+}
 
 /* --- 2. Base Appearance (for pages with a WHITE background) --- */
 header .nav-toggle,
