@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Slower Zoom, Early Fade) ==
+// == 13. ABOUT PAGE: Intro Sequence (Slower Text, Later Start) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -578,33 +578,35 @@ if (scrollTrigger) {
                 image2.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
 
-            // --- PHASE 5: PROFILE TEXT (Center Zoom) ---
-            // START: 0.70
+            // --- PHASE 5: PROFILE TEXT (Center Lane - Late & Slow) ---
+            // START: 0.80 (Much Later)
             if (profileText) {
                 let txtOpacity = 0;
                 let scale = 0.5;
                 let blur = 0;
 
-                // Active from 0.70 to 0.98
-                if (progress > 0.70 && progress < 0.98) {
+                // Active from 0.80 to 1.0
+                if (progress > 0.80) {
                     
-                    let localProg = (progress - 0.70) / 0.28;
-                    
+                    let localProg = (progress - 0.80) / 0.20; // Short window
+                    if (localProg > 1) localProg = 1;
+
                     // Fade In (Fast)
                     if (localProg < 0.2) {
                         txtOpacity = localProg * 5; 
                     } 
-                    // Fade Out (EARLY - starts at 50% of the sequence)
-                    else if (localProg > 0.5) {
-                        // A longer, slower fade out
-                        txtOpacity = 1 - ((localProg - 0.5) * 2); 
-                        blur = (localProg - 0.5) * 40; 
+                    // Fade Out (VERY EARLY - starts at 40% of this phase)
+                    else if (localProg > 0.4) {
+                        // Slow, long fade out
+                        txtOpacity = 1 - ((localProg - 0.4) * 1.6); 
+                        // Gentle blur
+                        blur = (localProg - 0.4) * 20; 
                     } else {
                         txtOpacity = 1;
                     }
 
-                    // ZOOM: Slower rate (Max 3.5x instead of 5.0x)
-                    scale = 0.5 + (localProg * 3.0);
+                    // ZOOM: Very Gentle (Max 2.0x scale)
+                    scale = 0.5 + (localProg * 1.5);
                 }
 
                 profileText.style.opacity = Math.max(0, Math.min(1, txtOpacity));
