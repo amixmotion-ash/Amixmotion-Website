@@ -1822,17 +1822,20 @@ body.menu-cursor-active .menu-cursor-visual {
     color: #ffffff !important; /* Makes the text white for contrast */
 }
 .logo-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px 20px;
-  align-items: center;
-  justify-items: center;
-  width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    
+    /* CHANGED: Tighter gap (20px) to bring them closer */
+    gap: 20px; 
+    
+    align-items: center;
+    justify-items: center;
+    width: 100%;
 }
 
 .logo-item img {
-  max-width: 200px;
-  max-height: 100px;
+  max-width: 220px;
+  max-height: 120px;
   width: auto;
   height: auto;
   display: block;
@@ -2440,7 +2443,7 @@ body.portfolio-page::before {
 
 /* 1. The Container: Creates the vertical space to scroll through */
 .about-scroll-trigger {
-    height: 1000vh !important; 
+    height: 900vh !important; 
     position: relative;
     z-index: 1;
     background-color: #000000;
