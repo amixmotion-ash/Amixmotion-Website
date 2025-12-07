@@ -2378,11 +2378,11 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == ABOUT PAGE: Header Title (With Entry Animation) == */
+/* == ABOUT PAGE: Header Title Entry Logic == */
 /* ================================================================= */
 
 .about-hero-title {
-    /* 1. Typography */
+    /* Typography */
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     font-size: clamp(3rem, 10vw, 7rem);
@@ -2391,41 +2391,39 @@ body.portfolio-page::before {
     line-height: 1.1;
     text-align: center;
     
-    /* 2. Positioning */
+    /* Positioning */
     position: absolute;
     top: 50%;
     left: 0;
     width: 100%;
-    
-    /* 3. Initial State (Hidden & Left) */
-    opacity: 0; 
     margin: 0;
     z-index: 10;
     
-    /* 4. The Entry Animation */
-    /* We use 'forwards' to keep it visible after animation ends */
-    animation: titleEnterLeft 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    /* INITIAL STATE: Hidden & Shifted Left */
+    /* We keep the -50% Y-axis centering, but move X-axis -80px */
+    transform: translate(-80px, -50%); 
+    opacity: 0; 
     
-    /* 5. Delay */
-    /* Wait 0.5s for the black page-transition curtain to slide away */
-    animation-delay: 0.5s;
-    
-    /* Ensure the scroll JS can take over later */
+    /* Prepare for JS control */
     will-change: opacity, transform;
 }
 
-/* Define the Slide-In Animation */
-@keyframes titleEnterLeft {
-    0% {
-        opacity: 0;
-        /* Start 80px to the Left, keeping vertical center (-50%) */
-        transform: translate(-80px, -50%); 
-    }
-    100% {
-        opacity: 1;
-        /* End at dead center horizontally (0px), keeping vertical center (-50%) */
-        transform: translate(0px, -50%); 
-    }
+/* 
+   TEMPORARY CLASS: 
+   This forces a smooth transition only during the intro.
+   It uses !important to override the "transition: none" scroll rule.
+*/
+.about-hero-title.allow-intro-transition {
+    transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+/* 
+   VISIBLE STATE: 
+   This is applied by JS to trigger the slide to center.
+*/
+.about-hero-title.intro-visible {
+    opacity: 1;
+    transform: translate(0px, -50%); /* Slide to Center */
 }
 
 /* ================================================================= */

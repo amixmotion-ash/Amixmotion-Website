@@ -373,10 +373,11 @@ if (contactForm) {
 }
 
 // ======================================================================
-// == 12. UNIVERSAL PAGE TRANSITIONS (Final - No Curtain on Home) ==
+// == 12. UNIVERSAL PAGE TRANSITIONS (Final - With Header Entry) ==
 // ======================================================================
 document.addEventListener('DOMContentLoaded', function() {
     
+    // 1. Setup/Check Curtain
     var curtain = document.querySelector('.page-transition-curtain');
     
     if (document.body.classList.contains('homepage')) {
@@ -394,14 +395,36 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // 2. HANDLE "OUT" ANIMATION (Reveal Page on Load)
     window.addEventListener('load', function() {
+        
         if (document.body.classList.contains('homepage')) {
             return;
         }
 
         setTimeout(function() {
+            // Restore animation speed for curtain
             curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
             curtain.style.transform = 'translateX(100%)'; 
+
+            // --- ABOUT PAGE HEADER ANIMATION ---
+            var aboutTitle = document.querySelector('.about-hero-title');
+            if (aboutTitle) {
+                // Step 1: Enable smooth transition temporarily
+                aboutTitle.classList.add('allow-intro-transition');
+                
+                // Step 2: Trigger the move to center (after tiny delay)
+                setTimeout(function() {
+                    aboutTitle.classList.add('intro-visible');
+                }, 100);
+
+                // Step 3: Remove smooth transition so scroll works perfectly
+                // We wait 1300ms (1.2s animation + 100ms delay)
+                setTimeout(function() {
+                    aboutTitle.classList.remove('allow-intro-transition');
+                }, 1300);
+            }
+            // -----------------------------------
 
             // Trigger Portfolio Panels
             var portfolioGrid = document.querySelector('.portfolio-grid-section');
@@ -417,24 +440,32 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
     });
 
+    // 3. HANDLE "IN" ANIMATION (Link Clicks)
     var internalLinks = document.querySelectorAll('a[href="index.html"], a[href="about.html"], a[href="portfolio.html"], a[href="contact.html"], a[href="./"]');
 
     internalLinks.forEach(function(link) {
         link.addEventListener('click', function(e) {
+            
             var targetUrl = this.getAttribute('href');
+
             if (targetUrl.startsWith('#')) return;
+
             e.preventDefault();
 
+            // --- MENU EXIT SEQUENCE ---
             var exitDelay = 0;
             var parentNav = this.closest('.main-nav');
+
             if (parentNav) {
                 parentNav.classList.add('menu-exiting');
                 exitDelay = 500; 
             }
+            // --------------------------
 
             var isGoingHome = targetUrl.indexOf('index.html') > -1 || targetUrl === './' || targetUrl === '/';
 
             setTimeout(function() {
+                
                 if (isGoingHome) {
                     window.location.href = targetUrl;
                 } else {
@@ -444,17 +475,24 @@ document.addEventListener('DOMContentLoaded', function() {
                         curtain.innerHTML = '<div class="page-loader"></div>';
                         document.body.appendChild(curtain);
                     }
+                    
                     curtain.style.display = 'block'; 
                     curtain.style.transition = 'none'; 
                     curtain.classList.add('is-active');
+
+                    // Start from LEFT
                     curtain.style.transform = 'translateX(-100%)'; 
-                    curtain.getBoundingClientRect();
+                    
+                    curtain.getBoundingClientRect(); // Force Reflow
+
                     curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
                     curtain.style.transform = 'translateX(0%)';
+
                     setTimeout(function() {
                         window.location.href = targetUrl;
                     }, 600); 
                 }
+
             }, exitDelay); 
         });
     });
