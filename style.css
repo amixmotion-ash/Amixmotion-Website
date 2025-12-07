@@ -1831,8 +1831,8 @@ body.menu-cursor-active .menu-cursor-visual {
 }
 
 .logo-item img {
-  max-width: 120px;
-  max-height: 60px;
+  max-width: 200px;
+  max-height: 100px;
   width: auto;
   height: auto;
   display: block;
@@ -2440,7 +2440,7 @@ body.portfolio-page::before {
 
 /* 1. The Container: Creates the vertical space to scroll through */
 .about-scroll-trigger {
-    height: 1100vh !important; 
+    height: 1000vh !important; 
     position: relative;
     z-index: 1;
     background-color: #000000;
