@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Middle Ground Spread) ==
+// == 13. ABOUT PAGE: Intro Sequence (Aligned Center + No Overlap) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -498,23 +498,30 @@ if (scrollTrigger) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // --- PHASE 2: PARAGRAPH (20% - 40%) ---
+            // --- PHASE 2: PARAGRAPH (25% - 40%) ---
+            // START: 0.25 (Delayed to prevent overlap with header)
             let paraOpacity = 0;
-            if (progress > 0.20 && progress < 0.40) {
-                if (progress < 0.25) {
-                    paraOpacity = (progress - 0.20) * 20; 
+            if (progress > 0.25 && progress < 0.40) {
+                if (progress < 0.30) {
+                    paraOpacity = (progress - 0.25) * 20; // Fade In
                 } else if (progress > 0.35) {
-                    paraOpacity = 1 - ((progress - 0.35) * 20); 
+                    paraOpacity = 1 - ((progress - 0.35) * 20); // Fade Out
                 } else {
                     paraOpacity = 1; 
                 }
             }
             
-            let paraMove = (progress - 0.30) * 1000; 
+            // POSITION FIX:
+            // Anchor at -50% (Exact Center)
+            // Move UP by subtracting pixels based on progress
+            // (progress - 0.25) ensures it starts moving from 0px offset at the moment it appears
+            let paraMove = (progress - 0.25) * 800; 
 
             if (paragraph) {
                 paragraph.style.opacity = Math.max(0, Math.min(1, paraOpacity));
-                paragraph.style.transform = 'translate(-50%, calc(-65% - ' + paraMove + 'px))';
+                // translate(-50%, -50%) puts it exactly in the middle.
+                // We subtract paraMove to float it upwards.
+                paragraph.style.transform = 'translate(-50%, calc(-50% - ' + paraMove + 'px))';
             }
 
             // =========================================================
@@ -522,7 +529,7 @@ if (scrollTrigger) {
             // =========================================================
             const DURATION = 0.45;
             const ZOOM_AMT = 2.0;  
-            const PAN_AMT = 185; // UPDATED: Perfect middle ground
+            const PAN_AMT = 185;   
 
             // --- PHASE 3: IMAGE 1 (Left Lane) ---
             // START: 0.40
@@ -552,9 +559,9 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 4: IMAGE 2 (Right Lane) ---
-            // START: 0.48
+            // START: 0.55
             if (image2) {
-                let startAt = 0.48;
+                let startAt = 0.55;
                 let imgOpacity = 0;
                 let scale = 0.5;
                 let xMove = -50; 
@@ -564,9 +571,9 @@ if (scrollTrigger) {
                     let localProg = (progress - startAt) / DURATION;
 
                     if (localProg < 0.2) imgOpacity = localProg * 5; 
-                    else if (localProg > 0.7) {
-                        imgOpacity = 1 - ((localProg - 0.7) * 3.3); 
-                        blur = (localProg - 0.7) * 60; 
+                    else if (localProg > 0.8) {
+                        imgOpacity = 1 - ((localProg - 0.8) * 5); 
+                        blur = (localProg - 0.8) * 60; 
                     } else imgOpacity = 1;
 
                     scale = 0.5 + (localProg * ZOOM_AMT);
@@ -581,12 +588,12 @@ if (scrollTrigger) {
             // --- PHASE 5: PROFILE TEXT (Center Lane) ---
             // START: 0.80
             if (profileText) {
+                let startAt = 0.80; 
                 let txtOpacity = 0;
                 let scale = 0.5;
                 let blur = 0;
 
                 if (progress > 0.80) {
-                    
                     let localProg = (progress - 0.80) / 0.20; 
                     if (localProg > 1) localProg = 1;
 
