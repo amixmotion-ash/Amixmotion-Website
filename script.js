@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Aligned Center + No Overlap) ==
+// == 13. ABOUT PAGE: Intro Sequence (Image 2 Adjusted) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -498,29 +498,22 @@ if (scrollTrigger) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // --- PHASE 2: PARAGRAPH (25% - 40%) ---
-            // START: 0.25 (Delayed to prevent overlap with header)
+            // --- PHASE 2: PARAGRAPH (20% - 40%) ---
             let paraOpacity = 0;
-            if (progress > 0.25 && progress < 0.40) {
-                if (progress < 0.30) {
-                    paraOpacity = (progress - 0.25) * 20; // Fade In
+            if (progress > 0.20 && progress < 0.40) {
+                if (progress < 0.25) {
+                    paraOpacity = (progress - 0.20) * 20; 
                 } else if (progress > 0.35) {
-                    paraOpacity = 1 - ((progress - 0.35) * 20); // Fade Out
+                    paraOpacity = 1 - ((progress - 0.35) * 20); 
                 } else {
                     paraOpacity = 1; 
                 }
             }
             
-            // POSITION FIX:
-            // Anchor at -50% (Exact Center)
-            // Move UP by subtracting pixels based on progress
-            // (progress - 0.25) ensures it starts moving from 0px offset at the moment it appears
-            let paraMove = (progress - 0.25) * 800; 
+            let paraMove = (progress - 0.20) * 800; 
 
             if (paragraph) {
                 paragraph.style.opacity = Math.max(0, Math.min(1, paraOpacity));
-                // translate(-50%, -50%) puts it exactly in the middle.
-                // We subtract paraMove to float it upwards.
                 paragraph.style.transform = 'translate(-50%, calc(-50% - ' + paraMove + 'px))';
             }
 
@@ -559,9 +552,9 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 4: IMAGE 2 (Right Lane) ---
-            // START: 0.55
+            // START: 0.50 (Earlier)
             if (image2) {
-                let startAt = 0.55;
+                let startAt = 0.50; 
                 let imgOpacity = 0;
                 let scale = 0.5;
                 let xMove = -50; 
@@ -571,9 +564,10 @@ if (scrollTrigger) {
                     let localProg = (progress - startAt) / DURATION;
 
                     if (localProg < 0.2) imgOpacity = localProg * 5; 
-                    else if (localProg > 0.8) {
-                        imgOpacity = 1 - ((localProg - 0.8) * 5); 
-                        blur = (localProg - 0.8) * 60; 
+                    // UPDATED: FADE OUT EARLIER (at 0.75 instead of 0.8)
+                    else if (localProg > 0.75) {
+                        imgOpacity = 1 - ((localProg - 0.75) * 4); 
+                        blur = (localProg - 0.75) * 60; 
                     } else imgOpacity = 1;
 
                     scale = 0.5 + (localProg * ZOOM_AMT);
