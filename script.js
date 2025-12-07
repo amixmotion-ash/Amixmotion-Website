@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Gap + Lifted Text) ==
+// == 13. ABOUT PAGE: Intro Sequence (Final Text Fly-Through) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -487,7 +487,6 @@ if (scrollTrigger) {
         if (rect.bottom > 0) {
             
             // --- PHASE 1: TITLE (0% - 15%) ---
-            // Ends at 0.15.
             let titleOpacity = 1 - (progress * 6.6); 
             titleOpacity = Math.max(0, Math.min(1, titleOpacity));
             
@@ -500,27 +499,21 @@ if (scrollTrigger) {
             }
 
             // --- PHASE 2: PARAGRAPH (20% - 40%) ---
-            // STARTS: 0.20 (Creates a 0.05 "Black Gap" after title)
-            // ENDS: 0.40 (Just before Image 1)
             let paraOpacity = 0;
             if (progress > 0.20 && progress < 0.40) {
                 if (progress < 0.25) {
-                    paraOpacity = (progress - 0.20) * 20; // Fade In
+                    paraOpacity = (progress - 0.20) * 20; 
                 } else if (progress > 0.35) {
-                    paraOpacity = 1 - ((progress - 0.35) * 20); // Fade Out
+                    paraOpacity = 1 - ((progress - 0.35) * 20); 
                 } else {
                     paraOpacity = 1; 
                 }
             }
             
-            // LIFT LOGIC:
-            // Centered around 0.30 (Middle of phase)
-            // CHANGED: Base position is now -65% (Higher up) instead of -50%
             let paraMove = (progress - 0.30) * 1000; 
 
             if (paragraph) {
                 paragraph.style.opacity = Math.max(0, Math.min(1, paraOpacity));
-                // Move UP relative to the new higher baseline (-65%)
                 paragraph.style.transform = 'translate(-50%, calc(-65% - ' + paraMove + 'px))';
             }
 
@@ -532,7 +525,7 @@ if (scrollTrigger) {
             const PAN_AMT = 150;   
 
             // --- PHASE 3: IMAGE 1 (Left Lane) ---
-            // START: 0.40 (Safe after paragraph)
+            // START: 0.40
             if (image1) {
                 let startAt = 0.40;
                 let imgOpacity = 0;
@@ -585,7 +578,7 @@ if (scrollTrigger) {
                 image2.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
 
-            // --- PHASE 5: PROFILE TEXT (Center Lane) ---
+            // --- PHASE 5: PROFILE TEXT (Center Lane - Aggressive Zoom) ---
             // START: 0.80
             if (profileText) {
                 let startAt = 0.80; 
@@ -598,13 +591,20 @@ if (scrollTrigger) {
                     
                     if (localProg > 1) localProg = 1;
 
-                    if (localProg < 0.2) txtOpacity = localProg * 5; 
-                    else if (localProg > 0.8) {
-                        txtOpacity = 1 - ((localProg - 0.8) * 5); 
-                        blur = (localProg - 0.8) * 30; 
-                    } else txtOpacity = 1;
+                    // Fade In (Fast)
+                    if (localProg < 0.2) {
+                        txtOpacity = localProg * 5; 
+                    } 
+                    // Fade Out (LATE - starts at 90%)
+                    else if (localProg > 0.90) {
+                        txtOpacity = 1 - ((localProg - 0.90) * 10); 
+                        blur = (localProg - 0.90) * 100; // Strong Blur
+                    } else {
+                        txtOpacity = 1;
+                    }
 
-                    scale = 0.5 + (localProg * ZOOM_AMT);
+                    // ZOOM: Goes much bigger (0.5 -> 4.5) to "hit the camera"
+                    scale = 0.5 + (localProg * 4.0);
                 }
 
                 profileText.style.opacity = Math.max(0, Math.min(1, txtOpacity));
