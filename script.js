@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Tuned Fades) ==
+// == 13. ABOUT PAGE: Intro Sequence (Wider Exit) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -522,7 +522,7 @@ if (scrollTrigger) {
             // =========================================================
             const DURATION = 0.45;
             const ZOOM_AMT = 2.0;  
-            const PAN_AMT = 150;   
+            const PAN_AMT = 220; // INCREASED: Pushes images further off-screen
 
             // --- PHASE 3: IMAGE 1 (Left Lane) ---
             // START: 0.40
@@ -564,8 +564,7 @@ if (scrollTrigger) {
                     let localProg = (progress - startAt) / DURATION;
 
                     if (localProg < 0.2) imgOpacity = localProg * 5; 
-                    
-                    // UPDATED: FADE OUT EARLIER (at 0.7 instead of 0.8)
+                    // Fade Out at 0.7 (Early)
                     else if (localProg > 0.7) {
                         imgOpacity = 1 - ((localProg - 0.7) * 3.3); 
                         blur = (localProg - 0.7) * 60; 
@@ -587,18 +586,15 @@ if (scrollTrigger) {
                 let scale = 0.5;
                 let blur = 0;
 
-                // Active from 0.80 to 1.0
                 if (progress > 0.80) {
                     
                     let localProg = (progress - 0.80) / 0.20; 
                     if (localProg > 1) localProg = 1;
 
-                    // Fade In (Fast)
                     if (localProg < 0.2) {
                         txtOpacity = localProg * 5; 
                     } 
-                    // UPDATED: FADE OUT MID-WAY (at 0.6 instead of 0.4)
-                    // This keeps it visible for 20% longer than the previous version
+                    // Fade Out at 0.6 (Middle)
                     else if (localProg > 0.6) {
                         txtOpacity = 1 - ((localProg - 0.6) * 2.5); 
                         blur = (localProg - 0.6) * 40; 
@@ -606,7 +602,6 @@ if (scrollTrigger) {
                         txtOpacity = 1;
                     }
 
-                    // ZOOM: Gentle (Max 2.0x scale)
                     scale = 0.5 + (localProg * 1.5);
                 }
 
