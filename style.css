@@ -2632,7 +2632,19 @@ body.portfolio-page::before {
     transition: none !important;
 }
 
+/* ================================================================= */
+/* == TRUSTED BY SECTION: Increased Padding == */
+/* ================================================================= */
 
+.trusted-by-section {
+    /* CHANGED: Increased Top/Bottom padding to 120px */
+    padding-top: 120px !important;
+    padding-bottom: 120px !important;
+    
+    /* Keep existing side padding */
+    padding-left: 10px;
+    padding-right: 10px;
+}
 
 
 
