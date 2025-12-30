@@ -2756,9 +2756,10 @@ body.portfolio-page::before {
     color: #000000 !important;
 }
 
-/* 5. Typography */
+/* Update the wrapper to allow the line to stick out */
 .services-text-wrapper {
-    text-align: center;
+    /* ... existing styles ... */
+    overflow: visible !important; 
 }
 .services-text-wrapper h2 {
     color: #000000 !important;
@@ -2777,6 +2778,24 @@ body.portfolio-page::before {
     line-height: 1.6;
 }
 
+/* Style the Keyline */
+.connecting-line {
+    position: absolute;
+    /* Vertically center relative to the text block */
+    top: 50%;
+    /* Anchor to the RIGHT edge of the text */
+    right: 0;
+    
+    /* Appearance */
+    height: 2px; /* Thickness */
+    background-color: #000000;
+    width: 0px; /* Starts invisible (JS will grow this) */
+    
+    /* Transform Origin Left: It grows outwards to the right */
+    transform-origin: left center;
+    /* Start it slightly shifted right so it doesn't touch the text immediately */
+    transform: translateX(100%); 
+}
 
 
 

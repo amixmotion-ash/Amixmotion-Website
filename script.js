@@ -650,12 +650,13 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Services (Big Gap Swap) ==
+// == 14. ABOUT PAGE: Services (Keyline Connection) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
 const slide1 = document.querySelector('.service-slide.slide-1');
 const slide2 = document.querySelector('.service-slide.slide-2');
+const keyline = document.querySelector('.connecting-line'); // The new line
 const stickyProfile = document.querySelector('.profile-grid-section') || document.querySelector('.about-scroll-trigger');
 
 if (servicesSection && slide1 && slide2) {
@@ -665,7 +666,7 @@ if (servicesSection && slide1 && slide2) {
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
-        // --- PHASE 1: ENTRY (The white card slides up) ---
+        // --- PHASE 1: ENTRY (Fade In) ---
         if (incomingPosition > 0 && incomingPosition <= windowHeight) {
             let entryProgress = 1 - (incomingPosition / windowHeight);
             
@@ -674,7 +675,8 @@ if (servicesSection && slide1 && slide2) {
             let lift = 100 - (entryProgress * 100);
             slide1.style.transform = `translate(-50%, calc(-50% + ${lift}px))`; 
             
-            // Slide 2 Hidden
+            // Reset Keyline & Slide 2
+            if (keyline) keyline.style.width = '0px';
             slide2.style.opacity = 0;
             slide2.style.transform = `translate(50%, -50%)`; 
 
@@ -688,41 +690,56 @@ if (servicesSection && slide1 && slide2) {
             }
         } 
         
-        // --- PHASE 2: SWAP (Scrolling inside the section) ---
+        // --- PHASE 2: SWAP (Keyline Animation) ---
         else if (incomingPosition <= 0) {
             
             const scrolled = Math.abs(incomingPosition);
             const totalScrollable = rect.height - windowHeight;
             let swapProgress = Math.min(1, scrolled / (totalScrollable * 0.9)); 
 
-            // --- ANIMATE SLIDE 1 (Exit Left FAST) ---
-            // It will be gone by 40% progress
-            let s1Opacity = 1 - (swapProgress * 2.5); 
-            // Move Left (-50% -> -150%)
-            let s1Move = -50 - (swapProgress * 100); 
+            // 1. KEYLINE GROWTH (Happens first)
+            // It starts growing immediately
+            // Max width: 60vw (enough to reach the incoming text)
+            let lineWidth = swapProgress * window.innerWidth * 0.7; 
+            if (keyline) keyline.style.width = `${lineWidth}px`;
+
+            // 2. SLIDE 1 MOVEMENT (Delayed)
+            // It waits until 15% progress (while line grows) before moving
+            let s1Move = -50; // Default Center
+            let s1Opacity = 1;
+
+            if (swapProgress > 0.15) {
+                // Normalize progress after 0.15
+                let moveProg = (swapProgress - 0.15) / 0.85;
+                
+                // Move Left: -50% -> -120%
+                s1Move = -50 - (moveProg * 70);
+                
+                // Fade Out: Starts late (at 0.4) so we see the line connecting
+                if (moveProg > 0.4) {
+                    s1Opacity = 1 - ((moveProg - 0.4) * 2);
+                }
+            }
             
             slide1.style.opacity = Math.max(0, s1Opacity);
             slide1.style.transform = `translate(${s1Move}%, -50%)`;
 
-            // --- ANIMATE SLIDE 2 (Enter Right LATE) ---
-            // Starts at 50% (Creates a gap between 40% and 50%)
+            // 3. SLIDE 2 ENTRY (From Right)
+            // Starts at 0.5 (Midway)
             let s2Progress = Math.max(0, swapProgress - 0.5);
-            
-            // Multiplier 2.0 ensures it finishes by 100%
             s2Progress = s2Progress * 2.0; 
             
             // Move: Right (50%) -> Center (-50%)
-            // Distance is 100 units
             let s2Move = 50 - (s2Progress * 100);
-            
             if (s2Move < -50) s2Move = -50;
+            
             let s2Opacity = Math.min(1, s2Progress * 2);
 
             slide2.style.opacity = s2Opacity;
             slide2.style.transform = `translate(${s2Move}%, -50%)`;
         }
         
-        // Reset if below screen
+        // Reset
         else {
             slide1.style.opacity = 0;
             slide1.style.transform = `translate(-50%, calc(-50% + 100px))`;
