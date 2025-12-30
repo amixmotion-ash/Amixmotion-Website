@@ -2714,16 +2714,15 @@ body.portfolio-page::before {
 .services-text-wrapper {
     max-width: 800px;
     text-align: center;
+    position: relative;
+    z-index: 10;
     
-    /* Start hidden and pushed down */
-    opacity: 0;
+    /* ANIMATION SETUP: Start hidden and pushed down */
+    opacity: 0; 
     transform: translateY(100px);
     
+    /* Performance optimization */
     will-change: opacity, transform;
-    
-    /* Ensure it's on top of its own white background */
-    position: relative;
-    z-index: 5; 
 }
 
 /* Ensure the paragraph looks good centered */

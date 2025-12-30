@@ -650,45 +650,59 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Services Fade In (Robust Version) ==
+// == 14. ABOUT PAGE: Services Fade In (Linked to Scroll) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
 const servicesText = document.querySelector('.services-text-wrapper');
-const profileSection = document.querySelector('.profile-grid-section');
+const stickyProfile = document.querySelector('.profile-grid-section');
 
 if (servicesSection && servicesText) {
-    window.addEventListener('scroll', () => {
-        
-        // 1. Calculate Position
+    
+    function animateServices() {
         const rect = servicesSection.getBoundingClientRect();
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
 
-        // 2. Calculate Progress (0 to 1)
-        // 0 = Top of white section is at bottom of screen
-        // 1 = Top of white section is at top of screen
+        // Calculate Progress (0 to 1)
+        // 0 = White section just touching bottom of screen
+        // 1 = White section fully covering the screen
         let progress = 1 - (incomingPosition / windowHeight);
 
-        // Clamp values between 0 and 1
-        progress = Math.max(0, Math.min(1, progress));
-
-        // 3. Apply Fade & Slide to Text
-        // Opacity goes 0 -> 1
-        servicesText.style.opacity = progress;
-        
-        // Slide goes 50px -> 0px
-        let slide = 50 - (progress * 50);
-        servicesText.style.transform = `translateY(${slide}px)`;
-
-        // 4. Optional: Animate the Profile Background out
-        if (profileSection && progress > 0 && progress < 1) {
-            const scale = 1 - (progress * 0.05);
-            const brightness = 1 - (progress * 0.5);
-            const yPos = -(progress * 100);
+        // --- FOREGROUND: Text Fade In ---
+        if (progress > 0 && progress <= 1) {
+            // FADE IN: Directly linked to scroll
+            servicesText.style.opacity = progress;
             
-            profileSection.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
-            profileSection.style.filter = `brightness(${brightness})`;
+            // SLIDE UP: Move from 100px down to 0px
+            let slide = 100 - (progress * 100);
+            servicesText.style.transform = `translateY(${slide}px)`;
+        } 
+        else if (progress > 1) {
+            // Locked fully visible if scrolled past
+            servicesText.style.opacity = 1;
+            servicesText.style.transform = `translateY(0px)`;
         }
-    });
+        else {
+            // Reset hidden if below screen
+            servicesText.style.opacity = 0;
+            servicesText.style.transform = `translateY(100px)`;
+        }
+
+        // --- BACKGROUND: Profile Parallax (Optional Polish) ---
+        if (stickyProfile && progress > 0 && progress <= 1) {
+            const scale = 1 - (progress * 0.05); 
+            const brightness = 1 - (progress * 0.5); 
+            const yPos = -(progress * 200);
+            
+            stickyProfile.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
+            stickyProfile.style.filter = `brightness(${brightness})`;
+        }
+    }
+
+    // Run on Scroll
+    window.addEventListener('scroll', animateServices);
+    
+    // Run once on Load (in case user refreshes halfway down)
+    animateServices();
 }
