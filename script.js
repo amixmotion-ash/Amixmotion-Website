@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Services (No Overlap) ==
+// == 14. ABOUT PAGE: Services (Shorter Line / No Overlap) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -730,10 +730,10 @@ if (servicesSection && slide1 && slide2) {
             if (keyline) {
                 let extraWidth = moveProgress * (window.innerWidth * (MOVE_DISTANCE_VW / 100));
                 
-                // FIX: Subtract 40px padding so it doesn't overlap text
-                let totalWidth = lineGrowth + extraWidth - 40;
+                // FIX: INCREASED SUBTRACTION TO 200px
+                // This stops the line earlier, preventing overlap with the incoming text
+                let totalWidth = lineGrowth + extraWidth - 200;
                 
-                // Safety check: don't let it go negative
                 if (totalWidth < 0) totalWidth = 0;
                 
                 keyline.style.width = `${totalWidth}px`;
