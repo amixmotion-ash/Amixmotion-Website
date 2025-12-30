@@ -4,25 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | Amixmotion</title>
-    <style>
-      .main-nav { transform: translateX(-100%); transition: none; }
-      .video-lightbox { display: none; }
-      .visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; margin: -1px !important; padding: 0 !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; border: 0 !important; }
+         <style>
+      /* This pre-hides the menu to prevent a flash on page load */
+      .main-nav {
+        transform: translateX(-100%);
+        transition: none; /* Temporarily disable animation during load */
+      }
+        .video-lightbox {
+    display: none;
+  }
+    .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    border: 0 !important;
+  }
     </style>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="about-page">
 
-    <div class="page-transition-curtain is-active">
+<div class="page-transition-curtain is-active">
         <div class="page-loader"></div>
     </div>
+
+
+
+
 
     <header>
         <button class="nav-toggle" aria-label="toggle navigation">MENU</button>
         <div class="logo"><a href="index.html"><img src="logo.png" alt="Amixmotion Logo"></a></div>
         <nav class="desktop-nav">
             <ul>
-                <li><a href="portfolio.html">WORK</a></li>
+
                 <li><a href="contact.html">CONTACT</a></li>
             </ul>
         </nav>
@@ -37,146 +56,160 @@
         </ul>
     </nav>
 
-    <main class="about-page-main">
+        <main class="about-page-main">
 
-        <!-- 1. INTRO SCROLL SEQUENCE (Flying Images) -->
-        <div class="about-scroll-trigger">
-            <div class="sticky-title-wrapper">
-                
-                <h1 class="about-hero-title">GREAT FILM IS MORE<br>THAN JUST VISUALS</h1>
-                
-                <p class="about-intro-paragraph">
-                    It's about rhythm, pacing, and emotion. Crafting narratives that resonate with the audience long after the screen goes dark.
+<!-- START: About Scroll Sequence -->
+    <div class="about-scroll-trigger">
+        <div class="sticky-title-wrapper">
+            
+            <h1 class="about-hero-title">GREAT FILM IS MORE<br>THAN JUST VISUALS</h1>
+            
+            <p class="about-intro-paragraph">
+                It's about rhythm, pacing, and emotion. Crafting narratives that resonate with the audience long after the screen goes dark.
+            </p>
+
+            <!-- Image 1 (Left) -->
+            <div class="intro-flying-image intro-flying-image-1">
+                <img src="images/about-image-1.jpg" alt="Main Profile Image">
+            </div>
+
+            <!-- Image 2 (Right) -->
+            <div class="intro-flying-image intro-flying-image-2">
+                <img src="images/about-secondary-1.jpg" alt="Secondary Profile Image">
+            </div>
+
+            <!-- Profile Text (Center) - NEW -->
+            <div class="intro-flying-text">
+                <p>
+                    After 14 years as a creative in digital design, I discovered my passion for visual storytelling while traveling through Asia. Now based in London and always happy to travel I specialise in videography and editing that blends design sensibility with cinematic technique.
                 </p>
+            </div>
 
-                <!-- Image 1 (Left) -->
-                <div class="intro-flying-image intro-flying-image-1">
-                    <img src="images/about-image-1.jpg" alt="Main Profile Image">
-                </div>
+            <div class="scroll-indicator">
+                <div class="scroll-text">SCROLL</div>
+                <div class="scroll-arrow"></div>
+            </div>
 
-                <!-- Image 2 (Right) -->
-                <div class="intro-flying-image intro-flying-image-2">
-                    <img src="images/about-secondary-1.jpg" alt="Secondary Profile Image">
-                </div>
+        </div>
+    </div>
+    <!-- END: About Scroll Sequence -->
+    <!-- END: About Scroll Sequence -->
+    <!-- END: About Scroll Sequence -->
+    <!-- END: About Scroll Sequence -->
+    
+    <!-- END: New Edge-to-Edge Profile Section -->
 
-                <!-- Profile Text (Center) -->
-                <div class="intro-flying-text">
-                    <p>
-                        After 14 years as a creative in digital design, I discovered my passion for visual storytelling while traveling through Asia. Now based in London and always happy to travel I specialise in videography and editing that blends design sensibility with cinematic technique.
-                    </p>
-                </div>
 
-                <div class="scroll-indicator">
-                    <div class="scroll-text">SCROLL</div>
-                    <div class="scroll-arrow"></div>
-                </div>
+    
 
+<!-- START: Services Section -->
+    <section class="services-section">
+        <div class="services-sticky-container">
+            <div class="services-text-wrapper">
+                <h2>SERVICES THAT<br>YOU CAN RELY ON</h2>
+                <p>
+                    Whether you have a wide range of video production needs or just a hand with editing and post, I offer a full spectrum of creative services designed to deliver quality and consistency. Explore the services below and see how I can help bring your next project to life.
+                </p>
             </div>
         </div>
+    </section>
+    <!-- END: Services Section -->
 
-        <!-- 2. STATIC PROFILE SECTION (Required for Transition) -->
-        <!-- This sits behind the services section to create the parallax fade effect -->
-        <section class="profile-grid-section">
-            <div class="profile-grid-main-image">
-                <img src="images/about-image-1.jpg" alt="Videographer holding a camera">
-            </div>
-            <div class="profile-grid-right-column">
-                <div class="profile-grid-secondary-images">
-                    <img src="images/about-secondary-1.jpg" alt="Lumix Camera">
-                    <img src="images/about-image-2.jpg" alt="Videographer">
-                </div>
-            </div>
-        </section>
 
-        <!-- 3. SERVICES SECTION (Fades In) -->
-        <section class="services-section">
-            <div class="services-sticky-container">
-                <div class="services-text-wrapper">
-                    <h2>SERVICES THAT<br>YOU CAN RELY ON</h2>
-                    <p>
-                        Whether you have a wide range of video production needs or just a hand with editing and post, I offer a full spectrum of creative services designed to deliver quality and consistency. Explore the services below and see how I can help bring your next project to life.
-                    </p>
-                </div>
+    <!-- START: Editing Showcase Section -->
+    <section class="editing-showcase-section">
+        <div class="showcase-grid">
+            <div class="showcase-image">
+                <img src="images/editing-screenshot.jpg" alt="A screenshot of video editing software timeline">
             </div>
-        </section>
+            <div class="showcase-text-content">
+                <div class="showcase-text-main">
+                    <h2 class="fade-in-on-scroll">THE ART OF THE EDIT</h2>
+                    <p>From initial rough cut to final polish, I bring footage to life using professional editing tools. Attention to detail in pacing, colour grading, and sound design ensures every video achieves a seamless, captivating flow.</p>
+                </div>
+             
+            </div>
+        </div>
+    </section>
+    <!-- END: Editing Showcase Section -->
 
-        <!-- 4. REST OF PAGE -->
-        <section class="editing-showcase-section">
-            <div class="showcase-grid">
-                <div class="showcase-image">
-                    <img src="images/editing-screenshot.jpg" alt="Editing Timeline">
-                </div>
-                <div class="showcase-text-content">
-                    <div class="showcase-text-main">
-                        <h2 class="fade-in-on-scroll">THE ART OF THE EDIT</h2>
-                        <p>From initial rough cut to final polish, I bring footage to life using professional editing tools. Attention to detail in pacing, colour grading, and sound design ensures every video achieves a seamless, captivating flow.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <section class="process-section">
-            <div class="process-header-text">
-                <p class="pre-title">PROCESS</p>
-                <p class="mission-statement fade-in-on-scroll">A structured approach from concept to delivery ensuring quality, clarity, and collaboration at every stage of your project.</p>
-            </div>
-            <div class="accordion">
-                <div class="accordion-item"><button class="accordion-toggle" aria-expanded="false">Discovery<span class="accordion-icon"></span></button><div class="accordion-content"><p>A short discovery chat to clarify goals, audience, success metrics, budget, location and timeline so the story and deliverables are aligned from the start.</p></div></div>
-                <div class="accordion-item"><button class="accordion-toggle" aria-expanded="false">Pre-production<span class="accordion-icon"></span></button><div class="accordion-content"><p>This is where we plan everything. Storyboarding, shot lists, location scouting, and scheduling to ensure a smooth production phase.</p></div></div>
-                <div class="accordion-item"><button class="accordion-toggle" aria-expanded="false">Production<span class="accordion-icon"></span></button><div class="accordion-content"><p>Capturing all the necessary footage with professional equipment, focusing on creative cinematography and high-quality audio.</p></div></div>
-                <div class="accordion-item"><button class="accordion-toggle" aria-expanded="false">Post-production<span class="accordion-icon"></span></button><div class="accordion-content"><p>The editing phase where the story is assembled, colour graded, and sound designed to bring the narrative to life.</p></div></div>
-                <div class="accordion-item"><button class="accordion-toggle" aria-expanded="false">Delivery<span class="accordion-icon"></span></button><div class="accordion-content"><p>Final files are exported in all required formats and delivered to you, ready for publishing on your chosen platforms.</p></div></div>
-            </div>
-        </section>
+    <!-- START: Process Accordion Section -->
+    <section class="process-section">
+        <div class="process-header-text">
+            <p class="pre-title">PROCESS</p>
+            <p class="mission-statement fade-in-on-scroll">A structured approach from concept to delivery ensuring quality, clarity, and collaboration at every stage of your project.</p>
+        </div>
+        <div class="accordion">
+            <div class="accordion-item"><button class="accordion-toggle" aria-expanded="false">Discovery<span class="accordion-icon"></span></button><div class="accordion-content"><p>A short discovery chat to clarify goals, audience, success metrics, budget, location and timeline so the story and deliverables are aligned from the start.</p></div></div>
+            <div class="accordion-item"><button class="accordion-toggle" aria-expanded="false">Pre-production<span class="accordion-icon"></span></button><div class="accordion-content"><p>This is where we plan everything. Storyboarding, shot lists, location scouting, and scheduling to ensure a smooth production phase.</p></div></div>
+            <div class="accordion-item"><button class="accordion-toggle" aria-expanded="false">Production<span class="accordion-icon"></span></button><div class="accordion-content"><p>Capturing all the necessary footage with professional equipment, focusing on creative cinematography and high-quality audio.</p></div></div>
+            <div class="accordion-item"><button class="accordion-toggle" aria-expanded="false">Post-production<span class="accordion-icon"></span></button><div class="accordion-content"><p>The editing phase where the story is assembled, colour graded, and sound designed to bring the narrative to life.</p></div></div>
+            <div class="accordion-item"><button class="accordion-toggle" aria-expanded="false">Delivery<span class="accordion-icon"></span></button><div class="accordion-content"><p>Final files are exported in all required formats and delivered to you, ready for publishing on your chosen platforms.</p></div></div>
+        </div>
+    </section>
+    <!-- END: Process Accordion Section -->
 
-        <section class="trusted-by-section">
-            <div class="trusted-by-container">
-                <h2 class="section-title fade-in-on-scroll">TRUSTED BY</h2>
-                <div class="logo-grid">
-                    <div class="logo-item"><img src="images/client-logo-1.png" alt="Logo"></div>
-                    <div class="logo-item"><img src="images/client-logo-4.png" alt="Logo"></div>
-                    <div class="logo-item"><img src="images/client-logo-7.png" alt="Logo"></div>
-                    <div class="logo-item"><img src="images/client-logo-2.png" alt="Logo"></div>
-                    <div class="logo-item"><img src="images/client-logo-3.png" alt="Logo"></div>
-                    <div class="logo-item"><img src="images/client-logo-5.png" alt="Logo"></div>
-                    <div class="logo-item"><img src="images/client-logo-8.png" alt="Logo"></div>
-                    <div class="logo-item"><img src="images/client-logo-6.png" alt="Logo"></div>
-                </div>
+
+    <!-- START: Trusted By Section -->
+    <section class="trusted-by-section">
+        <div class="trusted-by-container">
+            <h2 class="section-title fade-in-on-scroll">TRUSTED BY</h2>
+            <div class="logo-grid">
+                <div class="logo-item"><img src="images/client-logo-1.png" alt="Lady Roc Logo"></div>
+                <div class="logo-item"><img src="images/client-logo-4.png" alt="Yoono Logo"></div>
+                <div class="logo-item"><img src="images/client-logo-7.png" alt="CAT Logo"></div>
+                <div class="logo-item"><img src="images/client-logo-2.png" alt="Myokine Logo"></div>
+                <div class="logo-item"><img src="images/client-logo-3.png" alt="Aston Martin Logo"></div>
+                <div class="logo-item"><img src="images/client-logo-5.png" alt="Zombie Logo"></div>
+                <div class="logo-item"><img src="images/client-logo-8.png" alt="Sushi Samba Logo"></div>
+                <div class="logo-item"><img src="images/client-logo-6.png" alt="Joshua Kane Logo"></div>
             </div>
-        </section>
+        </div>
+    </section>
+    <!-- END: Trusted By Section -->
+
+    
 
     </main>
 
-    <footer>
-        <div class="new-footer-container">
-            <div class="footer-cta-new">
-                <h2>
-                    <span class="cta-line-solid">LET'S MAKE</span>
-                    <span class="cta-line-solid">SOMETHING</span>
-                    <span class="cta-line-outline">MEMORABLE</span>
-                </h2>
-            </div>
-            <div class="footer-nav-new">
-                <div class="footer-nav-links">
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="portfolio.html">Work</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="https://www.instagram.com/amixmotion/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-                        <li><a href="mailto:ash@amixmotion.com">Email</a></li>
-                        <li><a href="#">LinkedIn</a></li>
-                    </ul>
-                </div>
-                <a href="contact.html" class="button-outline button-light">CONTACT</a>
-            </div>
+<footer>
+    <div class="new-footer-container">
+        
+        <!-- Left Side: The Main CTA -->
+        <div class="footer-cta-new">
+            <h2>
+                <span class="cta-line-solid">LET'S MAKE</span>
+                <span class="cta-line-solid">SOMETHING</span>
+                <span class="cta-line-outline">MEMORABLE</span>
+            </h2>
         </div>
-    </footer>
 
-    <div class="menu-cursor">&rarr;</div>
+        <!-- Right Side: Navigation & Contact -->
+        <div class="footer-nav-new">
+            <div class="footer-nav-links">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="portfolio.html">Work</a></li>
+                </ul>
+                <ul>
+                    <li><a href="https://www.instagram.com/amixmotion/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                    <li><a href="mailto:ash@amixmotion.com">Email</a></li>
+                    <li><a href="#">LinkedIn</a></li> <!-- Add your LinkedIn URL here -->
+                </ul>
+            </div>
+            <a href="contact.html" class="button-outline button-light">CONTACT</a>
+        </div>
+
+    </div>
+</footer>
+<div class="menu-cursor">&rarr;</div>
     <script src="script.js"></script>
+
+    <!-- PASTE THIS NEW SCRIPT TAG HERE -->
     <script>document.body.classList.add('js-page-loaded');</script>
 
 </body>
-</html>
+</html>```
+
