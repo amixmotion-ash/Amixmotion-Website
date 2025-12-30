@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Services (Perfect Keyline Connection) ==
+// == 14. ABOUT PAGE: Services (Correct Direction) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -690,7 +690,7 @@ if (servicesSection && slide1 && slide2) {
             }
         } 
         
-        // --- PHASE 2: SWAP (The Connection) ---
+        // --- PHASE 2: SWAP (Keyline Animation) ---
         else if (incomingPosition <= 0) {
             
             const scrolled = Math.abs(incomingPosition);
@@ -699,10 +699,9 @@ if (servicesSection && slide1 && slide2) {
 
             // MATH CONSTANTS
             const MOVE_DISTANCE_VW = 60; // How far they move apart (in vw)
-            const INITIAL_LINE_PX = 80;  // Initial sprout length
+            const INITIAL_LINE_PX = 100;  // Initial sprout length
 
             // 1. KEYLINE GROWTH (0% - 15%)
-            // It sprouts out a little bit (80px) before movement starts
             let lineGrowth = 0;
             if (swapProgress < 0.15) {
                 lineGrowth = (swapProgress / 0.15) * INITIAL_LINE_PX;
@@ -711,51 +710,43 @@ if (servicesSection && slide1 && slide2) {
             }
 
             // 2. SLIDE 1 MOVEMENT (15% - 100%)
-            // Moves Left. Line grows to fill the gap.
             let moveProgress = 0;
             if (swapProgress > 0.15) {
                 moveProgress = (swapProgress - 0.15) / 0.85;
             }
 
-            // Move Slide 1 Left (from Center to -60vw)
-            // -50% is center. We subtract VW units.
+            // Move Slide 1 Left
             let s1Move = `calc(-50% - ${moveProgress * MOVE_DISTANCE_VW}vw)`;
             slide1.style.transform = `translate(${s1Move}, -50%)`;
             
-            // Fade Out Slide 1 (Late - start fading at 50%)
+            // Fade Out Slide 1 (Late)
             if (moveProgress > 0.5) {
                 slide1.style.opacity = 1 - ((moveProgress - 0.5) * 2);
             } else {
                 slide1.style.opacity = 1;
             }
 
-            // Grow Line to match movement
-            // Length = Initial Sprout + Distance Traveled
+            // Grow Line to fill the gap created by movement
             if (keyline) {
-                let extraWidth = moveProgress * window.innerWidth * (MOVE_DISTANCE_VW / 100);
+                // The line needs to cover the VW distance we traveled + the initial sprout
+                let extraWidth = moveProgress * (window.innerWidth * (MOVE_DISTANCE_VW / 100));
                 keyline.style.width = `${lineGrowth + extraWidth}px`;
             }
 
             // 3. SLIDE 2 ENTRY (From Right)
-            // It needs to "meet" the line.
-            // Starts at +60vw offset (matching the Move Distance)
-            // Moves to Center (-50%)
-            
-            // We delay slide 2 slightly so the line leads the way
+            // Starts slightly delayed so line appears to "pull" it
             let s2Progress = 0;
-            if (moveProgress > 0.1) {
-                s2Progress = (moveProgress - 0.1) / 0.9;
+            if (moveProgress > 0.05) {
+                s2Progress = (moveProgress - 0.05) / 0.95;
             }
 
-            // Start Position: Center (-50%) + Offset (60vw)
-            // End Position: Center (-50%)
             let s2Offset = (1 - s2Progress) * MOVE_DISTANCE_VW;
             
-            // We shift it right by the offset amount
+            // It sits at the END of the line gap
             slide2.style.transform = `translate(calc(-50% + ${s2Offset}vw), -50%)`;
             
             // Fade In
-            slide2.style.opacity = Math.min(1, s2Progress * 3);
+            slide2.style.opacity = Math.min(1, s2Progress * 4);
         }
         
         // Reset

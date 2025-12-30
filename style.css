@@ -2780,16 +2780,27 @@ body.portfolio-page::before {
     max-width: 600px;
 }
 
-/* 5. The Keyline (Attached to Slide 1) */
+/* ================================================================= */
+/* == KEYLINE FIX: Grow to Right == */
+/* ================================================================= */
+
 .connecting-line {
     position: absolute;
     top: 50%;
-    /* Anchor to the RIGHT edge of the 800px container */
-    right: 0; 
+    
+    /* FIX: Attach to the outer right edge */
+    left: 100%; 
+    right: auto; /* Ensure 'right' property doesn't interfere */
+    
     height: 2px;
     background-color: #000000;
     width: 0px; 
+    
+    /* Ensure it grows outwards to the right */
     transform-origin: left center;
+    
+    /* Add a tiny margin so it doesn't touch the text letters immediately */
+    margin-left: 20px; 
 }
 
 
