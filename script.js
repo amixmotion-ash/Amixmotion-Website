@@ -650,13 +650,12 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Services (Fade In -> Swipe Left) ==
+// == 14. ABOUT PAGE: Services (Big Gap Swap) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
 const slide1 = document.querySelector('.service-slide.slide-1');
 const slide2 = document.querySelector('.service-slide.slide-2');
-// We look for profile section to dim the background
 const stickyProfile = document.querySelector('.profile-grid-section') || document.querySelector('.about-scroll-trigger');
 
 if (servicesSection && slide1 && slide2) {
@@ -667,20 +666,17 @@ if (servicesSection && slide1 && slide2) {
         const windowHeight = window.innerHeight;
         
         // --- PHASE 1: ENTRY (The white card slides up) ---
-        // incomingPosition goes from WindowHeight down to 0
-        
         if (incomingPosition > 0 && incomingPosition <= windowHeight) {
-            // Calculate 0 to 1 (Entry Progress)
             let entryProgress = 1 - (incomingPosition / windowHeight);
             
-            // Slide 1 Fades In & Floats Up
+            // Slide 1 Entry
             slide1.style.opacity = entryProgress;
             let lift = 100 - (entryProgress * 100);
-            slide1.style.transform = `translate(-50%, calc(-50% + ${lift}px))`; // Centered X, Moving Y
+            slide1.style.transform = `translate(-50%, calc(-50% + ${lift}px))`; 
             
             // Slide 2 Hidden
             slide2.style.opacity = 0;
-            slide2.style.transform = `translate(50%, -50%)`; // Off to right
+            slide2.style.transform = `translate(50%, -50%)`; 
 
             // Background Dimming
             if (stickyProfile) {
@@ -692,42 +688,34 @@ if (servicesSection && slide1 && slide2) {
             }
         } 
         
-        // --- PHASE 2: SWAP (We are scrolling INSIDE the pinned section) ---
-        // incomingPosition is now NEGATIVE
-        
+        // --- PHASE 2: SWAP (Scrolling inside the section) ---
         else if (incomingPosition <= 0) {
             
-            // Calculate how far we've scrolled into the 300vh section
-            // We start counting "Swap Progress" immediately after it hits top
             const scrolled = Math.abs(incomingPosition);
             const totalScrollable = rect.height - windowHeight;
-            
-            // Map 0.0 to 1.0 based on scroll
-            let swapProgress = Math.min(1, scrolled / (totalScrollable * 0.8)); // 0.8 factor makes it finish before very end
+            let swapProgress = Math.min(1, scrolled / (totalScrollable * 0.9)); 
 
-            // --- ANIMATE SLIDE 1 (Exit Left) ---
-            // Opacity: 1 -> 0
-            let s1Opacity = 1 - (swapProgress * 1.5); 
-            // Position: Center -> Left (-50% -> -100%)
-            let s1Move = -50 - (swapProgress * 50); 
+            // --- ANIMATE SLIDE 1 (Exit Left FAST) ---
+            // It will be gone by 40% progress
+            let s1Opacity = 1 - (swapProgress * 2.5); 
+            // Move Left (-50% -> -150%)
+            let s1Move = -50 - (swapProgress * 100); 
             
             slide1.style.opacity = Math.max(0, s1Opacity);
             slide1.style.transform = `translate(${s1Move}%, -50%)`;
 
-            // --- ANIMATE SLIDE 2 (Enter from Right) ---
-            // Start fading in after a small delay (0.2)
-            let s2Progress = Math.max(0, swapProgress - 0.2);
-            // Multiplier to catch up
-            s2Progress = s2Progress * 1.4; 
+            // --- ANIMATE SLIDE 2 (Enter Right LATE) ---
+            // Starts at 50% (Creates a gap between 40% and 50%)
+            let s2Progress = Math.max(0, swapProgress - 0.5);
             
-            // Position: Right -> Center (50% -> -50%)
-            // Starts at 50% (Right edge of container), needs to go to -50% (Center)
-            // Range is 100 units.
+            // Multiplier 2.0 ensures it finishes by 100%
+            s2Progress = s2Progress * 2.0; 
+            
+            // Move: Right (50%) -> Center (-50%)
+            // Distance is 100 units
             let s2Move = 50 - (s2Progress * 100);
             
-            // Clamp it so it stops at center
             if (s2Move < -50) s2Move = -50;
-            
             let s2Opacity = Math.min(1, s2Progress * 2);
 
             slide2.style.opacity = s2Opacity;
