@@ -661,17 +661,19 @@ if (document.body.classList.contains('about-page')) {
     if (stickySection && incomingSection) {
         window.addEventListener('scroll', () => {
             
-            // distance from top of viewport
-            const incomingPosition = incomingSection.getBoundingClientRect().top;
+            // Get position relative to viewport
+            const rect = incomingSection.getBoundingClientRect();
+            const incomingPosition = rect.top;
             const windowHeight = window.innerHeight;
 
-            // 1. IS SERVICES SECTION ENTERING THE SCREEN?
-            if (incomingPosition < windowHeight && incomingPosition > 0) {
+            // STATE 1: TRANSITIONING (Entering from bottom)
+            // It is on screen, but hasn't hit the top yet
+            if (incomingPosition <= windowHeight && incomingPosition >= 0) {
                 
-                // Progress: 0 (Just touching bottom) -> 1 (Fully covers screen)
+                // Progress: 0 (Bottom) -> 1 (Top)
                 let progress = 1 - (incomingPosition / windowHeight);
 
-                // --- A. ANIMATE PROFILE OUT (Background) ---
+                // --- Background (Profile) Effects ---
                 const scale = 1 - (progress * 0.05); 
                 const brightness = 1 - (progress * 0.4); 
                 const yPos = -(progress * 200);
@@ -679,27 +681,27 @@ if (document.body.classList.contains('about-page')) {
                 stickySection.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
                 stickySection.style.filter = `brightness(${brightness})`;
 
-                // --- B. ANIMATE SERVICES IN (Foreground) ---
+                // --- Foreground (Services Text) Effects ---
                 if (servicesText) {
-                    // Opacity: Maps 0 to 1 directly
+                    // Opacity matches progress exactly
                     servicesText.style.opacity = progress;
-                    
-                    // Slide Up: Starts 100px down, ends at 0px
-                    let textMove = 100 - (progress * 100);
-                    servicesText.style.transform = `translate3d(0, ${textMove}px, 0)`;
+                    // Moves from 100px down to 0px
+                    servicesText.style.transform = `translate3d(0, ${100 - (progress * 100)}px, 0)`;
                 }
-
             } 
-            // 2. IS SERVICES SECTION FULLY VISIBLE?
-            else if (incomingPosition <= 0) {
-                // Lock everything in final state
+            
+            // STATE 2: SCROLLED PAST (Fully Visible)
+            // The top of the white section is at or above the top of the screen
+            else if (incomingPosition < 0) {
                 if (servicesText) {
                     servicesText.style.opacity = 1;
                     servicesText.style.transform = `translate3d(0, 0, 0)`;
                 }
             }
-            // 3. IS SERVICES SECTION OFF SCREEN (RESET)?
-            else if (incomingPosition >= windowHeight) {
+            
+            // STATE 3: BELOW SCREEN (Reset)
+            // We scrolled back up, pushing it off the bottom
+            else {
                 stickySection.style.transform = 'translate3d(0, 0, 0) scale(1)';
                 stickySection.style.filter = 'brightness(1)';
                 

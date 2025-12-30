@@ -2711,15 +2711,19 @@ body.portfolio-page::before {
     box-shadow: 0px -20px 40px rgba(0, 0, 0, 0.1); 
 }
 
-/* The wrapper we will animate with JS */
 .services-text-wrapper {
     max-width: 800px;
     text-align: center;
     
-    /* Initial State (JS will override this, but good for fallback) */
+    /* Start hidden and pushed down */
     opacity: 0;
-    transform: translateY(50px);
+    transform: translateY(100px);
+    
     will-change: opacity, transform;
+    
+    /* Ensure it's on top of its own white background */
+    position: relative;
+    z-index: 5; 
 }
 
 /* Ensure the paragraph looks good centered */
