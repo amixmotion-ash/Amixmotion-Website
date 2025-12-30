@@ -1139,15 +1139,7 @@ body.contact-page {
 }
 
 
-.services-section {
-    /* THIS IS THE FIX: It forces the section to contain all its children
-       and respect the normal page flow, "grouping" everything together. */
-    display: flow-root;
 
-    background-color: #f2f2f2;
-    padding: 120px 40px;
-    text-align: center;
-}
 .services-row { margin-bottom: 60px; position: relative; }
 .row-title { color: #aaa; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8em; margin-bottom: 20px; position: relative; display: inline-block; }
 .row-title::after {
@@ -1155,9 +1147,6 @@ body.contact-page {
     display: none;
 }
 .cards-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-.service-card { background-color: #000000; color: #ffffff; padding: 30px; border-radius: 0; flex-basis: 250px; display: flex; flex-direction: column; justify-content: center; min-height: 120px; text-align: center; }
-.service-card h3 { font-size: 1.2rem; font-weight: 600; margin: 0 0 10px 0; }
-.service-card p { font-size: 0.9rem; line-height: 1.5; color: #aaa; margin: 0; }
 .services-cta { margin-top: 80px; }
 
 
@@ -2443,16 +2432,7 @@ body.portfolio-page::before {
 /* == ABOUT PAGE: Scroll Depth Polish == */
 /* ================================================================= */
 
-/* 1. Add a shadow to the sliding "Services" section */
-.about-page .services-section {
-    /* This creates a soft shadow pointing upwards */
-    box-shadow: 0px -20px 40px rgba(0, 0, 0, 0.2); 
-    /* Ensure the background is solid so we don't see through it */
-    background-color: #f2f2f2; 
-    /* Ensure it sits on top */
-    position: relative;
-    z-index: 2;
-}
+
 
 /* 2. Prepare the Profile section for animation */
 .about-page .profile-grid-section {
@@ -2694,36 +2674,9 @@ body.portfolio-page::before {
 /* == ABOUT PAGE: Services Section Redesign == */
 /* ================================================================= */
 
-.services-section {
-    /* Ensure solid background to cover the profile images */
-    background-color: #ffffff !important; 
-    
-    /* Add plenty of space */
-    min-height: 100vh; 
-    padding: 120px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    /* Ensure it sits on top of the sticky profile */
-    position: relative;
-    z-index: 2;
-    box-shadow: 0px -20px 40px rgba(0, 0, 0, 0.1); 
-}
 
-.services-text-wrapper {
-    max-width: 800px;
-    text-align: center;
-    position: relative;
-    z-index: 10;
-    
-    /* ANIMATION SETUP: Start hidden and pushed down */
-    opacity: 0; 
-    transform: translateY(100px);
-    
-    /* Performance optimization */
-    will-change: opacity, transform;
-}
+
+
 
 /* Ensure the paragraph looks good centered */
 .services-intro-paragraph {
@@ -2735,14 +2688,7 @@ body.portfolio-page::before {
 /* == SERVICES SECTION: Visibility Fix == */
 /* ================================================================= */
 
-.services-section {
-    background-color: #ffffff;
-    /* Make it tall so we have room to scroll/fade */
-    height: 150vh; 
-    position: relative;
-    z-index: 2; /* Sits on top of Profile */
-    box-shadow: 0px -20px 40px rgba(0, 0, 0, 0.1);
-}
+
 
 .services-sticky-container {
     position: sticky;
@@ -2754,18 +2700,52 @@ body.portfolio-page::before {
     overflow: hidden;
 }
 
+/* ================================================================= */
+/* == SERVICES SECTION: Single Clean Version == */
+/* ================================================================= */
+
+/* 1. Main Container (White background, Tall for scrolling time) */
+.services-section {
+    background-color: #ffffff !important;
+    height: 150vh; /* Taller so we have time to fade in */
+    position: relative;
+    z-index: 5; /* Sits on top of the black profile section */
+    box-shadow: 0px -20px 40px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    padding: 0;
+}
+
+/* 2. Sticky Wrapper (Locks content to center of screen) */
+.services-sticky-container {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* 3. Text Wrapper (Starts Hidden) */
 .services-text-wrapper {
     max-width: 800px;
     text-align: center;
     position: relative;
     z-index: 10;
+    padding: 0 20px;
     
-    /* VISIBILITY FIX: Start visible, let JS hide it if needed */
-    opacity: 1; 
-    transform: translateY(0);
+    /* ANIMATION START STATE: Forced Hidden & Down */
+    opacity: 0; 
+    transform: translateY(60px);
+    
+    /* Disable transition so JS can update it instantly */
+    transition: none !important;
+    will-change: opacity, transform;
 }
 
-/* Force colors to be Black so they show on White bg */
+/* 4. Typography (Force Black on White) */
 .services-text-wrapper h2 {
     color: #000000 !important;
     font-family: 'Inter', sans-serif;
@@ -2783,6 +2763,13 @@ body.portfolio-page::before {
     font-size: 1.1rem;
     line-height: 1.6;
 }
+
+
+
+
+
+
+
 
 
 

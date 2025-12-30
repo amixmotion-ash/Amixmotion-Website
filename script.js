@@ -650,12 +650,14 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Services Fade In (Master Version) ==
+// == 14. ABOUT PAGE: Services Fade In (Fixed) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
 const servicesText = document.querySelector('.services-text-wrapper');
-const stickyProfile = document.querySelector('.profile-grid-section');
+
+// We also look for the profile section to do the "dimming" effect on the background
+const stickyProfile = document.querySelector('.profile-grid-section') || document.querySelector('.about-scroll-trigger');
 
 if (servicesSection && servicesText) {
     
@@ -665,15 +667,17 @@ if (servicesSection && servicesText) {
         const windowHeight = window.innerHeight;
 
         // Calculate Progress (0 to 1)
+        // 0 = White section just touching bottom of screen
+        // 1 = White section fully covering the screen
         let progress = 1 - (incomingPosition / windowHeight);
 
         // --- FOREGROUND: Text Fade In ---
         if (progress > 0 && progress <= 1) {
-            // Fade In
+            // Fade In (0 to 1)
             servicesText.style.opacity = progress;
             
-            // Slide Up (From 150px down to 0px)
-            let slide = 150 - (progress * 150);
+            // Slide Up (From 60px down to 0px)
+            let slide = 60 - (progress * 60);
             servicesText.style.transform = `translateY(${slide}px)`;
         } 
         else if (progress > 1) {
@@ -684,14 +688,16 @@ if (servicesSection && servicesText) {
         else {
             // Reset hidden if below screen
             servicesText.style.opacity = 0;
-            servicesText.style.transform = `translateY(150px)`;
+            servicesText.style.transform = `translateY(60px)`;
         }
 
-        // --- BACKGROUND: Profile Parallax ---
+        // --- BACKGROUND: Dim the previous section ---
+        // This makes the black section behind it get darker/smaller as white slides up
         if (stickyProfile && progress > 0 && progress <= 1) {
             const scale = 1 - (progress * 0.05); 
             const brightness = 1 - (progress * 0.5); 
-            const yPos = -(progress * 200);
+            // Optional: Move it up slightly for parallax feel
+            const yPos = -(progress * 100);
             
             stickyProfile.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
             stickyProfile.style.filter = `brightness(${brightness})`;
@@ -699,5 +705,5 @@ if (servicesSection && servicesText) {
     }
 
     window.addEventListener('scroll', animateServices);
-    animateServices();
+    animateServices(); // Run once on load
 }
