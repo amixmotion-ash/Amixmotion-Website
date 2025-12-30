@@ -2733,27 +2733,56 @@ body.portfolio-page::before {
     color: #222;
 }
 /* ================================================================= */
-/* == SERVICES SECTION: Fix Visibility (Black Text) == */
+/* == SERVICES SECTION: Visibility Fix == */
 /* ================================================================= */
 
-/* 1. Force Text Color to Black */
-.services-section h2,
-.services-main-title {
-    color: #000000 !important; /* Force Black */
-}
-
-.services-section p,
-.services-intro-paragraph {
-    color: #222222 !important; /* Force Dark Grey */
-}
-
-/* 2. Ensure Container is on top */
-.services-text-wrapper {
+.services-section {
+    background-color: #ffffff;
+    /* Make it tall so we have room to scroll/fade */
+    height: 150vh; 
     position: relative;
-    z-index: 10; /* High z-index to sit on top of white background */
-    opacity: 0; /* Start hidden (JS will reveal) */
-    transform: translateY(100px);
-    will-change: opacity, transform;
+    z-index: 2; /* Sits on top of Profile */
+    box-shadow: 0px -20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.services-sticky-container {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.services-text-wrapper {
+    max-width: 800px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    
+    /* VISIBILITY FIX: Start visible, let JS hide it if needed */
+    opacity: 1; 
+    transform: translateY(0);
+}
+
+/* Force colors to be Black so they show on White bg */
+.services-text-wrapper h2 {
+    color: #000000 !important;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.services-text-wrapper p {
+    color: #222222 !important;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 1.1rem;
+    line-height: 1.6;
 }
 
 

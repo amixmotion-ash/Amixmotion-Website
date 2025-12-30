@@ -650,57 +650,45 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Cinematic Scroll (Profile Out -> Services In) ==
+// == 14. ABOUT PAGE: Services Fade In (Robust Version) ==
 // ======================================================================
-if (document.body.classList.contains('about-page')) {
-    
-    const stickySection = document.querySelector('.profile-grid-section');
-    const incomingSection = document.querySelector('.services-section');
-    const servicesText = document.querySelector('.services-text-wrapper');
 
-    if (stickySection && incomingSection) {
-        window.addEventListener('scroll', () => {
+const servicesSection = document.querySelector('.services-section');
+const servicesText = document.querySelector('.services-text-wrapper');
+const profileSection = document.querySelector('.profile-grid-section');
+
+if (servicesSection && servicesText) {
+    window.addEventListener('scroll', () => {
+        
+        // 1. Calculate Position
+        const rect = servicesSection.getBoundingClientRect();
+        const incomingPosition = rect.top; 
+        const windowHeight = window.innerHeight;
+
+        // 2. Calculate Progress (0 to 1)
+        // 0 = Top of white section is at bottom of screen
+        // 1 = Top of white section is at top of screen
+        let progress = 1 - (incomingPosition / windowHeight);
+
+        // Clamp values between 0 and 1
+        progress = Math.max(0, Math.min(1, progress));
+
+        // 3. Apply Fade & Slide to Text
+        // Opacity goes 0 -> 1
+        servicesText.style.opacity = progress;
+        
+        // Slide goes 50px -> 0px
+        let slide = 50 - (progress * 50);
+        servicesText.style.transform = `translateY(${slide}px)`;
+
+        // 4. Optional: Animate the Profile Background out
+        if (profileSection && progress > 0 && progress < 1) {
+            const scale = 1 - (progress * 0.05);
+            const brightness = 1 - (progress * 0.5);
+            const yPos = -(progress * 100);
             
-            const rect = incomingSection.getBoundingClientRect();
-            const incomingPosition = rect.top; // Distance from top of screen
-            const windowHeight = window.innerHeight;
-
-            // 1. ANIMATE PROFILE (Background)
-            // Only animates when the white section is entering the screen
-            if (incomingPosition < windowHeight && incomingPosition > 0) {
-                let progress = 1 - (incomingPosition / windowHeight);
-                const scale = 1 - (progress * 0.05); 
-                const brightness = 1 - (progress * 0.4); 
-                const yPos = -(progress * 200);
-                
-                stickySection.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
-                stickySection.style.filter = `brightness(${brightness})`;
-            } 
-            else if (incomingPosition >= windowHeight) {
-                // Reset if scrolled back up
-                stickySection.style.transform = 'translate3d(0, 0, 0) scale(1)';
-                stickySection.style.filter = 'brightness(1)';
-            }
-
-            // 2. ANIMATE SERVICES TEXT (Foreground)
-            if (servicesText) {
-                // CASE A: Section is entering screen (Fade In)
-                if (incomingPosition < windowHeight && incomingPosition > 0) {
-                    let progress = 1 - (incomingPosition / windowHeight);
-                    servicesText.style.opacity = progress;
-                    servicesText.style.transform = `translate3d(0, ${100 - (progress * 100)}px, 0)`;
-                }
-                // CASE B: Section is fully on screen or above (Lock Visible)
-                else if (incomingPosition <= 0) {
-                    servicesText.style.opacity = 1;
-                    servicesText.style.transform = `translate3d(0, 0, 0)`;
-                }
-                // CASE C: Section is below screen (Reset Hidden)
-                else {
-                    servicesText.style.opacity = 0;
-                    servicesText.style.transform = `translate3d(0, 100px, 0)`;
-                }
-            }
-        });
-    }
+            profileSection.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
+            profileSection.style.filter = `brightness(${brightness})`;
+        }
+    });
 }
