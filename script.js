@@ -650,60 +650,97 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Services Fade In (Fixed) ==
+// == 14. ABOUT PAGE: Services (Fade In -> Swipe Left) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
-const servicesText = document.querySelector('.services-text-wrapper');
-
-// We also look for the profile section to do the "dimming" effect on the background
+const slide1 = document.querySelector('.service-slide.slide-1');
+const slide2 = document.querySelector('.service-slide.slide-2');
+// We look for profile section to dim the background
 const stickyProfile = document.querySelector('.profile-grid-section') || document.querySelector('.about-scroll-trigger');
 
-if (servicesSection && servicesText) {
+if (servicesSection && slide1 && slide2) {
     
     function animateServices() {
         const rect = servicesSection.getBoundingClientRect();
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
-
-        // Calculate Progress (0 to 1)
-        // 0 = White section just touching bottom of screen
-        // 1 = White section fully covering the screen
-        let progress = 1 - (incomingPosition / windowHeight);
-
-        // --- FOREGROUND: Text Fade In ---
-        if (progress > 0 && progress <= 1) {
-            // Fade In (0 to 1)
-            servicesText.style.opacity = progress;
+        
+        // --- PHASE 1: ENTRY (The white card slides up) ---
+        // incomingPosition goes from WindowHeight down to 0
+        
+        if (incomingPosition > 0 && incomingPosition <= windowHeight) {
+            // Calculate 0 to 1 (Entry Progress)
+            let entryProgress = 1 - (incomingPosition / windowHeight);
             
-            // Slide Up (From 60px down to 0px)
-            let slide = 60 - (progress * 60);
-            servicesText.style.transform = `translateY(${slide}px)`;
+            // Slide 1 Fades In & Floats Up
+            slide1.style.opacity = entryProgress;
+            let lift = 100 - (entryProgress * 100);
+            slide1.style.transform = `translate(-50%, calc(-50% + ${lift}px))`; // Centered X, Moving Y
+            
+            // Slide 2 Hidden
+            slide2.style.opacity = 0;
+            slide2.style.transform = `translate(50%, -50%)`; // Off to right
+
+            // Background Dimming
+            if (stickyProfile) {
+                const scale = 1 - (entryProgress * 0.05); 
+                const brightness = 1 - (entryProgress * 0.5); 
+                const yPos = -(entryProgress * 100);
+                stickyProfile.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
+                stickyProfile.style.filter = `brightness(${brightness})`;
+            }
         } 
-        else if (progress > 1) {
-            // Locked fully visible if scrolled past
-            servicesText.style.opacity = 1;
-            servicesText.style.transform = `translateY(0px)`;
-        }
-        else {
-            // Reset hidden if below screen
-            servicesText.style.opacity = 0;
-            servicesText.style.transform = `translateY(60px)`;
-        }
-
-        // --- BACKGROUND: Dim the previous section ---
-        // This makes the black section behind it get darker/smaller as white slides up
-        if (stickyProfile && progress > 0 && progress <= 1) {
-            const scale = 1 - (progress * 0.05); 
-            const brightness = 1 - (progress * 0.5); 
-            // Optional: Move it up slightly for parallax feel
-            const yPos = -(progress * 100);
+        
+        // --- PHASE 2: SWAP (We are scrolling INSIDE the pinned section) ---
+        // incomingPosition is now NEGATIVE
+        
+        else if (incomingPosition <= 0) {
             
-            stickyProfile.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
-            stickyProfile.style.filter = `brightness(${brightness})`;
+            // Calculate how far we've scrolled into the 300vh section
+            // We start counting "Swap Progress" immediately after it hits top
+            const scrolled = Math.abs(incomingPosition);
+            const totalScrollable = rect.height - windowHeight;
+            
+            // Map 0.0 to 1.0 based on scroll
+            let swapProgress = Math.min(1, scrolled / (totalScrollable * 0.8)); // 0.8 factor makes it finish before very end
+
+            // --- ANIMATE SLIDE 1 (Exit Left) ---
+            // Opacity: 1 -> 0
+            let s1Opacity = 1 - (swapProgress * 1.5); 
+            // Position: Center -> Left (-50% -> -100%)
+            let s1Move = -50 - (swapProgress * 50); 
+            
+            slide1.style.opacity = Math.max(0, s1Opacity);
+            slide1.style.transform = `translate(${s1Move}%, -50%)`;
+
+            // --- ANIMATE SLIDE 2 (Enter from Right) ---
+            // Start fading in after a small delay (0.2)
+            let s2Progress = Math.max(0, swapProgress - 0.2);
+            // Multiplier to catch up
+            s2Progress = s2Progress * 1.4; 
+            
+            // Position: Right -> Center (50% -> -50%)
+            // Starts at 50% (Right edge of container), needs to go to -50% (Center)
+            // Range is 100 units.
+            let s2Move = 50 - (s2Progress * 100);
+            
+            // Clamp it so it stops at center
+            if (s2Move < -50) s2Move = -50;
+            
+            let s2Opacity = Math.min(1, s2Progress * 2);
+
+            slide2.style.opacity = s2Opacity;
+            slide2.style.transform = `translate(${s2Move}%, -50%)`;
+        }
+        
+        // Reset if below screen
+        else {
+            slide1.style.opacity = 0;
+            slide1.style.transform = `translate(-50%, calc(-50% + 100px))`;
         }
     }
 
     window.addEventListener('scroll', animateServices);
-    animateServices(); // Run once on load
+    animateServices();
 }

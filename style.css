@@ -2701,51 +2701,65 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES SECTION: Single Clean Version == */
+/* == SERVICES SECTION: Scroll Swap (Final) == */
 /* ================================================================= */
 
-/* 1. Main Container (White background, Tall for scrolling time) */
+/* 1. Main Container (Increased Height for timeline) */
 .services-section {
     background-color: #ffffff !important;
-    height: 150vh; /* Taller so we have time to fade in */
+    /* 300vh gives us plenty of room to Fade In -> Read -> Swipe Left */
+    height: 300vh; 
     position: relative;
-    z-index: 5; /* Sits on top of the black profile section */
+    z-index: 5;
     box-shadow: 0px -20px 40px rgba(0, 0, 0, 0.1);
     margin: 0;
     padding: 0;
 }
 
-/* 2. Sticky Wrapper (Locks content to center of screen) */
+/* 2. Sticky Wrapper */
 .services-sticky-container {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
     height: 100vh;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
+    /* Center everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* 3. Text Wrapper (Starts Hidden) */
-.services-text-wrapper {
+/* 3. The Slides (Positioned absolutely on top of each other) */
+.service-slide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Start Centered */
+    transform: translate(-50%, -50%);
+    width: 100%;
     max-width: 800px;
-    text-align: center;
-    position: relative;
-    z-index: 10;
     padding: 0 20px;
     
-    /* ANIMATION START STATE: Forced Hidden & Down */
+    /* Let JS handle visibility */
     opacity: 0; 
-    transform: translateY(60px);
-    
-    /* Disable transition so JS can update it instantly */
-    transition: none !important;
     will-change: opacity, transform;
 }
 
-/* 4. Typography (Force Black on White) */
+/* 4. Slide 2 Specifics */
+/* We push Slide 2 off to the right initially via JS, 
+   but we can set basic styling here */
+.service-highlight-text {
+    font-size: 1.5rem !important; /* Slightly bigger font for impact */
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: #000000 !important;
+}
+
+/* 5. Typography */
+.services-text-wrapper {
+    text-align: center;
+}
 .services-text-wrapper h2 {
     color: #000000 !important;
     font-family: 'Inter', sans-serif;
@@ -2755,7 +2769,6 @@ body.portfolio-page::before {
     line-height: 1.1;
     margin-bottom: 20px;
 }
-
 .services-text-wrapper p {
     color: #222222 !important;
     font-family: 'Inter', sans-serif;
