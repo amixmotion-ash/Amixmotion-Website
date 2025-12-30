@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Services (Correct Direction) ==
+// == 14. ABOUT PAGE: Services (No Overlap) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -698,8 +698,8 @@ if (servicesSection && slide1 && slide2) {
             let swapProgress = Math.min(1, scrolled / (totalScrollable * 0.95)); 
 
             // MATH CONSTANTS
-            const MOVE_DISTANCE_VW = 60; // How far they move apart (in vw)
-            const INITIAL_LINE_PX = 100;  // Initial sprout length
+            const MOVE_DISTANCE_VW = 60; 
+            const INITIAL_LINE_PX = 100;  
 
             // 1. KEYLINE GROWTH (0% - 15%)
             let lineGrowth = 0;
@@ -726,15 +726,20 @@ if (servicesSection && slide1 && slide2) {
                 slide1.style.opacity = 1;
             }
 
-            // Grow Line to fill the gap created by movement
+            // Grow Line to match movement
             if (keyline) {
-                // The line needs to cover the VW distance we traveled + the initial sprout
                 let extraWidth = moveProgress * (window.innerWidth * (MOVE_DISTANCE_VW / 100));
-                keyline.style.width = `${lineGrowth + extraWidth}px`;
+                
+                // FIX: Subtract 40px padding so it doesn't overlap text
+                let totalWidth = lineGrowth + extraWidth - 40;
+                
+                // Safety check: don't let it go negative
+                if (totalWidth < 0) totalWidth = 0;
+                
+                keyline.style.width = `${totalWidth}px`;
             }
 
             // 3. SLIDE 2 ENTRY (From Right)
-            // Starts slightly delayed so line appears to "pull" it
             let s2Progress = 0;
             if (moveProgress > 0.05) {
                 s2Progress = (moveProgress - 0.05) / 0.95;
@@ -742,7 +747,7 @@ if (servicesSection && slide1 && slide2) {
 
             let s2Offset = (1 - s2Progress) * MOVE_DISTANCE_VW;
             
-            // It sits at the END of the line gap
+            // Position Slide 2
             slide2.style.transform = `translate(calc(-50% + ${s2Offset}vw), -50%)`;
             
             // Fade In
