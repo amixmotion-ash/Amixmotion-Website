@@ -661,51 +661,42 @@ if (document.body.classList.contains('about-page')) {
     if (stickySection && incomingSection) {
         window.addEventListener('scroll', () => {
             
-            // Get position relative to viewport
             const rect = incomingSection.getBoundingClientRect();
-            const incomingPosition = rect.top;
+            const incomingPosition = rect.top; // Distance from top of screen
             const windowHeight = window.innerHeight;
 
-            // STATE 1: TRANSITIONING (Entering from bottom)
-            // It is on screen, but hasn't hit the top yet
-            if (incomingPosition <= windowHeight && incomingPosition >= 0) {
-                
-                // Progress: 0 (Bottom) -> 1 (Top)
+            // 1. ANIMATE PROFILE (Background)
+            // Only animates when the white section is entering the screen
+            if (incomingPosition < windowHeight && incomingPosition > 0) {
                 let progress = 1 - (incomingPosition / windowHeight);
-
-                // --- Background (Profile) Effects ---
                 const scale = 1 - (progress * 0.05); 
                 const brightness = 1 - (progress * 0.4); 
                 const yPos = -(progress * 200);
                 
                 stickySection.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
                 stickySection.style.filter = `brightness(${brightness})`;
+            } 
+            else if (incomingPosition >= windowHeight) {
+                // Reset if scrolled back up
+                stickySection.style.transform = 'translate3d(0, 0, 0) scale(1)';
+                stickySection.style.filter = 'brightness(1)';
+            }
 
-                // --- Foreground (Services Text) Effects ---
-                if (servicesText) {
-                    // Opacity matches progress exactly
+            // 2. ANIMATE SERVICES TEXT (Foreground)
+            if (servicesText) {
+                // CASE A: Section is entering screen (Fade In)
+                if (incomingPosition < windowHeight && incomingPosition > 0) {
+                    let progress = 1 - (incomingPosition / windowHeight);
                     servicesText.style.opacity = progress;
-                    // Moves from 100px down to 0px
                     servicesText.style.transform = `translate3d(0, ${100 - (progress * 100)}px, 0)`;
                 }
-            } 
-            
-            // STATE 2: SCROLLED PAST (Fully Visible)
-            // The top of the white section is at or above the top of the screen
-            else if (incomingPosition < 0) {
-                if (servicesText) {
+                // CASE B: Section is fully on screen or above (Lock Visible)
+                else if (incomingPosition <= 0) {
                     servicesText.style.opacity = 1;
                     servicesText.style.transform = `translate3d(0, 0, 0)`;
                 }
-            }
-            
-            // STATE 3: BELOW SCREEN (Reset)
-            // We scrolled back up, pushing it off the bottom
-            else {
-                stickySection.style.transform = 'translate3d(0, 0, 0) scale(1)';
-                stickySection.style.filter = 'brightness(1)';
-                
-                if (servicesText) {
+                // CASE C: Section is below screen (Reset Hidden)
+                else {
                     servicesText.style.opacity = 0;
                     servicesText.style.transform = `translate3d(0, 100px, 0)`;
                 }

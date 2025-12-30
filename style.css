@@ -2732,6 +2732,29 @@ body.portfolio-page::before {
     margin-right: auto;
     color: #222;
 }
+/* ================================================================= */
+/* == SERVICES SECTION: Fix Visibility (Black Text) == */
+/* ================================================================= */
+
+/* 1. Force Text Color to Black */
+.services-section h2,
+.services-main-title {
+    color: #000000 !important; /* Force Black */
+}
+
+.services-section p,
+.services-intro-paragraph {
+    color: #222222 !important; /* Force Dark Grey */
+}
+
+/* 2. Ensure Container is on top */
+.services-text-wrapper {
+    position: relative;
+    z-index: 10; /* High z-index to sit on top of white background */
+    opacity: 0; /* Start hidden (JS will reveal) */
+    transform: translateY(100px);
+    will-change: opacity, transform;
+}
 
 
 
