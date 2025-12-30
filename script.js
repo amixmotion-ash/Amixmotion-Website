@@ -650,13 +650,13 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Services (Keyline Connection) ==
+// == 14. ABOUT PAGE: Services (Perfect Keyline Connection) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
 const slide1 = document.querySelector('.service-slide.slide-1');
 const slide2 = document.querySelector('.service-slide.slide-2');
-const keyline = document.querySelector('.connecting-line'); // The new line
+const keyline = document.querySelector('.connecting-line'); 
 const stickyProfile = document.querySelector('.profile-grid-section') || document.querySelector('.about-scroll-trigger');
 
 if (servicesSection && slide1 && slide2) {
@@ -675,7 +675,7 @@ if (servicesSection && slide1 && slide2) {
             let lift = 100 - (entryProgress * 100);
             slide1.style.transform = `translate(-50%, calc(-50% + ${lift}px))`; 
             
-            // Reset Keyline & Slide 2
+            // Reset
             if (keyline) keyline.style.width = '0px';
             slide2.style.opacity = 0;
             slide2.style.transform = `translate(50%, -50%)`; 
@@ -690,53 +690,72 @@ if (servicesSection && slide1 && slide2) {
             }
         } 
         
-        // --- PHASE 2: SWAP (Keyline Animation) ---
+        // --- PHASE 2: SWAP (The Connection) ---
         else if (incomingPosition <= 0) {
             
             const scrolled = Math.abs(incomingPosition);
             const totalScrollable = rect.height - windowHeight;
-            let swapProgress = Math.min(1, scrolled / (totalScrollable * 0.9)); 
+            let swapProgress = Math.min(1, scrolled / (totalScrollable * 0.95)); 
 
-            // 1. KEYLINE GROWTH (Happens first)
-            // It starts growing immediately
-            // Max width: 60vw (enough to reach the incoming text)
-            let lineWidth = swapProgress * window.innerWidth * 0.7; 
-            if (keyline) keyline.style.width = `${lineWidth}px`;
+            // MATH CONSTANTS
+            const MOVE_DISTANCE_VW = 60; // How far they move apart (in vw)
+            const INITIAL_LINE_PX = 80;  // Initial sprout length
 
-            // 2. SLIDE 1 MOVEMENT (Delayed)
-            // It waits until 15% progress (while line grows) before moving
-            let s1Move = -50; // Default Center
-            let s1Opacity = 1;
-
-            if (swapProgress > 0.15) {
-                // Normalize progress after 0.15
-                let moveProg = (swapProgress - 0.15) / 0.85;
-                
-                // Move Left: -50% -> -120%
-                s1Move = -50 - (moveProg * 70);
-                
-                // Fade Out: Starts late (at 0.4) so we see the line connecting
-                if (moveProg > 0.4) {
-                    s1Opacity = 1 - ((moveProg - 0.4) * 2);
-                }
+            // 1. KEYLINE GROWTH (0% - 15%)
+            // It sprouts out a little bit (80px) before movement starts
+            let lineGrowth = 0;
+            if (swapProgress < 0.15) {
+                lineGrowth = (swapProgress / 0.15) * INITIAL_LINE_PX;
+            } else {
+                lineGrowth = INITIAL_LINE_PX;
             }
+
+            // 2. SLIDE 1 MOVEMENT (15% - 100%)
+            // Moves Left. Line grows to fill the gap.
+            let moveProgress = 0;
+            if (swapProgress > 0.15) {
+                moveProgress = (swapProgress - 0.15) / 0.85;
+            }
+
+            // Move Slide 1 Left (from Center to -60vw)
+            // -50% is center. We subtract VW units.
+            let s1Move = `calc(-50% - ${moveProgress * MOVE_DISTANCE_VW}vw)`;
+            slide1.style.transform = `translate(${s1Move}, -50%)`;
             
-            slide1.style.opacity = Math.max(0, s1Opacity);
-            slide1.style.transform = `translate(${s1Move}%, -50%)`;
+            // Fade Out Slide 1 (Late - start fading at 50%)
+            if (moveProgress > 0.5) {
+                slide1.style.opacity = 1 - ((moveProgress - 0.5) * 2);
+            } else {
+                slide1.style.opacity = 1;
+            }
+
+            // Grow Line to match movement
+            // Length = Initial Sprout + Distance Traveled
+            if (keyline) {
+                let extraWidth = moveProgress * window.innerWidth * (MOVE_DISTANCE_VW / 100);
+                keyline.style.width = `${lineGrowth + extraWidth}px`;
+            }
 
             // 3. SLIDE 2 ENTRY (From Right)
-            // Starts at 0.5 (Midway)
-            let s2Progress = Math.max(0, swapProgress - 0.5);
-            s2Progress = s2Progress * 2.0; 
+            // It needs to "meet" the line.
+            // Starts at +60vw offset (matching the Move Distance)
+            // Moves to Center (-50%)
             
-            // Move: Right (50%) -> Center (-50%)
-            let s2Move = 50 - (s2Progress * 100);
-            if (s2Move < -50) s2Move = -50;
-            
-            let s2Opacity = Math.min(1, s2Progress * 2);
+            // We delay slide 2 slightly so the line leads the way
+            let s2Progress = 0;
+            if (moveProgress > 0.1) {
+                s2Progress = (moveProgress - 0.1) / 0.9;
+            }
 
-            slide2.style.opacity = s2Opacity;
-            slide2.style.transform = `translate(${s2Move}%, -50%)`;
+            // Start Position: Center (-50%) + Offset (60vw)
+            // End Position: Center (-50%)
+            let s2Offset = (1 - s2Progress) * MOVE_DISTANCE_VW;
+            
+            // We shift it right by the offset amount
+            slide2.style.transform = `translate(calc(-50% + ${s2Offset}vw), -50%)`;
+            
+            // Fade In
+            slide2.style.opacity = Math.min(1, s2Progress * 3);
         }
         
         // Reset
