@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Services Fade In (Linked to Scroll) ==
+// == 14. ABOUT PAGE: Services Fade In (Master Version) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -665,17 +665,15 @@ if (servicesSection && servicesText) {
         const windowHeight = window.innerHeight;
 
         // Calculate Progress (0 to 1)
-        // 0 = White section just touching bottom of screen
-        // 1 = White section fully covering the screen
         let progress = 1 - (incomingPosition / windowHeight);
 
         // --- FOREGROUND: Text Fade In ---
         if (progress > 0 && progress <= 1) {
-            // FADE IN: Directly linked to scroll
+            // Fade In
             servicesText.style.opacity = progress;
             
-            // SLIDE UP: Move from 100px down to 0px
-            let slide = 100 - (progress * 100);
+            // Slide Up (From 150px down to 0px)
+            let slide = 150 - (progress * 150);
             servicesText.style.transform = `translateY(${slide}px)`;
         } 
         else if (progress > 1) {
@@ -686,10 +684,10 @@ if (servicesSection && servicesText) {
         else {
             // Reset hidden if below screen
             servicesText.style.opacity = 0;
-            servicesText.style.transform = `translateY(100px)`;
+            servicesText.style.transform = `translateY(150px)`;
         }
 
-        // --- BACKGROUND: Profile Parallax (Optional Polish) ---
+        // --- BACKGROUND: Profile Parallax ---
         if (stickyProfile && progress > 0 && progress <= 1) {
             const scale = 1 - (progress * 0.05); 
             const brightness = 1 - (progress * 0.5); 
@@ -700,9 +698,6 @@ if (servicesSection && servicesText) {
         }
     }
 
-    // Run on Scroll
     window.addEventListener('scroll', animateServices);
-    
-    // Run once on Load (in case user refreshes halfway down)
     animateServices();
 }

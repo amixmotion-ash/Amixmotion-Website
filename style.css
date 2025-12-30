@@ -2691,81 +2691,51 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == ABOUT PAGE: Services Section Redesign == */
+/* == SERVICES SECTION: MASTER STYLES (Final Clean) == */
 /* ================================================================= */
 
+/* 1. Main Container (White background, Tall for scrolling) */
 .services-section {
-    /* Ensure solid background to cover the profile images */
-    background-color: #ffffff !important; 
-    
-    /* Add plenty of space */
-    min-height: 100vh; 
-    padding: 120px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    /* Ensure it sits on top of the sticky profile */
-    position: relative;
-    z-index: 2;
-    box-shadow: 0px -20px 40px rgba(0, 0, 0, 0.1); 
-}
-
-.services-text-wrapper {
-    max-width: 800px;
-    text-align: center;
-    position: relative;
-    z-index: 10;
-    
-    /* ANIMATION SETUP: Start hidden and pushed down */
-    opacity: 0; 
-    transform: translateY(100px);
-    
-    /* Performance optimization */
-    will-change: opacity, transform;
-}
-
-/* Ensure the paragraph looks good centered */
-.services-intro-paragraph {
-    margin-left: auto;
-    margin-right: auto;
-    color: #222;
-}
-/* ================================================================= */
-/* == SERVICES SECTION: Visibility Fix == */
-/* ================================================================= */
-
-.services-section {
-    background-color: #ffffff;
-    /* Make it tall so we have room to scroll/fade */
-    height: 150vh; 
+    background-color: #ffffff !important;
+    height: 200vh; /* Taller to allow time for fade-in + future scroll */
     position: relative;
     z-index: 2; /* Sits on top of Profile */
     box-shadow: 0px -20px 40px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    padding: 0;
 }
 
+/* 2. Sticky Wrapper (Locks content to center of screen) */
 .services-sticky-container {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     height: 100vh;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
 }
 
+/* 3. Text Wrapper (The part that animates) */
 .services-text-wrapper {
     max-width: 800px;
     text-align: center;
     position: relative;
     z-index: 10;
+    padding: 0 20px;
     
-    /* VISIBILITY FIX: Start visible, let JS hide it if needed */
-    opacity: 1; 
-    transform: translateY(0);
+    /* ANIMATION START STATE: Forced Hidden & Down */
+    opacity: 0 !important; 
+    transform: translateY(150px) !important;
+    
+    /* Disable CSS transition so JS controls it perfectly */
+    transition: none !important;
+    will-change: opacity, transform;
 }
 
-/* Force colors to be Black so they show on White bg */
+/* 4. Typography (Black Text) */
 .services-text-wrapper h2 {
     color: #000000 !important;
     font-family: 'Inter', sans-serif;
