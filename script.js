@@ -650,26 +650,63 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Cinematic Scroll Depth (Parallax, No Blur) ==
+// == 14. ABOUT PAGE: Cinematic Scroll (Profile Out -> Services In) ==
 // ======================================================================
 if (document.body.classList.contains('about-page')) {
+    
     const stickySection = document.querySelector('.profile-grid-section');
     const incomingSection = document.querySelector('.services-section');
+    const servicesText = document.querySelector('.services-text-wrapper');
 
     if (stickySection && incomingSection) {
         window.addEventListener('scroll', () => {
+            
+            // distance from top of viewport
             const incomingPosition = incomingSection.getBoundingClientRect().top;
             const windowHeight = window.innerHeight;
+
+            // 1. IS SERVICES SECTION ENTERING THE SCREEN?
             if (incomingPosition < windowHeight && incomingPosition > 0) {
+                
+                // Progress: 0 (Just touching bottom) -> 1 (Fully covers screen)
                 let progress = 1 - (incomingPosition / windowHeight);
+
+                // --- A. ANIMATE PROFILE OUT (Background) ---
                 const scale = 1 - (progress * 0.05); 
                 const brightness = 1 - (progress * 0.4); 
                 const yPos = -(progress * 200);
+                
                 stickySection.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
                 stickySection.style.filter = `brightness(${brightness})`;
-            } else if (incomingPosition >= windowHeight) {
+
+                // --- B. ANIMATE SERVICES IN (Foreground) ---
+                if (servicesText) {
+                    // Opacity: Maps 0 to 1 directly
+                    servicesText.style.opacity = progress;
+                    
+                    // Slide Up: Starts 100px down, ends at 0px
+                    let textMove = 100 - (progress * 100);
+                    servicesText.style.transform = `translate3d(0, ${textMove}px, 0)`;
+                }
+
+            } 
+            // 2. IS SERVICES SECTION FULLY VISIBLE?
+            else if (incomingPosition <= 0) {
+                // Lock everything in final state
+                if (servicesText) {
+                    servicesText.style.opacity = 1;
+                    servicesText.style.transform = `translate3d(0, 0, 0)`;
+                }
+            }
+            // 3. IS SERVICES SECTION OFF SCREEN (RESET)?
+            else if (incomingPosition >= windowHeight) {
                 stickySection.style.transform = 'translate3d(0, 0, 0) scale(1)';
                 stickySection.style.filter = 'brightness(1)';
+                
+                if (servicesText) {
+                    servicesText.style.opacity = 0;
+                    servicesText.style.transform = `translate3d(0, 100px, 0)`;
+                }
             }
         });
     }
