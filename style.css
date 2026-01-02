@@ -2742,39 +2742,27 @@ body.portfolio-page::before {
 /* Update this rule in style.css */
 .timeline-axis {
     position: absolute;
-    top: 300px;
-    
-    /* CHANGED: Anchor exactly to the center of the first item */
-    /* First item is centered via padding, so its center is exactly 50vw */
-    left: 50vw; 
-    
-    /* Start with 0 width (JS grows it) */
-    width: 0px;
+    /* This sets the vertical baseline for everything */
+    top: 300px; 
+    left: 50vw; /* Starts from center of screen (Intro Item center) */
     
     height: 2px;
     background-color: #000000;
+    width: 0px; /* JS grows this */
     z-index: 0;
     
-    opacity: 0; 
+    opacity: 0;
+    transition: none;
     will-change: opacity, width;
-    transition: none; 
 }
 
 /* 5. Individual Items */
 .service-item {
-    position: relative;
-    width: 400px; 
+    position: relative; /* All children position relative to this box */
+    width: 400px;
+    height: 400px; /* Fixed height to hold everything */
     flex-shrink: 0;
     z-index: 1;
-    text-align: center;
-    opacity: 0.3; 
-    
-    /* CHANGED: Removed 'transition: opacity' */
-    /* This fixes the "delayed" feeling. The fade will now be instant/responsive. */
-    transition: none; 
-    
-    /* Ensure the item is tall enough to contain the dot */
-    height: 400px; 
 }
 
 /* Active State (Handled by JS) */
@@ -2785,14 +2773,12 @@ body.portfolio-page::before {
 /* 1. Update Content Wrapper to be the Anchor */
 .service-content {
     position: absolute;
-    /* The line is at 300px. We want this box to end right there. */
-    /* Height 250px means it goes from Y=50px to Y=300px */
-    top: 40px; 
-    height: 250px; 
+    top: 0;
+    left: 0;
     width: 100%;
-    
-    /* Ensure elements inside position relative to this box */
-    z-index: 5;
+    /* Height ends exactly at the dot's position */
+    height: 290px; 
+    pointer-events: none; /* Let scroll pass through */
 }
 
 /* Intro Item Specifics */
@@ -2808,31 +2794,27 @@ body.portfolio-page::before {
 
 /* 2. Update the Header Labels (Black Boxes) */
 .service-label {
-    /* FIXED WIDTH: Uniform size for all headers */
-    width: 240px; 
-    
+    /* Dimensions */
+    width: 240px;
+    padding: 12px 0;
     background-color: #000000;
     color: #ffffff;
+    text-align: center;
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     font-size: 1rem;
-    padding: 12px 0;
     text-transform: uppercase;
-    text-align: center;
     
-    /* POSITIONING: */
+    /* POSITIONING: Start sitting directly on top of the dot */
     position: absolute;
-    /* Sit at the very bottom of the content box (touching the line) */
-    bottom: 0; 
-    /* Center Horizontally */
+    bottom: 20px; /* 20px gap above the dot */
     left: 50%;
-    /* We use translate3d for smooth hardware acceleration */
-    /* Start: Centered X (-50%), Bottom Y (0px) */
-    transform: translate3d(-50%, 0px, 0); 
+    /* Use translate solely for centering X */
+    transform: translate(-50%, 0); 
     
-    /* Animation Timing */
+    /* Animation */
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-    z-index: 10; 
+    z-index: 10;
 }
 
 /* 3. Update the Paragraphs */
@@ -2842,42 +2824,35 @@ body.portfolio-page::before {
     font-size: 1.1rem;
     line-height: 1.6;
     color: #222;
-    margin: 0;
-    width: 100%; /* Fill the container width */
     text-align: center;
+    margin: 0;
+    width: 100%;
     
-    /* Position Absolute at the bottom (behind where the header starts) */
+    /* Position at bottom of content area */
     position: absolute;
     bottom: 0;
     left: 0;
+    padding-bottom: 20px; /* Align with header start pos */
     
-    /* Start Hidden */
+    /* Hidden State */
     opacity: 0;
-    /* Slide it down slightly so it floats up when revealed */
     transform: translateY(20px);
     transition: opacity 0.6s ease, transform 0.6s ease;
-    z-index: 1; 
+    z-index: 1;
 }
 /* Update this rule */
 .timeline-dot {
+    position: absolute;
+    /* Line is at 300px. Dot is 20px high. Center is 290px. */
+    top: 290px; 
+    left: 50%;
+    transform: translateX(-50%); /* Perfect Center */
+    
     width: 20px;
     height: 20px;
-    
-    /* CHANGED: Solid Black, No Border */
     background-color: #000000;
-    border: none;
-    
     border-radius: 50%;
-    margin: 0 auto;
-    
-    /* Position exactly on the line */
-    position: absolute;
-    /* top: 300px (line position) - 10px (half dot height) = 290px */
-    top: 290px; 
-    
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2; /* Sit on top of the line */
+    z-index: 2;
 }
 
 /* ================================================================= */
@@ -2917,12 +2892,12 @@ body.portfolio-page::before {
 
 /* 4. ACTIVE STATE (When Line Hits) */
 .service-item.has-arrived .service-label {
-    /* Move Header UP by 160px to reveal text */
-    transform: translate3d(-50%, -160px, 0); 
+    /* Shoot UP by 180px */
+    transform: translate(-50%, -180px); 
 }
 
 .service-item.has-arrived p {
-    /* Fade Text In and float to position */
+    /* Fade In */
     opacity: 1;
     transform: translateY(0);
 }
@@ -2934,15 +2909,14 @@ body.portfolio-page::before {
 }
 .intro-item .service-content {
     position: relative;
-    top: auto;
     height: auto;
-    display: block;
+    top: auto;
 }
 .intro-item h2, .intro-item p {
     position: static;
     opacity: 1;
     transform: none;
-    width: auto;
+    text-align: center;
 }
 
 .intro-item .service-label {
