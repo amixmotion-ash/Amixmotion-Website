@@ -2988,20 +2988,22 @@ body.portfolio-page::before {
     z-index: 5;
 }
 
-/* 2. Style the Inner Ring (Default State = Hidden/Small) */
 /* Update this rule in style.css */
 .pulse-ring {
     position: absolute;
     width: 20px;
     height: 20px;
-    background-color: transparent;
     
-    /* CHANGED: Reduced from 1px to 0.5px for a finer line */
+    /* CHANGED: Solid White Background (Covers the dotted line) */
+    background-color: #ffffff;
+    
     border: 0.5px solid #000000;
-    
     border-radius: 50%;
+    
     transform: translate(0, 0) scale(0.8); 
     opacity: 0;
+    
+    /* Ensure it sits BEHIND the black dot but ABOVE the timeline line */
     z-index: -1; 
     
     transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
