@@ -2971,3 +2971,58 @@ body.portfolio-page::before {
     opacity: 0;
     will-change: opacity;
 }
+/* ================================================================= */
+/* == SERVICES: Pulse Ring Animation == */
+/* ================================================================= */
+
+/* 1. Update the Main Dot to hold the ring */
+.timeline-dot {
+    /* Keep existing position/color styles... */
+    
+    /* ADD: Flexbox to center the inner ring perfectly */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* ADD: Ensure the solid dot sits ON TOP of the ring */
+    z-index: 5;
+}
+
+/* 2. Style the Inner Ring (Default State = Hidden/Small) */
+.pulse-ring {
+    position: absolute;
+    
+    /* Size: Same size as the black dot initially */
+    width: 20px;
+    height: 20px;
+    
+    /* Look: Transparent center, thin black border */
+    background-color: transparent;
+    border: 1px solid #000000;
+    border-radius: 50%;
+    
+    /* Start slightly smaller and invisible */
+    transform: scale(0.8);
+    opacity: 0;
+    
+    /* Sit behind the solid black dot */
+    z-index: -1;
+    
+    /* Smooth Pop Animation */
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+}
+
+/* 3. The Active State (Triggered when line hits) */
+/* The JS adds 'has-arrived' to the parent item automatically */
+.service-item.has-arrived .pulse-ring {
+    opacity: 1;
+    /* Scale up to be larger than the dot (creates the halo) */
+    transform: scale(1.8);
+}
+
+/* 4. Intro Item Exception */
+/* Make the first ring visible immediately since it's already "active" */
+.intro-item .pulse-ring {
+    opacity: 1;
+    transform: scale(1.8);
+}
