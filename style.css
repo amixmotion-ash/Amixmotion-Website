@@ -2685,78 +2685,60 @@ body.portfolio-page::before {
     color: #222;
 }
 /* ================================================================= */
-/* == SERVICES SECTION: Visibility Fix == */
+/* == SERVICES SECTION: Timeline Carousel (Stable) == */
 /* ================================================================= */
 
-
-
-.services-sticky-container {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-/* ================================================================= */
-/* == SERVICES SECTION: Centered + Keyline Fix == */
-/* ================================================================= */
-
-/* 1. Main Container */
+/* 1. Main Section (Tall for scrolling) */
 .services-section {
     background-color: #ffffff !important;
-    height: 350vh; /* Extra tall for the 3-step sequence */
+    height: 300vh; /* Plenty of scroll space */
     position: relative;
     z-index: 5;
-    box-shadow: 0px -20px 40px rgba(0, 0, 0, 0.1);
     margin: 0;
     padding: 0;
 }
 
-/* 2. Sticky Wrapper */
+/* 2. Sticky Wrapper (Locks content to screen) */
 .services-sticky-container {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
     height: 100vh;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
-    /* FORCE CENTERING */
+}
+
+/* 3. Content Area (Holds Text + Line) */
+.services-content-area {
+    position: relative;
+    width: 100%;
+    max-width: 800px; /* Constrain width for readability */
+    height: 400px; /* Fixed height to contain the slides */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* 3. The Slides (Absolute Centered) */
+/* 4. Slides (Absolute Positioning) */
 .service-slide {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); /* Start Dead Center */
     width: 100%;
-    max-width: 800px; /* Constrained width so the line starts near text */
     padding: 0 20px;
+    text-align: center;
     
-    /* Flex column to ensure text inside is centered */
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    justify-content: center;
-    text-align: center; /* Ensure text is centered */
-    
+    /* VISIBILITY: Start visible, let JS manage fading */
     opacity: 0; 
     will-change: opacity, transform;
 }
 
-/* 4. Text Styling */
-.services-text-wrapper {
-    position: relative;
-    width: 100%; /* Fill the slide width */
-}
-
-.services-text-wrapper h2 {
+/* 5. Typography (Force Black) */
+.service-slide h2 {
     color: #000000 !important;
     font-family: 'Inter', sans-serif;
     font-weight: 900;
@@ -2766,62 +2748,35 @@ body.portfolio-page::before {
     margin-bottom: 20px;
 }
 
-.services-text-wrapper p, .service-highlight-text {
+.service-slide p, .service-highlight-text {
     color: #222222 !important;
     font-family: 'Inter', sans-serif;
     font-weight: 300;
     font-size: 1.1rem;
     line-height: 1.6;
-    margin: 0 auto; /* Center the block itself */
 }
 
 .service-highlight-text {
-    font-size: 1.5rem !important;
+    font-size: 1.4rem !important;
     max-width: 600px;
+    margin: 0 auto;
 }
 
-/* ================================================================= */
-/* == SERVICES: Timeline Styles == */
-/* ================================================================= */
-
-.timeline-line {
+/* 6. The Timeline */
+.timeline-track {
     position: absolute;
-    /* Position it nicely below the text paragraph */
-    top: 65%; 
-    
-    /* ANCHOR LEFT: 
-       We position it at 50% (Center), but shift it back by 300px.
-       This aligns the start of the line with the start of the text block.
-    */
-    left: 50%;
-    margin-left: -300px; 
-    
-    height: 2px;
-    background-color: #000000;
-    width: 0px; /* Starts invisible, JS grows it */
-    
-    z-index: 10;
-    transform-origin: left center; /* Grows to the right */
-}
-
-/* Ensure slides are positioned correctly for the Left-Flow animation */
-.service-slide {
-    /* Same as before */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 0; /* Sit at the bottom of the content area */
+    left: 0;
     width: 100%;
-    max-width: 800px;
-    padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    text-align: center;
-    opacity: 0; 
-    will-change: opacity, transform;
+    height: 2px;
+    background-color: #f0f0f0; /* Faint grey track */
 }
 
+.timeline-bar {
+    height: 100%;
+    background-color: #000000; /* Black filling bar */
+    width: 0%; /* Grows from 0% to 100% */
+}
 
 
 

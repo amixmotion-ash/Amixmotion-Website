@@ -656,7 +656,7 @@ if (scrollTrigger) {
 const servicesSection = document.querySelector('.services-section');
 const slide1 = document.querySelector('.service-slide.slide-1');
 const slide2 = document.querySelector('.service-slide.slide-2');
-const timeline = document.querySelector('.timeline-line'); 
+const timelineBar = document.querySelector('.timeline-bar');
 const stickyProfile = document.querySelector('.profile-grid-section') || document.querySelector('.about-scroll-trigger');
 
 if (servicesSection && slide1 && slide2) {
@@ -666,21 +666,20 @@ if (servicesSection && slide1 && slide2) {
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
-        // --- PHASE 1: ENTRY (Fade In) ---
+        // --- PHASE 1: ENTRY (Fade In Slide 1) ---
         if (incomingPosition > 0 && incomingPosition <= windowHeight) {
             let entryProgress = 1 - (incomingPosition / windowHeight);
             
-            // Slide 1 Entry
+            // Fade In Slide 1
             slide1.style.opacity = entryProgress;
-            let lift = 100 - (entryProgress * 100);
-            slide1.style.transform = `translate(-50%, calc(-50% + ${lift}px))`; 
+            slide1.style.transform = `translate(-50%, -50%)`; // Lock center
             
-            // Reset Timeline & Slide 2
-            if (timeline) timeline.style.width = '0px';
+            // Reset Slide 2 & Line
             slide2.style.opacity = 0;
-            slide2.style.transform = `translate(50%, -50%)`; 
+            slide2.style.transform = `translate(50%, -50%)`;
+            if (timelineBar) timelineBar.style.width = '0%';
 
-            // Background Dimming
+            // Background Dimming (Profile)
             if (stickyProfile) {
                 const scale = 1 - (entryProgress * 0.05); 
                 const brightness = 1 - (entryProgress * 0.5); 
@@ -690,51 +689,44 @@ if (servicesSection && slide1 && slide2) {
             }
         } 
         
-        // --- PHASE 2: SWAP (Timeline Flow) ---
+        // --- PHASE 2: SCROLLING (The Carousel) ---
         else if (incomingPosition <= 0) {
             
             const scrolled = Math.abs(incomingPosition);
             const totalScrollable = rect.height - windowHeight;
             let swapProgress = Math.min(1, scrolled / (totalScrollable * 0.95)); 
 
-            // 1. TIMELINE GROWTH
-            // Grows from 0px to 600px (approx width of text block)
-            if (timeline) {
-                let lineWidth = swapProgress * 600;
-                timeline.style.width = `${lineWidth}px`;
+            // 1. TIMELINE BAR (Grows 0% -> 100%)
+            if (timelineBar) {
+                timelineBar.style.width = (swapProgress * 100) + '%';
             }
 
-            // 2. SLIDE 1 (Exit Left)
-            // Move: Center (-50%) -> Left (-100%)
+            // 2. SLIDE 1 (Moves Left & Fades Out)
+            // Starts moving immediately
+            // Moves from Center (-50%) to Left (-100%)
             let s1Move = -50 - (swapProgress * 50);
-            
-            // Fade Out: Starts early so it clears the way
-            let s1Opacity = 1 - (swapProgress * 1.5);
+            let s1Opacity = 1 - (swapProgress * 2); // Fades out by 50% scroll
             
             slide1.style.opacity = Math.max(0, s1Opacity);
             slide1.style.transform = `translate(${s1Move}%, -50%)`;
 
-            // 3. SLIDE 2 (Enter from Right)
-            // Starts delayed (0.2)
-            let s2Progress = Math.max(0, swapProgress - 0.2);
-            s2Progress = s2Progress * 1.25; // Speed up to catch up
+            // 3. SLIDE 2 (Moves In from Right)
+            // Starts at 0.3 (30% scroll)
+            let s2Progress = Math.max(0, swapProgress - 0.3);
+            s2Progress = s2Progress * 1.43; // Normalize to finish at 1.0
             if (s2Progress > 1) s2Progress = 1;
 
-            // Move: Right (0%) -> Center (-50%)
-            // We start at 0% (Right edge of container) and move left
+            // Moves from Right (0%) to Center (-50%)
+            // Distance = 50 units
             let s2Move = 0 - (s2Progress * 50);
             
-            // Fade In
-            let s2Opacity = s2Progress * 2;
-
-            slide2.style.opacity = Math.min(1, s2Opacity);
+            slide2.style.opacity = s2Progress;
             slide2.style.transform = `translate(${s2Move}%, -50%)`;
         }
         
-        // Reset
+        // Reset if below screen
         else {
             slide1.style.opacity = 0;
-            slide1.style.transform = `translate(-50%, calc(-50% + 100px))`;
         }
     }
 
