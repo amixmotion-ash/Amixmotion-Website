@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Horizontal Timeline (Wider Spacing + Instant Fade) ==
+// == 14. ABOUT PAGE: Horizontal Timeline (Draw-On Line) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -673,19 +673,21 @@ if (servicesSection && track) {
         // --- STATE A: ENTERING (Black -> White Transition) ---
         if (incomingPosition > 0) {
             
-            // 1. TEXT FADE (Apple-Style Easing)
+            // 1. TEXT FADE
             if (items.length > 0) {
-                // Cubic easing for smooth entry
                 let easedProgress = entryProgress * entryProgress * entryProgress;
                 items[0].style.opacity = easedProgress;
             }
 
-            // 2. LINE FADE (Delayed)
+            // 2. LINE OPACITY (Fade In at end)
             let lineOpacity = 0;
             if (entryProgress > 0.9) {
                 lineOpacity = (entryProgress - 0.9) * 10; 
             }
-            if (axisLine) axisLine.style.opacity = lineOpacity;
+            if (axisLine) {
+                axisLine.style.opacity = lineOpacity;
+                axisLine.style.width = '0px'; // Keep width 0 during entry
+            }
 
             // 3. LOCK TRACK
             track.style.transform = `translate(0px, -50%)`;
@@ -700,10 +702,9 @@ if (servicesSection && track) {
             }
         }
 
-        // --- STATE B: SCROLLING (Horizontal Move) ---
+        // --- STATE B: SCROLLING (Horizontal Move + Draw Line) ---
         else {
             
-            // Ensure elements are fully visible/set
             if (axisLine) axisLine.style.opacity = 1;
             if (stickyProfile) {
                 stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
@@ -711,7 +712,6 @@ if (servicesSection && track) {
             }
 
             // Calculate Horizontal Progress
-            // We use the full height (700vh) for the calculation
             const totalScrollable = rect.height - windowHeight;
             let scrollProgress = -incomingPosition / totalScrollable;
             scrollProgress = Math.max(0, Math.min(1, scrollProgress));
@@ -721,8 +721,17 @@ if (servicesSection && track) {
             const viewportWidth = window.innerWidth;
             const moveDistance = trackWidth - viewportWidth;
             
+            // This is how many pixels we have moved Left
             let xPos = -(scrollProgress * moveDistance);
             track.style.transform = `translate(${xPos}px, -50%)`;
+
+            // --- DRAW THE LINE ---
+            // The line grows exactly as much as the track moves.
+            // This keeps the tip of the line pinned to the center of the screen.
+            if (axisLine) {
+                // Math.abs turns the negative xPos into a positive Width
+                axisLine.style.width = Math.abs(xPos) + 'px';
+            }
 
             // Highlight Active Item
             const centerLine = window.innerWidth / 2;
@@ -730,21 +739,15 @@ if (servicesSection && track) {
             items.forEach((item, index) => {
                 const itemRect = item.getBoundingClientRect();
                 const itemCenter = itemRect.left + (itemRect.width / 2);
-                
-                // Calculate distance from center of screen
                 const dist = Math.abs(centerLine - itemCenter);
                 
-                // FADE LOGIC (Wider Zone)
-                // Increased to 600px so items fade in earlier
                 if (dist < 600) {
                     let opacity = 1 - (dist / 600);
-                    // Min 0.2, Max 1.0
                     item.style.opacity = 0.2 + (opacity * 0.8); 
                 } else {
                     item.style.opacity = 0.2;
                 }
                 
-                // SAFETY: Keep first item visible during the transition from Entry to Scroll
                 if (index === 0 && scrollProgress < 0.05) {
                     item.style.opacity = 1;
                 }
