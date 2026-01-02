@@ -2972,62 +2972,68 @@ body.portfolio-page::before {
     will-change: opacity;
 }
 /* ================================================================= */
-/* == SERVICES: Pulse Ring Animation == */
+/* == SERVICES: Layered Dot & Ring (Final Fix) == */
 /* ================================================================= */
 
-/* 1. Update the Main Dot to hold the ring */
+/* 1. The Wrapper (Positions everything) */
 .timeline-dot {
-    /* Keep existing position/color styles... */
+    position: absolute;
+    top: 290px;
+    left: 50%;
+    transform: translateX(-50%);
     
-    /* ADD: Flexbox to center the inner ring perfectly */
+    width: 20px;
+    height: 20px;
+    
+    /* CHANGED: Transparent! We draw the black dot separately. */
+    background-color: transparent; 
+    
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    /* ADD: Ensure the solid dot sits ON TOP of the ring */
-    z-index: 5;
+    z-index: 2; /* Sit above the line */
 }
 
-/* Update this rule in style.css */
+/* 2. The Solid Black Dot (Top Layer) */
+.timeline-dot::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    border-radius: 50%;
+    
+    /* TOP LAYER: Sits on top of the white ring */
+    z-index: 10; 
+}
+
+/* 3. The Pulse Ring (Middle Layer) */
 .pulse-ring {
     position: absolute;
     width: 20px;
     height: 20px;
     
-    /* CHANGED: Solid White Background (Covers the dotted line) */
+    /* Masking: White background covers the dotted line */
     background-color: #ffffff;
-    
     border: 0.5px solid #000000;
     border-radius: 50%;
     
-    transform: translate(0, 0) scale(0.8); 
+    transform: scale(0.8);
     opacity: 0;
     
-    /* Ensure it sits BEHIND the black dot but ABOVE the timeline line */
-    z-index: -1; 
+    /* MIDDLE LAYER: Below black dot, but above dotted line */
+    z-index: 5; 
     
     transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
 }
 
-/* 3. The Active State (Triggered when line hits) */
-/* The JS adds 'has-arrived' to the parent item automatically */
+/* 4. Active State (Pop Out) */
 .service-item.has-arrived .pulse-ring {
     opacity: 1;
-    /* Scale up to be larger than the dot (creates the halo) */
     transform: scale(1.8);
 }
 
-/* 4. Intro Item Exception */
-/* Make the first ring visible immediately since it's already "active" */
-.intro-item .pulse-ring {
-    opacity: 1;
-    transform: scale(1.8);
-}
-
-/* ================================================================= */
-/* == SERVICES: Hide Ring on First Dot == */
-/* ================================================================= */
-
+/* 5. Hide Ring on First Dot */
 .intro-item .pulse-ring {
     display: none !important;
 }
