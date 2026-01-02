@@ -2685,97 +2685,131 @@ body.portfolio-page::before {
     color: #222;
 }
 /* ================================================================= */
-/* == SERVICES SECTION: Timeline Carousel (Stable) == */
+/* == SERVICES SECTION: Horizontal Timeline (Final) == */
 /* ================================================================= */
 
-/* 1. Main Section (Tall for scrolling) */
+/* 1. Main Container (Tall for scrolling time) */
 .services-section {
     background-color: #ffffff !important;
-    height: 300vh; /* Plenty of scroll space */
+    height: 400vh; /* 4 screens tall = slower scroll */
     position: relative;
     z-index: 5;
     margin: 0;
     padding: 0;
 }
 
-/* 2. Sticky Wrapper (Locks content to screen) */
+/* 2. Sticky Wrapper */
 .services-sticky-container {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
     height: 100vh;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     overflow: hidden;
-}
-
-/* 3. Content Area (Holds Text + Line) */
-.services-content-area {
-    position: relative;
-    width: 100%;
-    max-width: 800px; /* Constrain width for readability */
-    height: 400px; /* Fixed height to contain the slides */
     display: flex;
-    justify-content: center;
     align-items: center;
-}
-
-/* 4. Slides (Absolute Positioning) */
-.service-slide {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Start Dead Center */
-    width: 100%;
-    padding: 0 20px;
-    text-align: center;
     
-    /* VISIBILITY: Start visible, let JS manage fading */
-    opacity: 0; 
-    will-change: opacity, transform;
+    /* THE FADE EFFECT:
+       This creates a gradient mask. 
+       Center is visible (black), Left/Right edges are transparent.
+    */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
 }
 
-/* 5. Typography (Force Black) */
-.service-slide h2 {
-    color: #000000 !important;
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    text-transform: uppercase;
-    line-height: 1.1;
-    margin-bottom: 20px;
-}
-
-.service-slide p, .service-highlight-text {
-    color: #222222 !important;
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: 1.1rem;
-    line-height: 1.6;
-}
-
-.service-highlight-text {
-    font-size: 1.4rem !important;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-/* 6. The Timeline */
-.timeline-track {
+/* 3. The Moving Track */
+.services-track {
+    display: flex;
+    align-items: flex-start; /* Align to top of track */
     position: absolute;
-    bottom: 0; /* Sit at the bottom of the content area */
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%); /* Center vertical */
+    padding-left: 50vw; /* Start with first item in center */
+    padding-right: 50vw; /* End with last item in center */
+    gap: 15vw; /* Spacing between items */
+    will-change: transform;
+}
+
+/* 4. The Continuous Line */
+.timeline-axis {
+    position: absolute;
+    top: 300px; /* Position where the circles/line sit */
     left: 0;
     width: 100%;
     height: 2px;
-    background-color: #f0f0f0; /* Faint grey track */
+    background-color: #000000;
+    z-index: 0;
 }
 
-.timeline-bar {
-    height: 100%;
-    background-color: #000000; /* Black filling bar */
-    width: 0%; /* Grows from 0% to 100% */
+/* 5. Individual Items */
+.service-item {
+    position: relative;
+    width: 400px; /* Fixed width for text blocks */
+    flex-shrink: 0;
+    z-index: 1;
+    text-align: center;
+    opacity: 0.3; /* Default dim state */
+    transition: opacity 0.5s ease; /* Smooth highlight */
+}
+
+/* Active State (Handled by JS) */
+.service-item.is-active {
+    opacity: 1;
+}
+
+/* 6. Content Styling */
+.service-content {
+    /* Push text UP so the dot sits on the line */
+    margin-bottom: 60px; /* Distance from text to line */
+}
+
+/* Intro Item Specifics */
+.intro-item h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+/* Standard Item Specifics */
+.service-label {
+    display: inline-block;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.service-item p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400; /* Regular weight */
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #222;
+}
+
+/* 7. The Circle Dot */
+.timeline-dot {
+    width: 20px;
+    height: 20px;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 50%;
+    margin: 0 auto;
+    
+    /* Position it exactly on the axis line */
+    position: absolute;
+    bottom: -11px; /* Half height + border adjustment */
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 
