@@ -2737,21 +2737,20 @@ body.portfolio-page::before {
     will-change: transform;
 }
 
-/* Update this rule */
+/* Update this rule in style.css */
 .timeline-axis {
     position: absolute;
-    top: 300px; /* Vertical position */
-    
-    /* START: Center of first item (800px / 2 = 400px) */
+    top: 300px;
     left: 400px; 
-    
-    /* END: Total width minus (Half first item + Half last item) */
-    /* 100% - (400px + 200px) = 100% - 600px */
     width: calc(100% - 600px);
-    
     height: 2px;
     background-color: #000000;
     z-index: 0;
+    
+    /* ADD THESE LINES: Start invisible */
+    opacity: 0;
+    will-change: opacity;
+    transition: none; /* Let JS handle the fade */
 }
 
 /* 5. Individual Items */

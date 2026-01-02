@@ -650,12 +650,13 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Horizontal Timeline (No Zoom, Just Fade) ==
+// == 14. ABOUT PAGE: Horizontal Timeline (Entry Control) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
 const track = document.querySelector('.services-track');
 const items = document.querySelectorAll('.service-item');
+const axisLine = document.querySelector('.timeline-axis');
 const stickyProfile = document.querySelector('.profile-grid-section') || document.querySelector('.about-scroll-trigger');
 
 if (servicesSection && track) {
@@ -664,59 +665,94 @@ if (servicesSection && track) {
         const rect = servicesSection.getBoundingClientRect();
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
-        const totalScrollable = rect.height - windowHeight;
-
-        // 1. Calculate Global Progress
-        let progress = -incomingPosition / totalScrollable;
-        progress = Math.max(0, Math.min(1, progress));
-
-        // 2. Move the Track
-        const trackWidth = track.scrollWidth;
-        const viewportWidth = window.innerWidth;
-        const moveDistance = trackWidth - viewportWidth;
         
-        let xPos = -(progress * moveDistance);
-        track.style.transform = `translate(${xPos}px, -50%)`;
+        // 1. Calculate Entry Progress (0 to 1)
+        // 0 = White section touching bottom of screen
+        // 1 = White section fully covering screen
+        let entryProgress = 1 - (incomingPosition / windowHeight);
+        entryProgress = Math.max(0, Math.min(1, entryProgress));
 
-        // 3. Highlight Active Item (Opacity Only)
-        const centerLine = window.innerWidth / 2;
-
-        items.forEach(item => {
-            const itemRect = item.getBoundingClientRect();
-            const itemCenter = itemRect.left + (itemRect.width / 2);
+        // --- STATE A: ENTERING (Black -> White Transition) ---
+        if (incomingPosition > 0) {
             
-            // Calculate distance from center
-            const dist = Math.abs(centerLine - itemCenter);
-            
-            // Fade Logic:
-            // Within 400px of center -> Fade to 100%
-            // Outside 400px -> Fade to 20%
-            if (dist < 400) {
-                let opacity = 1 - (dist / 400);
-                // Min 0.2, Max 1.0
-                item.style.opacity = 0.2 + (opacity * 0.8); 
-            } else {
-                item.style.opacity = 0.2;
+            // 1. TEXT FADE (First Item Only)
+            // We use a "Power" curve (progress * progress) so it starts slow and speeds up
+            if (items.length > 0) {
+                let textOpacity = entryProgress * entryProgress; // Slow start
+                items[0].style.opacity = textOpacity;
             }
-            
-            // REMOVED: item.style.transform = `scale(...)` 
-            // This ensures text size and dot position remain rock solid.
-            item.style.transform = 'none';
-        });
 
-        // 4. Background Dimming
-        if (stickyProfile) {
-            let entryProg = 1 - (incomingPosition / windowHeight);
-            if (entryProg > 0 && entryProg < 1) {
-                const scale = 1 - (entryProg * 0.05); 
-                const brightness = 1 - (entryProg * 0.5); 
-                const yPos = -(entryProg * 100);
+            // 2. LINE FADE (Very Late)
+            // Only starts showing when 85% of the screen is white
+            let lineOpacity = 0;
+            if (entryProgress > 0.85) {
+                lineOpacity = (entryProgress - 0.85) * 6.6; // Fade 0 to 1 quickly at end
+            }
+            if (axisLine) axisLine.style.opacity = lineOpacity;
+
+            // 3. LOCK TRACK (No horizontal scroll yet)
+            // We ensure it starts perfectly centered on the first item
+            const trackWidth = track.scrollWidth;
+            const viewportWidth = window.innerWidth;
+            const moveDistance = trackWidth - viewportWidth;
+            
+            // Initial X position (0 progress)
+            track.style.transform = `translate(0px, -50%)`;
+
+            // 4. BACKGROUND PARALLAX (Profile Section)
+            if (stickyProfile) {
+                const scale = 1 - (entryProgress * 0.05); 
+                const brightness = 1 - (entryProgress * 0.5); 
+                const yPos = -(entryProgress * 100);
                 stickyProfile.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
                 stickyProfile.style.filter = `brightness(${brightness})`;
-            } else if (entryProg >= 1) {
+            }
+        }
+
+        // --- STATE B: PINNED SCROLLING (Horizontal Move) ---
+        else {
+            
+            // Ensure Line & Background are fully set
+            if (axisLine) axisLine.style.opacity = 1;
+            if (stickyProfile) {
                 stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
+
+            // Calculate Horizontal Progress
+            const totalScrollable = rect.height - windowHeight;
+            let scrollProgress = -incomingPosition / totalScrollable;
+            scrollProgress = Math.max(0, Math.min(1, scrollProgress));
+
+            // Move the Track
+            const trackWidth = track.scrollWidth;
+            const viewportWidth = window.innerWidth;
+            const moveDistance = trackWidth - viewportWidth;
+            
+            let xPos = -(scrollProgress * moveDistance);
+            track.style.transform = `translate(${xPos}px, -50%)`;
+
+            // Highlight Active Item
+            const centerLine = window.innerWidth / 2;
+
+            items.forEach((item, index) => {
+                const itemRect = item.getBoundingClientRect();
+                const itemCenter = itemRect.left + (itemRect.width / 2);
+                const dist = Math.abs(centerLine - itemCenter);
+                
+                // Active Logic
+                if (dist < 400) {
+                    let opacity = 1 - (dist / 400);
+                    item.style.opacity = 0.2 + (opacity * 0.8); 
+                } else {
+                    item.style.opacity = 0.2;
+                }
+                
+                // SAFETY: Ensure first item stays visible if we are just starting scroll
+                if (index === 0 && scrollProgress < 0.1) {
+                    item.style.opacity = 1;
+                }
+            });
         }
     }
 
