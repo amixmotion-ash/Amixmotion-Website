@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Horizontal Timeline (Clean Animation) ==
+// == 14. ABOUT PAGE: Horizontal Timeline (Closer Headers) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -738,8 +738,8 @@ if (servicesSection && track) {
                     if (label && p) {
                         const pHeight = p.offsetHeight;
                         
-                        // CHANGED: Increased buffer to 30px to prevent overlap
-                        const liftAmount = pHeight + 30; 
+                        // CHANGED: Reduced gap from 30px to 15px
+                        const liftAmount = pHeight + 15; 
                         
                         label.style.transform = `translate(-50%, -${liftAmount}px)`;
                     }
@@ -747,6 +747,7 @@ if (servicesSection && track) {
                     item.classList.remove('has-arrived');
                     
                     if (label) {
+                        // Reset to default
                         label.style.transform = `translate(-50%, 0px)`;
                     }
                 }
