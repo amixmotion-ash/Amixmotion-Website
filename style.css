@@ -3026,3 +3026,11 @@ body.portfolio-page::before {
     opacity: 1;
     transform: scale(1.8);
 }
+
+/* ================================================================= */
+/* == SERVICES: Hide Ring on First Dot == */
+/* ================================================================= */
+
+.intro-item .pulse-ring {
+    display: none !important;
+}
