@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Horizontal Timeline (Draw-On Line) ==
+// == 14. ABOUT PAGE: Horizontal Timeline (Line Trigger) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -670,29 +670,25 @@ if (servicesSection && track) {
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
-        // --- STATE A: ENTERING (Black -> White Transition) ---
+        // --- STATE A: ENTERING ---
         if (incomingPosition > 0) {
-            
-            // 1. TEXT FADE
+            // Text Fade (Intro Item Only)
             if (items.length > 0) {
                 let easedProgress = entryProgress * entryProgress * entryProgress;
                 items[0].style.opacity = easedProgress;
             }
-
-            // 2. LINE OPACITY (Fade In at end)
+            
+            // Line Fade
             let lineOpacity = 0;
             if (entryProgress > 0.9) {
                 lineOpacity = (entryProgress - 0.9) * 10; 
             }
-            if (axisLine) {
-                axisLine.style.opacity = lineOpacity;
-                axisLine.style.width = '0px'; // Keep width 0 during entry
-            }
+            if (axisLine) axisLine.style.opacity = lineOpacity;
 
-            // 3. LOCK TRACK
+            // Lock Track
             track.style.transform = `translate(0px, -50%)`;
 
-            // 4. BACKGROUND PARALLAX
+            // Background Parallax
             if (stickyProfile) {
                 const scale = 1 - (entryProgress * 0.05); 
                 const brightness = 1 - (entryProgress * 0.5); 
@@ -702,54 +698,52 @@ if (servicesSection && track) {
             }
         }
 
-        // --- STATE B: SCROLLING (Horizontal Move + Draw Line) ---
+        // --- STATE B: SCROLLING (Line Trigger Logic) ---
         else {
-            
             if (axisLine) axisLine.style.opacity = 1;
             if (stickyProfile) {
                 stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
 
-            // Calculate Horizontal Progress
+            // Move Track
             const totalScrollable = rect.height - windowHeight;
             let scrollProgress = -incomingPosition / totalScrollable;
             scrollProgress = Math.max(0, Math.min(1, scrollProgress));
 
-            // Move the Track
             const trackWidth = track.scrollWidth;
             const viewportWidth = window.innerWidth;
             const moveDistance = trackWidth - viewportWidth;
-            
-            // This is how many pixels we have moved Left
             let xPos = -(scrollProgress * moveDistance);
+            
             track.style.transform = `translate(${xPos}px, -50%)`;
 
-            // --- DRAW THE LINE ---
-            // The line grows exactly as much as the track moves.
-            // This keeps the tip of the line pinned to the center of the screen.
-            if (axisLine) {
-                // Math.abs turns the negative xPos into a positive Width
-                axisLine.style.width = Math.abs(xPos) + 'px';
-            }
+            // DRAW LINE
+            const currentLineLength = Math.abs(xPos);
+            if (axisLine) axisLine.style.width = currentLineLength + 'px';
 
-            // Highlight Active Item
-            const centerLine = window.innerWidth / 2;
+            // --- TRIGGER ANIMATIONS ---
+            // Calculate where the line starts (Center of Item 0)
+            const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
 
             items.forEach((item, index) => {
-                const itemRect = item.getBoundingClientRect();
-                const itemCenter = itemRect.left + (itemRect.width / 2);
-                const dist = Math.abs(centerLine - itemCenter);
-                
-                if (dist < 600) {
-                    let opacity = 1 - (dist / 600);
-                    item.style.opacity = 0.2 + (opacity * 0.8); 
-                } else {
-                    item.style.opacity = 0.2;
-                }
-                
-                if (index === 0 && scrollProgress < 0.05) {
+                // Intro item (Index 0) stays visible
+                if (index === 0) {
                     item.style.opacity = 1;
+                    return;
+                }
+
+                // For other items, calculate their center position
+                const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);
+                
+                // Distance from the start of the line to this item
+                const distanceToItem = itemCenterX - startX;
+
+                // Check if the drawn line is long enough to hit this item
+                if (currentLineLength >= distanceToItem) {
+                    item.classList.add('has-arrived');
+                } else {
+                    item.classList.remove('has-arrived');
                 }
             });
         }

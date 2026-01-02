@@ -2873,6 +2873,44 @@ body.portfolio-page::before {
     font-size: 1.1rem; /* Restore the slightly larger intro font size */
 }
 
+/* ================================================================= */
+/* == SERVICES: Line Activation Animation == */
+/* ================================================================= */
+
+/* 1. INITIAL STATE (Before Line Arrives) */
+/* We target every item EXCEPT the first Intro item */
+.service-item:not(.intro-item) .service-label {
+    /* Push header down so it sits just above the dot */
+    transform: translateY(100px); 
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.service-item:not(.intro-item) p {
+    /* Paragraph is completely hidden */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* 2. ACTIVE STATE (After Line Arrives) */
+/* JS adds the class 'has-arrived' */
+.service-item.has-arrived .service-label {
+    /* Header floats UP to make room */
+    transform: translateY(0); 
+}
+
+.service-item.has-arrived p {
+    /* Paragraph fades IN and UP */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Keep the active dot fade from before, but ensure it works with this */
+.service-item:not(.intro-item) {
+    /* Ensure opacity is 1 so we see the header */
+    opacity: 1 !important; 
+}
+
 
 
 
