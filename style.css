@@ -2685,13 +2685,13 @@ body.portfolio-page::before {
     color: #222;
 }
 /* ================================================================= */
-/* == SERVICES SECTION: Horizontal Timeline (Final Consolidated) == */
+/* == SERVICES SECTION: Horizontal Timeline (Fixed Order) == */
 /* ================================================================= */
 
-/* 1. Main Container (Tall for scrolling time) */
+/* 1. Main Container */
 .services-section {
     background-color: #ffffff !important;
-    height: 700vh; /* Heavy scroll feel */
+    height: 700vh; 
     position: relative;
     z-index: 5;
     margin: 0;
@@ -2708,8 +2708,6 @@ body.portfolio-page::before {
     overflow: hidden;
     display: flex;
     align-items: center;
-    
-    /* Fade edges mask */
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
     mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
 }
@@ -2722,36 +2720,31 @@ body.portfolio-page::before {
     left: 0;
     top: 50%;
     transform: translateY(-50%); 
-    
-    /* Padding to center first/last items */
     padding-left: calc(50vw - 400px);
     padding-right: calc(50vw - 200px);
-    
     gap: 25vw; 
     will-change: transform;
 }
 
-/* 4. The Line (Background) */
+/* 4. The Line */
 .timeline-axis {
     position: absolute;
-    top: 300px; /* Benchmark Vertical Position */
-    left: 50vw; /* Start exactly at first item center */
-    
+    top: 300px; 
+    left: 50vw; 
     height: 2px;
     background-color: #000000;
-    width: 0px; /* JS grows this */
+    width: 0px; 
     z-index: 0;
-    
     opacity: 0;
     transition: none;
     will-change: opacity, width;
 }
 
-/* 5. The Items */
+/* 5. The Items (Base) */
 .service-item {
     position: relative;
     width: 400px;
-    height: 400px; /* Fixed height container */
+    height: 400px; 
     flex-shrink: 0;
     z-index: 1;
 }
@@ -2759,11 +2752,9 @@ body.portfolio-page::before {
 /* 6. The Dot */
 .timeline-dot {
     position: absolute;
-    /* Line is at 300px. Dot is 20px. Center is 290px */
     top: 290px;
     left: 50%;
     transform: translateX(-50%);
-    
     width: 20px;
     height: 20px;
     background-color: #000000;
@@ -2771,49 +2762,18 @@ body.portfolio-page::before {
     z-index: 2;
 }
 
-/* 7. The Content Area (Invisible wrapper for text/header) */
+/* 7. Content Area (Base) */
 .service-content {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 290px; /* Ends exactly at the dot */
+    height: 290px;
     pointer-events: none;
 }
 
-/* --- EXCEPTION: INTRO ITEM (Static) --- */
-.service-item.intro-item {
-    width: 800px !important;
-    margin-right: 5vw;
-}
-.intro-item .service-content {
-    position: relative;
-    height: auto;
-    top: auto;
-    display: block;
-    margin-bottom: 60px; /* Gap to dot */
-}
-.intro-item h2, .intro-item p {
-    text-align: center;
-    width: 100%;
-    position: static;
-    transform: none;
-    opacity: 1;
-}
-.intro-item h2 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 900;
-    font-size: 3rem;
-    line-height: 1;
-    text-transform: uppercase;
-    color: #000;
-    margin-bottom: 20px;
-}
-.intro-item .service-label { display: none; }
+/* --- STANDARD ITEMS (Animated Headers/Text) --- */
 
-/* --- STANDARD ITEMS (Animated) --- */
-
-/* The Header Label */
 .service-label {
     width: 240px;
     padding: 12px 0;
@@ -2824,18 +2784,14 @@ body.portfolio-page::before {
     font-weight: 900;
     font-size: 1rem;
     text-transform: uppercase;
-    
-    /* POSITION: Sit directly on top of the dot */
     position: absolute;
     bottom: 20px; 
     left: 50%;
-    transform: translate(-50%, 0); /* Centered X, Bottom Y */
-    
+    transform: translate(-50%, 0); 
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     z-index: 10;
 }
 
-/* The Paragraph */
 .service-item p {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
@@ -2846,30 +2802,62 @@ body.portfolio-page::before {
     margin: 0;
     width: 100%;
     
-    /* Position behind header */
+    /* Standard Behavior: Hidden at bottom */
     position: absolute;
     bottom: 0;
     left: 0;
     padding-bottom: 20px;
-    
-    /* Hidden State */
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease, transform 0.6s ease;
     z-index: 1;
 }
 
-/* --- ACTIVE STATE (Triggered by JS Line) --- */
+/* Active State for Standard Items */
 .service-item.has-arrived .service-label {
-    /* Shoot UP by 180px */
     transform: translate(-50%, -180px); 
 }
-
 .service-item.has-arrived p {
-    /* Fade In */
     opacity: 1;
     transform: translateY(0);
 }
+
+/* --- EXCEPTION: INTRO ITEM (Must come LAST to override) --- */
+
+.service-item.intro-item {
+    width: 800px !important;
+    margin-right: 5vw;
+}
+
+/* Reset the content area for Intro */
+.intro-item .service-content {
+    position: relative;
+    height: auto;
+    top: auto;
+    display: block;
+    margin-bottom: 60px; /* Gap to dot */
+}
+
+/* Force Intro Text to be Visible and Static */
+.intro-item h2, .intro-item p {
+    text-align: center;
+    width: 100%;
+    position: static !important; /* Override absolute */
+    transform: none !important; /* Override translate */
+    opacity: 1 !important;      /* Override opacity 0 */
+}
+
+.intro-item h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.intro-item .service-label { display: none; }
 
 /* Default Visibility for non-intro items */
 .service-item:not(.intro-item) {
