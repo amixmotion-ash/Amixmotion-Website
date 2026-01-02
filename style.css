@@ -2718,16 +2718,22 @@ body.portfolio-page::before {
 }
 
 /* 3. The Moving Track */
+
 .services-track {
     display: flex;
-    align-items: flex-start; /* Align to top of track */
+    align-items: flex-start;
     position: absolute;
     left: 0;
     top: 50%;
-    transform: translateY(-50%); /* Center vertical */
-    padding-left: 50vw; /* Start with first item in center */
-    padding-right: 50vw; /* End with last item in center */
-    gap: 15vw; /* Spacing between items */
+    transform: translateY(-50%);
+    
+    /* FIX: Center the First Item (800px wide / 2 = 400px) */
+    padding-left: calc(50vw - 400px);
+    
+    /* FIX: Center the Last Item (400px wide / 2 = 200px) */
+    padding-right: calc(50vw - 200px);
+    
+    gap: 15vw; 
     will-change: transform;
 }
 
