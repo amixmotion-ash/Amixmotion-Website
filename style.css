@@ -2918,6 +2918,7 @@ body.portfolio-page::before {
 }
 
 /* Update this rule in style.css */
+/* Update this rule in style.css */
 .intro-item p {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
@@ -2933,8 +2934,8 @@ body.portfolio-page::before {
     bottom: 0;
     left: 0;
     
-    /* CHANGED: 20px matches the "bottom: 20px" of the other headers */
-    padding-bottom: 20px;
+    /* CHANGED: Increased from 20px to 60px to lift the text up */
+    padding-bottom: 60px;
     
     /* Start Invisible */
     opacity: 0;
