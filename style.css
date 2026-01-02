@@ -2775,10 +2775,20 @@ body.portfolio-page::before {
     opacity: 1;
 }
 
-/* 6. Content Styling */
+/* Update this rule in style.css */
 .service-content {
-    /* Push text UP so the dot sits on the line */
-    margin-bottom: 60px; /* Distance from text to line */
+    /* Fixed height area that ends ABOVE the dot */
+    /* Dot is at 290px. Height 250px leaves a 40px gap. */
+    height: 250px; 
+    
+    /* Flexbox magic to align text to the bottom */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+    align-items: center; /* Keep text horizontally centered */
+    
+    margin: 0;
+    width: 100%;
 }
 
 /* Intro Item Specifics */
