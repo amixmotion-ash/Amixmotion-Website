@@ -2989,26 +2989,21 @@ body.portfolio-page::before {
 }
 
 /* 2. Style the Inner Ring (Default State = Hidden/Small) */
+/* Update this rule in style.css */
 .pulse-ring {
     position: absolute;
-    
-    /* Size: Same size as the black dot initially */
     width: 20px;
     height: 20px;
-    
-    /* Look: Transparent center, thin black border */
     background-color: transparent;
-    border: 1px solid #000000;
+    
+    /* CHANGED: Reduced from 1px to 0.5px for a finer line */
+    border: 0.5px solid #000000;
+    
     border-radius: 50%;
-    
-    /* Start slightly smaller and invisible */
-    transform: scale(0.8);
+    transform: translate(0, 0) scale(0.8); 
     opacity: 0;
+    z-index: -1; 
     
-    /* Sit behind the solid black dot */
-    z-index: -1;
-    
-    /* Smooth Pop Animation */
     transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
 }
 
