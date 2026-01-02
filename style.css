@@ -2721,19 +2721,19 @@ body.portfolio-page::before {
 
 .services-track {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-start; 
     position: absolute;
     left: 0;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-50%); 
     
-    /* FIX: Center the First Item (800px wide / 2 = 400px) */
+    /* Center First & Last items (Keep this math the same) */
     padding-left: calc(50vw - 400px);
-    
-    /* FIX: Center the Last Item (400px wide / 2 = 200px) */
     padding-right: calc(50vw - 200px);
     
-    gap: 15vw; 
+    /* CHANGED: Increased from 15vw to 40vw to push paragraphs apart */
+    gap: 40vw; 
+    
     will-change: transform;
 }
 
@@ -2756,12 +2756,18 @@ body.portfolio-page::before {
 /* 5. Individual Items */
 .service-item {
     position: relative;
-    width: 400px; /* Fixed width for text blocks */
+    width: 400px; 
     flex-shrink: 0;
     z-index: 1;
     text-align: center;
-    opacity: 0.3; /* Default dim state */
-    transition: opacity 0.5s ease; /* Smooth highlight */
+    opacity: 0.3; 
+    
+    /* CHANGED: Removed 'transition: opacity' */
+    /* This fixes the "delayed" feeling. The fade will now be instant/responsive. */
+    transition: none; 
+    
+    /* Ensure the item is tall enough to contain the dot */
+    height: 400px; 
 }
 
 /* Active State (Handled by JS) */

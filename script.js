@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Horizontal Timeline (Apple-Style Easing) ==
+// == 14. ABOUT PAGE: Horizontal Timeline (Wider Spacing + Instant Fade) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -670,13 +670,12 @@ if (servicesSection && track) {
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
-        // --- STATE A: ENTERING (The "Fade On" Phase) ---
+        // --- STATE A: ENTERING (Black -> White Transition) ---
         if (incomingPosition > 0) {
             
             // 1. TEXT FADE (Apple-Style Easing)
             if (items.length > 0) {
-                // Instead of linear (0, 0.1, 0.2), we use Cubic (0, 0.01, 0.08, 0.27)
-                // This makes it stay hidden longer, then fade in smoothly at the end.
+                // Cubic easing for smooth entry
                 let easedProgress = entryProgress * entryProgress * entryProgress;
                 items[0].style.opacity = easedProgress;
             }
@@ -684,7 +683,6 @@ if (servicesSection && track) {
             // 2. LINE FADE (Delayed)
             let lineOpacity = 0;
             if (entryProgress > 0.9) {
-                // Only appears in the final 10% of the entry
                 lineOpacity = (entryProgress - 0.9) * 10; 
             }
             if (axisLine) axisLine.style.opacity = lineOpacity;
@@ -702,16 +700,18 @@ if (servicesSection && track) {
             }
         }
 
-        // --- STATE B: SCROLLING (The "Heavy" Horizontal Move) ---
+        // --- STATE B: SCROLLING (Horizontal Move) ---
         else {
             
+            // Ensure elements are fully visible/set
             if (axisLine) axisLine.style.opacity = 1;
             if (stickyProfile) {
                 stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
 
-            // Calculate Progress based on the NEW taller height (700vh)
+            // Calculate Horizontal Progress
+            // We use the full height (700vh) for the calculation
             const totalScrollable = rect.height - windowHeight;
             let scrollProgress = -incomingPosition / totalScrollable;
             scrollProgress = Math.max(0, Math.min(1, scrollProgress));
@@ -730,17 +730,21 @@ if (servicesSection && track) {
             items.forEach((item, index) => {
                 const itemRect = item.getBoundingClientRect();
                 const itemCenter = itemRect.left + (itemRect.width / 2);
+                
+                // Calculate distance from center of screen
                 const dist = Math.abs(centerLine - itemCenter);
                 
-                // Active Logic
-                if (dist < 400) {
-                    let opacity = 1 - (dist / 400);
+                // FADE LOGIC (Wider Zone)
+                // Increased to 600px so items fade in earlier
+                if (dist < 600) {
+                    let opacity = 1 - (dist / 600);
+                    // Min 0.2, Max 1.0
                     item.style.opacity = 0.2 + (opacity * 0.8); 
                 } else {
                     item.style.opacity = 0.2;
                 }
                 
-                // SAFETY: Keep first item visible during transition
+                // SAFETY: Keep first item visible during the transition from Entry to Scroll
                 if (index === 0 && scrollProgress < 0.05) {
                     item.style.opacity = 1;
                 }
