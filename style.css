@@ -2911,9 +2911,8 @@ body.portfolio-page::before {
     will-change: transform;
 }
 
-/* The Intro Paragraph (Starts Hidden) */
+/* Update this rule in style.css */
 .intro-item p {
-    /* Same styling as before */
     font-family: 'Inter', sans-serif;
     font-weight: 300;
     font-size: 1.1rem;
@@ -2927,11 +2926,12 @@ body.portfolio-page::before {
     position: absolute;
     bottom: 0;
     left: 0;
-    padding-bottom: 20px;
+    
+    /* CHANGED: Increased from 20px to 50px to lift text higher off the dot */
+    padding-bottom: 50px;
     
     /* Start Invisible */
     opacity: 0;
-    /* No transform Y needed here, we just fade it in */
     will-change: opacity;
 }
 

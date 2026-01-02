@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Intro Expand -> Scroll) ==
+// == 14. ABOUT PAGE: Timeline (Delayed Intro Text) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -675,24 +675,19 @@ if (servicesSection && track) {
             
             // Just show the Header sitting on the dot
             if (items.length > 0) {
-                // Ensure Header is visible but at bottom position
                 const introHeader = items[0].querySelector('h2');
                 const introPara = items[0].querySelector('p');
                 
                 if (introHeader) introHeader.style.transform = `translateY(0px)`;
                 if (introPara) introPara.style.opacity = 0;
                 
-                // Fade the whole item in slightly as white BG rises
+                // Fade the whole item container in
                 items[0].style.opacity = entryProgress;
             }
 
-            // Hide Line initially
             if (axisLine) axisLine.style.opacity = 0;
-
-            // Lock Track
             track.style.transform = `translate(0px, -50%)`;
 
-            // Background Parallax
             if (stickyProfile) {
                 const scale = 1 - (entryProgress * 0.05); 
                 const brightness = 1 - (entryProgress * 0.5); 
@@ -713,8 +708,8 @@ if (servicesSection && track) {
             let scrollProgress = -incomingPosition / totalScrollable;
             scrollProgress = Math.max(0, Math.min(1, scrollProgress));
 
-            // CONSTANT: How much scroll % to dedicate to opening the Intro
-            const INTRO_PHASE = 0.15; // 15% of scroll
+            // CONSTANT: Intro takes first 15% of scroll
+            const INTRO_PHASE = 0.15; 
 
             // Get Intro Elements
             const introHeader = items[0].querySelector('h2');
@@ -727,24 +722,33 @@ if (servicesSection && track) {
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
                 // 1. Move Header Up
-                // We need to measure the paragraph to know how high to go
-                let liftHeight = 150; // Default fallback
-                if (introPara) liftHeight = introPara.offsetHeight + 30;
+                let liftHeight = 150; 
+                if (introPara) {
+                    // Lift = Paragraph Height + 50px Gap
+                    liftHeight = introPara.offsetHeight + 50;
+                }
                 
                 if (introHeader) {
                     let currentLift = expandProg * liftHeight;
                     introHeader.style.transform = `translateY(-${currentLift}px)`;
                 }
 
-                // 2. Fade Text In
+                // 2. Fade Text In (DELAYED)
                 if (introPara) {
-                    introPara.style.opacity = expandProg;
+                    // Start fading only after 40% of the movement is done
+                    let fadeStart = 0.4;
+                    let textOpacity = 0;
+                    
+                    if (expandProg > fadeStart) {
+                        // Normalize the remaining 60% to be 0-1
+                        textOpacity = (expandProg - fadeStart) / (1 - fadeStart);
+                    }
+                    
+                    introPara.style.opacity = textOpacity;
                 }
 
                 // 3. Keep Track Locked
                 track.style.transform = `translate(0px, -50%)`;
-                
-                // 4. No Line Yet
                 if (axisLine) {
                     axisLine.style.opacity = 0;
                     axisLine.style.width = '0px';
@@ -756,7 +760,7 @@ if (servicesSection && track) {
                 
                 // 1. Lock Intro Open
                 if (introHeader && introPara) {
-                    let liftHeight = introPara.offsetHeight + 30;
+                    let liftHeight = introPara.offsetHeight + 50;
                     introHeader.style.transform = `translateY(-${liftHeight}px)`;
                     introPara.style.opacity = 1;
                 }
@@ -765,7 +769,6 @@ if (servicesSection && track) {
                 if (axisLine) axisLine.style.opacity = 1;
 
                 // 3. Calculate Horizontal Movement
-                // We map the REMAINING progress (0.15 to 1.0) to (0.0 to 1.0)
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
                 const trackWidth = track.scrollWidth;
