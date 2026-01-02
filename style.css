@@ -2919,6 +2919,7 @@ body.portfolio-page::before {
 
 /* Update this rule in style.css */
 /* Update this rule in style.css */
+/* Update this rule in style.css */
 .intro-item p {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
@@ -2929,15 +2930,13 @@ body.portfolio-page::before {
     margin: 0;
     width: 100%;
     
-    /* Position at bottom */
     position: absolute;
     bottom: 0;
     left: 0;
     
-    /* CHANGED: Increased from 20px to 60px to lift the text up */
-    padding-bottom: 60px;
+    /* CHANGED: Reduced to 40px (Middle ground) */
+    padding-bottom: 40px;
     
-    /* Start Invisible */
     opacity: 0;
     will-change: opacity;
 }

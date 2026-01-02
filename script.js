@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Perfect Align & Tight Header) ==
+// == 14. ABOUT PAGE: Timeline (Tuned Spacing & Timing) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -720,9 +720,9 @@ if (servicesSection && track) {
                 // 1. Move Header Up
                 let liftHeight = 150; 
                 if (introPara) {
-                    // CHANGED: Subtract 5px to tighten the gap significantly
-                    // This pulls the header down closer to the text characters
-                    liftHeight = introPara.offsetHeight - 5;
+                    // CHANGED: Subtract 25px.
+                    // Since padding is 40px, this leaves a 15px visual gap between Header and Text.
+                    liftHeight = introPara.offsetHeight - 25;
                 }
                 
                 if (introHeader) {
@@ -730,10 +730,11 @@ if (servicesSection && track) {
                     introHeader.style.transform = `translateY(-${currentLift}px)`;
                 }
 
-                // 2. Fade Text In
+                // 2. Fade Text In (DELAYED)
                 if (introPara) {
-                    // Wait until 50% through the lift before fading in (Prevents overlap)
-                    let fadeStart = 0.5;
+                    // CHANGED: Wait until 65% of the lift is done.
+                    // This ensures the header is clear before text appears.
+                    let fadeStart = 0.65;
                     let textOpacity = 0;
                     
                     if (expandProg > fadeStart) {
@@ -756,8 +757,7 @@ if (servicesSection && track) {
                 
                 // 1. Lock Intro Open
                 if (introHeader && introPara) {
-                    // Lock at the tight height
-                    let liftHeight = introPara.offsetHeight - 5;
+                    let liftHeight = introPara.offsetHeight - 25;
                     introHeader.style.transform = `translateY(-${liftHeight}px)`;
                     introPara.style.opacity = 1;
                 }
