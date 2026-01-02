@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Horizontal Timeline (Closer Headers) ==
+// == 14. ABOUT PAGE: Timeline (Intro Expand -> Scroll) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -666,25 +666,33 @@ if (servicesSection && track) {
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
-        // 1. Calculate Entry Progress
+        // 1. Calculate Entry Progress (0 to 1)
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
-        // --- STATE A: ENTERING ---
+        // --- STATE A: ENTERING (Black -> White Transition) ---
         if (incomingPosition > 0) {
-            if (items.length > 0) {
-                let easedProgress = entryProgress * entryProgress * entryProgress;
-                items[0].style.opacity = easedProgress;
-            }
             
-            let lineOpacity = 0;
-            if (entryProgress > 0.9) {
-                lineOpacity = (entryProgress - 0.9) * 10; 
+            // Just show the Header sitting on the dot
+            if (items.length > 0) {
+                // Ensure Header is visible but at bottom position
+                const introHeader = items[0].querySelector('h2');
+                const introPara = items[0].querySelector('p');
+                
+                if (introHeader) introHeader.style.transform = `translateY(0px)`;
+                if (introPara) introPara.style.opacity = 0;
+                
+                // Fade the whole item in slightly as white BG rises
+                items[0].style.opacity = entryProgress;
             }
-            if (axisLine) axisLine.style.opacity = lineOpacity;
 
+            // Hide Line initially
+            if (axisLine) axisLine.style.opacity = 0;
+
+            // Lock Track
             track.style.transform = `translate(0px, -50%)`;
 
+            // Background Parallax
             if (stickyProfile) {
                 const scale = 1 - (entryProgress * 0.05); 
                 const brightness = 1 - (entryProgress * 0.5); 
@@ -694,9 +702,8 @@ if (servicesSection && track) {
             }
         }
 
-        // --- STATE B: SCROLLING ---
+        // --- STATE B: PINNED SCROLLING (Expand -> Move) ---
         else {
-            if (axisLine) axisLine.style.opacity = 1;
             if (stickyProfile) {
                 stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
                 stickyProfile.style.filter = `brightness(0.5)`;
@@ -706,52 +713,104 @@ if (servicesSection && track) {
             let scrollProgress = -incomingPosition / totalScrollable;
             scrollProgress = Math.max(0, Math.min(1, scrollProgress));
 
-            const trackWidth = track.scrollWidth;
-            const viewportWidth = window.innerWidth;
-            const moveDistance = trackWidth - viewportWidth;
+            // CONSTANT: How much scroll % to dedicate to opening the Intro
+            const INTRO_PHASE = 0.15; // 15% of scroll
+
+            // Get Intro Elements
+            const introHeader = items[0].querySelector('h2');
+            const introPara = items[0].querySelector('p');
             
-            let xPos = -(scrollProgress * moveDistance);
-            track.style.transform = `translate(${xPos}px, -50%)`;
-
-            // Draw Line
-            const currentLineLength = Math.abs(xPos);
-            if (axisLine) axisLine.style.width = currentLineLength + 'px';
-
-            // Animation Trigger
-            const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
-
-            items.forEach((item, index) => {
-                if (index === 0) {
-                    item.style.opacity = 1;
-                    return;
+            // --- SUB-STATE B1: EXPAND INTRO (Vertical Animation) ---
+            if (scrollProgress < INTRO_PHASE) {
+                
+                // Normalize 0 to 1 for this phase
+                let expandProg = scrollProgress / INTRO_PHASE;
+                
+                // 1. Move Header Up
+                // We need to measure the paragraph to know how high to go
+                let liftHeight = 150; // Default fallback
+                if (introPara) liftHeight = introPara.offsetHeight + 30;
+                
+                if (introHeader) {
+                    let currentLift = expandProg * liftHeight;
+                    introHeader.style.transform = `translateY(-${currentLift}px)`;
                 }
 
-                const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);
-                const distanceToItem = itemCenterX - startX;
-
-                const label = item.querySelector('.service-label');
-                const p = item.querySelector('p');
-
-                if (currentLineLength >= distanceToItem) {
-                    item.classList.add('has-arrived');
-                    
-                    if (label && p) {
-                        const pHeight = p.offsetHeight;
-                        
-                        // CHANGED: Reduced gap from 30px to 15px
-                        const liftAmount = pHeight + 15; 
-                        
-                        label.style.transform = `translate(-50%, -${liftAmount}px)`;
-                    }
-                } else {
-                    item.classList.remove('has-arrived');
-                    
-                    if (label) {
-                        // Reset to default
-                        label.style.transform = `translate(-50%, 0px)`;
-                    }
+                // 2. Fade Text In
+                if (introPara) {
+                    introPara.style.opacity = expandProg;
                 }
-            });
+
+                // 3. Keep Track Locked
+                track.style.transform = `translate(0px, -50%)`;
+                
+                // 4. No Line Yet
+                if (axisLine) {
+                    axisLine.style.opacity = 0;
+                    axisLine.style.width = '0px';
+                }
+            }
+
+            // --- SUB-STATE B2: HORIZONTAL SCROLL (Move Left) ---
+            else {
+                
+                // 1. Lock Intro Open
+                if (introHeader && introPara) {
+                    let liftHeight = introPara.offsetHeight + 30;
+                    introHeader.style.transform = `translateY(-${liftHeight}px)`;
+                    introPara.style.opacity = 1;
+                }
+
+                // 2. Reveal Line
+                if (axisLine) axisLine.style.opacity = 1;
+
+                // 3. Calculate Horizontal Movement
+                // We map the REMAINING progress (0.15 to 1.0) to (0.0 to 1.0)
+                let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
+
+                const trackWidth = track.scrollWidth;
+                const viewportWidth = window.innerWidth;
+                const moveDistance = trackWidth - viewportWidth;
+                
+                let xPos = -(horizProgress * moveDistance);
+                track.style.transform = `translate(${xPos}px, -50%)`;
+
+                // 4. Draw Line
+                if (axisLine) {
+                    axisLine.style.width = Math.abs(xPos) + 'px';
+                }
+
+                // 5. Active Item Logic (Standard Items)
+                const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
+                const currentLineLength = Math.abs(xPos);
+
+                items.forEach((item, index) => {
+                    if (index === 0) {
+                        item.style.opacity = 1;
+                        return;
+                    }
+
+                    const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);
+                    const distanceToItem = itemCenterX - startX;
+
+                    const label = item.querySelector('.service-label');
+                    const p = item.querySelector('p');
+
+                    if (currentLineLength >= distanceToItem) {
+                        item.classList.add('has-arrived');
+                        if (label && p) {
+                            const pHeight = p.offsetHeight;
+                            const liftAmount = pHeight + 15; 
+                            label.style.transform = `translate(-50%, -${liftAmount}px)`;
+                        }
+                    } else {
+                        item.classList.remove('has-arrived');
+                        if (label) {
+                            label.style.transform = `translate(-50%, 0px)`;
+                        }
+                    }
+                });
+            }
         }
     }
 
