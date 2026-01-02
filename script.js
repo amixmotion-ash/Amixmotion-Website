@@ -650,86 +650,86 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Services (Timeline Carousel) ==
+// == 14. ABOUT PAGE: Horizontal Timeline Scroll ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
-const slide1 = document.querySelector('.service-slide.slide-1');
-const slide2 = document.querySelector('.service-slide.slide-2');
-const timelineBar = document.querySelector('.timeline-bar');
+const track = document.querySelector('.services-track');
+const items = document.querySelectorAll('.service-item');
 const stickyProfile = document.querySelector('.profile-grid-section') || document.querySelector('.about-scroll-trigger');
 
-if (servicesSection && slide1 && slide2) {
+if (servicesSection && track) {
     
-    function animateServices() {
+    function animateTimeline() {
         const rect = servicesSection.getBoundingClientRect();
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
-        
-        // --- PHASE 1: ENTRY (Fade In Slide 1) ---
-        if (incomingPosition > 0 && incomingPosition <= windowHeight) {
-            let entryProgress = 1 - (incomingPosition / windowHeight);
-            
-            // Fade In Slide 1
-            slide1.style.opacity = entryProgress;
-            slide1.style.transform = `translate(-50%, -50%)`; // Lock center
-            
-            // Reset Slide 2 & Line
-            slide2.style.opacity = 0;
-            slide2.style.transform = `translate(50%, -50%)`;
-            if (timelineBar) timelineBar.style.width = '0%';
+        const totalScrollable = rect.height - windowHeight;
 
-            // Background Dimming (Profile)
-            if (stickyProfile) {
-                const scale = 1 - (entryProgress * 0.05); 
-                const brightness = 1 - (entryProgress * 0.5); 
-                const yPos = -(entryProgress * 100);
+        // 1. Calculate Global Progress
+        // When Top=0, Progress=0. When Bottom=ScreenBottom, Progress=1.
+        let progress = -incomingPosition / totalScrollable;
+        
+        // Clamp between 0 and 1
+        progress = Math.max(0, Math.min(1, progress));
+
+        // 2. Move the Track
+        // We calculate total width of content
+        const trackWidth = track.scrollWidth;
+        const viewportWidth = window.innerWidth;
+        
+        // We want to scroll from Left Edge to Right Edge
+        // - (trackWidth - viewportWidth) would be end.
+        // We add some buffer so the first/last items center perfectly.
+        const moveDistance = trackWidth - viewportWidth;
+        
+        // Apply Transform
+        let xPos = -(progress * moveDistance);
+        track.style.transform = `translate(${xPos}px, -50%)`;
+
+        // 3. Highlight Active Item (Center Detection)
+        const centerLine = window.innerWidth / 2;
+
+        items.forEach(item => {
+            const itemRect = item.getBoundingClientRect();
+            const itemCenter = itemRect.left + (itemRect.width / 2);
+            
+            // Calculate distance from center of screen
+            const dist = Math.abs(centerLine - itemCenter);
+            
+            // If closest to center (within 300px), fade in
+            if (dist < 300) {
+                // Map distance to opacity (0 distance = 1 opacity)
+                let opacity = 1 - (dist / 300);
+                item.style.opacity = 0.3 + (opacity * 0.7); // Min 0.3, Max 1.0
+                
+                // Scale effect (optional, slight zoom for active item)
+                let scale = 1 + (opacity * 0.05);
+                item.style.transform = `scale(${scale})`;
+            } else {
+                item.style.opacity = 0.3;
+                item.style.transform = `scale(1)`;
+            }
+        });
+
+        // 4. Background Dimming (Profile)
+        // Dim the background as soon as this section enters
+        if (stickyProfile) {
+            let entryProg = 1 - (incomingPosition / windowHeight);
+            if (entryProg > 0 && entryProg < 1) {
+                const scale = 1 - (entryProg * 0.05); 
+                const brightness = 1 - (entryProg * 0.5); 
+                const yPos = -(entryProg * 100);
                 stickyProfile.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
                 stickyProfile.style.filter = `brightness(${brightness})`;
+            } else if (entryProg >= 1) {
+                // Keep it dim while scrolling horizontal
+                stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
+                stickyProfile.style.filter = `brightness(0.5)`;
             }
-        } 
-        
-        // --- PHASE 2: SCROLLING (The Carousel) ---
-        else if (incomingPosition <= 0) {
-            
-            const scrolled = Math.abs(incomingPosition);
-            const totalScrollable = rect.height - windowHeight;
-            let swapProgress = Math.min(1, scrolled / (totalScrollable * 0.95)); 
-
-            // 1. TIMELINE BAR (Grows 0% -> 100%)
-            if (timelineBar) {
-                timelineBar.style.width = (swapProgress * 100) + '%';
-            }
-
-            // 2. SLIDE 1 (Moves Left & Fades Out)
-            // Starts moving immediately
-            // Moves from Center (-50%) to Left (-100%)
-            let s1Move = -50 - (swapProgress * 50);
-            let s1Opacity = 1 - (swapProgress * 2); // Fades out by 50% scroll
-            
-            slide1.style.opacity = Math.max(0, s1Opacity);
-            slide1.style.transform = `translate(${s1Move}%, -50%)`;
-
-            // 3. SLIDE 2 (Moves In from Right)
-            // Starts at 0.3 (30% scroll)
-            let s2Progress = Math.max(0, swapProgress - 0.3);
-            s2Progress = s2Progress * 1.43; // Normalize to finish at 1.0
-            if (s2Progress > 1) s2Progress = 1;
-
-            // Moves from Right (0%) to Center (-50%)
-            // Distance = 50 units
-            let s2Move = 0 - (s2Progress * 50);
-            
-            slide2.style.opacity = s2Progress;
-            slide2.style.transform = `translate(${s2Move}%, -50%)`;
-        }
-        
-        // Reset if below screen
-        else {
-            slide1.style.opacity = 0;
         }
     }
 
-    window.addEventListener('scroll', animateServices);
-    animateServices();
+    window.addEventListener('scroll', animateTimeline);
+    animateTimeline();
 }
