@@ -650,13 +650,13 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Services (Shorter Line / No Overlap) ==
+// == 14. ABOUT PAGE: Services (Timeline Carousel) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
 const slide1 = document.querySelector('.service-slide.slide-1');
 const slide2 = document.querySelector('.service-slide.slide-2');
-const keyline = document.querySelector('.connecting-line'); 
+const timeline = document.querySelector('.timeline-line'); 
 const stickyProfile = document.querySelector('.profile-grid-section') || document.querySelector('.about-scroll-trigger');
 
 if (servicesSection && slide1 && slide2) {
@@ -675,8 +675,8 @@ if (servicesSection && slide1 && slide2) {
             let lift = 100 - (entryProgress * 100);
             slide1.style.transform = `translate(-50%, calc(-50% + ${lift}px))`; 
             
-            // Reset
-            if (keyline) keyline.style.width = '0px';
+            // Reset Timeline & Slide 2
+            if (timeline) timeline.style.width = '0px';
             slide2.style.opacity = 0;
             slide2.style.transform = `translate(50%, -50%)`; 
 
@@ -690,68 +690,45 @@ if (servicesSection && slide1 && slide2) {
             }
         } 
         
-        // --- PHASE 2: SWAP (Keyline Animation) ---
+        // --- PHASE 2: SWAP (Timeline Flow) ---
         else if (incomingPosition <= 0) {
             
             const scrolled = Math.abs(incomingPosition);
             const totalScrollable = rect.height - windowHeight;
             let swapProgress = Math.min(1, scrolled / (totalScrollable * 0.95)); 
 
-            // MATH CONSTANTS
-            const MOVE_DISTANCE_VW = 60; 
-            const INITIAL_LINE_PX = 100;  
-
-            // 1. KEYLINE GROWTH (0% - 15%)
-            let lineGrowth = 0;
-            if (swapProgress < 0.15) {
-                lineGrowth = (swapProgress / 0.15) * INITIAL_LINE_PX;
-            } else {
-                lineGrowth = INITIAL_LINE_PX;
+            // 1. TIMELINE GROWTH
+            // Grows from 0px to 600px (approx width of text block)
+            if (timeline) {
+                let lineWidth = swapProgress * 600;
+                timeline.style.width = `${lineWidth}px`;
             }
 
-            // 2. SLIDE 1 MOVEMENT (15% - 100%)
-            let moveProgress = 0;
-            if (swapProgress > 0.15) {
-                moveProgress = (swapProgress - 0.15) / 0.85;
-            }
-
-            // Move Slide 1 Left
-            let s1Move = `calc(-50% - ${moveProgress * MOVE_DISTANCE_VW}vw)`;
-            slide1.style.transform = `translate(${s1Move}, -50%)`;
+            // 2. SLIDE 1 (Exit Left)
+            // Move: Center (-50%) -> Left (-100%)
+            let s1Move = -50 - (swapProgress * 50);
             
-            // Fade Out Slide 1 (Late)
-            if (moveProgress > 0.5) {
-                slide1.style.opacity = 1 - ((moveProgress - 0.5) * 2);
-            } else {
-                slide1.style.opacity = 1;
-            }
-
-            // Grow Line to match movement
-            if (keyline) {
-                let extraWidth = moveProgress * (window.innerWidth * (MOVE_DISTANCE_VW / 100));
-                
-                // FIX: INCREASED SUBTRACTION TO 200px
-                // This stops the line earlier, preventing overlap with the incoming text
-                let totalWidth = lineGrowth + extraWidth - 200;
-                
-                if (totalWidth < 0) totalWidth = 0;
-                
-                keyline.style.width = `${totalWidth}px`;
-            }
-
-            // 3. SLIDE 2 ENTRY (From Right)
-            let s2Progress = 0;
-            if (moveProgress > 0.05) {
-                s2Progress = (moveProgress - 0.05) / 0.95;
-            }
-
-            let s2Offset = (1 - s2Progress) * MOVE_DISTANCE_VW;
+            // Fade Out: Starts early so it clears the way
+            let s1Opacity = 1 - (swapProgress * 1.5);
             
-            // Position Slide 2
-            slide2.style.transform = `translate(calc(-50% + ${s2Offset}vw), -50%)`;
+            slide1.style.opacity = Math.max(0, s1Opacity);
+            slide1.style.transform = `translate(${s1Move}%, -50%)`;
+
+            // 3. SLIDE 2 (Enter from Right)
+            // Starts delayed (0.2)
+            let s2Progress = Math.max(0, swapProgress - 0.2);
+            s2Progress = s2Progress * 1.25; // Speed up to catch up
+            if (s2Progress > 1) s2Progress = 1;
+
+            // Move: Right (0%) -> Center (-50%)
+            // We start at 0% (Right edge of container) and move left
+            let s2Move = 0 - (s2Progress * 50);
             
             // Fade In
-            slide2.style.opacity = Math.min(1, s2Progress * 4);
+            let s2Opacity = s2Progress * 2;
+
+            slide2.style.opacity = Math.min(1, s2Opacity);
+            slide2.style.transform = `translate(${s2Move}%, -50%)`;
         }
         
         // Reset

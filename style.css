@@ -2781,26 +2781,45 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == KEYLINE FIX: Grow to Right == */
+/* == SERVICES: Timeline Styles == */
 /* ================================================================= */
 
-.connecting-line {
+.timeline-line {
     position: absolute;
-    top: 50%;
+    /* Position it nicely below the text paragraph */
+    top: 65%; 
     
-    /* FIX: Attach to the outer right edge */
-    left: 100%; 
-    right: auto; /* Ensure 'right' property doesn't interfere */
+    /* ANCHOR LEFT: 
+       We position it at 50% (Center), but shift it back by 300px.
+       This aligns the start of the line with the start of the text block.
+    */
+    left: 50%;
+    margin-left: -300px; 
     
     height: 2px;
     background-color: #000000;
-    width: 0px; 
+    width: 0px; /* Starts invisible, JS grows it */
     
-    /* Ensure it grows outwards to the right */
-    transform-origin: left center;
-    
-    /* Add a tiny margin so it doesn't touch the text letters immediately */
-    margin-left: 20px; 
+    z-index: 10;
+    transform-origin: left center; /* Grows to the right */
+}
+
+/* Ensure slides are positioned correctly for the Left-Flow animation */
+.service-slide {
+    /* Same as before */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 800px;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center;
+    opacity: 0; 
+    will-change: opacity, transform;
 }
 
 
