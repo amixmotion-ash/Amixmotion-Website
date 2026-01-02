@@ -2719,6 +2719,7 @@ body.portfolio-page::before {
 
 /* 3. The Moving Track */
 
+/* Update this rule in style.css */
 .services-track {
     display: flex;
     align-items: flex-start; 
@@ -2727,15 +2728,16 @@ body.portfolio-page::before {
     top: 50%;
     transform: translateY(-50%); 
     
-    /* Center First & Last items (Keep this math the same) */
+    /* Keep centering math the same */
     padding-left: calc(50vw - 400px);
     padding-right: calc(50vw - 200px);
     
-    /* CHANGED: Increased from 15vw to 40vw to push paragraphs apart */
-    gap: 40vw; 
+    /* CHANGED: Reduced from 40vw to 25vw */
+    gap: 25vw; 
     
     will-change: transform;
 }
+
 
 /* Update this rule in style.css */
 .timeline-axis {
