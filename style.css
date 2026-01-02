@@ -2737,12 +2737,18 @@ body.portfolio-page::before {
     will-change: transform;
 }
 
-/* 4. The Continuous Line */
+/* Update this rule */
 .timeline-axis {
     position: absolute;
-    top: 300px; /* Position where the circles/line sit */
-    left: 0;
-    width: 100%;
+    top: 300px; /* Vertical position */
+    
+    /* START: Center of first item (800px / 2 = 400px) */
+    left: 400px; 
+    
+    /* END: Total width minus (Half first item + Half last item) */
+    /* 100% - (400px + 200px) = 100% - 600px */
+    width: calc(100% - 600px);
+    
     height: 2px;
     background-color: #000000;
     z-index: 0;
@@ -2802,20 +2808,26 @@ body.portfolio-page::before {
     color: #222;
 }
 
-/* 7. The Circle Dot */
+/* Update this rule */
 .timeline-dot {
     width: 20px;
     height: 20px;
-    background-color: #ffffff;
-    border: 2px solid #000000;
+    
+    /* CHANGED: Solid Black, No Border */
+    background-color: #000000;
+    border: none;
+    
     border-radius: 50%;
     margin: 0 auto;
     
-    /* Position it exactly on the axis line */
+    /* Position exactly on the line */
     position: absolute;
-    bottom: -11px; /* Half height + border adjustment */
+    /* top: 300px (line position) - 10px (half dot height) = 290px */
+    top: 290px; 
+    
     left: 50%;
     transform: translateX(-50%);
+    z-index: 2; /* Sit on top of the line */
 }
 
 /* ================================================================= */
