@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Tighter Layout, No Overlap) ==
+// == 14. ABOUT PAGE: Timeline (Perfect Align & Tight Header) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -720,8 +720,9 @@ if (servicesSection && track) {
                 // 1. Move Header Up
                 let liftHeight = 150; 
                 if (introPara) {
-                    // CHANGED: Reduced buffer to 10px for tight layout
-                    liftHeight = introPara.offsetHeight + 10;
+                    // CHANGED: Subtract 5px to tighten the gap significantly
+                    // This pulls the header down closer to the text characters
+                    liftHeight = introPara.offsetHeight - 5;
                 }
                 
                 if (introHeader) {
@@ -729,9 +730,9 @@ if (servicesSection && track) {
                     introHeader.style.transform = `translateY(-${currentLift}px)`;
                 }
 
-                // 2. Fade Text In (DELAYED to prevent overlap)
+                // 2. Fade Text In
                 if (introPara) {
-                    // CHANGED: Wait until 50% through the lift before fading in
+                    // Wait until 50% through the lift before fading in (Prevents overlap)
                     let fadeStart = 0.5;
                     let textOpacity = 0;
                     
@@ -755,7 +756,8 @@ if (servicesSection && track) {
                 
                 // 1. Lock Intro Open
                 if (introHeader && introPara) {
-                    let liftHeight = introPara.offsetHeight + 10;
+                    // Lock at the tight height
+                    let liftHeight = introPara.offsetHeight - 5;
                     introHeader.style.transform = `translateY(-${liftHeight}px)`;
                     introPara.style.opacity = 1;
                 }

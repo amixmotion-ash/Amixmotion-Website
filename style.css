@@ -2933,8 +2933,8 @@ body.portfolio-page::before {
     bottom: 0;
     left: 0;
     
-    /* CHANGED: Reduced from 50px to 25px (Brings text closer to the dot/header) */
-    padding-bottom: 25px;
+    /* CHANGED: 20px matches the "bottom: 20px" of the other headers */
+    padding-bottom: 20px;
     
     /* Start Invisible */
     opacity: 0;
