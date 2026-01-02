@@ -2933,8 +2933,8 @@ body.portfolio-page::before {
     bottom: 0;
     left: 0;
     
-    /* CHANGED: Increased from 20px to 50px to lift text higher off the dot */
-    padding-bottom: 50px;
+    /* CHANGED: Reduced from 50px to 25px (Brings text closer to the dot/header) */
+    padding-bottom: 25px;
     
     /* Start Invisible */
     opacity: 0;

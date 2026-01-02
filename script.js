@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Tighter Intro Header) ==
+// == 14. ABOUT PAGE: Timeline (Tighter Layout, No Overlap) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -720,8 +720,8 @@ if (servicesSection && track) {
                 // 1. Move Header Up
                 let liftHeight = 150; 
                 if (introPara) {
-                    // CHANGED: Reduced gap from 50px to 15px
-                    liftHeight = introPara.offsetHeight + 15;
+                    // CHANGED: Reduced buffer to 10px for tight layout
+                    liftHeight = introPara.offsetHeight + 10;
                 }
                 
                 if (introHeader) {
@@ -729,9 +729,10 @@ if (servicesSection && track) {
                     introHeader.style.transform = `translateY(-${currentLift}px)`;
                 }
 
-                // 2. Fade Text In (Delayed)
+                // 2. Fade Text In (DELAYED to prevent overlap)
                 if (introPara) {
-                    let fadeStart = 0.4;
+                    // CHANGED: Wait until 50% through the lift before fading in
+                    let fadeStart = 0.5;
                     let textOpacity = 0;
                     
                     if (expandProg > fadeStart) {
@@ -754,8 +755,7 @@ if (servicesSection && track) {
                 
                 // 1. Lock Intro Open
                 if (introHeader && introPara) {
-                    // Lock with the same 15px gap
-                    let liftHeight = introPara.offsetHeight + 15;
+                    let liftHeight = introPara.offsetHeight + 10;
                     introHeader.style.transform = `translateY(-${liftHeight}px)`;
                     introPara.style.opacity = 1;
                 }
