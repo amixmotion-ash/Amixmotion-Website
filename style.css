@@ -2713,6 +2713,7 @@ body.portfolio-page::before {
 }
 
 /* 3. The Moving Track */
+/* Update this rule in style.css */
 .services-track {
     display: flex;
     align-items: flex-start; 
@@ -2720,8 +2721,13 @@ body.portfolio-page::before {
     left: 0;
     top: 50%;
     transform: translateY(-50%); 
-    padding-left: calc(50vw - 400px);
+    
+    /* CHANGED: Adjusted to center a 600px item (50vw - 300px) */
+    padding-left: calc(50vw - 300px);
+    
+    /* Keep the end padding the same (for the 400px items) */
     padding-right: calc(50vw - 200px);
+    
     gap: 25vw; 
     will-change: transform;
 }
@@ -2871,12 +2877,12 @@ body.portfolio-page::before {
 
 /* --- EXCEPTION: INTRO ITEM (Now Animated) --- */
 
+/* Update this rule in style.css */
 .service-item.intro-item {
-    width: 800px !important;
+    /* CHANGED: Reduced from 800px to 600px */
+    width: 600px !important; 
+    
     margin-right: 5vw;
-    /* Ensure z-index is high so it sits over the line */
-    position: relative;
-    z-index: 2; 
 }
 
 /* Reset the content wrapper */
