@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Horizontal Timeline (Dynamic Spacing) ==
+// == 14. ABOUT PAGE: Horizontal Timeline (Clean Animation) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -729,28 +729,23 @@ if (servicesSection && track) {
                 const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);
                 const distanceToItem = itemCenterX - startX;
 
-                // Find the elements inside
                 const label = item.querySelector('.service-label');
                 const p = item.querySelector('p');
 
                 if (currentLineLength >= distanceToItem) {
                     item.classList.add('has-arrived');
                     
-                    // --- DYNAMIC SPACING CALCULATION ---
                     if (label && p) {
-                        // Measure paragraph height
                         const pHeight = p.offsetHeight;
                         
-                        // Distance to move UP = Paragraph Height + 20px Gap
-                        // (Note: The paragraph already has 20px padding-bottom for the dot gap)
-                        const liftAmount = pHeight + 20; 
+                        // CHANGED: Increased buffer to 30px to prevent overlap
+                        const liftAmount = pHeight + 30; 
                         
                         label.style.transform = `translate(-50%, -${liftAmount}px)`;
                     }
                 } else {
                     item.classList.remove('has-arrived');
                     
-                    // Reset position
                     if (label) {
                         label.style.transform = `translate(-50%, 0px)`;
                     }

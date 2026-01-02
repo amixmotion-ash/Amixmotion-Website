@@ -2793,6 +2793,7 @@ body.portfolio-page::before {
 }
 
 /* Update the Paragraph rule */
+/* Update this rule in style.css */
 .service-item p {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
@@ -2803,16 +2804,19 @@ body.portfolio-page::before {
     margin: 0;
     width: 100%;
     
+    /* Position */
     position: absolute;
     bottom: 0;
     left: 0;
+    padding-bottom: 20px;
     
-    /* GAP 1: Distance between Text and Dot */
-    padding-bottom: 20px; 
-    
+    /* Hidden State */
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    
+    /* CHANGED: Added 0.1s delay to both properties */
+    transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
+    
     z-index: 1;
 }
 
