@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Tuned Spacing & Timing) ==
+// == 14. ABOUT PAGE: Timeline (Synced Dot Fade) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -676,9 +676,11 @@ if (servicesSection && track) {
             if (items.length > 0) {
                 const introHeader = items[0].querySelector('h2');
                 const introPara = items[0].querySelector('p');
+                const introDot = items[0].querySelector('.timeline-dot');
                 
                 if (introHeader) introHeader.style.transform = `translateY(0px)`;
                 if (introPara) introPara.style.opacity = 0;
+                if (introDot) introDot.style.opacity = 0; // Keep dot hidden during entry
                 
                 items[0].style.opacity = entryProgress;
             }
@@ -711,6 +713,7 @@ if (servicesSection && track) {
             // Get Intro Elements
             const introHeader = items[0].querySelector('h2');
             const introPara = items[0].querySelector('p');
+            const introDot = items[0].querySelector('.timeline-dot');
             
             // --- SUB-STATE B1: EXPAND INTRO (Vertical Animation) ---
             if (scrollProgress < INTRO_PHASE) {
@@ -720,8 +723,6 @@ if (servicesSection && track) {
                 // 1. Move Header Up
                 let liftHeight = 150; 
                 if (introPara) {
-                    // CHANGED: Subtract 25px.
-                    // Since padding is 40px, this leaves a 15px visual gap between Header and Text.
                     liftHeight = introPara.offsetHeight - 25;
                 }
                 
@@ -730,10 +731,9 @@ if (servicesSection && track) {
                     introHeader.style.transform = `translateY(-${currentLift}px)`;
                 }
 
-                // 2. Fade Text In (DELAYED)
-                if (introPara) {
-                    // CHANGED: Wait until 65% of the lift is done.
-                    // This ensures the header is clear before text appears.
+                // 2. Fade Text AND Dot In (Synced)
+                if (introPara && introDot) {
+                    // Start fading at 65% of the lift
                     let fadeStart = 0.65;
                     let textOpacity = 0;
                     
@@ -742,6 +742,7 @@ if (servicesSection && track) {
                     }
                     
                     introPara.style.opacity = textOpacity;
+                    introDot.style.opacity = textOpacity; // Dot matches text exactly
                 }
 
                 // 3. Keep Track Locked
@@ -756,10 +757,11 @@ if (servicesSection && track) {
             else {
                 
                 // 1. Lock Intro Open
-                if (introHeader && introPara) {
+                if (introHeader && introPara && introDot) {
                     let liftHeight = introPara.offsetHeight - 25;
                     introHeader.style.transform = `translateY(-${liftHeight}px)`;
                     introPara.style.opacity = 1;
+                    introDot.style.opacity = 1; // Lock dot visible
                 }
 
                 // 2. Reveal Line

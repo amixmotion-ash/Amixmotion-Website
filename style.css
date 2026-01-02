@@ -2945,3 +2945,11 @@ body.portfolio-page::before {
 .intro-item .timeline-dot {
     z-index: 5;
 }
+
+/* Add this rule to style.css */
+
+/* Hide the first dot initially so JS can fade it in with the text */
+.intro-item .timeline-dot {
+    opacity: 0;
+    will-change: opacity;
+}
