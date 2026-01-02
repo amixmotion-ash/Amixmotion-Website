@@ -2794,6 +2794,30 @@ body.portfolio-page::before {
 
 /* Update the Paragraph rule */
 /* Update this rule in style.css */
+/* 1. The Header Label (Base State = Exit) */
+.service-label {
+    width: 240px;
+    padding: 12px 0;
+    background-color: #000000;
+    color: #ffffff;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    text-transform: uppercase;
+    
+    position: absolute;
+    bottom: 20px; 
+    left: 50%;
+    transform: translate(-50%, 0); 
+    z-index: 10;
+
+    /* EXIT TRANSITION: Wait 0.3s before dropping down */
+    /* This gives the text time to disappear first */
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
+}
+
+/* 2. The Paragraph (Base State = Exit) */
 .service-item p {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
@@ -2804,31 +2828,33 @@ body.portfolio-page::before {
     margin: 0;
     width: 100%;
     
-    /* Position */
     position: absolute;
     bottom: 0;
     left: 0;
     padding-bottom: 20px;
-    
-    /* Hidden State */
     opacity: 0;
     transform: translateY(20px);
-    
-    /* CHANGED: Added 0.1s delay to both properties */
-    transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
-    
     z-index: 1;
+
+    /* EXIT TRANSITION: Fade out instantly (No delay) */
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Update the Active State rule */
-/* REMOVE the transform line from here, JS will handle it dynamically */
+/* 3. ACTIVE STATE: Header (Entry) */
 .service-item.has-arrived .service-label {
-    /* Transform is now calculated in JS */
+    /* Transform calculated by JS */
+    
+    /* ENTRY TRANSITION: Move up instantly (0s delay) */
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0s;
 }
 
+/* 4. ACTIVE STATE: Paragraph (Entry) */
 .service-item.has-arrived p {
     opacity: 1;
     transform: translateY(0);
+
+    /* ENTRY TRANSITION: Wait 0.2s before appearing */
+    transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
 }
 
 /* --- EXCEPTION: INTRO ITEM (Must come LAST to override) --- */
