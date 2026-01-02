@@ -2805,12 +2805,17 @@ body.portfolio-page::before {
     margin-bottom: 20px;
 }
 
+/* Update this rule in style.css */
 .service-item p {
     font-family: 'Inter', sans-serif;
-    font-weight: 400; /* Regular weight */
-    font-size: 0.95rem;
+    
+    /* CHANGED: Match the Intro text style */
+    font-weight: 300;  /* Was 400 (Regular), changed to 300 (Light) */
+    font-size: 1.1rem; /* Increased to match the first paragraph */
     line-height: 1.6;
+    
     color: #222;
+    margin: 0;
 }
 
 /* Update this rule */
