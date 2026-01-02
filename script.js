@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Horizontal Timeline Scroll ==
+// == 14. ABOUT PAGE: Horizontal Timeline (No Zoom, Just Fade) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -667,53 +667,44 @@ if (servicesSection && track) {
         const totalScrollable = rect.height - windowHeight;
 
         // 1. Calculate Global Progress
-        // When Top=0, Progress=0. When Bottom=ScreenBottom, Progress=1.
         let progress = -incomingPosition / totalScrollable;
-        
-        // Clamp between 0 and 1
         progress = Math.max(0, Math.min(1, progress));
 
         // 2. Move the Track
-        // We calculate total width of content
         const trackWidth = track.scrollWidth;
         const viewportWidth = window.innerWidth;
-        
-        // We want to scroll from Left Edge to Right Edge
-        // - (trackWidth - viewportWidth) would be end.
-        // We add some buffer so the first/last items center perfectly.
         const moveDistance = trackWidth - viewportWidth;
         
-        // Apply Transform
         let xPos = -(progress * moveDistance);
         track.style.transform = `translate(${xPos}px, -50%)`;
 
-        // 3. Highlight Active Item (Center Detection)
+        // 3. Highlight Active Item (Opacity Only)
         const centerLine = window.innerWidth / 2;
 
         items.forEach(item => {
             const itemRect = item.getBoundingClientRect();
             const itemCenter = itemRect.left + (itemRect.width / 2);
             
-            // Calculate distance from center of screen
+            // Calculate distance from center
             const dist = Math.abs(centerLine - itemCenter);
             
-            // If closest to center (within 300px), fade in
-            if (dist < 300) {
-                // Map distance to opacity (0 distance = 1 opacity)
-                let opacity = 1 - (dist / 300);
-                item.style.opacity = 0.3 + (opacity * 0.7); // Min 0.3, Max 1.0
-                
-                // Scale effect (optional, slight zoom for active item)
-                let scale = 1 + (opacity * 0.05);
-                item.style.transform = `scale(${scale})`;
+            // Fade Logic:
+            // Within 400px of center -> Fade to 100%
+            // Outside 400px -> Fade to 20%
+            if (dist < 400) {
+                let opacity = 1 - (dist / 400);
+                // Min 0.2, Max 1.0
+                item.style.opacity = 0.2 + (opacity * 0.8); 
             } else {
-                item.style.opacity = 0.3;
-                item.style.transform = `scale(1)`;
+                item.style.opacity = 0.2;
             }
+            
+            // REMOVED: item.style.transform = `scale(...)` 
+            // This ensures text size and dot position remain rock solid.
+            item.style.transform = 'none';
         });
 
-        // 4. Background Dimming (Profile)
-        // Dim the background as soon as this section enters
+        // 4. Background Dimming
         if (stickyProfile) {
             let entryProg = 1 - (incomingPosition / windowHeight);
             if (entryProg > 0 && entryProg < 1) {
@@ -723,7 +714,6 @@ if (servicesSection && track) {
                 stickyProfile.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
                 stickyProfile.style.filter = `brightness(${brightness})`;
             } else if (entryProg >= 1) {
-                // Keep it dim while scrolling horizontal
                 stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
