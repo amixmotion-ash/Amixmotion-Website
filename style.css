@@ -2784,13 +2784,15 @@ body.portfolio-page::before {
 
 /* 1. Update Content Wrapper to be the Anchor */
 .service-content {
-    /* Fixed height area */
+    position: absolute;
+    /* The line is at 300px. We want this box to end right there. */
+    /* Height 250px means it goes from Y=50px to Y=300px */
+    top: 40px; 
     height: 250px; 
     width: 100%;
-    margin: 0;
     
-    /* This allows us to absolute position the header/text inside */
-    position: relative; 
+    /* Ensure elements inside position relative to this box */
+    z-index: 5;
 }
 
 /* Intro Item Specifics */
@@ -2806,28 +2808,31 @@ body.portfolio-page::before {
 
 /* 2. Update the Header Labels (Black Boxes) */
 .service-label {
-    /* FIXED WIDTH: All black boxes are now same size */
+    /* FIXED WIDTH: Uniform size for all headers */
     width: 240px; 
-    text-align: center;
     
     background-color: #000000;
     color: #ffffff;
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     font-size: 1rem;
-    padding: 10px 0; /* Remove side padding since we have fixed width */
+    padding: 12px 0;
     text-transform: uppercase;
+    text-align: center;
     
-    /* POSITIONING: Start LOW (Aligned with other headers) */
+    /* POSITIONING: */
     position: absolute;
+    /* Sit at the very bottom of the content box (touching the line) */
     bottom: 0; 
+    /* Center Horizontally */
     left: 50%;
+    /* We use translate3d for smooth hardware acceleration */
+    /* Start: Centered X (-50%), Bottom Y (0px) */
+    transform: translate3d(-50%, 0px, 0); 
     
-    /* Center X (-50%) and Initial Y (0) */
-    transform: translate(-50%, 0px); 
-    
+    /* Animation Timing */
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-    z-index: 2; /* Sit on top of text */
+    z-index: 10; 
 }
 
 /* 3. Update the Paragraphs */
@@ -2838,18 +2843,21 @@ body.portfolio-page::before {
     line-height: 1.6;
     color: #222;
     margin: 0;
+    width: 100%; /* Fill the container width */
+    text-align: center;
     
-    /* Position Absolute so it doesn't affect Header placement */
+    /* Position Absolute at the bottom (behind where the header starts) */
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
     
     /* Start Hidden */
     opacity: 0;
-    transition: opacity 0.6s ease;
+    /* Slide it down slightly so it floats up when revealed */
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    z-index: 1; 
 }
-
 /* Update this rule */
 .timeline-dot {
     width: 20px;
@@ -2909,13 +2917,14 @@ body.portfolio-page::before {
 
 /* 4. ACTIVE STATE (When Line Hits) */
 .service-item.has-arrived .service-label {
-    /* Move Header UP by 180px to make room for text */
-    transform: translate(-50%, -180px); 
+    /* Move Header UP by 160px to reveal text */
+    transform: translate3d(-50%, -160px, 0); 
 }
 
 .service-item.has-arrived p {
-    /* Fade Text In */
+    /* Fade Text In and float to position */
     opacity: 1;
+    transform: translateY(0);
 }
 
 /* Keep the active dot fade from before, but ensure it works with this */
@@ -2924,15 +2933,23 @@ body.portfolio-page::before {
     opacity: 1 !important; 
 }
 .intro-item .service-content {
+    position: relative;
+    top: auto;
+    height: auto;
     display: block;
-    height: auto; /* Let it flow naturally */
 }
 .intro-item h2, .intro-item p {
-    position: static; /* Normal stacking */
+    position: static;
     opacity: 1;
     transform: none;
     width: auto;
 }
+
+.intro-item .service-label {
+    /* Hide the standard label styling for the intro item if it mistakenly applies */
+    display: none;
+}
+
 
 
 
