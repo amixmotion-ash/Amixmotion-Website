@@ -2812,6 +2812,21 @@ body.portfolio-page::before {
     transform: translateX(-50%);
 }
 
+/* ================================================================= */
+/* == SERVICES FIX: Wide Intro Item == */
+/* ================================================================= */
+
+/* Override the default 400px width just for the first item */
+.service-item.intro-item {
+    width: 800px !important; /* Restore the wide layout */
+    margin-right: 5vw; /* Add a little extra gap after the intro */
+}
+
+/* Ensure the text inside remains readable */
+.intro-item p {
+    max-width: 100%; /* Let it fill the 800px */
+    font-size: 1.1rem; /* Restore the slightly larger intro font size */
+}
 
 
 
