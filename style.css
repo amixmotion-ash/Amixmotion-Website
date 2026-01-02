@@ -2685,13 +2685,13 @@ body.portfolio-page::before {
     color: #222;
 }
 /* ================================================================= */
-/* == SERVICES SECTION: Horizontal Timeline (Final) == */
+/* == SERVICES SECTION: Horizontal Timeline (Final Consolidated) == */
 /* ================================================================= */
 
 /* 1. Main Container (Tall for scrolling time) */
 .services-section {
     background-color: #ffffff !important;
-    height: 700vh; /* 4 screens tall = slower scroll */
+    height: 700vh; /* Heavy scroll feel */
     position: relative;
     z-index: 5;
     margin: 0;
@@ -2709,17 +2709,12 @@ body.portfolio-page::before {
     display: flex;
     align-items: center;
     
-    /* THE FADE EFFECT:
-       This creates a gradient mask. 
-       Center is visible (black), Left/Right edges are transparent.
-    */
+    /* Fade edges mask */
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
     mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
 }
 
 /* 3. The Moving Track */
-
-/* Update this rule in style.css */
 .services-track {
     display: flex;
     align-items: flex-start; 
@@ -2728,23 +2723,19 @@ body.portfolio-page::before {
     top: 50%;
     transform: translateY(-50%); 
     
-    /* Keep centering math the same */
+    /* Padding to center first/last items */
     padding-left: calc(50vw - 400px);
     padding-right: calc(50vw - 200px);
     
-    /* CHANGED: Reduced from 40vw to 25vw */
     gap: 25vw; 
-    
     will-change: transform;
 }
 
-
-/* Update this rule in style.css */
+/* 4. The Line (Background) */
 .timeline-axis {
     position: absolute;
-    /* This sets the vertical baseline for everything */
-    top: 300px; 
-    left: 50vw; /* Starts from center of screen (Intro Item center) */
+    top: 300px; /* Benchmark Vertical Position */
+    left: 50vw; /* Start exactly at first item center */
     
     height: 2px;
     background-color: #000000;
@@ -2756,32 +2747,59 @@ body.portfolio-page::before {
     will-change: opacity, width;
 }
 
-/* 5. Individual Items */
+/* 5. The Items */
 .service-item {
-    position: relative; /* All children position relative to this box */
+    position: relative;
     width: 400px;
-    height: 400px; /* Fixed height to hold everything */
+    height: 400px; /* Fixed height container */
     flex-shrink: 0;
     z-index: 1;
 }
 
-/* Active State (Handled by JS) */
-.service-item.is-active {
-    opacity: 1;
+/* 6. The Dot */
+.timeline-dot {
+    position: absolute;
+    /* Line is at 300px. Dot is 20px. Center is 290px */
+    top: 290px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    width: 20px;
+    height: 20px;
+    background-color: #000000;
+    border-radius: 50%;
+    z-index: 2;
 }
 
-/* 1. Update Content Wrapper to be the Anchor */
+/* 7. The Content Area (Invisible wrapper for text/header) */
 .service-content {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    /* Height ends exactly at the dot's position */
-    height: 290px; 
-    pointer-events: none; /* Let scroll pass through */
+    height: 290px; /* Ends exactly at the dot */
+    pointer-events: none;
 }
 
-/* Intro Item Specifics */
+/* --- EXCEPTION: INTRO ITEM (Static) --- */
+.service-item.intro-item {
+    width: 800px !important;
+    margin-right: 5vw;
+}
+.intro-item .service-content {
+    position: relative;
+    height: auto;
+    top: auto;
+    display: block;
+    margin-bottom: 60px; /* Gap to dot */
+}
+.intro-item h2, .intro-item p {
+    text-align: center;
+    width: 100%;
+    position: static;
+    transform: none;
+    opacity: 1;
+}
 .intro-item h2 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
@@ -2791,10 +2809,12 @@ body.portfolio-page::before {
     color: #000;
     margin-bottom: 20px;
 }
+.intro-item .service-label { display: none; }
 
-/* 2. Update the Header Labels (Black Boxes) */
+/* --- STANDARD ITEMS (Animated) --- */
+
+/* The Header Label */
 .service-label {
-    /* Dimensions */
     width: 240px;
     padding: 12px 0;
     background-color: #000000;
@@ -2805,19 +2825,17 @@ body.portfolio-page::before {
     font-size: 1rem;
     text-transform: uppercase;
     
-    /* POSITIONING: Start sitting directly on top of the dot */
+    /* POSITION: Sit directly on top of the dot */
     position: absolute;
-    bottom: 20px; /* 20px gap above the dot */
+    bottom: 20px; 
     left: 50%;
-    /* Use translate solely for centering X */
-    transform: translate(-50%, 0); 
+    transform: translate(-50%, 0); /* Centered X, Bottom Y */
     
-    /* Animation */
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     z-index: 10;
 }
 
-/* 3. Update the Paragraphs */
+/* The Paragraph */
 .service-item p {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
@@ -2828,11 +2846,11 @@ body.portfolio-page::before {
     margin: 0;
     width: 100%;
     
-    /* Position at bottom of content area */
+    /* Position behind header */
     position: absolute;
     bottom: 0;
     left: 0;
-    padding-bottom: 20px; /* Align with header start pos */
+    padding-bottom: 20px;
     
     /* Hidden State */
     opacity: 0;
@@ -2840,57 +2858,8 @@ body.portfolio-page::before {
     transition: opacity 0.6s ease, transform 0.6s ease;
     z-index: 1;
 }
-/* Update this rule */
-.timeline-dot {
-    position: absolute;
-    /* Line is at 300px. Dot is 20px high. Center is 290px. */
-    top: 290px; 
-    left: 50%;
-    transform: translateX(-50%); /* Perfect Center */
-    
-    width: 20px;
-    height: 20px;
-    background-color: #000000;
-    border-radius: 50%;
-    z-index: 2;
-}
 
-/* ================================================================= */
-/* == SERVICES FIX: Wide Intro Item == */
-/* ================================================================= */
-
-/* Override the default 400px width just for the first item */
-.service-item.intro-item {
-    width: 800px !important; /* Restore the wide layout */
-    margin-right: 5vw; /* Add a little extra gap after the intro */
-}
-
-/* Ensure the text inside remains readable */
-.intro-item p {
-    max-width: 100%; /* Let it fill the 800px */
-    font-size: 1.1rem; /* Restore the slightly larger intro font size */
-}
-
-/* ================================================================= */
-/* == SERVICES: Line Activation Animation == */
-/* ================================================================= */
-
-/* 1. INITIAL STATE (Before Line Arrives) */
-/* We target every item EXCEPT the first Intro item */
-.service-item:not(.intro-item) .service-label {
-    /* Push header down so it sits just above the dot */
-    transform: translateY(100px); 
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.service-item:not(.intro-item) p {
-    /* Paragraph is completely hidden */
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-/* 4. ACTIVE STATE (When Line Hits) */
+/* --- ACTIVE STATE (Triggered by JS Line) --- */
 .service-item.has-arrived .service-label {
     /* Shoot UP by 180px */
     transform: translate(-50%, -180px); 
@@ -2902,31 +2871,7 @@ body.portfolio-page::before {
     transform: translateY(0);
 }
 
-/* Keep the active dot fade from before, but ensure it works with this */
+/* Default Visibility for non-intro items */
 .service-item:not(.intro-item) {
-    /* Ensure opacity is 1 so we see the header */
     opacity: 1 !important; 
 }
-.intro-item .service-content {
-    position: relative;
-    height: auto;
-    top: auto;
-}
-.intro-item h2, .intro-item p {
-    position: static;
-    opacity: 1;
-    transform: none;
-    text-align: center;
-}
-
-.intro-item .service-label {
-    /* Hide the standard label styling for the intro item if it mistakenly applies */
-    display: none;
-}
-
-
-
-
-
-
-
