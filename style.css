@@ -2742,19 +2742,20 @@ body.portfolio-page::before {
     position: absolute;
     top: 300px;
     
-    /* Anchored to the center of the FIRST item */
-    left: 400px; 
+    /* CHANGED: Anchor exactly to the center of the first item */
+    /* First item is centered via padding, so its center is exactly 50vw */
+    left: 50vw; 
     
-    /* CHANGED: Start with 0 width. JS will grow this. */
+    /* Start with 0 width (JS grows it) */
     width: 0px;
     
     height: 2px;
     background-color: #000000;
     z-index: 0;
     
-    opacity: 0; /* Start hidden for the entry phase */
+    opacity: 0; 
     will-change: opacity, width;
-    transition: none; /* No lag */
+    transition: none; 
 }
 
 /* 5. Individual Items */
