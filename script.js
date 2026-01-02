@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Delayed Intro Text) ==
+// == 14. ABOUT PAGE: Timeline (Tighter Intro Header) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -673,7 +673,6 @@ if (servicesSection && track) {
         // --- STATE A: ENTERING (Black -> White Transition) ---
         if (incomingPosition > 0) {
             
-            // Just show the Header sitting on the dot
             if (items.length > 0) {
                 const introHeader = items[0].querySelector('h2');
                 const introPara = items[0].querySelector('p');
@@ -681,7 +680,6 @@ if (servicesSection && track) {
                 if (introHeader) introHeader.style.transform = `translateY(0px)`;
                 if (introPara) introPara.style.opacity = 0;
                 
-                // Fade the whole item container in
                 items[0].style.opacity = entryProgress;
             }
 
@@ -708,7 +706,6 @@ if (servicesSection && track) {
             let scrollProgress = -incomingPosition / totalScrollable;
             scrollProgress = Math.max(0, Math.min(1, scrollProgress));
 
-            // CONSTANT: Intro takes first 15% of scroll
             const INTRO_PHASE = 0.15; 
 
             // Get Intro Elements
@@ -718,14 +715,13 @@ if (servicesSection && track) {
             // --- SUB-STATE B1: EXPAND INTRO (Vertical Animation) ---
             if (scrollProgress < INTRO_PHASE) {
                 
-                // Normalize 0 to 1 for this phase
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
                 // 1. Move Header Up
                 let liftHeight = 150; 
                 if (introPara) {
-                    // Lift = Paragraph Height + 50px Gap
-                    liftHeight = introPara.offsetHeight + 50;
+                    // CHANGED: Reduced gap from 50px to 15px
+                    liftHeight = introPara.offsetHeight + 15;
                 }
                 
                 if (introHeader) {
@@ -733,14 +729,12 @@ if (servicesSection && track) {
                     introHeader.style.transform = `translateY(-${currentLift}px)`;
                 }
 
-                // 2. Fade Text In (DELAYED)
+                // 2. Fade Text In (Delayed)
                 if (introPara) {
-                    // Start fading only after 40% of the movement is done
                     let fadeStart = 0.4;
                     let textOpacity = 0;
                     
                     if (expandProg > fadeStart) {
-                        // Normalize the remaining 60% to be 0-1
                         textOpacity = (expandProg - fadeStart) / (1 - fadeStart);
                     }
                     
@@ -760,7 +754,8 @@ if (servicesSection && track) {
                 
                 // 1. Lock Intro Open
                 if (introHeader && introPara) {
-                    let liftHeight = introPara.offsetHeight + 50;
+                    // Lock with the same 15px gap
+                    let liftHeight = introPara.offsetHeight + 15;
                     introHeader.style.transform = `translateY(-${liftHeight}px)`;
                     introPara.style.opacity = 1;
                 }
