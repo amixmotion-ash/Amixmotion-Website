@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Horizontal Timeline (Entry Control) ==
+// == 14. ABOUT PAGE: Horizontal Timeline (Apple-Style Easing) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -667,39 +667,32 @@ if (servicesSection && track) {
         const windowHeight = window.innerHeight;
         
         // 1. Calculate Entry Progress (0 to 1)
-        // 0 = White section touching bottom of screen
-        // 1 = White section fully covering screen
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
-        // --- STATE A: ENTERING (Black -> White Transition) ---
+        // --- STATE A: ENTERING (The "Fade On" Phase) ---
         if (incomingPosition > 0) {
             
-            // 1. TEXT FADE (First Item Only)
-            // We use a "Power" curve (progress * progress) so it starts slow and speeds up
+            // 1. TEXT FADE (Apple-Style Easing)
             if (items.length > 0) {
-                let textOpacity = entryProgress * entryProgress; // Slow start
-                items[0].style.opacity = textOpacity;
+                // Instead of linear (0, 0.1, 0.2), we use Cubic (0, 0.01, 0.08, 0.27)
+                // This makes it stay hidden longer, then fade in smoothly at the end.
+                let easedProgress = entryProgress * entryProgress * entryProgress;
+                items[0].style.opacity = easedProgress;
             }
 
-            // 2. LINE FADE (Very Late)
-            // Only starts showing when 85% of the screen is white
+            // 2. LINE FADE (Delayed)
             let lineOpacity = 0;
-            if (entryProgress > 0.85) {
-                lineOpacity = (entryProgress - 0.85) * 6.6; // Fade 0 to 1 quickly at end
+            if (entryProgress > 0.9) {
+                // Only appears in the final 10% of the entry
+                lineOpacity = (entryProgress - 0.9) * 10; 
             }
             if (axisLine) axisLine.style.opacity = lineOpacity;
 
-            // 3. LOCK TRACK (No horizontal scroll yet)
-            // We ensure it starts perfectly centered on the first item
-            const trackWidth = track.scrollWidth;
-            const viewportWidth = window.innerWidth;
-            const moveDistance = trackWidth - viewportWidth;
-            
-            // Initial X position (0 progress)
+            // 3. LOCK TRACK
             track.style.transform = `translate(0px, -50%)`;
 
-            // 4. BACKGROUND PARALLAX (Profile Section)
+            // 4. BACKGROUND PARALLAX
             if (stickyProfile) {
                 const scale = 1 - (entryProgress * 0.05); 
                 const brightness = 1 - (entryProgress * 0.5); 
@@ -709,17 +702,16 @@ if (servicesSection && track) {
             }
         }
 
-        // --- STATE B: PINNED SCROLLING (Horizontal Move) ---
+        // --- STATE B: SCROLLING (The "Heavy" Horizontal Move) ---
         else {
             
-            // Ensure Line & Background are fully set
             if (axisLine) axisLine.style.opacity = 1;
             if (stickyProfile) {
                 stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
 
-            // Calculate Horizontal Progress
+            // Calculate Progress based on the NEW taller height (700vh)
             const totalScrollable = rect.height - windowHeight;
             let scrollProgress = -incomingPosition / totalScrollable;
             scrollProgress = Math.max(0, Math.min(1, scrollProgress));
@@ -748,8 +740,8 @@ if (servicesSection && track) {
                     item.style.opacity = 0.2;
                 }
                 
-                // SAFETY: Ensure first item stays visible if we are just starting scroll
-                if (index === 0 && scrollProgress < 0.1) {
+                // SAFETY: Keep first item visible during transition
+                if (index === 0 && scrollProgress < 0.05) {
                     item.style.opacity = 1;
                 }
             });

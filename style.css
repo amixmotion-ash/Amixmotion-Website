@@ -2691,7 +2691,7 @@ body.portfolio-page::before {
 /* 1. Main Container (Tall for scrolling time) */
 .services-section {
     background-color: #ffffff !important;
-    height: 400vh; /* 4 screens tall = slower scroll */
+    height: 700vh; /* 4 screens tall = slower scroll */
     position: relative;
     z-index: 5;
     margin: 0;
