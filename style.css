@@ -2795,6 +2795,7 @@ body.portfolio-page::before {
 /* Update the Paragraph rule */
 /* Update this rule in style.css */
 /* 1. The Header Label (Base State = Exit) */
+/* 1. The Header Label (Base State = Exit) */
 .service-label {
     width: 240px;
     padding: 12px 0;
@@ -2812,9 +2813,10 @@ body.portfolio-page::before {
     transform: translate(-50%, 0); 
     z-index: 10;
 
-    /* EXIT TRANSITION: Wait 0.3s before dropping down */
-    /* This gives the text time to disappear first */
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
+    /* EXIT TRANSITION: 
+       Wait only 0.05s (imperceptible) before dropping.
+       This feels instant but gives the text a head start to fade opacity. */
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.05s;
 }
 
 /* 2. The Paragraph (Base State = Exit) */
@@ -2836,16 +2838,26 @@ body.portfolio-page::before {
     transform: translateY(20px);
     z-index: 1;
 
-    /* EXIT TRANSITION: Fade out instantly (No delay) */
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    /* EXIT TRANSITION: 
+       Fade out very fast (0.2s). No delay. */
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 /* 3. ACTIVE STATE: Header (Entry) */
 .service-item.has-arrived .service-label {
     /* Transform calculated by JS */
     
-    /* ENTRY TRANSITION: Move up instantly (0s delay) */
+    /* ENTRY: Move up instantly (0s delay) */
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0s;
+}
+
+/* 4. ACTIVE STATE: Paragraph (Entry) */
+.service-item.has-arrived p {
+    opacity: 1;
+    transform: translateY(0);
+
+    /* ENTRY: Wait 0.2s so header clears the way, then fade in slowly */
+    transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
 }
 
 /* 4. ACTIVE STATE: Paragraph (Entry) */
