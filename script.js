@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Horizontal Timeline (Line Trigger) ==
+// == 14. ABOUT PAGE: Horizontal Timeline (Dynamic Spacing) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -666,29 +666,25 @@ if (servicesSection && track) {
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
-        // 1. Calculate Entry Progress (0 to 1)
+        // 1. Calculate Entry Progress
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
         // --- STATE A: ENTERING ---
         if (incomingPosition > 0) {
-            // Text Fade (Intro Item Only)
             if (items.length > 0) {
                 let easedProgress = entryProgress * entryProgress * entryProgress;
                 items[0].style.opacity = easedProgress;
             }
             
-            // Line Fade
             let lineOpacity = 0;
             if (entryProgress > 0.9) {
                 lineOpacity = (entryProgress - 0.9) * 10; 
             }
             if (axisLine) axisLine.style.opacity = lineOpacity;
 
-            // Lock Track
             track.style.transform = `translate(0px, -50%)`;
 
-            // Background Parallax
             if (stickyProfile) {
                 const scale = 1 - (entryProgress * 0.05); 
                 const brightness = 1 - (entryProgress * 0.5); 
@@ -698,7 +694,7 @@ if (servicesSection && track) {
             }
         }
 
-        // --- STATE B: SCROLLING (Line Trigger Logic) ---
+        // --- STATE B: SCROLLING ---
         else {
             if (axisLine) axisLine.style.opacity = 1;
             if (stickyProfile) {
@@ -706,7 +702,6 @@ if (servicesSection && track) {
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
 
-            // Move Track
             const totalScrollable = rect.height - windowHeight;
             let scrollProgress = -incomingPosition / totalScrollable;
             scrollProgress = Math.max(0, Math.min(1, scrollProgress));
@@ -714,36 +709,51 @@ if (servicesSection && track) {
             const trackWidth = track.scrollWidth;
             const viewportWidth = window.innerWidth;
             const moveDistance = trackWidth - viewportWidth;
-            let xPos = -(scrollProgress * moveDistance);
             
+            let xPos = -(scrollProgress * moveDistance);
             track.style.transform = `translate(${xPos}px, -50%)`;
 
-            // DRAW LINE
+            // Draw Line
             const currentLineLength = Math.abs(xPos);
             if (axisLine) axisLine.style.width = currentLineLength + 'px';
 
-            // --- TRIGGER ANIMATIONS ---
-            // Calculate where the line starts (Center of Item 0)
+            // Animation Trigger
             const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
 
             items.forEach((item, index) => {
-                // Intro item (Index 0) stays visible
                 if (index === 0) {
                     item.style.opacity = 1;
                     return;
                 }
 
-                // For other items, calculate their center position
                 const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);
-                
-                // Distance from the start of the line to this item
                 const distanceToItem = itemCenterX - startX;
 
-                // Check if the drawn line is long enough to hit this item
+                // Find the elements inside
+                const label = item.querySelector('.service-label');
+                const p = item.querySelector('p');
+
                 if (currentLineLength >= distanceToItem) {
                     item.classList.add('has-arrived');
+                    
+                    // --- DYNAMIC SPACING CALCULATION ---
+                    if (label && p) {
+                        // Measure paragraph height
+                        const pHeight = p.offsetHeight;
+                        
+                        // Distance to move UP = Paragraph Height + 20px Gap
+                        // (Note: The paragraph already has 20px padding-bottom for the dot gap)
+                        const liftAmount = pHeight + 20; 
+                        
+                        label.style.transform = `translate(-50%, -${liftAmount}px)`;
+                    }
                 } else {
                     item.classList.remove('has-arrived');
+                    
+                    // Reset position
+                    if (label) {
+                        label.style.transform = `translate(-50%, 0px)`;
+                    }
                 }
             });
         }
