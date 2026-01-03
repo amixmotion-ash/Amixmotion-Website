@@ -3076,7 +3076,7 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES: Trusted By Finale (Bigger & Centered) == */
+/* == SERVICES: Trusted By Finale (Animation Fix) == */
 /* ================================================================= */
 
 /* 1. Container for Logos */
@@ -3100,45 +3100,49 @@ body.portfolio-page::before {
     transform: translate(-50%, 0) scale(0);
     opacity: 0;
     
-    /* CHANGED: Much Bigger Sizes */
+    /* Big Sizes */
     width: auto;
-    height: 90px; /* Increased from 50px */
-    max-width: 240px; /* Increased from 120px */
+    height: 90px; 
+    max-width: 240px; 
     object-fit: contain;
     
     /* Spring Physics */
     transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
 }
 
-/* 3. The Active State (Triggered by Line) */
+/* 3. The Active State (Logos) */
 .service-item.has-arrived .exploding-logo {
     opacity: 1;
-    /* Move to the specific X/Y coordinates defined in HTML */
     transform: translate(calc(-50% + var(--x)), var(--y)) scale(1);
     transition-delay: var(--delay);
 }
 
-/* 4. The "Trusted By" Header (Text Style) */
-.trusted-item .service-label {
+/* 4. The "Trusted By" Header (Specific Overrides) */
+.service-item.trusted-item .service-label {
+    /* Visual Style */
     background-color: transparent !important;
     color: #000000 !important;
-    font-size: 1.8rem !important; /* Made text slightly bigger too */
-    padding: 0;
-    width: auto;
+    font-size: 1.8rem !important;
+    padding: 0 !important;
+    width: max-content !important; /* Let text fit naturally */
     
-    /* Start hidden inside dot */
+    /* Positioning */
+    position: absolute;
     bottom: 0;
     left: 50%;
-    transform: translate(-50%, 0) scale(0); 
+    z-index: 10;
+
+    /* START STATE: Hidden inside dot (Scale 0) */
+    transform: translate(-50%, 0) scale(0) !important; 
     opacity: 0;
     
-    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-    z-index: 10;
+    /* ANIMATION: Spring Physics (Matches logos) */
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease !important;
 }
 
-/* Active Header */
+/* 5. Active Header State */
 .service-item.has-arrived.trusted-item .service-label {
     opacity: 1;
-    /* CHANGED: Moved up to -140px to sit in the center of the big logos */
-    transform: translate(-50%, -140px) scale(1); 
+    /* END STATE: Moves UP to -150px and SCALES UP to 1 */
+    transform: translate(-50%, -150px) scale(1) !important; 
 }
