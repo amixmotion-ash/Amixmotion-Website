@@ -471,7 +471,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     curtain.style.transform = 'translateX(-100%)'; 
                     
-                    curtain.getBoundingClientRect(); // Force Reflow
+                    curtain.getBoundingClientRect(); 
 
                     curtain.style.transition = 'transform 0.6s cubic-bezier(0.83, 0, 0.17, 1)';
                     curtain.style.transform = 'translateX(0%)';
@@ -633,33 +633,32 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Complete Logic) ==
+// == 14. ABOUT PAGE: Timeline (Complete Logic with Bounce) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
-const track = document.querySelector('.services-track');
-const items = document.querySelectorAll('.service-item');
-const axisLine = document.querySelector('.timeline-axis');
-const stickyProfile = document.querySelector('.profile-grid-section') || document.querySelector('.about-scroll-trigger');
+const track2 = document.querySelector('.services-track');
+const items2 = document.querySelectorAll('.service-item');
+const axisLine2 = document.querySelector('.timeline-axis');
+const stickyProfile2 = document.querySelector('.profile-grid-section') || document.querySelector('.about-scroll-trigger');
 
-if (servicesSection && track) {
+if (servicesSection && track2) {
     
     function animateTimeline() {
         const rect = servicesSection.getBoundingClientRect();
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
-        // 1. Calculate Entry Progress (0 to 1)
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
         // --- STATE A: ENTERING (Black -> White Transition) ---
         if (incomingPosition > 0) {
             
-            if (items.length > 0) {
-                const introHeader = items[0].querySelector('h2');
-                const introPara = items[0].querySelector('p');
-                const introDot = items[0].querySelector('.timeline-dot');
+            if (items2.length > 0) {
+                const introHeader = items2[0].querySelector('h2');
+                const introPara = items2[0].querySelector('p');
+                const introDot = items2[0].querySelector('.timeline-dot');
                 
                 // Keep Header sitting at bottom
                 if (introHeader) {
@@ -670,7 +669,7 @@ if (servicesSection && track) {
                 if (introPara) introPara.style.opacity = 0;
                 
                 // Fade the item container in
-                items[0].style.opacity = entryProgress;
+                items2[0].style.opacity = entryProgress;
 
                 // BOUNCE LOGIC FOR FIRST DOT
                 // As soon as we start entering (5%), add the class to trigger bounce
@@ -684,26 +683,26 @@ if (servicesSection && track) {
             }
 
             // Hide the line during entry
-            if (axisLine) axisLine.style.opacity = 0;
+            if (axisLine2) axisLine2.style.opacity = 0;
             
             // Lock track position
-            track.style.transform = `translate(0px, -50%)`;
+            track2.style.transform = `translate(0px, -50%)`;
 
             // Dim Background Profile
-            if (stickyProfile) {
+            if (stickyProfile2) {
                 const scale = 1 - (entryProgress * 0.05); 
                 const brightness = 1 - (entryProgress * 0.5); 
                 const yPos = -(entryProgress * 100);
-                stickyProfile.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
-                stickyProfile.style.filter = `brightness(${brightness})`;
+                stickyProfile2.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
+                stickyProfile2.style.filter = `brightness(${brightness})`;
             }
         }
 
         // --- STATE B: PINNED SCROLLING (Expand -> Move) ---
         else {
-            if (stickyProfile) {
-                stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
-                stickyProfile.style.filter = `brightness(0.5)`;
+            if (stickyProfile2) {
+                stickyProfile2.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
+                stickyProfile2.style.filter = `brightness(0.5)`;
             }
 
             const totalScrollable = rect.height - windowHeight;
@@ -713,9 +712,9 @@ if (servicesSection && track) {
             const INTRO_PHASE = 0.15; 
 
             // Get Intro Elements
-            const introHeader = items[0].querySelector('h2');
-            const introPara = items[0].querySelector('p');
-            const introDot = items[0].querySelector('.timeline-dot');
+            const introHeader = items2[0].querySelector('h2');
+            const introPara = items2[0].querySelector('p');
+            const introDot = items2[0].querySelector('.timeline-dot');
             
             // Ensure Dot stays visible/popped during scroll
             if (introDot) introDot.classList.add('pop-in');
@@ -750,10 +749,10 @@ if (servicesSection && track) {
                 }
 
                 // 3. Keep Track Locked
-                track.style.transform = `translate(0px, -50%)`;
-                if (axisLine) {
-                    axisLine.style.opacity = 0;
-                    axisLine.style.width = '0px';
+                track2.style.transform = `translate(0px, -50%)`;
+                if (axisLine2) {
+                    axisLine2.style.opacity = 0;
+                    axisLine2.style.width = '0px';
                 }
             }
 
@@ -768,28 +767,28 @@ if (servicesSection && track) {
                 }
 
                 // 2. Reveal Line
-                if (axisLine) axisLine.style.opacity = 1;
+                if (axisLine2) axisLine2.style.opacity = 1;
 
                 // 3. Calculate Horizontal Movement
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
-                const trackWidth = track.scrollWidth;
+                const trackWidth = track2.scrollWidth;
                 const viewportWidth = window.innerWidth;
                 const moveDistance = trackWidth - viewportWidth;
                 
                 let xPos = -(horizProgress * moveDistance);
-                track.style.transform = `translate(${xPos}px, -50%)`;
+                track2.style.transform = `translate(${xPos}px, -50%)`;
 
                 // 4. Draw Line
-                if (axisLine) {
-                    axisLine.style.width = Math.abs(xPos) + 'px';
+                if (axisLine2) {
+                    axisLine2.style.width = Math.abs(xPos) + 'px';
                 }
 
                 // 5. Active Item Logic (Standard Items)
-                const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
+                const startX = items2[0].offsetLeft + (items2[0].offsetWidth / 2);
                 const currentLineLength = Math.abs(xPos);
 
-                items.forEach((item, index) => {
+                items2.forEach((item, index) => {
                     if (index === 0) return; // Skip intro item
 
                     const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);

@@ -2685,7 +2685,7 @@ body.portfolio-page::before {
     color: #222;
 }
 /* ================================================================= */
-/* == SERVICES SECTION: Horizontal Timeline (Complete) == */
+/* == SERVICES SECTION: Horizontal Timeline (Fixed Order) == */
 /* ================================================================= */
 
 /* 1. Main Container */
@@ -2713,6 +2713,7 @@ body.portfolio-page::before {
 }
 
 /* 3. The Moving Track */
+/* Update this rule in style.css */
 .services-track {
     display: flex;
     align-items: flex-start; 
@@ -2720,31 +2721,50 @@ body.portfolio-page::before {
     left: 0;
     top: 50%;
     transform: translateY(-50%); 
-    padding-left: calc(50vw - 400px);
+    
+    /* CHANGED: Adjusted to center a 600px item (50vw - 300px) */
+    padding-left: calc(50vw - 300px);
+    
+    /* Keep the end padding the same (for the 400px items) */
     padding-right: calc(50vw - 200px);
+    
     gap: 25vw; 
     will-change: transform;
 }
 
-/* 4. The Line (Dotted) */
+/* Update this rule in style.css */
 .timeline-axis {
     position: absolute;
-    top: 298px; /* Vertically centered relative to dot */
+    
+    /* Vertically center the dots on the 300px axis */
+    /* (300px - half of height) */
+    top: 298px; 
+    
     left: 50vw; 
-    height: 4px;
+    
+    /* Remove solid color */
     background-color: transparent;
+    
+    /* Create the Dot Pattern */
+    /* 1. Draw a 3px black circle */
     background-image: radial-gradient(circle, #000000 1.5px, transparent 1.5px);
+    /* 2. Repeat it every 10px */
     background-size: 10px 100%; 
     background-repeat: repeat-x;
     background-position: left center;
-    width: 0px; 
+    
+    /* Container Height (Needs to be tall enough to hold the dots) */
+    height: 4px; 
+    
+    width: 0px; /* JS grows this */
     z-index: 0;
+    
     opacity: 0;
     transition: none;
     will-change: opacity, width;
 }
 
-/* 5. The Items (Containers) */
+/* 5. The Items (Base) */
 .service-item {
     position: relative;
     width: 400px;
@@ -2753,7 +2773,7 @@ body.portfolio-page::before {
     z-index: 1;
 }
 
-/* 6. The Dot Wrapper */
+/* 6. The Dot */
 .timeline-dot {
     position: absolute;
     top: 290px;
@@ -2761,72 +2781,12 @@ body.portfolio-page::before {
     transform: translateX(-50%);
     width: 20px;
     height: 20px;
-    background-color: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: #000000;
+    border-radius: 50%;
     z-index: 2;
 }
 
-/* 7. The Solid Black Dot (Inner Part) */
-.timeline-dot::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: #000000;
-    border-radius: 50%;
-    z-index: 10;
-}
-
-/* --- ANIMATION: BOUNCE FOR FIRST DOT --- */
-@keyframes dotBounce {
-    0% { transform: scale(0); }
-    50% { transform: scale(1.5); }
-    100% { transform: scale(1); }
-}
-
-/* Initial state for first dot's black circle: Hidden */
-.intro-item .timeline-dot::after {
-    transform: scale(0);
-    will-change: transform;
-}
-
-/* Active state for first dot: Bounce In */
-.intro-item .timeline-dot.pop-in::after {
-    animation: dotBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-/* Ensure the wrapper is visible so animation can run */
-.intro-item .timeline-dot {
-    opacity: 1 !important;
-}
-
-/* 8. The Pulse Ring (White Halo for other dots) */
-.pulse-ring {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: #ffffff;
-    border: 0.5px solid #000000;
-    border-radius: 50%;
-    transform: scale(0.8);
-    opacity: 0;
-    z-index: 5; 
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
-}
-
-.service-item.has-arrived .pulse-ring {
-    opacity: 1;
-    transform: scale(1.8);
-}
-
-/* Hide ring on first item */
-.intro-item .pulse-ring {
-    display: none !important;
-}
-
-/* 9. Content Area */
+/* 7. Content Area (Base) */
 .service-content {
     position: absolute;
     top: 0;
@@ -2837,6 +2797,7 @@ body.portfolio-page::before {
 }
 
 /* --- STANDARD ITEMS (Animated Headers/Text) --- */
+
 .service-label {
     width: 240px;
     padding: 12px 0;
@@ -2851,11 +2812,38 @@ body.portfolio-page::before {
     bottom: 20px; 
     left: 50%;
     transform: translate(-50%, 0); 
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     z-index: 10;
-    /* Exit Transition */
+}
+
+/* Update the Paragraph rule */
+/* Update this rule in style.css */
+/* 1. The Header Label (Base State = Exit) */
+/* 1. The Header Label (Base State = Exit) */
+.service-label {
+    width: 240px;
+    padding: 12px 0;
+    background-color: #000000;
+    color: #ffffff;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    text-transform: uppercase;
+    
+    position: absolute;
+    bottom: 20px; 
+    left: 50%;
+    transform: translate(-50%, 0); 
+    z-index: 10;
+
+    /* EXIT TRANSITION: 
+       Wait only 0.05s (imperceptible) before dropping.
+       This feels instant but gives the text a head start to fade opacity. */
     transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.05s;
 }
 
+/* 2. The Paragraph (Base State = Exit) */
 .service-item p {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
@@ -2865,6 +2853,7 @@ body.portfolio-page::before {
     text-align: center;
     margin: 0;
     width: 100%;
+    
     position: absolute;
     bottom: 0;
     left: 0;
@@ -2872,37 +2861,59 @@ body.portfolio-page::before {
     opacity: 0;
     transform: translateY(20px);
     z-index: 1;
-    /* Exit Transition */
+
+    /* EXIT TRANSITION: 
+       Fade out very fast (0.2s). No delay. */
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-/* Active State */
+/* 3. ACTIVE STATE: Header (Entry) */
 .service-item.has-arrived .service-label {
-    /* Entry Transition (Instant Up) */
+    /* Transform calculated by JS */
+    
+    /* ENTRY: Move up instantly (0s delay) */
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0s;
 }
+
+/* 4. ACTIVE STATE: Paragraph (Entry) */
 .service-item.has-arrived p {
     opacity: 1;
     transform: translateY(0);
-    /* Entry Transition (Delayed fade in) */
+
+    /* ENTRY: Wait 0.2s so header clears the way, then fade in slowly */
     transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
 }
 
-/* --- INTRO ITEM EXCEPTIONS --- */
-.service-item.intro-item {
-    width: 600px !important;
-    margin-right: 5vw;
-    position: relative;
-    z-index: 2;
+/* 4. ACTIVE STATE: Paragraph (Entry) */
+.service-item.has-arrived p {
+    opacity: 1;
+    transform: translateY(0);
+
+    /* ENTRY TRANSITION: Wait 0.2s before appearing */
+    transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
 }
+
+/* --- EXCEPTION: INTRO ITEM (Now Animated) --- */
+
+/* Update this rule in style.css */
+.service-item.intro-item {
+    /* CHANGED: Reduced from 800px to 600px */
+    width: 600px !important; 
+    
+    margin-right: 5vw;
+}
+
+/* Reset the content wrapper */
 .intro-item .service-content {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 290px;
+    height: 290px; /* Ends at dot */
     pointer-events: none;
 }
+
+/* The Big Title (Starts sitting on the dot) */
 .intro-item h2 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
@@ -2913,11 +2924,20 @@ body.portfolio-page::before {
     text-align: center;
     width: 100%;
     margin: 0;
+    
+    /* POSITION: Absolute at bottom */
     position: absolute;
-    bottom: 20px;
+    bottom: 20px; 
     left: 0;
+    
+    /* Animation settings */
+    /* We use JS to control the transform, but CSS for smoothness */
     will-change: transform;
 }
+
+/* Update this rule in style.css */
+/* Update this rule in style.css */
+/* Update this rule in style.css */
 .intro-item p {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
@@ -2927,12 +2947,93 @@ body.portfolio-page::before {
     text-align: center;
     margin: 0;
     width: 100%;
+    
     position: absolute;
     bottom: 0;
     left: 0;
-    padding-bottom: 20px;
+    
+    /* CHANGED: Reduced to 40px (Middle ground) */
+    padding-bottom: 40px;
+    
     opacity: 0;
     will-change: opacity;
 }
-.intro-item .service-label { display: none; }
-.service-item:not(.intro-item) { opacity: 1 !important; }
+
+/* Ensure the dot is visible */
+.intro-item .timeline-dot {
+    z-index: 5;
+}
+
+/* Add this rule to style.css */
+
+/* Hide the first dot initially so JS can fade it in with the text */
+.intro-item .timeline-dot {
+    opacity: 0;
+    will-change: opacity;
+}
+/* ================================================================= */
+/* == SERVICES: Layered Dot & Ring (Final Fix) == */
+/* ================================================================= */
+
+/* 1. The Wrapper (Positions everything) */
+.timeline-dot {
+    position: absolute;
+    top: 290px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    width: 20px;
+    height: 20px;
+    
+    /* CHANGED: Transparent! We draw the black dot separately. */
+    background-color: transparent; 
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2; /* Sit above the line */
+}
+
+/* 2. The Solid Black Dot (Top Layer) */
+.timeline-dot::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    border-radius: 50%;
+    
+    /* TOP LAYER: Sits on top of the white ring */
+    z-index: 10; 
+}
+
+/* 3. The Pulse Ring (Middle Layer) */
+.pulse-ring {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    
+    /* Masking: White background covers the dotted line */
+    background-color: #ffffff;
+    border: 0.5px solid #000000;
+    border-radius: 50%;
+    
+    transform: scale(0.8);
+    opacity: 0;
+    
+    /* MIDDLE LAYER: Below black dot, but above dotted line */
+    z-index: 5; 
+    
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+}
+
+/* 4. Active State (Pop Out) */
+.service-item.has-arrived .pulse-ring {
+    opacity: 1;
+    transform: scale(1.8);
+}
+
+/* 5. Hide Ring on First Dot */
+.intro-item .pulse-ring {
+    display: none !important;
+}
