@@ -650,7 +650,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Synced Dot Fade) ==
+// == 14. ABOUT PAGE: Timeline (Intro Scale Effect) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -676,11 +676,15 @@ if (servicesSection && track) {
             if (items.length > 0) {
                 const introHeader = items[0].querySelector('h2');
                 const introPara = items[0].querySelector('p');
-                const introDot = items[0].querySelector('.timeline-dot');
                 
-                if (introHeader) introHeader.style.transform = `translateY(0px)`;
+                if (introHeader) {
+                    // START STATE: Sitting on dot, scaled UP 2x
+                    // Anchored to bottom so it grows upwards
+                    introHeader.style.transformOrigin = "bottom center";
+                    introHeader.style.transform = `translateY(0px) scale(2)`;
+                }
+                
                 if (introPara) introPara.style.opacity = 0;
-                if (introDot) introDot.style.opacity = 0; // Keep dot hidden during entry
                 
                 items[0].style.opacity = entryProgress;
             }
@@ -713,14 +717,13 @@ if (servicesSection && track) {
             // Get Intro Elements
             const introHeader = items[0].querySelector('h2');
             const introPara = items[0].querySelector('p');
-            const introDot = items[0].querySelector('.timeline-dot');
             
-            // --- SUB-STATE B1: EXPAND INTRO (Vertical Animation) ---
+            // --- SUB-STATE B1: EXPAND INTRO (Scale Down + Move Up) ---
             if (scrollProgress < INTRO_PHASE) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // 1. Move Header Up
+                // 1. Move Header Up & Scale Down
                 let liftHeight = 150; 
                 if (introPara) {
                     liftHeight = introPara.offsetHeight - 25;
@@ -728,21 +731,22 @@ if (servicesSection && track) {
                 
                 if (introHeader) {
                     let currentLift = expandProg * liftHeight;
-                    introHeader.style.transform = `translateY(-${currentLift}px)`;
+                    
+                    // SCALE LOGIC: 
+                    // Starts at 2.0, subtracts progress (0 to 1) -> Ends at 1.0
+                    let currentScale = 2 - expandProg; 
+                    
+                    introHeader.style.transform = `translateY(-${currentLift}px) scale(${currentScale})`;
                 }
 
-                // 2. Fade Text AND Dot In (Synced)
-                if (introPara && introDot) {
-                    // Start fading at 65% of the lift
-                    let fadeStart = 0.65;
+                // 2. Fade Text In
+                if (introPara) {
+                    let fadeStart = 0.5;
                     let textOpacity = 0;
-                    
                     if (expandProg > fadeStart) {
                         textOpacity = (expandProg - fadeStart) / (1 - fadeStart);
                     }
-                    
                     introPara.style.opacity = textOpacity;
-                    introDot.style.opacity = textOpacity; // Dot matches text exactly
                 }
 
                 // 3. Keep Track Locked
@@ -753,15 +757,14 @@ if (servicesSection && track) {
                 }
             }
 
-            // --- SUB-STATE B2: HORIZONTAL SCROLL (Move Left) ---
+            // --- SUB-STATE B2: HORIZONTAL SCROLL (Standard Move) ---
             else {
                 
-                // 1. Lock Intro Open
-                if (introHeader && introPara && introDot) {
+                // 1. Lock Intro Open (Scale 1.0)
+                if (introHeader && introPara) {
                     let liftHeight = introPara.offsetHeight - 25;
-                    introHeader.style.transform = `translateY(-${liftHeight}px)`;
+                    introHeader.style.transform = `translateY(-${liftHeight}px) scale(1)`;
                     introPara.style.opacity = 1;
-                    introDot.style.opacity = 1; // Lock dot visible
                 }
 
                 // 2. Reveal Line
@@ -782,7 +785,7 @@ if (servicesSection && track) {
                     axisLine.style.width = Math.abs(xPos) + 'px';
                 }
 
-                // 5. Active Item Logic (Standard Items)
+                // 5. Active Item Logic
                 const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
                 const currentLineLength = Math.abs(xPos);
 
