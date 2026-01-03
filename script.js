@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Synced Bounce) ==
+// == 14. ABOUT PAGE: Timeline (Finale: Form Grid) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -624,31 +624,31 @@ if (servicesSection && track) {
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
-        // --- STATE A: ENTERING (Black -> White Transition) ---
+        // --- STATE A: ENTERING ---
         if (incomingPosition > 0) {
-            
+            // ... (Same Entry Logic as before) ...
             if (items.length > 0) {
                 const introHeader = items[0].querySelector('h2');
                 const introPara = items[0].querySelector('p');
                 const introDot = items[0].querySelector('.timeline-dot');
                 
-                // Header starts low
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
                     introHeader.style.transform = `translateY(0px) scale(2)`;
                 }
-                // Text starts hidden
                 if (introPara) introPara.style.opacity = 0;
                 
-                // RESET DOT: Remove pop-in class if we scroll back up here
-                if (introDot) introDot.classList.remove('pop-in');
-                
                 items[0].style.opacity = entryProgress;
-            }
 
+                if (introDot) {
+                    if (entryProgress > 0.05) introDot.classList.add('pop-in');
+                    else introDot.classList.remove('pop-in');
+                }
+            }
             if (axisLine) axisLine.style.opacity = 0;
             track.style.transform = `translate(0px, -50%)`;
-
+            
+            // ... (Background Parallax Logic) ...
             if (stickyProfile) {
                 const scale = 1 - (entryProgress * 0.05); 
                 const brightness = 1 - (entryProgress * 0.5); 
@@ -658,7 +658,7 @@ if (servicesSection && track) {
             }
         }
 
-        // --- STATE B: PINNED SCROLLING ---
+        // --- STATE B: SCROLLING & FINALE ---
         else {
             if (stickyProfile) {
                 stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
@@ -669,112 +669,62 @@ if (servicesSection && track) {
             let scrollProgress = -incomingPosition / totalScrollable;
             scrollProgress = Math.max(0, Math.min(1, scrollProgress));
 
-            const INTRO_PHASE = 0.15; 
-
-            const introHeader = items[0].querySelector('h2');
-            const introPara = items[0].querySelector('p');
-            const introDot = items[0].querySelector('.timeline-dot');
+            // 1. Calculate Track Movement
+            // We want to stop moving when the "Trusted By" item hits center.
+            // Let's say this happens at 85% of the total scroll.
+            const TRACK_STOP_POINT = 0.85; 
             
-            // --- SUB-STATE B1: EXPAND INTRO ---
-            if (scrollProgress < INTRO_PHASE) {
-                
-                let expandProg = scrollProgress / INTRO_PHASE;
-                
-                // 1. Move Header Up
-                let liftHeight = 150; 
-                if (introPara) {
-                    liftHeight = introPara.offsetHeight - 25;
-                }
-                
-                if (introHeader) {
-                    let currentLift = expandProg * liftHeight;
-                    let currentScale = 2 - expandProg; 
-                    introHeader.style.transform = `translateY(-${currentLift}px) scale(${currentScale})`;
-                }
+            let trackProgress = Math.min(scrollProgress, TRACK_STOP_POINT) / TRACK_STOP_POINT;
+            
+            const trackWidth = track.scrollWidth;
+            const viewportWidth = window.innerWidth;
+            const moveDistance = trackWidth - viewportWidth;
+            
+            let xPos = -(trackProgress * moveDistance);
+            track.style.transform = `translate(${xPos}px, -50%)`;
 
-                // 2. Fade Text In
-                if (introPara) {
-                    let fadeStart = 0.5;
-                    let textOpacity = 0;
-                    if (expandProg > fadeStart) {
-                        textOpacity = (expandProg - fadeStart) / (1 - fadeStart);
-                    }
-                    introPara.style.opacity = textOpacity;
-                }
+            // 2. Draw Line
+            if (axisLine) axisLine.style.width = Math.abs(xPos) + 'px';
 
-                // 3. TRIGGER BOUNCE (Synced with Text Fade)
-                // We trigger this at 0.4 (just before text starts fading at 0.5)
-                if (introDot) {
-                    if (expandProg > 0.4) {
-                        introDot.classList.add('pop-in');
-                    } else {
-                        introDot.classList.remove('pop-in');
-                    }
-                }
+            // 3. Trigger Animations (Line Hit)
+            const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
+            const currentLineLength = Math.abs(xPos);
 
-                // Lock Track
-                track.style.transform = `translate(0px, -50%)`;
-                if (axisLine) {
-                    axisLine.style.opacity = 0;
-                    axisLine.style.width = '0px';
-                }
-            }
+            items.forEach((item, index) => {
+                if (index === 0) return;
 
-            // --- SUB-STATE B2: HORIZONTAL SCROLL ---
-            else {
-                
-                // Lock Intro State
-                if (introHeader && introPara && introDot) {
-                    let liftHeight = introPara.offsetHeight - 25;
-                    introHeader.style.transform = `translateY(-${liftHeight}px) scale(1)`;
-                    introPara.style.opacity = 1;
+                const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);
+                const distanceToItem = itemCenterX - startX;
+                const label = item.querySelector('.service-label');
+                const p = item.querySelector('p');
+
+                // Standard Hit Logic
+                if (currentLineLength >= distanceToItem) {
+                    item.classList.add('has-arrived');
                     
-                    // Keep dot visible
-                    introDot.classList.add('pop-in');
-                }
-
-                if (axisLine) axisLine.style.opacity = 1;
-
-                let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
-
-                const trackWidth = track.scrollWidth;
-                const viewportWidth = window.innerWidth;
-                const moveDistance = trackWidth - viewportWidth;
-                
-                let xPos = -(horizProgress * moveDistance);
-                track.style.transform = `translate(${xPos}px, -50%)`;
-
-                if (axisLine) {
-                    axisLine.style.width = Math.abs(xPos) + 'px';
-                }
-
-                const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
-                const currentLineLength = Math.abs(xPos);
-
-                items.forEach((item, index) => {
-                    if (index === 0) return; 
-
-                    const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);
-                    const distanceToItem = itemCenterX - startX;
-
-                    const label = item.querySelector('.service-label');
-                    const p = item.querySelector('p');
-
-                    if (currentLineLength >= distanceToItem) {
-                        item.classList.add('has-arrived');
-                        if (label && p) {
-                            const pHeight = p.offsetHeight;
-                            const liftAmount = pHeight + 15; 
-                            label.style.transform = `translate(-50%, -${liftAmount}px)`;
+                    // Specific Logic for Finale Item (Trusted By)
+                    if (item.classList.contains('trusted-item')) {
+                        // If we are past the stop point, trigger GRID MODE
+                        if (scrollProgress > TRACK_STOP_POINT) {
+                            item.classList.add('form-grid');
+                        } else {
+                            item.classList.remove('form-grid');
                         }
-                    } else {
-                        item.classList.remove('has-arrived');
-                        if (label) {
-                            label.style.transform = `translate(-50%, 0px)`;
-                        }
+                    } 
+                    // Standard Logic for other items
+                    else if (label && p) {
+                        const pHeight = p.offsetHeight;
+                        const liftAmount = pHeight + 15; 
+                        label.style.transform = `translate(-50%, -${liftAmount}px)`;
                     }
-                });
-            }
+                } else {
+                    item.classList.remove('has-arrived');
+                    item.classList.remove('form-grid');
+                    if (label && !item.classList.contains('trusted-item')) {
+                        label.style.transform = `translate(-50%, 0px)`;
+                    }
+                }
+            });
         }
     }
 
