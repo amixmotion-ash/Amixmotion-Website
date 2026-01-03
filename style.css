@@ -3039,17 +3039,17 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES: Intro Dot Bounce Animation == */
+/* == SERVICES: Intro Dot Bounce (Synced with Text) == */
 /* ================================================================= */
 
-/* 1. Define the Bounce Animation */
+/* 1. Define the Bounce */
 @keyframes dotBounce {
-    0% { transform: scale(0); }
-    60% { transform: scale(1.5); } /* Overshoot (Bounce) */
-    100% { transform: scale(1); } /* Settle */
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.4); opacity: 1; } /* The Bounce */
+    100% { transform: scale(1); opacity: 1; } /* The Settle */
 }
 
-/* 2. Target the Inner Black Circle */
+/* 2. Initial State: Hidden */
 .intro-item .timeline-dot::after {
     content: '';
     position: absolute;
@@ -3058,21 +3058,18 @@ body.portfolio-page::before {
     background-color: #000000;
     border-radius: 50%;
     
-    /* CHANGE THIS: Start invisible (Scale 0) so we can animate it in */
+    /* Start Invisible */
     transform: scale(0); 
-    will-change: transform;
+    opacity: 0;
+    will-change: transform, opacity;
 }
 
-/* 3. The Active Bounce State */
-/* The Javascript adds the 'pop-in' class when you scroll onto the section */
+/* 3. Active State: Triggered by JS */
 .intro-item .timeline-dot.pop-in::after {
-    animation: dotBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    
-    /* Optional: Add a tiny delay so it pops just as the text starts appearing */
-    animation-delay: 0.2s;
+    animation: dotBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-/* 4. Ensure the wrapper is visible */
+/* Ensure wrapper is there */
 .intro-item .timeline-dot {
     opacity: 1 !important;
     z-index: 10;
