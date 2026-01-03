@@ -3076,7 +3076,7 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES: Trusted By Finale (Explosion) == */
+/* == SERVICES: Trusted By Finale (Clean Layout) == */
 /* ================================================================= */
 
 /* 1. Container for Logos */
@@ -3101,8 +3101,8 @@ body.portfolio-page::before {
     opacity: 0;
     
     width: auto;
-    height: 40px; /* Small icon size */
-    max-width: 80px;
+    height: 50px; /* Good size for logos */
+    max-width: 120px;
     object-fit: contain;
     
     /* Spring Physics for the "Pop" */
@@ -3112,27 +3112,34 @@ body.portfolio-page::before {
 /* 3. The Active State (Triggered by Line) */
 .service-item.has-arrived .exploding-logo {
     opacity: 1;
-    
     /* Move to the specific X/Y coordinates defined in HTML */
     transform: translate(calc(-50% + var(--x)), var(--y)) scale(1);
-    
-    /* Apply the staggered delay defined in HTML */
+    /* Apply the staggered delay */
     transition-delay: var(--delay);
 }
 
-/* 4. The "Trusted By" Header (Special Animation) */
+/* 4. The "Trusted By" Header (Clean Text Style) */
 .trusted-item .service-label {
-    /* Override standard header animation */
-    bottom: 20px;
-    transform: translate(-50%, 0) scale(0); /* Start hidden/small inside dot */
+    /* Remove the Black Box look */
+    background-color: transparent !important;
+    color: #000000 !important;
+    font-size: 1.5rem !important; /* Bigger text */
+    padding: 0;
+    width: auto; /* Let it fit the text */
+    
+    /* Start hidden inside dot */
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0) scale(0); 
     opacity: 0;
     
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    z-index: 10;
 }
 
 /* Active Header */
 .service-item.has-arrived.trusted-item .service-label {
     opacity: 1;
-    /* Shoot up slightly higher than normal headers to clear the logos */
-    transform: translate(-50%, -220px) scale(1); 
+    /* Shoot up to center of the cluster (y: -100px) */
+    transform: translate(-50%, -100px) scale(1); 
 }
