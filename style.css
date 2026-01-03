@@ -3074,3 +3074,65 @@ body.portfolio-page::before {
     opacity: 1 !important;
     z-index: 10;
 }
+
+/* ================================================================= */
+/* == SERVICES: Trusted By Finale (Explosion) == */
+/* ================================================================= */
+
+/* 1. Container for Logos */
+.explosion-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 2. The Logos (Initial State: Tiny & Hidden inside the dot) */
+.exploding-logo {
+    position: absolute;
+    bottom: 0; /* Anchor to bottom (where dot is) */
+    left: 50%;
+    
+    /* Start centered and tiny */
+    transform: translate(-50%, 0) scale(0);
+    opacity: 0;
+    
+    width: auto;
+    height: 40px; /* Small icon size */
+    max-width: 80px;
+    object-fit: contain;
+    
+    /* Spring Physics for the "Pop" */
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+}
+
+/* 3. The Active State (Triggered by Line) */
+.service-item.has-arrived .exploding-logo {
+    opacity: 1;
+    
+    /* Move to the specific X/Y coordinates defined in HTML */
+    transform: translate(calc(-50% + var(--x)), var(--y)) scale(1);
+    
+    /* Apply the staggered delay defined in HTML */
+    transition-delay: var(--delay);
+}
+
+/* 4. The "Trusted By" Header (Special Animation) */
+.trusted-item .service-label {
+    /* Override standard header animation */
+    bottom: 20px;
+    transform: translate(-50%, 0) scale(0); /* Start hidden/small inside dot */
+    opacity: 0;
+    
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+}
+
+/* Active Header */
+.service-item.has-arrived.trusted-item .service-label {
+    opacity: 1;
+    /* Shoot up slightly higher than normal headers to clear the logos */
+    transform: translate(-50%, -220px) scale(1); 
+}
