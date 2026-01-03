@@ -604,8 +604,8 @@ if (scrollTrigger) {
     });
 }
 
-/// ======================================================================
-// == 14. ABOUT PAGE: Timeline (Lag-Free Mouse Fix) ==
+// ======================================================================
+// == 14. ABOUT PAGE: Timeline (Clean Explosion) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -627,6 +627,7 @@ if (servicesSection && track) {
 
         // --- STATE A: ENTERING ---
         if (incomingPosition > 0) {
+            
             if (items.length > 0) {
                 const introHeader = items[0].querySelector('h2');
                 const introPara = items[0].querySelector('p');
@@ -641,8 +642,11 @@ if (servicesSection && track) {
                 items[0].style.opacity = entryProgress;
 
                 if (introDot) {
-                    if (entryProgress > 0.05) introDot.classList.add('pop-in');
-                    else introDot.classList.remove('pop-in');
+                    if (entryProgress > 0.05) {
+                        introDot.classList.add('pop-in');
+                    } else {
+                        introDot.classList.remove('pop-in');
+                    }
                 }
             }
 
@@ -671,10 +675,10 @@ if (servicesSection && track) {
 
             const INTRO_PHASE = 0.15; 
 
-            // Intro Elements
             const introHeader = items[0].querySelector('h2');
             const introPara = items[0].querySelector('p');
             const introDot = items[0].querySelector('.timeline-dot');
+            
             if (introDot) introDot.classList.add('pop-in');
 
             // B1: EXPAND INTRO
@@ -742,19 +746,8 @@ if (servicesSection && track) {
                     const p = item.querySelector('p');
 
                     if (currentLineLength >= distanceToItem) {
-                        // Activate Item
-                        if (!item.classList.contains('has-arrived')) {
-                            item.classList.add('has-arrived');
-                            
-                            // FIX: If this is the "Trusted By" item, start a timer
-                            // After 800ms (explosion done), enable fast mouse interaction
-                            if (item.classList.contains('trusted-item')) {
-                                clearTimeout(item.interactTimer);
-                                item.interactTimer = setTimeout(() => {
-                                    item.classList.add('interaction-mode');
-                                }, 800);
-                            }
-                        }
+                        // Just add the class (Explosion triggers via CSS)
+                        item.classList.add('has-arrived');
 
                         if (label && p && !item.classList.contains('trusted-item')) {
                             const pHeight = p.offsetHeight;
@@ -762,17 +755,7 @@ if (servicesSection && track) {
                             label.style.transform = `translate(-50%, -${liftAmount}px)`;
                         }
                     } else {
-                        // Deactivate Item
-                        if (item.classList.contains('has-arrived')) {
-                            item.classList.remove('has-arrived');
-                            
-                            // FIX: Reset interaction mode immediately
-                            if (item.classList.contains('trusted-item')) {
-                                clearTimeout(item.interactTimer);
-                                item.classList.remove('interaction-mode');
-                            }
-                        }
-
+                        item.classList.remove('has-arrived');
                         if (label && !item.classList.contains('trusted-item')) {
                             label.style.transform = `translate(-50%, 0px)`;
                         }

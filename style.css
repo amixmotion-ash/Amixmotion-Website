@@ -3076,7 +3076,7 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES: Trusted By Finale (Animation Fix) == */
+/* == SERVICES: Trusted By Finale (Explosion Only) == */
 /* ================================================================= */
 
 /* 1. Container for Logos */
@@ -3086,7 +3086,7 @@ body.portfolio-page::before {
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    pointer-events: none; /* Disable mouse interaction */
     z-index: 1;
 }
 
@@ -3106,76 +3106,39 @@ body.portfolio-page::before {
     max-width: 240px; 
     object-fit: contain;
     
-    /* Spring Physics */
+    /* Spring Physics for the pop */
     transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
 }
 
-/* Update this rule in style.css */
-
-/* 3. The Active State (Explosion + Mouse Reactivity) */
+/* 3. The Active State (Triggered by Line) */
 .service-item.has-arrived .exploding-logo {
     opacity: 1;
-    
-    /* 
-       CALCULATION:
-       1. Center (-50%)
-       2. Explosion Position (var --x, --y)
-       3. Mouse Offset (var --mouse-x, --mouse-y) multiplied by the logo's Speed (var --speed)
-    */
-    transform: translate(
-        calc(-50% + var(--x) + (var(--mouse-x, 0px) * var(--speed, 0))), 
-        calc(var(--y) + (var(--mouse-y, 0px) * var(--speed, 0)))
-    ) scale(1);
-    
+    /* Move to coordinates. NO mouse variables involved. */
+    transform: translate(calc(-50% + var(--x)), var(--y)) scale(1);
     transition-delay: var(--delay);
 }
 
-/* Optional: Add a hover effect so the specific logo you touch pops up */
-.exploding-logo:hover {
-    z-index: 100; /* Bring to front */
-    filter: brightness(1.2); /* Light up slightly */
-    /* Note: We don't scale here to avoid fighting the complex transform above */
-}
-
-/* 4. The "Trusted By" Header (Specific Overrides) */
+/* 4. The "Trusted By" Header */
 .service-item.trusted-item .service-label {
-    /* Visual Style */
     background-color: transparent !important;
     color: #000000 !important;
     font-size: 1.8rem !important;
     padding: 0 !important;
-    width: max-content !important; /* Let text fit naturally */
+    width: max-content !important;
     
-    /* Positioning */
     position: absolute;
     bottom: 0;
     left: 50%;
     z-index: 10;
 
-    /* START STATE: Hidden inside dot (Scale 0) */
     transform: translate(-50%, 0) scale(0) !important; 
     opacity: 0;
     
-    /* ANIMATION: Spring Physics (Matches logos) */
     transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease !important;
 }
 
 /* 5. Active Header State */
 .service-item.has-arrived.trusted-item .service-label {
     opacity: 1;
-    /* END STATE: Moves UP to -150px and SCALES UP to 1 */
     transform: translate(-50%, -150px) scale(1) !important; 
-}
-
-/* ================================================================= */
-/* == FIX: Mouse Reactivity (Fast Response) == */
-/* ================================================================= */
-
-/* 
-   When the 'interaction-mode' class is added (by JS after explosion),
-   we switch the transition speed to be super fast (0.1s).
-   This eliminates the "laggy/drunk" feeling when moving the mouse.
-*/
-.service-item.interaction-mode .exploding-logo {
-    transition: transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
 }
