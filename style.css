@@ -3076,10 +3076,10 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES: Trusted By (Explosion to Grid) == */
+/* == SERVICES: Trusted By Finale (Animation Fix) == */
 /* ================================================================= */
 
-/* 1. Container */
+/* 1. Container for Logos */
 .explosion-wrapper {
     position: absolute;
     bottom: 0;
@@ -3090,68 +3090,59 @@ body.portfolio-page::before {
     z-index: 1;
 }
 
-/* 2. Logos (Default State: Hidden in Dot) */
+/* 2. The Logos (Initial State: Hidden inside dot) */
 .exploding-logo {
     position: absolute;
     bottom: 0; 
     left: 50%;
+    
+    /* Start centered and tiny */
     transform: translate(-50%, 0) scale(0);
     opacity: 0;
     
+    /* Big Sizes */
     width: auto;
-    height: 60px; /* Standard Size */
-    max-width: 180px;
+    height: 90px; 
+    max-width: 240px; 
     object-fit: contain;
     
-    /* Smooth movement between states */
-    transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+    /* Spring Physics */
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
 }
 
-/* 3. STATE A: EXPLOSION (Triggered by Line) */
+/* 3. The Active State (Logos) */
 .service-item.has-arrived .exploding-logo {
     opacity: 1;
-    /* Use Explosion Coordinates */
     transform: translate(calc(-50% + var(--x)), var(--y)) scale(1);
     transition-delay: var(--delay);
 }
 
-/* 4. STATE B: GRID FORMATION (Triggered by End of Scroll) */
-/* This overrides State A */
-.service-item.form-grid .exploding-logo {
-    opacity: 1;
-    /* Use Grid Coordinates */
-    transform: translate(calc(-50% + var(--grid-x)), var(--grid-y)) scale(1) !important;
-    
-    /* Remove delay so they all move together smoothly */
-    transition-delay: 0s !important;
-    transition-duration: 1.5s !important; /* Slow, elegant drift */
-}
-
-/* 5. Header: Moves Up further during Grid Phase */
+/* 4. The "Trusted By" Header (Specific Overrides) */
 .service-item.trusted-item .service-label {
+    /* Visual Style */
     background-color: transparent !important;
     color: #000000 !important;
     font-size: 1.8rem !important;
     padding: 0 !important;
-    width: max-content !important;
+    width: max-content !important; /* Let text fit naturally */
     
+    /* Positioning */
     position: absolute;
     bottom: 0;
     left: 50%;
     z-index: 10;
-    transform: translate(-50%, 0) scale(0) !important;
+
+    /* START STATE: Hidden inside dot (Scale 0) */
+    transform: translate(-50%, 0) scale(0) !important; 
     opacity: 0;
+    
+    /* ANIMATION: Spring Physics (Matches logos) */
     transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease !important;
 }
 
-/* Header Active (Explosion) */
+/* 5. Active Header State */
 .service-item.has-arrived.trusted-item .service-label {
     opacity: 1;
+    /* END STATE: Moves UP to -150px and SCALES UP to 1 */
     transform: translate(-50%, -150px) scale(1) !important; 
-}
-
-/* Header Grid State (Move higher to clear grid) */
-.service-item.form-grid .service-label {
-    transform: translate(-50%, -250px) scale(1) !important;
-    transition-duration: 1.5s !important;
 }
