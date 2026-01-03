@@ -3076,7 +3076,7 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES: Trusted By Finale (Clean Layout) == */
+/* == SERVICES: Trusted By Finale (Bigger & Centered) == */
 /* ================================================================= */
 
 /* 1. Container for Logos */
@@ -3090,22 +3090,23 @@ body.portfolio-page::before {
     z-index: 1;
 }
 
-/* 2. The Logos (Initial State: Tiny & Hidden inside the dot) */
+/* 2. The Logos (Initial State: Hidden inside dot) */
 .exploding-logo {
     position: absolute;
-    bottom: 0; /* Anchor to bottom (where dot is) */
+    bottom: 0; 
     left: 50%;
     
     /* Start centered and tiny */
     transform: translate(-50%, 0) scale(0);
     opacity: 0;
     
+    /* CHANGED: Much Bigger Sizes */
     width: auto;
-    height: 50px; /* Good size for logos */
-    max-width: 120px;
+    height: 90px; /* Increased from 50px */
+    max-width: 240px; /* Increased from 120px */
     object-fit: contain;
     
-    /* Spring Physics for the "Pop" */
+    /* Spring Physics */
     transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
 }
 
@@ -3114,18 +3115,16 @@ body.portfolio-page::before {
     opacity: 1;
     /* Move to the specific X/Y coordinates defined in HTML */
     transform: translate(calc(-50% + var(--x)), var(--y)) scale(1);
-    /* Apply the staggered delay */
     transition-delay: var(--delay);
 }
 
-/* 4. The "Trusted By" Header (Clean Text Style) */
+/* 4. The "Trusted By" Header (Text Style) */
 .trusted-item .service-label {
-    /* Remove the Black Box look */
     background-color: transparent !important;
     color: #000000 !important;
-    font-size: 1.5rem !important; /* Bigger text */
+    font-size: 1.8rem !important; /* Made text slightly bigger too */
     padding: 0;
-    width: auto; /* Let it fit the text */
+    width: auto;
     
     /* Start hidden inside dot */
     bottom: 0;
@@ -3140,6 +3139,6 @@ body.portfolio-page::before {
 /* Active Header */
 .service-item.has-arrived.trusted-item .service-label {
     opacity: 1;
-    /* Shoot up to center of the cluster (y: -100px) */
-    transform: translate(-50%, -100px) scale(1); 
+    /* CHANGED: Moved up to -140px to sit in the center of the big logos */
+    transform: translate(-50%, -140px) scale(1); 
 }
