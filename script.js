@@ -204,34 +204,6 @@ if (slider) {
 }
 
 // ======================================================================
-// == 8. ACCORDION (Process) ==
-// ======================================================================
-const accordionItems = document.querySelectorAll('.accordion-item');
-if (accordionItems.length > 0) {
-    accordionItems.forEach(item => {
-        const toggle = item.querySelector('.accordion-toggle');
-        const content = item.querySelector('.accordion-content');
-        toggle.addEventListener('click', () => {
-            const currentlyOpenItem = document.querySelector('.accordion-item.is-open');
-            if (currentlyOpenItem && currentlyOpenItem === item) {
-                item.classList.remove('is-open');
-                toggle.setAttribute('aria-expanded', 'false');
-                content.style.maxHeight = null;
-            } else {
-                if (currentlyOpenItem) {
-                    currentlyOpenItem.classList.remove('is-open');
-                    currentlyOpenItem.querySelector('.accordion-toggle').setAttribute('aria-expanded', 'false');
-                    currentlyOpenItem.querySelector('.accordion-content').style.maxHeight = null;
-                }
-                item.classList.add('is-open');
-                toggle.setAttribute('aria-expanded', 'true');
-                content.style.maxHeight = content.scrollHeight + 'px';
-            }
-        });
-    });
-}
-
-// ======================================================================
 // == 9. PAGE EXTRAS (Scroll Down + Hero Hide) ==
 // ======================================================================
 const scrollIndicator = document.querySelector('.scroll-indicator');
