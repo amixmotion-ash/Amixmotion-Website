@@ -781,3 +781,24 @@ if (servicesSection && track) {
     window.addEventListener('scroll', animateTimeline);
     animateTimeline();
 }
+
+// ======================================================================
+// == 15. ABOUT PAGE: Logo Mouse Parallax ==
+// ======================================================================
+
+const explosionWrapper = document.querySelector('.explosion-wrapper');
+
+if (explosionWrapper) {
+    window.addEventListener('mousemove', (e) => {
+        
+        // 1. Calculate Mouse Position relative to center of screen
+        // Range: -50 to +50 pixels (You can increase 50 to make movement larger)
+        const xValue = (e.clientX / window.innerWidth - 0.5) * 50;
+        const yValue = (e.clientY / window.innerHeight - 0.5) * 50;
+
+        // 2. Send these values to CSS variables
+        // The CSS will multiply these by the --speed of each logo
+        explosionWrapper.style.setProperty('--mouse-x', `${xValue}px`);
+        explosionWrapper.style.setProperty('--mouse-y', `${yValue}px`);
+    });
+}
