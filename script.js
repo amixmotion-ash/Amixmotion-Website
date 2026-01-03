@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Clean Explosion) ==
+// == 14. ABOUT PAGE: Timeline (Intro Images Fade) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -621,17 +621,17 @@ if (servicesSection && track) {
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
-        // 1. Calculate Entry Progress
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
-        // --- STATE A: ENTERING ---
+        // --- STATE A: ENTERING (Black -> White Transition) ---
         if (incomingPosition > 0) {
             
             if (items.length > 0) {
                 const introHeader = items[0].querySelector('h2');
                 const introPara = items[0].querySelector('p');
                 const introDot = items[0].querySelector('.timeline-dot');
+                const introBoxes = items[0].querySelectorAll('.intro-box');
                 
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
@@ -639,14 +639,17 @@ if (servicesSection && track) {
                 }
                 if (introPara) introPara.style.opacity = 0;
                 
+                // Fade Header & Wrapper In
                 items[0].style.opacity = entryProgress;
 
+                // FADE BOXES IN (Match Entry)
+                introBoxes.forEach(box => {
+                    box.style.opacity = entryProgress;
+                });
+
                 if (introDot) {
-                    if (entryProgress > 0.05) {
-                        introDot.classList.add('pop-in');
-                    } else {
-                        introDot.classList.remove('pop-in');
-                    }
+                    if (entryProgress > 0.05) introDot.classList.add('pop-in');
+                    else introDot.classList.remove('pop-in');
                 }
             }
 
@@ -662,7 +665,7 @@ if (servicesSection && track) {
             }
         }
 
-        // --- STATE B: SCROLLING ---
+        // --- STATE B: PINNED SCROLLING (Expand -> Move) ---
         else {
             if (stickyProfile) {
                 stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
@@ -678,11 +681,13 @@ if (servicesSection && track) {
             const introHeader = items[0].querySelector('h2');
             const introPara = items[0].querySelector('p');
             const introDot = items[0].querySelector('.timeline-dot');
+            const introBoxes = items[0].querySelectorAll('.intro-box');
             
             if (introDot) introDot.classList.add('pop-in');
 
-            // B1: EXPAND INTRO
+            // --- SUB-STATE B1: EXPAND INTRO ---
             if (scrollProgress < INTRO_PHASE) {
+                
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
                 let liftHeight = 150; 
@@ -690,9 +695,15 @@ if (servicesSection && track) {
                 
                 if (introHeader) {
                     let currentLift = expandProg * liftHeight;
-                    let currentScale = 2 - expandProg;
+                    let currentScale = 2 - expandProg; // 2.0 -> 1.0
                     introHeader.style.transform = `translateY(-${currentLift}px) scale(${currentScale})`;
                 }
+
+                // FADE BOXES OUT
+                // Opacity goes from 1 to 0 as expandProg goes 0 to 1
+                introBoxes.forEach(box => {
+                    box.style.opacity = 1 - expandProg;
+                });
 
                 if (introPara) {
                     let fadeStart = 0.5;
@@ -710,13 +721,17 @@ if (servicesSection && track) {
                 }
             }
 
-            // B2: HORIZONTAL SCROLL
+            // --- SUB-STATE B2: HORIZONTAL SCROLL ---
             else {
+                
                 if (introHeader && introPara) {
                     let liftHeight = introPara.offsetHeight - 25;
                     introHeader.style.transform = `translateY(-${liftHeight}px) scale(1)`;
                     introPara.style.opacity = 1;
                 }
+
+                // Ensure boxes are gone
+                introBoxes.forEach(box => box.style.opacity = 0);
 
                 if (axisLine) axisLine.style.opacity = 1;
 
@@ -746,7 +761,7 @@ if (servicesSection && track) {
                     const p = item.querySelector('p');
 
                     if (currentLineLength >= distanceToItem) {
-                        // Just add the class (Explosion triggers via CSS)
+                        // Explosion Logic via CSS
                         item.classList.add('has-arrived');
 
                         if (label && p && !item.classList.contains('trusted-item')) {
@@ -767,25 +782,4 @@ if (servicesSection && track) {
 
     window.addEventListener('scroll', animateTimeline);
     animateTimeline();
-}
-
-// ======================================================================
-// == 15. ABOUT PAGE: Logo Mouse Parallax ==
-// ======================================================================
-
-const explosionWrapper = document.querySelector('.explosion-wrapper');
-
-if (explosionWrapper) {
-    window.addEventListener('mousemove', (e) => {
-        
-        // 1. Calculate Mouse Position relative to center of screen
-        // Range: -50 to +50 pixels (You can increase 50 to make movement larger)
-        const xValue = (e.clientX / window.innerWidth - 0.5) * 50;
-        const yValue = (e.clientY / window.innerHeight - 0.5) * 50;
-
-        // 2. Send these values to CSS variables
-        // The CSS will multiply these by the --speed of each logo
-        explosionWrapper.style.setProperty('--mouse-x', `${xValue}px`);
-        explosionWrapper.style.setProperty('--mouse-y', `${yValue}px`);
-    });
 }
