@@ -604,8 +604,8 @@ if (scrollTrigger) {
     });
 }
 
-// ======================================================================
-// == 14. ABOUT PAGE: Timeline (Synced Bounce) ==
+/// ======================================================================
+// == 14. ABOUT PAGE: Timeline (Lag-Free Mouse Fix) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -621,29 +621,29 @@ if (servicesSection && track) {
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
+        // 1. Calculate Entry Progress
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
-        // --- STATE A: ENTERING (Black -> White Transition) ---
+        // --- STATE A: ENTERING ---
         if (incomingPosition > 0) {
-            
             if (items.length > 0) {
                 const introHeader = items[0].querySelector('h2');
                 const introPara = items[0].querySelector('p');
                 const introDot = items[0].querySelector('.timeline-dot');
                 
-                // Header starts low
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
                     introHeader.style.transform = `translateY(0px) scale(2)`;
                 }
-                // Text starts hidden
                 if (introPara) introPara.style.opacity = 0;
                 
-                // RESET DOT: Remove pop-in class if we scroll back up here
-                if (introDot) introDot.classList.remove('pop-in');
-                
                 items[0].style.opacity = entryProgress;
+
+                if (introDot) {
+                    if (entryProgress > 0.05) introDot.classList.add('pop-in');
+                    else introDot.classList.remove('pop-in');
+                }
             }
 
             if (axisLine) axisLine.style.opacity = 0;
@@ -658,7 +658,7 @@ if (servicesSection && track) {
             }
         }
 
-        // --- STATE B: PINNED SCROLLING ---
+        // --- STATE B: SCROLLING ---
         else {
             if (stickyProfile) {
                 stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
@@ -671,28 +671,25 @@ if (servicesSection && track) {
 
             const INTRO_PHASE = 0.15; 
 
+            // Intro Elements
             const introHeader = items[0].querySelector('h2');
             const introPara = items[0].querySelector('p');
             const introDot = items[0].querySelector('.timeline-dot');
-            
-            // --- SUB-STATE B1: EXPAND INTRO ---
+            if (introDot) introDot.classList.add('pop-in');
+
+            // B1: EXPAND INTRO
             if (scrollProgress < INTRO_PHASE) {
-                
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // 1. Move Header Up
                 let liftHeight = 150; 
-                if (introPara) {
-                    liftHeight = introPara.offsetHeight - 25;
-                }
+                if (introPara) liftHeight = introPara.offsetHeight - 25;
                 
                 if (introHeader) {
                     let currentLift = expandProg * liftHeight;
-                    let currentScale = 2 - expandProg; 
+                    let currentScale = 2 - expandProg;
                     introHeader.style.transform = `translateY(-${currentLift}px) scale(${currentScale})`;
                 }
 
-                // 2. Fade Text In
                 if (introPara) {
                     let fadeStart = 0.5;
                     let textOpacity = 0;
@@ -702,17 +699,6 @@ if (servicesSection && track) {
                     introPara.style.opacity = textOpacity;
                 }
 
-                // 3. TRIGGER BOUNCE (Synced with Text Fade)
-                // We trigger this at 0.4 (just before text starts fading at 0.5)
-                if (introDot) {
-                    if (expandProg > 0.4) {
-                        introDot.classList.add('pop-in');
-                    } else {
-                        introDot.classList.remove('pop-in');
-                    }
-                }
-
-                // Lock Track
                 track.style.transform = `translate(0px, -50%)`;
                 if (axisLine) {
                     axisLine.style.opacity = 0;
@@ -720,17 +706,12 @@ if (servicesSection && track) {
                 }
             }
 
-            // --- SUB-STATE B2: HORIZONTAL SCROLL ---
+            // B2: HORIZONTAL SCROLL
             else {
-                
-                // Lock Intro State
-                if (introHeader && introPara && introDot) {
+                if (introHeader && introPara) {
                     let liftHeight = introPara.offsetHeight - 25;
                     introHeader.style.transform = `translateY(-${liftHeight}px) scale(1)`;
                     introPara.style.opacity = 1;
-                    
-                    // Keep dot visible
-                    introDot.classList.add('pop-in');
                 }
 
                 if (axisLine) axisLine.style.opacity = 1;
@@ -752,7 +733,7 @@ if (servicesSection && track) {
                 const currentLineLength = Math.abs(xPos);
 
                 items.forEach((item, index) => {
-                    if (index === 0) return; 
+                    if (index === 0) return;
 
                     const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);
                     const distanceToItem = itemCenterX - startX;
@@ -761,15 +742,38 @@ if (servicesSection && track) {
                     const p = item.querySelector('p');
 
                     if (currentLineLength >= distanceToItem) {
-                        item.classList.add('has-arrived');
-                        if (label && p) {
+                        // Activate Item
+                        if (!item.classList.contains('has-arrived')) {
+                            item.classList.add('has-arrived');
+                            
+                            // FIX: If this is the "Trusted By" item, start a timer
+                            // After 800ms (explosion done), enable fast mouse interaction
+                            if (item.classList.contains('trusted-item')) {
+                                clearTimeout(item.interactTimer);
+                                item.interactTimer = setTimeout(() => {
+                                    item.classList.add('interaction-mode');
+                                }, 800);
+                            }
+                        }
+
+                        if (label && p && !item.classList.contains('trusted-item')) {
                             const pHeight = p.offsetHeight;
                             const liftAmount = pHeight + 15; 
                             label.style.transform = `translate(-50%, -${liftAmount}px)`;
                         }
                     } else {
-                        item.classList.remove('has-arrived');
-                        if (label) {
+                        // Deactivate Item
+                        if (item.classList.contains('has-arrived')) {
+                            item.classList.remove('has-arrived');
+                            
+                            // FIX: Reset interaction mode immediately
+                            if (item.classList.contains('trusted-item')) {
+                                clearTimeout(item.interactTimer);
+                                item.classList.remove('interaction-mode');
+                            }
+                        }
+
+                        if (label && !item.classList.contains('trusted-item')) {
                             label.style.transform = `translate(-50%, 0px)`;
                         }
                     }

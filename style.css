@@ -3166,3 +3166,16 @@ body.portfolio-page::before {
     /* END STATE: Moves UP to -150px and SCALES UP to 1 */
     transform: translate(-50%, -150px) scale(1) !important; 
 }
+
+/* ================================================================= */
+/* == FIX: Mouse Reactivity (Fast Response) == */
+/* ================================================================= */
+
+/* 
+   When the 'interaction-mode' class is added (by JS after explosion),
+   we switch the transition speed to be super fast (0.1s).
+   This eliminates the "laggy/drunk" feeling when moving the mouse.
+*/
+.service-item.interaction-mode .exploding-logo {
+    transition: transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+}
