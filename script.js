@@ -377,7 +377,6 @@ if (contactForm) {
 // ======================================================================
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 1. Setup/Check Curtain
     var curtain = document.querySelector('.page-transition-curtain');
     
     if (document.body.classList.contains('homepage')) {
@@ -395,7 +394,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // 2. HANDLE "OUT" ANIMATION (Reveal Page on Load)
     window.addEventListener('load', function() {
         
         if (document.body.classList.contains('homepage')) {
@@ -403,28 +401,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         setTimeout(function() {
-            // Restore animation speed for curtain
             curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
             curtain.style.transform = 'translateX(100%)'; 
 
             // --- ABOUT PAGE HEADER ANIMATION ---
             var aboutTitle = document.querySelector('.about-hero-title');
             if (aboutTitle) {
-                // Step 1: Enable smooth transition temporarily
                 aboutTitle.classList.add('allow-intro-transition');
                 
-                // Step 2: Trigger the move to center (after tiny delay)
                 setTimeout(function() {
                     aboutTitle.classList.add('intro-visible');
                 }, 100);
 
-                // Step 3: Remove smooth transition so scroll works perfectly
-                // We wait 1300ms (1.2s animation + 100ms delay)
                 setTimeout(function() {
                     aboutTitle.classList.remove('allow-intro-transition');
                 }, 1300);
             }
-            // -----------------------------------
 
             // Trigger Portfolio Panels
             var portfolioGrid = document.querySelector('.portfolio-grid-section');
@@ -440,7 +432,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
     });
 
-    // 3. HANDLE "IN" ANIMATION (Link Clicks)
     var internalLinks = document.querySelectorAll('a[href="index.html"], a[href="about.html"], a[href="portfolio.html"], a[href="contact.html"], a[href="./"]');
 
     internalLinks.forEach(function(link) {
@@ -452,7 +443,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             e.preventDefault();
 
-            // --- MENU EXIT SEQUENCE ---
             var exitDelay = 0;
             var parentNav = this.closest('.main-nav');
 
@@ -460,7 +450,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 parentNav.classList.add('menu-exiting');
                 exitDelay = 500; 
             }
-            // --------------------------
 
             var isGoingHome = targetUrl.indexOf('index.html') > -1 || targetUrl === './' || targetUrl === '/';
 
@@ -480,7 +469,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     curtain.style.transition = 'none'; 
                     curtain.classList.add('is-active');
 
-                    // Start from LEFT
                     curtain.style.transform = 'translateX(-100%)'; 
                     
                     curtain.getBoundingClientRect(); // Force Reflow
@@ -499,7 +487,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ======================================================================
-// == 13. ABOUT PAGE: Intro Sequence (Image 2 Adjusted) ==
+// == 13. ABOUT PAGE: Intro Sequence (Images + Text) ==
 // ======================================================================
 const scrollTrigger = document.querySelector('.about-scroll-trigger');
 
@@ -519,12 +507,11 @@ if (scrollTrigger) {
         const distanceScrolled = -rect.top;
         const totalDistance = rect.height - windowHeight;
         
-        // Progress 0 to 1
         let progress = Math.max(0, Math.min(1, distanceScrolled / totalDistance));
 
         if (rect.bottom > 0) {
             
-            // --- PHASE 1: TITLE (0% - 15%) ---
+            // --- PHASE 1: TITLE ---
             let titleOpacity = 1 - (progress * 6.6); 
             titleOpacity = Math.max(0, Math.min(1, titleOpacity));
             
@@ -536,7 +523,7 @@ if (scrollTrigger) {
                  indicator.style.opacity = titleOpacity;
             }
 
-            // --- PHASE 2: PARAGRAPH (20% - 40%) ---
+            // --- PHASE 2: PARAGRAPH ---
             let paraOpacity = 0;
             if (progress > 0.20 && progress < 0.40) {
                 if (progress < 0.25) {
@@ -548,22 +535,19 @@ if (scrollTrigger) {
                 }
             }
             
-            let paraMove = (progress - 0.20) * 800; 
+            let paraMove = (progress - 0.30) * 1000; 
 
             if (paragraph) {
                 paragraph.style.opacity = Math.max(0, Math.min(1, paraOpacity));
-                paragraph.style.transform = 'translate(-50%, calc(-50% - ' + paraMove + 'px))';
+                paragraph.style.transform = 'translate(-50%, calc(-65% - ' + paraMove + 'px))';
             }
 
-            // =========================================================
-            // CONSTANT SETTINGS
-            // =========================================================
+            // CONSTANTS
             const DURATION = 0.45;
             const ZOOM_AMT = 2.0;  
             const PAN_AMT = 185;   
 
-            // --- PHASE 3: IMAGE 1 (Left Lane) ---
-            // START: 0.40
+            // --- PHASE 3: IMAGE 1 ---
             if (image1) {
                 let startAt = 0.40;
                 let imgOpacity = 0;
@@ -589,8 +573,7 @@ if (scrollTrigger) {
                 image1.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
 
-            // --- PHASE 4: IMAGE 2 (Right Lane) ---
-            // START: 0.50 (Earlier)
+            // --- PHASE 4: IMAGE 2 ---
             if (image2) {
                 let startAt = 0.50; 
                 let imgOpacity = 0;
@@ -602,7 +585,6 @@ if (scrollTrigger) {
                     let localProg = (progress - startAt) / DURATION;
 
                     if (localProg < 0.2) imgOpacity = localProg * 5; 
-                    // UPDATED: FADE OUT EARLIER (at 0.75 instead of 0.8)
                     else if (localProg > 0.75) {
                         imgOpacity = 1 - ((localProg - 0.75) * 4); 
                         blur = (localProg - 0.75) * 60; 
@@ -617,8 +599,7 @@ if (scrollTrigger) {
                 image2.style.transform = 'translate(' + xMove + '%, -50%) scale(' + scale + ')';
             }
 
-            // --- PHASE 5: PROFILE TEXT (Center Lane) ---
-            // START: 0.80
+            // --- PHASE 5: PROFILE TEXT ---
             if (profileText) {
                 let startAt = 0.80; 
                 let txtOpacity = 0;
@@ -626,6 +607,7 @@ if (scrollTrigger) {
                 let blur = 0;
 
                 if (progress > 0.80) {
+                    
                     let localProg = (progress - 0.80) / 0.20; 
                     if (localProg > 1) localProg = 1;
 
@@ -649,8 +631,9 @@ if (scrollTrigger) {
         }
     });
 }
+
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Intro Scale Effect) ==
+// == 14. ABOUT PAGE: Timeline (Intro Dot Bounce) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -666,27 +649,33 @@ if (servicesSection && track) {
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
-        // 1. Calculate Entry Progress (0 to 1)
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
-        // --- STATE A: ENTERING (Black -> White Transition) ---
+        // --- STATE A: ENTERING ---
         if (incomingPosition > 0) {
             
             if (items.length > 0) {
                 const introHeader = items[0].querySelector('h2');
                 const introPara = items[0].querySelector('p');
+                const introDot = items[0].querySelector('.timeline-dot');
                 
                 if (introHeader) {
-                    // START STATE: Sitting on dot, scaled UP 2x
-                    // Anchored to bottom so it grows upwards
                     introHeader.style.transformOrigin = "bottom center";
                     introHeader.style.transform = `translateY(0px) scale(2)`;
                 }
-                
                 if (introPara) introPara.style.opacity = 0;
                 
                 items[0].style.opacity = entryProgress;
+
+                // BOUNCE LOGIC
+                if (introDot) {
+                    if (entryProgress > 0.05) {
+                        introDot.classList.add('pop-in');
+                    } else {
+                        introDot.classList.remove('pop-in');
+                    }
+                }
             }
 
             if (axisLine) axisLine.style.opacity = 0;
@@ -701,7 +690,7 @@ if (servicesSection && track) {
             }
         }
 
-        // --- STATE B: PINNED SCROLLING (Expand -> Move) ---
+        // --- STATE B: SCROLLING ---
         else {
             if (stickyProfile) {
                 stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
@@ -714,16 +703,17 @@ if (servicesSection && track) {
 
             const INTRO_PHASE = 0.15; 
 
-            // Get Intro Elements
             const introHeader = items[0].querySelector('h2');
             const introPara = items[0].querySelector('p');
+            const introDot = items[0].querySelector('.timeline-dot');
             
-            // --- SUB-STATE B1: EXPAND INTRO (Scale Down + Move Up) ---
+            if (introDot) introDot.classList.add('pop-in');
+
+            // --- SUB-STATE B1: EXPAND INTRO ---
             if (scrollProgress < INTRO_PHASE) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // 1. Move Header Up & Scale Down
                 let liftHeight = 150; 
                 if (introPara) {
                     liftHeight = introPara.offsetHeight - 25;
@@ -731,15 +721,10 @@ if (servicesSection && track) {
                 
                 if (introHeader) {
                     let currentLift = expandProg * liftHeight;
-                    
-                    // SCALE LOGIC: 
-                    // Starts at 2.0, subtracts progress (0 to 1) -> Ends at 1.0
-                    let currentScale = 2 - expandProg; 
-                    
+                    let currentScale = 2 - expandProg; // 2.0 -> 1.0
                     introHeader.style.transform = `translateY(-${currentLift}px) scale(${currentScale})`;
                 }
 
-                // 2. Fade Text In
                 if (introPara) {
                     let fadeStart = 0.5;
                     let textOpacity = 0;
@@ -749,7 +734,6 @@ if (servicesSection && track) {
                     introPara.style.opacity = textOpacity;
                 }
 
-                // 3. Keep Track Locked
                 track.style.transform = `translate(0px, -50%)`;
                 if (axisLine) {
                     axisLine.style.opacity = 0;
@@ -757,20 +741,17 @@ if (servicesSection && track) {
                 }
             }
 
-            // --- SUB-STATE B2: HORIZONTAL SCROLL (Standard Move) ---
+            // --- SUB-STATE B2: HORIZONTAL SCROLL ---
             else {
                 
-                // 1. Lock Intro Open (Scale 1.0)
                 if (introHeader && introPara) {
                     let liftHeight = introPara.offsetHeight - 25;
                     introHeader.style.transform = `translateY(-${liftHeight}px) scale(1)`;
                     introPara.style.opacity = 1;
                 }
 
-                // 2. Reveal Line
                 if (axisLine) axisLine.style.opacity = 1;
 
-                // 3. Calculate Horizontal Movement
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
                 const trackWidth = track.scrollWidth;
@@ -780,12 +761,10 @@ if (servicesSection && track) {
                 let xPos = -(horizProgress * moveDistance);
                 track.style.transform = `translate(${xPos}px, -50%)`;
 
-                // 4. Draw Line
                 if (axisLine) {
                     axisLine.style.width = Math.abs(xPos) + 'px';
                 }
 
-                // 5. Active Item Logic
                 const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
                 const currentLineLength = Math.abs(xPos);
 
