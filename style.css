@@ -3212,7 +3212,7 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES: Intro Collage (Guaranteed Safe Zone) == */
+/* == SERVICES: Intro Collage (Tight Nesting) == */
 /* ================================================================= */
 
 /* 1. Wrapper */
@@ -3224,18 +3224,16 @@ body.portfolio-page::before {
     width: 100vw; 
     height: 100vh;
     pointer-events: none;
-    z-index: 0; 
+    z-index: 0; /* Sits BEHIND the text */
     will-change: opacity;
-    overflow: visible; /* Allow images to hang off edges if needed */
+    overflow: visible;
 }
 
 /* 2. Generic Box Style */
 .collage-box {
     position: absolute;
-    /* Anchor everything to the center first */
     top: 50%;
     left: 50%;
-    
     background-color: transparent;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     border: 4px solid #ffffff; 
@@ -3251,75 +3249,75 @@ body.portfolio-page::before {
     display: block;
 }
 
-/* --- TOP ROW (Pushed UP and OUT) --- */
-
-/* Box 1: Top Left */
-.collage-box.box-1 {
-    width: 240px; height: 170px;
-    /* Push Left 550px, Push Up 320px */
-    margin-left: -550px; 
-    margin-top: -320px;
-    transform: translate(-50%, -50%) rotate(-8deg);
+/* Ensure Text sits ON TOP of the touching images */
+.intro-item h2, .intro-item p {
+    position: relative;
+    z-index: 10 !important;
+    text-shadow: 0 0 20px rgba(255,255,255,0.8); /* Optional: Helps legibility over images */
 }
 
-/* Box 2: Top Center */
+/* --- TOP ROW (Tucking under the Header) --- */
+
+/* Box 1: Top Left (Small) */
+.collage-box.box-1 {
+    width: 200px; height: 150px; /* Small Landscape */
+    /* Position: Just touching top-left of header */
+    margin-left: -420px; 
+    margin-top: -200px; 
+    transform: translate(-50%, -50%) rotate(-12deg);
+}
+
+/* Box 2: Top Center (Large) */
 .collage-box.box-2 {
-    width: 260px; height: 180px;
-    /* Keep Center X, Push Up 380px (Way above text) */
-    margin-left: 0px; 
-    margin-top: -380px;
+    width: 300px; height: 220px; /* Large */
+    /* Position: Tucked behind the top of "SERVICES" */
+    margin-left: -50px; 
+    margin-top: -240px; 
     transform: translate(-50%, -50%) rotate(4deg);
 }
 
-/* Box 3: Top Right */
+/* Box 3: Top Right (Tall/Thin) */
 .collage-box.box-3 {
-    width: 200px; height: 260px;
-    /* Push Right 550px, Push Up 300px */
-    margin-left: 550px; 
-    margin-top: -300px;
+    width: 160px; height: 240px; /* Tall Portrait */
+    /* Position: Touching top-right of header */
+    margin-left: 380px; 
+    margin-top: -220px; 
     transform: translate(-50%, -50%) rotate(15deg);
 }
 
-/* --- BOTTOM ROW (Pushed DOWN and OUT) --- */
+/* --- BOTTOM ROW (Tucking under the Paragraph) --- */
 
-/* Box 4: Bottom Left */
+/* Box 4: Bottom Left (Medium Portrait) */
 .collage-box.box-4 {
-    width: 180px; height: 240px;
-    /* Push Left 500px, Push Down 250px */
-    margin-left: -500px; 
-    margin-top: 250px;
+    width: 220px; height: 280px; 
+    /* Position: Tucked behind start of paragraph */
+    margin-left: -400px; 
+    margin-top: 150px; 
     transform: translate(-50%, -50%) rotate(-5deg);
 }
 
-/* Box 5: Bottom Center */
+/* Box 5: Bottom Center (Wide Landscape) */
 .collage-box.box-5 {
-    width: 300px; height: 170px;
-    /* Keep Center X, Push Down 300px (Way below text) */
-    margin-left: -50px; 
-    margin-top: 300px;
-    transform: translate(-50%, -50%) rotate(-6deg);
+    width: 350px; height: 200px; /* Wide */
+    /* Position: Directly under paragraph, slightly overlapping */
+    margin-left: 20px; 
+    margin-top: 200px; 
+    transform: translate(-50%, -50%) rotate(-3deg);
 }
 
-/* Box 6: Bottom Right */
+/* Box 6: Bottom Right (Square) */
 .collage-box.box-6 {
-    width: 220px; height: 220px;
-    /* Push Right 500px, Push Down 280px */
-    margin-left: 500px; 
-    margin-top: 280px;
-    transform: translate(-50%, -50%) rotate(8deg);
+    width: 200px; height: 200px; 
+    /* Position: Tucked behind end of paragraph */
+    margin-left: 380px; 
+    margin-top: 140px; 
+    transform: translate(-50%, -50%) rotate(10deg);
 }
 
 /* Mobile Adjustments */
 @media (max-width: 900px) {
-    /* Scale the whole wrapper down so images don't fly off screen on laptops/tablets */
+    /* Pull them out slightly on smaller screens so they don't block text too much */
     .intro-floating-wrapper {
-        transform: translate(-50%, -50%) scale(0.65);
-    }
-}
-
-@media (max-width: 600px) {
-    /* Scale even smaller for phones */
-    .intro-floating-wrapper {
-        transform: translate(-50%, -50%) scale(0.45);
+        transform: translate(-50%, -50%) scale(0.8);
     }
 }
