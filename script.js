@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Delayed Image Fade) ==
+// == 14. ABOUT PAGE: Timeline (Fixed Selector) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -624,7 +624,7 @@ if (servicesSection && track) {
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
-        // --- STATE A: ENTERING (Black -> White) ---
+        // --- STATE A: ENTERING (Black -> White Transition) ---
         if (incomingPosition > 0) {
             
             if (items.length > 0) {
@@ -632,7 +632,8 @@ if (servicesSection && track) {
                 const introPara = items[0].querySelector('p');
                 const introDot = items[0].querySelector('.timeline-dot');
                 
-                const introWrapper = items[0].querySelector('.intro-floating-wrapper');
+                // FIX: Look for the correct class name '.intro-collage'
+                const introCollage = items[0].querySelector('.intro-collage');
                 const introBoxes = items[0].querySelectorAll('.collage-box');
                 
                 if (introHeader) {
@@ -644,14 +645,15 @@ if (servicesSection && track) {
                 items[0].style.opacity = entryProgress;
 
                 // TRIGGER BOUNCY ENTRY (Fly Up)
-                if (introWrapper) {
-                    // Reset opacity to 1 (So they are visible when they fly in)
+                if (introCollage) {
+                    // Reset opacity to 1
                     introBoxes.forEach(box => box.style.opacity = 1);
 
+                    // Trigger the landing when 80% visible
                     if (entryProgress > 0.8) {
-                        introWrapper.classList.add('is-landed');
+                        introCollage.classList.add('is-landed');
                     } else {
-                        introWrapper.classList.remove('is-landed');
+                        introCollage.classList.remove('is-landed');
                     }
                 }
 
@@ -681,8 +683,8 @@ if (servicesSection && track) {
             }
             
             // Keep the wrapper "Landed"
-            const introWrapper = items[0].querySelector('.intro-floating-wrapper');
-            if (introWrapper) introWrapper.classList.add('is-landed');
+            const introCollage = items[0].querySelector('.intro-collage');
+            if (introCollage) introCollage.classList.add('is-landed');
             const introBoxes = items[0].querySelectorAll('.collage-box');
 
             const totalScrollable = rect.height - windowHeight;
@@ -701,21 +703,15 @@ if (servicesSection && track) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // 3. FADE BOXES OUT (DELAYED)
-                // Wait until 50% through the shrink animation
-                let boxOpacity = 1;
-                let boxFadeStart = 0.5; // Start fading halfway through
-
-                if (expandProg > boxFadeStart) {
-                    // Map the remaining 50% of scroll to 100% of fade
-                    boxOpacity = 1 - ((expandProg - boxFadeStart) / (1 - boxFadeStart));
-                }
-                
+                // FADE BOXES OUT
                 introBoxes.forEach(box => {
+                    let boxOpacity = 1;
+                    if (expandProg > 0.5) {
+                        boxOpacity = 1 - ((expandProg - 0.5) / 0.5);
+                    }
                     box.style.opacity = boxOpacity;
                 });
 
-                // Header & Paragraph Logic
                 let liftHeight = 150; 
                 if (introPara) liftHeight = introPara.offsetHeight - 25;
                 
