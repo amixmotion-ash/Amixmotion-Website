@@ -3212,40 +3212,28 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES: Intro Floating Images == */
+/* == SERVICES: Intro Floating Images (Grey Boxes) == */
 /* ================================================================= */
 
 .intro-floating-wrapper {
     position: absolute;
     top: 50%;
     left: 50%;
-    /* Center the wrapper on the screen */
     transform: translate(-50%, -50%);
     width: 100vw; 
     height: 100vh;
-    pointer-events: none; /* Let clicks pass through */
-    z-index: 0; /* Behind text */
+    pointer-events: none;
+    z-index: 0; 
 }
 
 .intro-box {
     position: absolute;
-    background-color: #e0e0e0; /* Grey Placeholder Color */
-    
-    /* Use variables from HTML for size/position */
+    background-color: #e0e0e0;
     width: var(--w);
     height: var(--h);
-    
-    /* Position relative to center */
     top: 50%;
     left: 50%;
     transform: translate(calc(-50% + var(--l)), calc(-50% + var(--t)));
-    
-    opacity: 1; /* JS will handle fading */
+    opacity: 1; 
     will-change: opacity;
-}
-
-/* Ensure Text sits on top */
-.intro-item h2, .intro-item p {
-    position: relative;
-    z-index: 2;
 }

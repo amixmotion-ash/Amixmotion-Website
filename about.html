@@ -4,44 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | Amixmotion</title>
-         <style>
-      /* This pre-hides the menu to prevent a flash on page load */
-      .main-nav {
-        transform: translateX(-100%);
-        transition: none; /* Temporarily disable animation during load */
-      }
-        .video-lightbox {
-    display: none;
-  }
-    .visually-hidden {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    margin: -1px !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    clip: rect(0, 0, 0, 0) !important;
-    border: 0 !important;
-  }
+    <style>
+      .main-nav { transform: translateX(-100%); transition: none; }
+      .video-lightbox { display: none; }
+      .visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; margin: -1px !important; padding: 0 !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; border: 0 !important; }
     </style>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="about-page">
 
-<div class="page-transition-curtain is-active">
+    <div class="page-transition-curtain is-active">
         <div class="page-loader"></div>
     </div>
-
-
-
-
 
     <header>
         <button class="nav-toggle" aria-label="toggle navigation">MENU</button>
         <div class="logo"><a href="index.html"><img src="logo.png" alt="Amixmotion Logo"></a></div>
         <nav class="desktop-nav">
             <ul>
-
+                <li><a href="portfolio.html">WORK</a></li>
                 <li><a href="contact.html">CONTACT</a></li>
             </ul>
         </nav>
@@ -56,238 +37,150 @@
         </ul>
     </nav>
 
-        <main class="about-page-main">
+    <main class="about-page-main">
 
-<!-- START: About Scroll Sequence -->
-    <div class="about-scroll-trigger">
-        <div class="sticky-title-wrapper">
-            
-            <h1 class="about-hero-title">GREAT FILM IS MORE<br>THAN JUST VISUALS</h1>
-            
-            <p class="about-intro-paragraph">
-                It's about rhythm, pacing, and emotion. Crafting narratives that resonate with the audience long after the screen goes dark.
-            </p>
-
-            <!-- Image 1 (Left) -->
-            <div class="intro-flying-image intro-flying-image-1">
-                <img src="images/about-image-1.jpg" alt="Main Profile Image">
-            </div>
-
-            <!-- Image 2 (Right) -->
-            <div class="intro-flying-image intro-flying-image-2">
-                <img src="images/about-secondary-1.jpg" alt="Secondary Profile Image">
-            </div>
-
-            <!-- Profile Text (Center) - NEW -->
-            <div class="intro-flying-text">
-                <p>
-                    After 14 years as a creative in digital design, I discovered my passion for visual storytelling while traveling through Asia. Now based in London and always happy to travel I specialise in videography and editing that blends design sensibility with cinematic technique.
+        <!-- 1. INTRO SCROLL SEQUENCE -->
+        <div class="about-scroll-trigger">
+            <div class="sticky-title-wrapper">
+                <h1 class="about-hero-title">GREAT FILM IS MORE<br>THAN JUST VISUALS</h1>
+                <p class="about-intro-paragraph">
+                    It's about rhythm, pacing, and emotion. Crafting narratives that resonate with the audience long after the screen goes dark.
                 </p>
+                <div class="intro-flying-image intro-flying-image-1">
+                    <img src="images/about-image-1.jpg" alt="Main Profile Image">
+                </div>
+                <div class="intro-flying-image intro-flying-image-2">
+                    <img src="images/about-secondary-1.jpg" alt="Secondary Profile Image">
+                </div>
+                <div class="intro-flying-text">
+                    <p>
+                        After 14 years as a creative in digital design, I discovered my passion for visual storytelling while traveling through Asia. Now based in London and always happy to travel I specialise in videography and editing that blends design sensibility with cinematic technique.
+                    </p>
+                </div>
+                <div class="scroll-indicator">
+                    <div class="scroll-text">SCROLL</div>
+                    <div class="scroll-arrow"></div>
+                </div>
             </div>
-
-            <div class="scroll-indicator">
-                <div class="scroll-text">SCROLL</div>
-                <div class="scroll-arrow"></div>
-            </div>
-
         </div>
-    </div>
-    <!-- END: About Scroll Sequence -->
-    <!-- END: About Scroll Sequence -->
-    <!-- END: About Scroll Sequence -->
-    <!-- END: About Scroll Sequence -->
-    
-    <!-- END: New Edge-to-Edge Profile Section -->
 
+        <!-- 2. STATIC PROFILE SECTION (Hidden but required for parallax) -->
+        <section class="profile-grid-section">
+            <div class="profile-grid-main-image"><img src="images/about-image-1.jpg" alt="Video"></div>
+            <div class="profile-grid-right-column">
+                <div class="profile-grid-secondary-images">
+                    <img src="images/about-secondary-1.jpg" alt="Video">
+                    <img src="images/about-image-2.jpg" alt="Video">
+                </div>
+            </div>
+        </section>
 
-    
+        <!-- 3. SERVICES HORIZONTAL TIMELINE -->
+        <section class="services-section">
+            <div class="services-sticky-container">
+                <div class="services-track">
+                    <div class="timeline-axis"></div>
 
-<!-- START: Services Horizontal Timeline -->
-    <section class="services-section">
-        <div class="services-sticky-container">
-            
-            <!-- The Track (Moves Left) -->
-         <!-- The Track (Moves Left) -->
-            <div class="services-track">
-                
-                <!-- The Continuous Line (Background) -->
-                <div class="timeline-axis"></div>
+                    <!-- ITEM 1: MAIN INTRO -->
+                    <div class="service-item intro-item">
+                        <div class="service-content">
+                            <!-- Floating Images Wrapper -->
+                            <div class="intro-floating-wrapper">
+                                <div class="intro-box" style="--t: -300px; --l: -400px; --w: 200px; --h: 150px;"></div>
+                                <div class="intro-box" style="--t: -250px; --l: 350px; --w: 180px; --h: 220px;"></div>
+                                <div class="intro-box" style="--t: 200px; --l: -350px; --w: 220px; --h: 140px;"></div>
+                                <div class="intro-box" style="--t: 150px; --l: 400px; --w: 160px; --h: 200px;"></div>
+                                <div class="intro-box" style="--t: -50px; --l: -550px; --w: 120px; --h: 300px;"></div>
+                                <div class="intro-box" style="--t: -50px; --l: 550px; --w: 140px; --h: 250px;"></div>
+                            </div>
 
-               
-      <!-- ITEM 1: MAIN INTRO -->
-                <div class="service-item intro-item">
-                    <div class="service-content">
-                        
-                        <!-- NEW: Floating Images Wrapper -->
-                        <div class="intro-floating-wrapper">
-                            <!-- Top Left -->
-                            <div class="intro-box" style="--t: -300px; --l: -400px; --w: 200px; --h: 150px;"></div>
-                            <!-- Top Right -->
-                            <div class="intro-box" style="--t: -250px; --l: 350px; --w: 180px; --h: 220px;"></div>
-                            <!-- Bottom Left -->
-                            <div class="intro-box" style="--t: 200px; --l: -350px; --w: 220px; --h: 140px;"></div>
-                            <!-- Bottom Right -->
-                            <div class="intro-box" style="--t: 150px; --l: 400px; --w: 160px; --h: 200px;"></div>
-                            <!-- Far Left (Vertical) -->
-                            <div class="intro-box" style="--t: -50px; --l: -550px; --w: 120px; --h: 300px;"></div>
+                            <h2>SERVICES THAT<br>YOU CAN RELY ON</h2>
+                            <p>Whether you need end-to-end video production or just a hand with editing and post, I offer a full spectrum of creative services designed to deliver quality and consistency. Explore the services below and see how I can help bring your next project to life.</p>
                         </div>
+                        <div class="timeline-dot"><div class="pulse-ring"></div></div>
+                    </div>
 
-                        <h2>SERVICES THAT<br>YOU CAN RELY ON</h2>
-                        <p>
-                            Whether you need end-to-end video production or just a hand with editing and post, I offer a full spectrum of creative services designed to deliver quality and consistency. Explore the services below and see how I can help bring your next project to life.
-                        </p>
-                    </div>
-                    <div class="timeline-dot">
-                        <div class="pulse-ring"></div>
-                    </div>
-                </div>
-
-                <!-- ITEM 2: PRE-PRODUCTION -->
-                <div class="service-item">
-                    <div class="service-content">
-                        <div class="service-label">PRE PRODUCTION</div>
-                        <p>
-                            A short discovery chat to clarify goals, audience, success metrics, budget, location and timeline so the story and deliverables are aligned from the start.
-                        </p>
-                    </div>
-                    <div class="timeline-dot">
-                        <div class="pulse-ring"></div>
-                    </div>
-                </div>
-
-                <!-- ITEM 3: PRODUCTION -->
-                <div class="service-item">
-                    <div class="service-content">
-                        <div class="service-label">PRODUCTION</div>
-                        <p>
-                            High Quality Video<br>Sound Recording<br>Single/dual camera setups<br>Creative direction on angle/composition<br>Drone/aerial filming
-                        </p>
-                    </div>
-                    <div class="timeline-dot">
-                        <div class="pulse-ring"></div>
-                    </div>
-                </div>
-
-                <!-- ITEM 4: POST-PRODUCTION -->
-                <div class="service-item">
-                    <div class="service-content">
-                        <div class="service-label">POST PRODUCTION</div>
-                        <p>
-                            Assemble, refine, and finish with editing, colour grading, sound design, captions, and iteration rounds to reach an approved cut.
-                        </p>
-                    </div>
-                    <div class="timeline-dot">
-                        <div class="pulse-ring"></div>
-                    </div>
-                </div>
-
-                <!-- ITEM 5: DELIVERY -->
-                <div class="service-item">
-                    <div class="service-content">
-                        <div class="service-label">DELIVERY</div>
-                        <p>
-                            Final files are exported in all required formats and aspect ratios and delivered to you, ready for publishing on your chosen platforms.
-                        </p>
-                    </div>
-                    <div class="timeline-dot">
-                        <div class="pulse-ring"></div>
-                    </div>
-                </div>
-               <!-- ITEM 6: TRUSTED BY (The Finale) -->
-                <div class="service-item trusted-item">
-                    <div class="service-content">
-                        
-                        <!-- The Header -->
-                        <div class="service-label">TRUSTED BY</div>
-
-                        <!-- The Logos (Explosion -> Grid) -->
-                       <!-- The Exploding Logos Wrapper -->
-                      <!-- The Exploding Logos Wrapper -->
-                       <!-- The Exploding Logos Wrapper -->
-                        <div class="explosion-wrapper">
-                            
-                            <!-- TOP ROW -->
-                            <!-- CAT -->
-                            <img src="images/client-logo-7.png" class="exploding-logo" 
-                                 style="--x: 0px; --y: -280px; --delay: 0.1s; --speed: 0.2">
-                            <!-- Joshua Kane -->
-                            <img src="images/client-logo-6.png" class="exploding-logo" 
-                                 style="--x: -180px; --y: -240px; --delay: 0.15s; --speed: -0.3">
-                            <!-- Zombie -->
-                            <img src="images/client-logo-5.png" class="exploding-logo" 
-                                 style="--x: 180px; --y: -240px; --delay: 0.2s; --speed: 0.4">
-
-                            <!-- MIDDLE ROW -->
-                            <!-- Aston Martin -->
-                            <img src="images/client-logo-3.png" class="exploding-logo" 
-                                 style="--x: -320px; --y: -150px; --delay: 0.25s; --speed: -0.5">
-                            <!-- Myokine -->
-                            <img src="images/client-logo-2.png" class="exploding-logo" 
-                                 style="--x: 320px; --y: -150px; --delay: 0.3s; --speed: 0.5">
-
-                            <!-- BOTTOM ROW -->
-                            <!-- Yoono -->
-                            <img src="images/client-logo-4.png" class="exploding-logo" 
-                                 style="--x: -200px; --y: -60px; --delay: 0.35s; --speed: -0.2">
-                            
-                            <!-- Sushi Samba -->
-                            <img src="images/client-logo-8.png" class="exploding-logo" 
-                                 style="--x: 0px; --y: 0px; --delay: 0.4s; --speed: 0.1">
-                            
-                            <!-- Lady Roc -->
-                            <img src="images/client-logo-1.png" class="exploding-logo" 
-                                 style="--x: 200px; --y: -60px; --delay: 0.45s; --speed: 0.3">
-                                 
+                    <!-- ITEM 2: PRE-PRODUCTION -->
+                    <div class="service-item">
+                        <div class="service-content">
+                            <div class="service-label">PRE PRODUCTION</div>
+                            <p>A short discovery chat to clarify goals, audience, success metrics, budget, location and timeline so the story and deliverables are aligned from the start.</p>
                         </div>
+                        <div class="timeline-dot"><div class="pulse-ring"></div></div>
                     </div>
-                    <div class="timeline-dot">
-                        <div class="pulse-ring"></div>
-                    </div>
-                </div>
-    </section>
-    <!-- END: Services Horizontal Timeline -->
 
-    
+                    <!-- ITEM 3: PRODUCTION -->
+                    <div class="service-item">
+                        <div class="service-content">
+                            <div class="service-label">PRODUCTION</div>
+                            <p>High Quality Video<br>Sound Recording<br>Single/dual camera setups<br>Creative direction on angle/composition<br>Drone/aerial filming</p>
+                        </div>
+                        <div class="timeline-dot"><div class="pulse-ring"></div></div>
+                    </div>
+
+                    <!-- ITEM 4: POST-PRODUCTION -->
+                    <div class="service-item">
+                        <div class="service-content">
+                            <div class="service-label">POST PRODUCTION</div>
+                            <p>Assemble, refine, and finish with editing, colour grading, sound design, captions, and iteration rounds to reach an approved cut.</p>
+                        </div>
+                        <div class="timeline-dot"><div class="pulse-ring"></div></div>
+                    </div>
+
+                    <!-- ITEM 5: DELIVERY -->
+                    <div class="service-item">
+                        <div class="service-content">
+                            <div class="service-label">DELIVERY</div>
+                            <p>Final files are exported in all required formats and aspect ratios and delivered to you, ready for publishing on your chosen platforms.</p>
+                        </div>
+                        <div class="timeline-dot"><div class="pulse-ring"></div></div>
+                    </div>
+
+                    <!-- ITEM 6: TRUSTED BY (Finale) -->
+                    <div class="service-item trusted-item">
+                        <div class="service-content">
+                            <div class="service-label">TRUSTED BY</div>
+                            <div class="explosion-wrapper">
+                                <!-- Top Row -->
+                                <img src="images/client-logo-7.png" class="exploding-logo" style="--x: 0px; --y: -280px; --delay: 0.1s">
+                                <img src="images/client-logo-6.png" class="exploding-logo" style="--x: -180px; --y: -240px; --delay: 0.15s">
+                                <img src="images/client-logo-5.png" class="exploding-logo" style="--x: 180px; --y: -240px; --delay: 0.2s">
+                                <!-- Mid Row -->
+                                <img src="images/client-logo-3.png" class="exploding-logo" style="--x: -320px; --y: -150px; --delay: 0.25s">
+                                <img src="images/client-logo-2.png" class="exploding-logo" style="--x: 320px; --y: -150px; --delay: 0.3s">
+                                <!-- Bottom Row -->
+                                <img src="images/client-logo-4.png" class="exploding-logo" style="--x: -200px; --y: -60px; --delay: 0.35s">
+                                <img src="images/client-logo-8.png" class="exploding-logo" style="--x: 0px; --y: 0px; --delay: 0.4s">
+                                <img src="images/client-logo-1.png" class="exploding-logo" style="--x: 200px; --y: -60px; --delay: 0.45s">
+                            </div>
+                        </div>
+                        <div class="timeline-dot"><div class="pulse-ring"></div></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
 
     </main>
 
-<footer>
-    <div class="new-footer-container">
-        
-        <!-- Left Side: The Main CTA -->
-        <div class="footer-cta-new">
-            <h2>
-                <span class="cta-line-solid">LET'S MAKE</span>
-                <span class="cta-line-solid">SOMETHING</span>
-                <span class="cta-line-outline">MEMORABLE</span>
-            </h2>
-        </div>
-
-        <!-- Right Side: Navigation & Contact -->
-        <div class="footer-nav-new">
-            <div class="footer-nav-links">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="portfolio.html">Work</a></li>
-                </ul>
-                <ul>
-                    <li><a href="https://www.instagram.com/amixmotion/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-                    <li><a href="mailto:ash@amixmotion.com">Email</a></li>
-                    <li><a href="#">LinkedIn</a></li> <!-- Add your LinkedIn URL here -->
-                </ul>
+    <footer>
+        <div class="new-footer-container">
+            <div class="footer-cta-new">
+                <h2><span class="cta-line-solid">LET'S MAKE</span><span class="cta-line-solid">SOMETHING</span><span class="cta-line-outline">MEMORABLE</span></h2>
             </div>
-            <a href="contact.html" class="button-outline button-light">CONTACT</a>
+            <div class="footer-nav-new">
+                <div class="footer-nav-links">
+                    <ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="portfolio.html">Work</a></li></ul>
+                    <ul><li><a href="#">Instagram</a></li><li><a href="mailto:ash@amixmotion.com">Email</a></li><li><a href="#">LinkedIn</a></li></ul>
+                </div>
+                <a href="contact.html" class="button-outline button-light">CONTACT</a>
+            </div>
         </div>
+    </footer>
 
-    </div>
-</footer>
-<div class="menu-cursor">&rarr;</div>
+    <div class="menu-cursor">&rarr;</div>
     <script src="script.js"></script>
-
-    <!-- PASTE THIS NEW SCRIPT TAG HERE -->
     <script>document.body.classList.add('js-page-loaded');</script>
 
 </body>
-</html>```
-
+</html>
