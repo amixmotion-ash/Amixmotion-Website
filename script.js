@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Quicker Image Fade) ==
+// == 14. ABOUT PAGE: Timeline (Floating Header + Late Dot) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -635,27 +635,33 @@ if (servicesSection && track) {
                 const introCollage = items[0].querySelector('.intro-collage');
                 const introBoxes = items[0].querySelectorAll('.collage-box');
                 
+                // 1. HEADER ANIMATION (Fade Up)
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
-                    introHeader.style.transform = `translateY(0px) scale(2)`;
+                    
+                    // Move from 100px down to 0px as it enters
+                    let entryLift = 100 - (entryProgress * 100);
+                    
+                    // Keep Scale 2.0 fixed during entry
+                    introHeader.style.transform = `translateY(${entryLift}px) scale(2)`;
                 }
+
+                // 2. PARAGRAPH HIDDEN
                 if (introPara) introPara.style.opacity = 0;
                 
-                items[0].style.opacity = 1;
+                // 3. FADE CONTAINER
+                items[0].style.opacity = entryProgress;
 
+                // 4. IMAGES
                 if (introCollage) {
                     introBoxes.forEach(box => box.style.opacity = 1);
-
-                    if (entryProgress > 0.95) {
-                        introCollage.classList.add('is-landed');
-                    } else {
-                        introCollage.classList.remove('is-landed');
-                    }
+                    if (entryProgress > 0.95) introCollage.classList.add('is-landed');
+                    else introCollage.classList.remove('is-landed');
                 }
 
+                // 5. DOT HIDDEN (Waiting for shrink)
                 if (introDot) {
-                    if (entryProgress > 0.05) introDot.classList.add('pop-in');
-                    else introDot.classList.remove('pop-in');
+                    introDot.classList.remove('pop-in');
                 }
             }
 
@@ -691,14 +697,12 @@ if (servicesSection && track) {
             const introHeader = items[0].querySelector('h2');
             const introPara = items[0].querySelector('p');
             const introDot = items[0].querySelector('.timeline-dot');
-            if (introDot) introDot.classList.add('pop-in');
 
-            // --- SUB-STATE B1: EXPAND INTRO ---
+            // --- SUB-STATE B1: EXPAND INTRO (Header Shrinks) ---
             if (scrollProgress < INTRO_PHASE) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // Keep images fully visible
                 introBoxes.forEach(box => {
                     box.style.opacity = 1;
                 });
@@ -720,6 +724,9 @@ if (servicesSection && track) {
                     }
                     introPara.style.opacity = textOpacity;
                 }
+                
+                // DOT HIDDEN: Remove class while shrinking
+                if (introDot) introDot.classList.remove('pop-in');
 
                 track.style.transform = `translate(0px, -50%)`;
                 if (axisLine) {
@@ -728,12 +735,14 @@ if (servicesSection && track) {
                 }
             }
 
-            // --- SUB-STATE B2: HORIZONTAL SCROLL ---
+            // --- SUB-STATE B2: HORIZONTAL SCROLL (Line Moves) ---
             else {
                 
+                // DOT VISIBLE: Header has finished shrinking, now pop the dot
+                if (introDot) introDot.classList.add('pop-in');
+
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
-                // CHANGED: Fade out much faster (First 5% of horizontal movement)
                 let boxOpacity = 0;
                 if (horizProgress < 0.05) {
                     boxOpacity = 1 - (horizProgress * 20);
