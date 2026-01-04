@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Bounce & Rotate) ==
+// == 14. ABOUT PAGE: Timeline (Images Fly Up + Bounce) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -624,7 +624,7 @@ if (servicesSection && track) {
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
-        // --- STATE A: ENTERING (Black -> White) ---
+        // --- STATE A: ENTERING (Black -> White Transition) ---
         if (incomingPosition > 0) {
             
             if (items.length > 0) {
@@ -632,8 +632,8 @@ if (servicesSection && track) {
                 const introPara = items[0].querySelector('p');
                 const introDot = items[0].querySelector('.timeline-dot');
                 
-                // 1. SELECT THE WRAPPER & BOXES
-                const introWrapper = items[0].querySelector('.intro-floating-wrapper');
+                // 1. SELECT THE COLLAGE WRAPPER & BOXES
+                const introCollage = items[0].querySelector('.intro-collage');
                 const introBoxes = items[0].querySelectorAll('.collage-box');
                 
                 if (introHeader) {
@@ -644,16 +644,16 @@ if (servicesSection && track) {
                 
                 items[0].style.opacity = entryProgress;
 
-                // 2. TRIGGER BOUNCY ENTRY
-                // When we pass 80% scroll, add the class that triggers the CSS bounce
-                if (introWrapper) {
+                // 2. TRIGGER BOUNCY ENTRY (Fly Up)
+                if (introCollage) {
                     // Reset opacity for this phase
                     introBoxes.forEach(box => box.style.opacity = 1);
 
+                    // When 80% of the white section is visible, Trigger the land!
                     if (entryProgress > 0.8) {
-                        introWrapper.classList.add('is-landed');
+                        introCollage.classList.add('is-landed');
                     } else {
-                        introWrapper.classList.remove('is-landed');
+                        introCollage.classList.remove('is-landed');
                     }
                 }
 
@@ -682,9 +682,11 @@ if (servicesSection && track) {
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
             
-            // Keep the wrapper "Landed" so images are in place for fading out
-            const introWrapper = items[0].querySelector('.intro-floating-wrapper');
-            if (introWrapper) introWrapper.classList.add('is-landed');
+            // Keep the wrapper "Landed" so images stay in place to fade out
+            const introCollage = items[0].querySelector('.intro-collage');
+            if (introCollage) introCollage.classList.add('is-landed');
+            
+            // Get boxes for fading
             const introBoxes = items[0].querySelectorAll('.collage-box');
 
             const totalScrollable = rect.height - windowHeight;
