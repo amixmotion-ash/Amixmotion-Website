@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Instant Drop, No Fade) ==
+// == 14. ABOUT PAGE: Timeline (Delayed Image Fade) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -621,7 +621,6 @@ if (servicesSection && track) {
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
-        // 1. Calculate Entry Progress (0 to 1)
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
@@ -636,26 +635,17 @@ if (servicesSection && track) {
                 const introCollage = items[0].querySelector('.intro-collage');
                 const introBoxes = items[0].querySelectorAll('.collage-box');
                 
-                // Header Position (Scale 2.0)
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
                     introHeader.style.transform = `translateY(0px) scale(2)`;
                 }
-                // Paragraph Hidden
                 if (introPara) introPara.style.opacity = 0;
                 
-                // REMOVED: items[0].style.opacity = entryProgress; 
-                // We keep the container fully visible so images don't fade while falling.
                 items[0].style.opacity = 1;
 
-                // TRIGGER BOUNCY ENTRY / INSTANT EXIT
                 if (introCollage) {
-                    // Force images to be opaque during this phase
                     introBoxes.forEach(box => box.style.opacity = 1);
 
-                    // THRESHOLD INCREASED TO 0.95
-                    // Scroll Down: Images appear when section is 95% visible.
-                    // Scroll Up: Images drop IMMEDIATELY when section is even slightly hidden.
                     if (entryProgress > 0.95) {
                         introCollage.classList.add('is-landed');
                     } else {
@@ -663,7 +653,6 @@ if (servicesSection && track) {
                     }
                 }
 
-                // Dot Bounce (Keep at 0.05 so it's visible early)
                 if (introDot) {
                     if (entryProgress > 0.05) introDot.classList.add('pop-in');
                     else introDot.classList.remove('pop-in');
@@ -689,10 +678,8 @@ if (servicesSection && track) {
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
             
-            // Lock Images in place
             const introCollage = items[0].querySelector('.intro-collage');
             if (introCollage) introCollage.classList.add('is-landed');
-            
             const introBoxes = items[0].querySelectorAll('.collage-box');
 
             const totalScrollable = rect.height - windowHeight;
@@ -706,14 +693,14 @@ if (servicesSection && track) {
             const introDot = items[0].querySelector('.timeline-dot');
             if (introDot) introDot.classList.add('pop-in');
 
-            // --- SUB-STATE B1: EXPAND INTRO ---
+            // --- SUB-STATE B1: EXPAND INTRO (Header Shrinks) ---
             if (scrollProgress < INTRO_PHASE) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // NOW we fade out the boxes as the user scrolls down into the content
+                // CHANGED: Keep images fully visible during this phase
                 introBoxes.forEach(box => {
-                    box.style.opacity = 1 - expandProg;
+                    box.style.opacity = 1;
                 });
 
                 let liftHeight = 150; 
@@ -741,10 +728,20 @@ if (servicesSection && track) {
                 }
             }
 
-            // --- SUB-STATE B2: HORIZONTAL SCROLL ---
+            // --- SUB-STATE B2: HORIZONTAL SCROLL (Line Moves) ---
             else {
-                introBoxes.forEach(box => box.style.opacity = 0);
+                
+                let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
+                // CHANGED: Fade images out during the first 10% of the horizontal scroll
+                // This happens AS the line starts drawing
+                let boxOpacity = 0;
+                if (horizProgress < 0.1) {
+                    boxOpacity = 1 - (horizProgress * 10);
+                }
+                introBoxes.forEach(box => box.style.opacity = boxOpacity);
+
+                // Lock Header
                 if (introHeader && introPara) {
                     let liftHeight = introPara.offsetHeight - 25;
                     introHeader.style.transform = `translateY(-${liftHeight}px) scale(1)`;
@@ -752,8 +749,6 @@ if (servicesSection && track) {
                 }
 
                 if (axisLine) axisLine.style.opacity = 1;
-
-                let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
                 const trackWidth = track.scrollWidth;
                 const viewportWidth = window.innerWidth;
