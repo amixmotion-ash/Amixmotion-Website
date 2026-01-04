@@ -3212,28 +3212,111 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES: Intro Floating Images (Grey Boxes) == */
+/* == SERVICES: Intro Collage (Reference Layout) == */
 /* ================================================================= */
 
+/* 1. Wrapper (Centered behind text) */
 .intro-floating-wrapper {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100vw; 
-    height: 100vh;
+    
+    /* Wide container to hold the spread */
+    width: 95vw; 
+    max-width: 1200px;
+    height: 650px; 
+    
     pointer-events: none;
-    z-index: 0; 
+    z-index: 0; /* Behind the text */
+    will-change: opacity;
 }
 
-.intro-box {
+/* 2. Generic Box Style */
+.collage-box {
     position: absolute;
-    background-color: #e0e0e0;
-    width: var(--w);
-    height: var(--h);
-    top: 50%;
-    left: 50%;
-    transform: translate(calc(-50% + var(--l)), calc(-50% + var(--t)));
+    background-color: transparent;
+    /* Optional: Subtle shadow to lift them off the white background */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    /* Optional: White border like a photo print */
+    border: 4px solid #ffffff; 
+    overflow: hidden;
+    
+    /* Animation state controlled by JS opacity */
     opacity: 1; 
     will-change: opacity;
+}
+
+.collage-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- TOP ROW POSITIONS --- */
+
+/* Box 1: Top Left (Tilted Left) */
+.collage-box.box-1 {
+    width: 240px;
+    height: 170px;
+    top: 60px;
+    left: 8%;
+    transform: rotate(-8deg);
+}
+
+/* Box 2: Top Center (Tilted Right) */
+.collage-box.box-2 {
+    width: 260px;
+    height: 180px;
+    top: 20px;
+    left: 50%;
+    /* TranslateX centers it, then shift slightly left, rotate right */
+    transform: translateX(-65%) rotate(5deg);
+}
+
+/* Box 3: Top Right (Aggressive Right Tilt) */
+.collage-box.box-3 {
+    width: 200px;
+    height: 260px; /* Portrait orientation */
+    top: 0;
+    right: 5%;
+    transform: rotate(15deg);
+}
+
+/* --- BOTTOM ROW POSITIONS --- */
+
+/* Box 4: Bottom Left (Slight Left Tilt) */
+.collage-box.box-4 {
+    width: 180px;
+    height: 240px; /* Portrait */
+    bottom: 0;
+    left: 10%;
+    transform: rotate(-5deg);
+}
+
+/* Box 5: Bottom Center (Wide, Tilted Up-Left) */
+.collage-box.box-5 {
+    width: 300px;
+    height: 170px; /* Landscape */
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-6deg);
+}
+
+/* Box 6: Bottom Right (Tilted Right) */
+.collage-box.box-6 {
+    width: 220px;
+    height: 220px; /* Square */
+    bottom: 20px;
+    right: 8%;
+    transform: rotate(8deg);
+}
+
+/* Mobile Adjustments (Scale down for phone screens) */
+@media (max-width: 768px) {
+    .intro-floating-wrapper {
+        transform: translate(-50%, -50%) scale(0.5);
+        width: 100vw;
+    }
 }
