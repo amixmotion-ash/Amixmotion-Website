@@ -3225,7 +3225,7 @@ body.portfolio-page::before {
     overflow: visible;
 }
 
-/* 2. Generic Box Style (THE EXIT STATE) */
+/* Update this rule in style.css */
 .collage-box {
     position: absolute;
     top: 50%;
@@ -3234,14 +3234,15 @@ body.portfolio-page::before {
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     border: 4px solid #ffffff; 
     overflow: hidden;
+    
+    /* Ensure Opacity is 1 by default */
     opacity: 1; 
     
-    /* START STATE (Hidden): Pushed down off screen */
+    /* START STATE: Pushed down off screen */
     transform: translate(-50%, calc(-50% + 100vh)) rotate(0deg);
     
-    /* EXIT PHYSICS (When scrolling back up): 
+    /* EXIT PHYSICS (The Jump & Drop): 
        Duration: 0.8s
-       Curve: Go UP slightly (-0.28), then drop DOWN fast. 
     */
     transition: transform 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045), opacity 0.4s ease;
     

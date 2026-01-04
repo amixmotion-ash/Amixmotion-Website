@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Fixed Selector) ==
+// == 14. ABOUT PAGE: Timeline (Instant Drop, No Fade) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -621,6 +621,7 @@ if (servicesSection && track) {
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
+        // 1. Calculate Entry Progress (0 to 1)
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
@@ -632,31 +633,37 @@ if (servicesSection && track) {
                 const introPara = items[0].querySelector('p');
                 const introDot = items[0].querySelector('.timeline-dot');
                 
-                // FIX: Look for the correct class name '.intro-collage'
                 const introCollage = items[0].querySelector('.intro-collage');
                 const introBoxes = items[0].querySelectorAll('.collage-box');
                 
+                // Header Position (Scale 2.0)
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
                     introHeader.style.transform = `translateY(0px) scale(2)`;
                 }
+                // Paragraph Hidden
                 if (introPara) introPara.style.opacity = 0;
                 
-                items[0].style.opacity = entryProgress;
+                // REMOVED: items[0].style.opacity = entryProgress; 
+                // We keep the container fully visible so images don't fade while falling.
+                items[0].style.opacity = 1;
 
-                // TRIGGER BOUNCY ENTRY (Fly Up)
+                // TRIGGER BOUNCY ENTRY / INSTANT EXIT
                 if (introCollage) {
-                    // Reset opacity to 1
+                    // Force images to be opaque during this phase
                     introBoxes.forEach(box => box.style.opacity = 1);
 
-                    // Trigger the landing when 80% visible
-                    if (entryProgress > 0.8) {
+                    // THRESHOLD INCREASED TO 0.95
+                    // Scroll Down: Images appear when section is 95% visible.
+                    // Scroll Up: Images drop IMMEDIATELY when section is even slightly hidden.
+                    if (entryProgress > 0.95) {
                         introCollage.classList.add('is-landed');
                     } else {
                         introCollage.classList.remove('is-landed');
                     }
                 }
 
+                // Dot Bounce (Keep at 0.05 so it's visible early)
                 if (introDot) {
                     if (entryProgress > 0.05) introDot.classList.add('pop-in');
                     else introDot.classList.remove('pop-in');
@@ -682,9 +689,10 @@ if (servicesSection && track) {
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
             
-            // Keep the wrapper "Landed"
+            // Lock Images in place
             const introCollage = items[0].querySelector('.intro-collage');
             if (introCollage) introCollage.classList.add('is-landed');
+            
             const introBoxes = items[0].querySelectorAll('.collage-box');
 
             const totalScrollable = rect.height - windowHeight;
@@ -703,13 +711,9 @@ if (servicesSection && track) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // FADE BOXES OUT
+                // NOW we fade out the boxes as the user scrolls down into the content
                 introBoxes.forEach(box => {
-                    let boxOpacity = 1;
-                    if (expandProg > 0.5) {
-                        boxOpacity = 1 - ((expandProg - 0.5) / 0.5);
-                    }
-                    box.style.opacity = boxOpacity;
+                    box.style.opacity = 1 - expandProg;
                 });
 
                 let liftHeight = 150; 
@@ -739,7 +743,6 @@ if (servicesSection && track) {
 
             // --- SUB-STATE B2: HORIZONTAL SCROLL ---
             else {
-                // Ensure boxes are gone
                 introBoxes.forEach(box => box.style.opacity = 0);
 
                 if (introHeader && introPara) {
