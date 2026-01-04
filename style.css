@@ -3208,9 +3208,10 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES: Intro Collage (Balanced Distribution) == */
+/* == SERVICES: Intro Collage (Bigger & Lower Top Row) == */
 /* ================================================================= */
 
+/* 1. Wrapper */
 .intro-floating-wrapper {
     position: absolute;
     top: 50%;
@@ -3224,6 +3225,7 @@ body.portfolio-page::before {
     overflow: visible;
 }
 
+/* 2. Generic Box Style */
 .collage-box {
     position: absolute;
     top: 50%;
@@ -3243,37 +3245,37 @@ body.portfolio-page::before {
     display: block;
 }
 
-/* --- TOP ROW (Evenly Spaced Arc) --- */
+/* --- TOP ROW (Moved Down & Made Bigger) --- */
 
 /* Top Left */
 .collage-box.box-1 {
-    width: 240px; height: 160px;
-    margin-left: -500px; 
-    margin-top: -300px;
+    width: 280px; height: 200px; /* Bigger */
+    margin-left: -550px; 
+    margin-top: -220px; /* Moved Down (Was -300px) */
     transform: translate(-50%, -50%) rotate(-8deg);
 }
 
 /* Top Center */
 .collage-box.box-2 {
-    width: 280px; height: 190px;
+    width: 320px; height: 240px; /* Bigger */
     margin-left: 0px; 
-    margin-top: -380px; /* High enough to clear Scale 2.0 text */
+    margin-top: -300px; /* Moved Down (Was -380px) */
     transform: translate(-50%, -50%) rotate(3deg);
 }
 
 /* Top Right */
 .collage-box.box-3 {
-    width: 220px; height: 260px;
-    margin-left: 500px; 
-    margin-top: -300px;
+    width: 250px; height: 300px; /* Bigger */
+    margin-left: 550px; 
+    margin-top: -220px; /* Moved Down (Was -300px) */
     transform: translate(-50%, -50%) rotate(12deg);
 }
 
-/* --- BOTTOM ROW (Evenly Spaced Arc) --- */
+/* --- BOTTOM ROW (Made Bigger) --- */
 
 /* Bottom Left */
 .collage-box.box-4 {
-    width: 200px; height: 240px;
+    width: 240px; height: 280px; /* Bigger */
     margin-left: -500px; 
     margin-top: 250px;
     transform: translate(-50%, -50%) rotate(-6deg);
@@ -3281,21 +3283,21 @@ body.portfolio-page::before {
 
 /* Bottom Center */
 .collage-box.box-5 {
-    width: 320px; height: 180px;
+    width: 380px; height: 220px; /* Bigger */
     margin-left: 0px; 
-    margin-top: 350px; /* Low enough to clear paragraph */
+    margin-top: 350px; 
     transform: translate(-50%, -50%) rotate(-2deg);
 }
 
 /* Bottom Right */
 .collage-box.box-6 {
-    width: 240px; height: 200px;
+    width: 280px; height: 240px; /* Bigger */
     margin-left: 500px; 
     margin-top: 250px;
     transform: translate(-50%, -50%) rotate(8deg);
 }
 
-/* Mobile: Pull them in tighter */
+/* Mobile Adjustments */
 @media (max-width: 900px) {
     .intro-floating-wrapper {
         transform: translate(-50%, -50%) scale(0.6);
