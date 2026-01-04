@@ -3225,7 +3225,7 @@ body.portfolio-page::before {
     overflow: visible;
 }
 
-/* 2. Generic Box Style (The Animation Base) */
+/* Update this rule in style.css */
 .collage-box {
     position: absolute;
     top: 50%;
@@ -3234,16 +3234,15 @@ body.portfolio-page::before {
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     border: 4px solid #ffffff; 
     overflow: hidden;
-    
-    /* START STATE (Hidden): */
-    /* 1. Pushed down off screen (100vh) */
-    /* 2. Rotated to 0deg (So they twist when they land) */
-    transform: translate(-50%, calc(-50% + 100vh)) rotate(0deg);
-    
     opacity: 1; 
     
-    /* ANIMATION SETTINGS: */
-    /* Transform: 1s duration with a Big Bounce (1.56 overshoot) */
+    /* START STATE: 
+       1. Pushed down (100vh)
+       2. CHANGED: Rotated to 45deg (This creates a strong spin as they fly up) 
+    */
+    transform: translate(-50%, calc(-50% + 100vh)) rotate(45deg);
+    
+    /* Animation Settings */
     transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
     
     will-change: transform, opacity;
