@@ -3308,6 +3308,21 @@ body.portfolio-page::before {
     --rot: 8deg;
 }
 
+/* ================================================================= */
+/* == COLLAGE STAGGER DELAYS (Offset Entry) == */
+/* ================================================================= */
+
+/* Only apply delay when animating IN (is-landed) */
+
+/* Center images first */
+.intro-collage.is-landed .box-2 { transition-delay: 0.0s; } /* Top Center */
+.intro-floating-wrapper.is-landed .box-5 { transition-delay: 0.05s; } /* Bottom Center */
+
+/* Then sides */
+.intro-floating-wrapper.is-landed .box-1 { transition-delay: 0.1s; } /* Top Left */
+.intro-floating-wrapper.is-landed .box-6 { transition-delay: 0.15s; } /* Bottom Right */
+.intro-floating-wrapper.is-landed .box-4 { transition-delay: 0.2s; } /* Bottom Left */
+.intro-floating-wrapper.is-landed .box-3 { transition-delay: 0.25s; } /* Top Right */
 /* Mobile Adjustments */
 @media (max-width: 900px) {
     .intro-collage {
