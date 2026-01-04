@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Intro Images Fade) ==
+// == 14. ABOUT PAGE: Timeline (Images Fly Up) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -624,29 +624,41 @@ if (servicesSection && track) {
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
-        // --- STATE A: ENTERING (Black -> White Transition) ---
+        // --- STATE A: ENTERING (Black -> White) ---
         if (incomingPosition > 0) {
             
             if (items.length > 0) {
                 const introHeader = items[0].querySelector('h2');
                 const introPara = items[0].querySelector('p');
                 const introDot = items[0].querySelector('.timeline-dot');
-                const introBoxes = items[0].querySelectorAll('.intro-box');
+                const introBoxes = items[0].querySelectorAll('.collage-box'); // Select boxes
                 
+                // Header/Para reset
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
                     introHeader.style.transform = `translateY(0px) scale(2)`;
                 }
                 if (introPara) introPara.style.opacity = 0;
                 
-                // Fade Header & Wrapper In
+                // Main item opacity
                 items[0].style.opacity = entryProgress;
 
-                // FADE BOXES IN (Match Entry)
+                // --- NEW: FLY UP LOGIC ---
+                // "20% before finish" means entryProgress > 0.8
                 introBoxes.forEach(box => {
-                    box.style.opacity = entryProgress;
+                    // Reset opacity for this phase
+                    box.style.opacity = 1;
+                    
+                    if (entryProgress > 0.8) {
+                        // Fly Up into position (0px offset)
+                        box.style.setProperty('--fly-y', '0px');
+                    } else {
+                        // Stay hidden below (100vh offset)
+                        box.style.setProperty('--fly-y', '100vh');
+                    }
                 });
 
+                // Dot bounce
                 if (introDot) {
                     if (entryProgress > 0.05) introDot.classList.add('pop-in');
                     else introDot.classList.remove('pop-in');
@@ -665,12 +677,17 @@ if (servicesSection && track) {
             }
         }
 
-        // --- STATE B: PINNED SCROLLING (Expand -> Move) ---
+        // --- STATE B: PINNED SCROLLING ---
         else {
+            // Keep background dim
             if (stickyProfile) {
                 stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
+            
+            // Keep images in place (fly-y: 0) so they can fade out next
+            const introBoxes = items[0].querySelectorAll('.collage-box');
+            introBoxes.forEach(box => box.style.setProperty('--fly-y', '0px'));
 
             const totalScrollable = rect.height - windowHeight;
             let scrollProgress = -incomingPosition / totalScrollable;
@@ -681,8 +698,6 @@ if (servicesSection && track) {
             const introHeader = items[0].querySelector('h2');
             const introPara = items[0].querySelector('p');
             const introDot = items[0].querySelector('.timeline-dot');
-            const introBoxes = items[0].querySelectorAll('.intro-box');
-            
             if (introDot) introDot.classList.add('pop-in');
 
             // --- SUB-STATE B1: EXPAND INTRO ---
@@ -690,20 +705,19 @@ if (servicesSection && track) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
+                // Fade Out Images as Header Shrinks
+                introBoxes.forEach(box => {
+                    box.style.opacity = 1 - expandProg;
+                });
+
                 let liftHeight = 150; 
                 if (introPara) liftHeight = introPara.offsetHeight - 25;
                 
                 if (introHeader) {
                     let currentLift = expandProg * liftHeight;
-                    let currentScale = 2 - expandProg; // 2.0 -> 1.0
+                    let currentScale = 2 - expandProg; 
                     introHeader.style.transform = `translateY(-${currentLift}px) scale(${currentScale})`;
                 }
-
-                // FADE BOXES OUT
-                // Opacity goes from 1 to 0 as expandProg goes 0 to 1
-                introBoxes.forEach(box => {
-                    box.style.opacity = 1 - expandProg;
-                });
 
                 if (introPara) {
                     let fadeStart = 0.5;
@@ -723,15 +737,14 @@ if (servicesSection && track) {
 
             // --- SUB-STATE B2: HORIZONTAL SCROLL ---
             else {
-                
+                // Ensure images are gone
+                introBoxes.forEach(box => box.style.opacity = 0);
+
                 if (introHeader && introPara) {
                     let liftHeight = introPara.offsetHeight - 25;
                     introHeader.style.transform = `translateY(-${liftHeight}px) scale(1)`;
                     introPara.style.opacity = 1;
                 }
-
-                // Ensure boxes are gone
-                introBoxes.forEach(box => box.style.opacity = 0);
 
                 if (axisLine) axisLine.style.opacity = 1;
 
@@ -761,9 +774,7 @@ if (servicesSection && track) {
                     const p = item.querySelector('p');
 
                     if (currentLineLength >= distanceToItem) {
-                        // Explosion Logic via CSS
                         item.classList.add('has-arrived');
-
                         if (label && p && !item.classList.contains('trusted-item')) {
                             const pHeight = p.offsetHeight;
                             const liftAmount = pHeight + 15; 
