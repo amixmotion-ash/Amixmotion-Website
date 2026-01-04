@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Images Fly Up + Bounce) ==
+// == 14. ABOUT PAGE: Timeline (Delayed Image Fade) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -624,7 +624,7 @@ if (servicesSection && track) {
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
-        // --- STATE A: ENTERING (Black -> White Transition) ---
+        // --- STATE A: ENTERING (Black -> White) ---
         if (incomingPosition > 0) {
             
             if (items.length > 0) {
@@ -632,8 +632,7 @@ if (servicesSection && track) {
                 const introPara = items[0].querySelector('p');
                 const introDot = items[0].querySelector('.timeline-dot');
                 
-                // 1. SELECT THE COLLAGE WRAPPER & BOXES
-                const introCollage = items[0].querySelector('.intro-collage');
+                const introWrapper = items[0].querySelector('.intro-floating-wrapper');
                 const introBoxes = items[0].querySelectorAll('.collage-box');
                 
                 if (introHeader) {
@@ -644,16 +643,15 @@ if (servicesSection && track) {
                 
                 items[0].style.opacity = entryProgress;
 
-                // 2. TRIGGER BOUNCY ENTRY (Fly Up)
-                if (introCollage) {
-                    // Reset opacity for this phase
+                // TRIGGER BOUNCY ENTRY (Fly Up)
+                if (introWrapper) {
+                    // Reset opacity to 1 (So they are visible when they fly in)
                     introBoxes.forEach(box => box.style.opacity = 1);
 
-                    // When 80% of the white section is visible, Trigger the land!
                     if (entryProgress > 0.8) {
-                        introCollage.classList.add('is-landed');
+                        introWrapper.classList.add('is-landed');
                     } else {
-                        introCollage.classList.remove('is-landed');
+                        introWrapper.classList.remove('is-landed');
                     }
                 }
 
@@ -682,11 +680,9 @@ if (servicesSection && track) {
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
             
-            // Keep the wrapper "Landed" so images stay in place to fade out
-            const introCollage = items[0].querySelector('.intro-collage');
-            if (introCollage) introCollage.classList.add('is-landed');
-            
-            // Get boxes for fading
+            // Keep the wrapper "Landed"
+            const introWrapper = items[0].querySelector('.intro-floating-wrapper');
+            if (introWrapper) introWrapper.classList.add('is-landed');
             const introBoxes = items[0].querySelectorAll('.collage-box');
 
             const totalScrollable = rect.height - windowHeight;
@@ -705,12 +701,21 @@ if (servicesSection && track) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // 3. FADE BOXES OUT
-                // As the header shrinks, the boxes dissolve
+                // 3. FADE BOXES OUT (DELAYED)
+                // Wait until 50% through the shrink animation
+                let boxOpacity = 1;
+                let boxFadeStart = 0.5; // Start fading halfway through
+
+                if (expandProg > boxFadeStart) {
+                    // Map the remaining 50% of scroll to 100% of fade
+                    boxOpacity = 1 - ((expandProg - boxFadeStart) / (1 - boxFadeStart));
+                }
+                
                 introBoxes.forEach(box => {
-                    box.style.opacity = 1 - expandProg;
+                    box.style.opacity = boxOpacity;
                 });
 
+                // Header & Paragraph Logic
                 let liftHeight = 150; 
                 if (introPara) liftHeight = introPara.offsetHeight - 25;
                 
