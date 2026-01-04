@@ -3208,7 +3208,7 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES: Intro Collage (Bouncy Fly-In) == */
+/* == SERVICES: Intro Collage (Advanced Exit Physics) == */
 /* ================================================================= */
 
 /* 1. Wrapper */
@@ -3225,7 +3225,7 @@ body.portfolio-page::before {
     overflow: visible;
 }
 
-/* Update this rule in style.css */
+/* 2. Generic Box Style (THE EXIT STATE) */
 .collage-box {
     position: absolute;
     top: 50%;
@@ -3236,24 +3236,18 @@ body.portfolio-page::before {
     overflow: hidden;
     opacity: 1; 
     
-    /* DEFAULT START: Pushed down (100vh) */
-    transform: translate(-50%, calc(-50% + 100vh));
+    /* START STATE (Hidden): Pushed down off screen */
+    transform: translate(-50%, calc(-50% + 100vh)) rotate(0deg);
     
-    transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+    /* EXIT PHYSICS (When scrolling back up): 
+       Duration: 0.8s
+       Curve: Go UP slightly (-0.28), then drop DOWN fast. 
+    */
+    transition: transform 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045), opacity 0.4s ease;
+    
     will-change: transform, opacity;
 }
-/* ================================================================= */
-/* == COLLAGE: Random Start Rotations (The Chaos) == */
-/* ================================================================= */
 
-/* These apply only when the box is flying UP (before it lands) */
-
-.collage-box.box-1 { transform: translate(-50%, calc(-50% + 100vh)) rotate(-60deg); }
-.collage-box.box-2 { transform: translate(-50%, calc(-50% + 100vh)) rotate(45deg); }
-.collage-box.box-3 { transform: translate(-50%, calc(-50% + 100vh)) rotate(-90deg); }
-.collage-box.box-4 { transform: translate(-50%, calc(-50% + 100vh)) rotate(120deg); }
-.collage-box.box-5 { transform: translate(-50%, calc(-50% + 100vh)) rotate(-30deg); }
-.collage-box.box-6 { transform: translate(-50%, calc(-50% + 100vh)) rotate(90deg); }
 .collage-box img {
     width: 100%;
     height: 100%;
@@ -3261,73 +3255,74 @@ body.portfolio-page::before {
     display: block;
 }
 
-/* 3. LANDED STATE (Triggered by JS) */
-/* When the wrapper gets this class, the boxes fly up and rotate */
+/* 3. LANDED STATE (THE ENTRY STATE) */
+/* When the JS adds 'is-landed', this rule takes over */
 .intro-collage.is-landed .collage-box {
+    /* END STATE: Centered and Rotated */
     transform: translate(-50%, -50%) rotate(var(--rot));
+    
+    /* ENTRY PHYSICS (When scrolling down):
+       Duration: 1.2s
+       Curve: Overshoot and bounce back
+    */
+    transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
 }
 
-/* --- TOP ROW (Positions + Rotation Variables) --- */
+/* --- DELAYS (Randomized for natural feel) --- */
 
+/* ENTRY DELAYS (When flying UP) */
+.intro-collage.is-landed .box-2 { transition-delay: 0.0s; }
+.intro-collage.is-landed .box-5 { transition-delay: 0.05s; }
+.intro-collage.is-landed .box-1 { transition-delay: 0.1s; }
+.intro-collage.is-landed .box-6 { transition-delay: 0.15s; }
+.intro-collage.is-landed .box-4 { transition-delay: 0.2s; }
+.intro-collage.is-landed .box-3 { transition-delay: 0.25s; }
+
+/* EXIT DELAYS (When falling DOWN) */
+/* We reverse the order so they peel off nicely */
+.box-3 { transition-delay: 0.0s; }
+.box-4 { transition-delay: 0.05s; }
+.box-1 { transition-delay: 0.1s; }
+.box-6 { transition-delay: 0.15s; }
+.box-5 { transition-delay: 0.2s; }
+.box-2 { transition-delay: 0.25s; }
+
+/* --- POSITIONS --- */
+
+/* Top Row */
 .collage-box.box-1 {
     width: 320px; height: 230px;
-    margin-left: -600px; 
-    margin-top: -150px; 
-    --rot: -8deg; /* Rotation stored in variable */
+    margin-left: -600px; margin-top: -150px; 
+    --rot: -8deg; 
 }
-
 .collage-box.box-2 {
     width: 380px; height: 280px;
-    margin-left: 0px; 
-    margin-top: -260px; 
+    margin-left: 0px; margin-top: -260px; 
     --rot: 3deg;
 }
-
 .collage-box.box-3 {
     width: 280px; height: 340px;
-    margin-left: 600px; 
-    margin-top: -150px; 
+    margin-left: 600px; margin-top: -150px; 
     --rot: 12deg;
 }
 
-/* --- BOTTOM ROW --- */
-
+/* Bottom Row */
 .collage-box.box-4 {
     width: 280px; height: 320px;
-    margin-left: -550px; 
-    margin-top: 250px;
+    margin-left: -550px; margin-top: 250px;
     --rot: -6deg;
 }
-
 .collage-box.box-5 {
     width: 440px; height: 260px;
-    margin-left: 0px; 
-    margin-top: 380px; 
+    margin-left: 0px; margin-top: 380px; 
     --rot: -2deg;
 }
-
 .collage-box.box-6 {
     width: 320px; height: 280px;
-    margin-left: 550px; 
-    margin-top: 250px;
+    margin-left: 550px; margin-top: 250px;
     --rot: 8deg;
 }
 
-/* ================================================================= */
-/* == COLLAGE STAGGER DELAYS (Offset Entry) == */
-/* ================================================================= */
-
-/* Only apply delay when animating IN (is-landed) */
-
-/* Center images first */
-.intro-collage.is-landed .box-2 { transition-delay: 0.0s; } /* Top Center */
-.intro-floating-wrapper.is-landed .box-5 { transition-delay: 0.05s; } /* Bottom Center */
-
-/* Then sides */
-.intro-floating-wrapper.is-landed .box-1 { transition-delay: 0.1s; } /* Top Left */
-.intro-floating-wrapper.is-landed .box-6 { transition-delay: 0.15s; } /* Bottom Right */
-.intro-floating-wrapper.is-landed .box-4 { transition-delay: 0.2s; } /* Bottom Left */
-.intro-floating-wrapper.is-landed .box-3 { transition-delay: 0.25s; } /* Top Right */
 /* Mobile Adjustments */
 @media (max-width: 900px) {
     .intro-collage {
