@@ -2934,7 +2934,7 @@ body.portfolio-page::before {
     will-change: transform;
 }
 
-/* Fix Paragraph Position */
+/* Update this rule in style.css */
 .intro-item p {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
@@ -2948,10 +2948,11 @@ body.portfolio-page::before {
     position: absolute;
     bottom: 0;
     left: 0;
-    padding-bottom: 20px; /* Gap from dot */
+    
+    /* CHANGED: Increased from 25px to 45px to lift text off the dot */
+    padding-bottom: 45px;
     
     opacity: 0;
-    z-index: 10; /* Ensure it sits on top of images */
     will-change: opacity;
 }
 
