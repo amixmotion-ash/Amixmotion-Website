@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Delayed Image Fade) ==
+// == 14. ABOUT PAGE: Timeline (Quicker Image Fade) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -693,12 +693,12 @@ if (servicesSection && track) {
             const introDot = items[0].querySelector('.timeline-dot');
             if (introDot) introDot.classList.add('pop-in');
 
-            // --- SUB-STATE B1: EXPAND INTRO (Header Shrinks) ---
+            // --- SUB-STATE B1: EXPAND INTRO ---
             if (scrollProgress < INTRO_PHASE) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // CHANGED: Keep images fully visible during this phase
+                // Keep images fully visible
                 introBoxes.forEach(box => {
                     box.style.opacity = 1;
                 });
@@ -728,20 +728,18 @@ if (servicesSection && track) {
                 }
             }
 
-            // --- SUB-STATE B2: HORIZONTAL SCROLL (Line Moves) ---
+            // --- SUB-STATE B2: HORIZONTAL SCROLL ---
             else {
                 
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
-                // CHANGED: Fade images out during the first 10% of the horizontal scroll
-                // This happens AS the line starts drawing
+                // CHANGED: Fade out much faster (First 5% of horizontal movement)
                 let boxOpacity = 0;
-                if (horizProgress < 0.1) {
-                    boxOpacity = 1 - (horizProgress * 10);
+                if (horizProgress < 0.05) {
+                    boxOpacity = 1 - (horizProgress * 20);
                 }
                 introBoxes.forEach(box => box.style.opacity = boxOpacity);
 
-                // Lock Header
                 if (introHeader && introPara) {
                     let liftHeight = introPara.offsetHeight - 25;
                     introHeader.style.transform = `translateY(-${liftHeight}px) scale(1)`;
