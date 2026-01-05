@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Stable) ==
+// == 14. ABOUT PAGE: Timeline (Stable & Fast) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -644,6 +644,7 @@ if (servicesSection && track) {
                 items[0].style.opacity = 1;
 
                 if (introCollage) {
+                    // Reset opacity to 1 so they are visible when they fly in
                     introBoxes.forEach(box => box.style.opacity = 1);
 
                     // Trigger earlier (0.85) for smoother catch
@@ -700,7 +701,7 @@ if (servicesSection && track) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // Keep images visible
+                // Keep images visible (opacity 1) during the expansion
                 introBoxes.forEach(box => {
                     box.style.opacity = 1;
                 });
@@ -735,11 +736,14 @@ if (servicesSection && track) {
                 
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
-                // FADE OUT IMAGES (Fast & Clean)
+                // FADE OUT IMAGES (Instant response)
                 let boxOpacity = 0;
+                // Fade out over the first 5% of horizontal movement
                 if (horizProgress < 0.05) {
                     boxOpacity = 1 - (horizProgress * 20);
                 }
+                
+                // Apply the calculated opacity directly
                 introBoxes.forEach(box => box.style.opacity = boxOpacity);
 
                 if (introHeader && introPara) {

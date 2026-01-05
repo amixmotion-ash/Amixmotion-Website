@@ -3209,7 +3209,7 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES: Intro Collage (Lag-Free Scroll Fix) == */
+/* == SERVICES: Intro Collage (Lag-Free Fix) == */
 /* ================================================================= */
 
 /* 1. Wrapper */
@@ -3217,7 +3217,7 @@ body.portfolio-page::before {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate3d(-50%, -50%, 0); /* 3D for GPU */
     width: 100vw; 
     height: 100vh;
     pointer-events: none;
@@ -3226,7 +3226,7 @@ body.portfolio-page::before {
     overflow: visible;
 }
 
-/* 2. Generic Box Style (EXIT / SCROLL STATE) */
+/* 2. Generic Box Style */
 .collage-box {
     position: absolute;
     top: 50%;
@@ -3238,18 +3238,20 @@ body.portfolio-page::before {
     
     opacity: 1; 
     
-    /* START STATE (Hidden): Pushed down off screen */
+    /* START STATE (Hidden): Pushed down */
     transform: translate3d(-50%, calc(-50% + 100vh), 0) rotate(0deg);
     
     /* CRITICAL FIX: 
-       Opacity transition is 0s (Instant). 
-       This prevents "ghosting" when scrolling fast.
-       We keep the transform slow for the "Drop" physics.
+       We removed 'opacity' from the transition list.
+       Now, fading is instant (controlled 100% by scroll speed),
+       but movement still has the nice physics.
     */
-    transition: transform 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045), opacity 0s linear;
+    transition: transform 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045);
     
+    /* Optimize for GPU */
     will-change: transform, opacity;
-    backface-visibility: hidden; /* GPU Fix */
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 
 .collage-box img {
@@ -3259,15 +3261,13 @@ body.portfolio-page::before {
     display: block;
 }
 
-/* 3. LANDED STATE (ENTRY STATE) */
+/* 3. LANDED STATE (Entry Animation) */
 .intro-collage.is-landed .collage-box {
-    /* END STATE: Centered */
     transform: translate3d(-50%, -50%, 0) rotate(var(--rot));
     
-    /* ENTRY PHYSICS: 
-       We re-enable the smooth opacity (0.4s) only for the entry.
-    */
-    transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+    /* Entry Physics: Bounce */
+    /* Again, NO opacity transition here. */
+    transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* --- POSITIONS --- */
@@ -3307,6 +3307,6 @@ body.portfolio-page::before {
 /* Mobile Adjustments */
 @media (max-width: 900px) {
     .intro-collage {
-        transform: translate(-50%, -50%) scale(0.55);
+        transform: translate3d(-50%, -50%, 0) scale(0.55);
     }
 }
