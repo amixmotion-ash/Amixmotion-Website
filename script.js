@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Scale Triggered Drop) ==
+// == 14. ABOUT PAGE: Timeline (Early Exit on Up Scroll) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -645,7 +645,7 @@ if (servicesSection && track) {
                 
                 items[0].style.opacity = 1;
 
-                // IMAGES STAY DOWN during entry
+                // ENSURE IMAGES ARE DOWN (Hidden)
                 if (introCollage) {
                     introBoxes.forEach(box => {
                         box.style.opacity = 1;
@@ -699,26 +699,28 @@ if (servicesSection && track) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // NEW: TRIGGER IMAGES BASED ON HEADER SCALE
-                // Scale goes from 2.0 -> 1.0.
-                // We want to trigger when Scale is approx 1.7 (expandProg ~ 0.3)
+                // --- NEW TRIGGER LOGIC ---
+                // Trigger based on Header Scale (Progression through Intro)
+                // 0.3 means "When the header has shrunk 30%"
+                // Scroll Down: > 0.3 -> Fly Up
+                // Scroll Up: < 0.3 -> Drop Down (Happens before black screen appears)
                 if (introCollage) {
                     if (expandProg > 0.3) {
-                        introCollage.classList.add('is-landed'); // Fly Up
+                        introCollage.classList.add('is-landed');
                     } else {
-                        introCollage.classList.remove('is-landed'); // Drop Down
+                        introCollage.classList.remove('is-landed');
                     }
                 }
 
-                // Fade Boxes Out (Later in the sequence)
-                // We start fading at 0.5, so they are visible between 0.3 and 0.5
+                // Fading Logic (Happens later, at 0.5)
+                // This ensures they are fully opaque (opacity: 1) when they drop at 0.3
                 introBoxes.forEach(box => {
                     let boxOpacity = 1;
                     if (expandProg > 0.5) {
                         boxOpacity = 1 - ((expandProg - 0.5) / 0.5);
                     }
                     box.style.opacity = boxOpacity;
-                    box.style.transition = ''; // Keep smooth
+                    box.style.transition = ''; 
                 });
 
                 let liftHeight = 150; 
@@ -748,12 +750,12 @@ if (servicesSection && track) {
 
             // --- SUB-STATE B2: HORIZONTAL SCROLL ---
             else {
-                // Ensure images are landed but invisible
+                // Ensure images are considered "Landed" but invisible
                 if (introCollage) introCollage.classList.add('is-landed');
                 
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
-                // Force Instant Fade Out
+                // Fade Out Images (Fast)
                 let boxOpacity = 0;
                 if (horizProgress < 0.05) {
                     boxOpacity = 1 - (horizProgress * 20);
