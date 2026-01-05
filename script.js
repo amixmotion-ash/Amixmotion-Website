@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Floating Header + Late Dot) ==
+// == 14. ABOUT PAGE: Timeline (Performance Fix) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -635,38 +635,38 @@ if (servicesSection && track) {
                 const introCollage = items[0].querySelector('.intro-collage');
                 const introBoxes = items[0].querySelectorAll('.collage-box');
                 
-                // 1. HEADER ANIMATION (Fade Up)
+                // Header Position (Scale 2.0)
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
-                    
-                    // Move from 100px down to 0px as it enters
-                    let entryLift = 100 - (entryProgress * 100);
-                    
-                    // Keep Scale 2.0 fixed during entry
-                    introHeader.style.transform = `translateY(${entryLift}px) scale(2)`;
+                    // Using translate3d here too for consistency
+                    introHeader.style.transform = `translate3d(0, 0, 0) scale(2)`;
                 }
-
-                // 2. PARAGRAPH HIDDEN
+                // Paragraph Hidden
                 if (introPara) introPara.style.opacity = 0;
                 
-                // 3. FADE CONTAINER
-                items[0].style.opacity = entryProgress;
+                items[0].style.opacity = 1;
 
-                // 4. IMAGES
+                // TRIGGER ENTRY
                 if (introCollage) {
                     introBoxes.forEach(box => box.style.opacity = 1);
-                    if (entryProgress > 0.95) introCollage.classList.add('is-landed');
-                    else introCollage.classList.remove('is-landed');
+
+                    // CHANGED: Trigger earlier (0.85 instead of 0.95) for smoother catch
+                    if (entryProgress > 0.85) {
+                        introCollage.classList.add('is-landed');
+                    } else {
+                        introCollage.classList.remove('is-landed');
+                    }
                 }
 
-                // 5. DOT HIDDEN (Waiting for shrink)
+                // Dot Bounce
                 if (introDot) {
-                    introDot.classList.remove('pop-in');
+                    if (entryProgress > 0.05) introDot.classList.add('pop-in');
+                    else introDot.classList.remove('pop-in');
                 }
             }
 
             if (axisLine) axisLine.style.opacity = 0;
-            track.style.transform = `translate(0px, -50%)`;
+            track.style.transform = `translate3d(0, -50%, 0)`;
 
             if (stickyProfile) {
                 const scale = 1 - (entryProgress * 0.05); 
@@ -686,6 +686,7 @@ if (servicesSection && track) {
             
             const introCollage = items[0].querySelector('.intro-collage');
             if (introCollage) introCollage.classList.add('is-landed');
+            
             const introBoxes = items[0].querySelectorAll('.collage-box');
 
             const totalScrollable = rect.height - windowHeight;
@@ -697,12 +698,14 @@ if (servicesSection && track) {
             const introHeader = items[0].querySelector('h2');
             const introPara = items[0].querySelector('p');
             const introDot = items[0].querySelector('.timeline-dot');
+            if (introDot) introDot.classList.add('pop-in');
 
-            // --- SUB-STATE B1: EXPAND INTRO (Header Shrinks) ---
+            // --- SUB-STATE B1: EXPAND INTRO ---
             if (scrollProgress < INTRO_PHASE) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
+                // Keep images visible
                 introBoxes.forEach(box => {
                     box.style.opacity = 1;
                 });
@@ -713,7 +716,7 @@ if (servicesSection && track) {
                 if (introHeader) {
                     let currentLift = expandProg * liftHeight;
                     let currentScale = 2 - expandProg; 
-                    introHeader.style.transform = `translateY(-${currentLift}px) scale(${currentScale})`;
+                    introHeader.style.transform = `translate3d(0, -${currentLift}px, 0) scale(${currentScale})`;
                 }
 
                 if (introPara) {
@@ -724,34 +727,30 @@ if (servicesSection && track) {
                     }
                     introPara.style.opacity = textOpacity;
                 }
-                
-                // DOT HIDDEN: Remove class while shrinking
-                if (introDot) introDot.classList.remove('pop-in');
 
-                track.style.transform = `translate(0px, -50%)`;
+                track.style.transform = `translate3d(0, -50%, 0)`;
                 if (axisLine) {
                     axisLine.style.opacity = 0;
                     axisLine.style.width = '0px';
                 }
             }
 
-            // --- SUB-STATE B2: HORIZONTAL SCROLL (Line Moves) ---
+            // --- SUB-STATE B2: HORIZONTAL SCROLL ---
             else {
                 
-                // DOT VISIBLE: Header has finished shrinking, now pop the dot
-                if (introDot) introDot.classList.add('pop-in');
-
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
+                // Fade Out Images (Fast)
                 let boxOpacity = 0;
                 if (horizProgress < 0.05) {
                     boxOpacity = 1 - (horizProgress * 20);
                 }
                 introBoxes.forEach(box => box.style.opacity = boxOpacity);
 
+                // Lock Header
                 if (introHeader && introPara) {
                     let liftHeight = introPara.offsetHeight - 25;
-                    introHeader.style.transform = `translateY(-${liftHeight}px) scale(1)`;
+                    introHeader.style.transform = `translate3d(0, -${liftHeight}px, 0) scale(1)`;
                     introPara.style.opacity = 1;
                 }
 
@@ -762,7 +761,7 @@ if (servicesSection && track) {
                 const moveDistance = trackWidth - viewportWidth;
                 
                 let xPos = -(horizProgress * moveDistance);
-                track.style.transform = `translate(${xPos}px, -50%)`;
+                track.style.transform = `translate3d(${xPos}px, -50%, 0)`;
 
                 if (axisLine) {
                     axisLine.style.width = Math.abs(xPos) + 'px';
@@ -785,12 +784,12 @@ if (servicesSection && track) {
                         if (label && p && !item.classList.contains('trusted-item')) {
                             const pHeight = p.offsetHeight;
                             const liftAmount = pHeight + 15; 
-                            label.style.transform = `translate(-50%, -${liftAmount}px)`;
+                            label.style.transform = `translate3d(-50%, -${liftAmount}px, 0)`;
                         }
                     } else {
                         item.classList.remove('has-arrived');
                         if (label && !item.classList.contains('trusted-item')) {
-                            label.style.transform = `translate(-50%, 0px)`;
+                            label.style.transform = `translate3d(-50%, 0px, 0)`;
                         }
                     }
                 });
