@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Fixed Intro & Exit) ==
+// == 14. ABOUT PAGE: Timeline (Scale Triggered Drop) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -621,7 +621,6 @@ if (servicesSection && track) {
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
-        // 1. Calculate Entry Progress (0 to 1)
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
@@ -636,30 +635,26 @@ if (servicesSection && track) {
                 const introCollage = items[0].querySelector('.intro-collage');
                 const introBoxes = items[0].querySelectorAll('.collage-box');
                 
+                // Header Position (Scale 2.0)
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
                     introHeader.style.transform = `translate3d(0, 0, 0) scale(2)`;
                 }
+                // Paragraph Hidden
                 if (introPara) introPara.style.opacity = 0;
                 
                 items[0].style.opacity = 1;
 
-                // TRIGGER ENTRY (Fly Up + Bounce)
+                // IMAGES STAY DOWN during entry
                 if (introCollage) {
-                    // CRITICAL FIX: Reset inline styles so CSS Animation works
                     introBoxes.forEach(box => {
                         box.style.opacity = 1;
-                        box.style.transition = ''; // Unlock transition
+                        box.style.transition = ''; 
                     });
-
-                    // Trigger at 90% visible
-                    if (entryProgress > 0.9) {
-                        introCollage.classList.add('is-landed');
-                    } else {
-                        introCollage.classList.remove('is-landed');
-                    }
+                    introCollage.classList.remove('is-landed');
                 }
 
+                // Dot Bounce
                 if (introDot) {
                     if (entryProgress > 0.05) introDot.classList.add('pop-in');
                     else introDot.classList.remove('pop-in');
@@ -685,10 +680,7 @@ if (servicesSection && track) {
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
             
-            // Keep the wrapper "Landed"
             const introCollage = items[0].querySelector('.intro-collage');
-            if (introCollage) introCollage.classList.add('is-landed');
-            
             const introBoxes = items[0].querySelectorAll('.collage-box');
 
             const totalScrollable = rect.height - windowHeight;
@@ -707,10 +699,26 @@ if (servicesSection && track) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // Keep images visible and static
+                // NEW: TRIGGER IMAGES BASED ON HEADER SCALE
+                // Scale goes from 2.0 -> 1.0.
+                // We want to trigger when Scale is approx 1.7 (expandProg ~ 0.3)
+                if (introCollage) {
+                    if (expandProg > 0.3) {
+                        introCollage.classList.add('is-landed'); // Fly Up
+                    } else {
+                        introCollage.classList.remove('is-landed'); // Drop Down
+                    }
+                }
+
+                // Fade Boxes Out (Later in the sequence)
+                // We start fading at 0.5, so they are visible between 0.3 and 0.5
                 introBoxes.forEach(box => {
-                    box.style.opacity = 1;
-                    box.style.transition = ''; // Keep CSS control
+                    let boxOpacity = 1;
+                    if (expandProg > 0.5) {
+                        boxOpacity = 1 - ((expandProg - 0.5) / 0.5);
+                    }
+                    box.style.opacity = boxOpacity;
+                    box.style.transition = ''; // Keep smooth
                 });
 
                 let liftHeight = 150; 
@@ -740,16 +748,18 @@ if (servicesSection && track) {
 
             // --- SUB-STATE B2: HORIZONTAL SCROLL ---
             else {
+                // Ensure images are landed but invisible
+                if (introCollage) introCollage.classList.add('is-landed');
                 
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
-                // FADE OUT IMAGES (Instant response for performance)
+                // Force Instant Fade Out
                 let boxOpacity = 0;
                 if (horizProgress < 0.05) {
                     boxOpacity = 1 - (horizProgress * 20);
                 }
                 introBoxes.forEach(box => {
-                    box.style.transition = 'none'; // Lock transition for instant opacity change
+                    box.style.transition = 'none'; 
                     box.style.opacity = boxOpacity;
                 });
 
