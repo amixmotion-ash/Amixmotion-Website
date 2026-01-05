@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Performance Fix) ==
+// == 14. ABOUT PAGE: Timeline (Performance & Anti-Glitch) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -616,6 +616,7 @@ const stickyProfile = document.querySelector('.profile-grid-section') || documen
 
 if (servicesSection && track) {
     
+    // Logic Function
     function animateTimeline() {
         const rect = servicesSection.getBoundingClientRect();
         const incomingPosition = rect.top; 
@@ -638,7 +639,6 @@ if (servicesSection && track) {
                 // Header Position (Scale 2.0)
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
-                    // Using translate3d here too for consistency
                     introHeader.style.transform = `translate3d(0, 0, 0) scale(2)`;
                 }
                 // Paragraph Hidden
@@ -648,9 +648,13 @@ if (servicesSection && track) {
 
                 // TRIGGER ENTRY
                 if (introCollage) {
-                    introBoxes.forEach(box => box.style.opacity = 1);
+                    // Reset transitions (Re-enable smooth entry)
+                    introBoxes.forEach(box => {
+                        box.style.opacity = 1;
+                        box.style.transition = ''; // Clear inline 'none' to let CSS take over
+                    });
 
-                    // CHANGED: Trigger earlier (0.85 instead of 0.95) for smoother catch
+                    // Trigger earlier (0.85) for smoother catch
                     if (entryProgress > 0.85) {
                         introCollage.classList.add('is-landed');
                     } else {
@@ -705,9 +709,10 @@ if (servicesSection && track) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // Keep images visible
+                // CRITICAL FIX: Disable transition for instant scrub-fade
                 introBoxes.forEach(box => {
-                    box.style.opacity = 1;
+                    box.style.transition = 'none'; 
+                    box.style.opacity = 1; // Keep visible here
                 });
 
                 let liftHeight = 150; 
@@ -740,12 +745,15 @@ if (servicesSection && track) {
                 
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
-                // Fade Out Images (Fast)
+                // CRITICAL FIX: Fade Out Images Instantly (No CSS Lag)
                 let boxOpacity = 0;
                 if (horizProgress < 0.05) {
                     boxOpacity = 1 - (horizProgress * 20);
                 }
-                introBoxes.forEach(box => box.style.opacity = boxOpacity);
+                introBoxes.forEach(box => {
+                    box.style.transition = 'none'; // Force instant update
+                    box.style.opacity = boxOpacity;
+                });
 
                 // Lock Header
                 if (introHeader && introPara) {
@@ -797,6 +805,18 @@ if (servicesSection && track) {
         }
     }
 
-    window.addEventListener('scroll', animateTimeline);
+    // --- PERFORMANCE FIX: RequestAnimationFrame Loop ---
+    let isTicking = false;
+    window.addEventListener('scroll', () => {
+        if (!isTicking) {
+            window.requestAnimationFrame(() => {
+                animateTimeline();
+                isTicking = false;
+            });
+            isTicking = true;
+        }
+    });
+    
+    // Initial call
     animateTimeline();
 }
