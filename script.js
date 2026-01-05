@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Instant Drop on Reverse) ==
+// == 14. ABOUT PAGE: Timeline (Fixed Intro & Exit) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -621,6 +621,7 @@ if (servicesSection && track) {
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
+        // 1. Calculate Entry Progress (0 to 1)
         let entryProgress = 1 - (incomingPosition / windowHeight);
         entryProgress = Math.max(0, Math.min(1, entryProgress));
 
@@ -643,17 +644,16 @@ if (servicesSection && track) {
                 
                 items[0].style.opacity = 1;
 
-                // TRIGGER ENTRY
+                // TRIGGER ENTRY (Fly Up + Bounce)
                 if (introCollage) {
-                    // Reset opacity to 1
+                    // CRITICAL FIX: Reset inline styles so CSS Animation works
                     introBoxes.forEach(box => {
                         box.style.opacity = 1;
-                        box.style.transition = ''; 
+                        box.style.transition = ''; // Unlock transition
                     });
 
-                    // CHANGED: Increased to 0.99
-                    // This ensures they drop the micro-second the screen isn't fully white.
-                    if (entryProgress > 0.99) {
+                    // Trigger at 90% visible
+                    if (entryProgress > 0.9) {
                         introCollage.classList.add('is-landed');
                     } else {
                         introCollage.classList.remove('is-landed');
@@ -685,7 +685,7 @@ if (servicesSection && track) {
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
             
-            // Keep Is Landed
+            // Keep the wrapper "Landed"
             const introCollage = items[0].querySelector('.intro-collage');
             if (introCollage) introCollage.classList.add('is-landed');
             
@@ -707,10 +707,10 @@ if (servicesSection && track) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // Keep images fully visible
+                // Keep images visible and static
                 introBoxes.forEach(box => {
                     box.style.opacity = 1;
-                    box.style.transition = 'none'; // Lock transition for instant reaction
+                    box.style.transition = ''; // Keep CSS control
                 });
 
                 let liftHeight = 150; 
@@ -743,13 +743,13 @@ if (servicesSection && track) {
                 
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
-                // Fade Out Images
+                // FADE OUT IMAGES (Instant response for performance)
                 let boxOpacity = 0;
                 if (horizProgress < 0.05) {
                     boxOpacity = 1 - (horizProgress * 20);
                 }
                 introBoxes.forEach(box => {
-                    box.style.transition = 'none'; 
+                    box.style.transition = 'none'; // Lock transition for instant opacity change
                     box.style.opacity = boxOpacity;
                 });
 
