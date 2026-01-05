@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Stable & Fast) ==
+// == 14. ABOUT PAGE: Timeline (Instant Drop on Reverse) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -643,12 +643,17 @@ if (servicesSection && track) {
                 
                 items[0].style.opacity = 1;
 
+                // TRIGGER ENTRY
                 if (introCollage) {
-                    // Reset opacity to 1 so they are visible when they fly in
-                    introBoxes.forEach(box => box.style.opacity = 1);
+                    // Reset opacity to 1
+                    introBoxes.forEach(box => {
+                        box.style.opacity = 1;
+                        box.style.transition = ''; 
+                    });
 
-                    // Trigger earlier (0.85) for smoother catch
-                    if (entryProgress > 0.85) {
+                    // CHANGED: Increased to 0.99
+                    // This ensures they drop the micro-second the screen isn't fully white.
+                    if (entryProgress > 0.99) {
                         introCollage.classList.add('is-landed');
                     } else {
                         introCollage.classList.remove('is-landed');
@@ -680,6 +685,7 @@ if (servicesSection && track) {
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
             
+            // Keep Is Landed
             const introCollage = items[0].querySelector('.intro-collage');
             if (introCollage) introCollage.classList.add('is-landed');
             
@@ -701,9 +707,10 @@ if (servicesSection && track) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // Keep images visible (opacity 1) during the expansion
+                // Keep images fully visible
                 introBoxes.forEach(box => {
                     box.style.opacity = 1;
+                    box.style.transition = 'none'; // Lock transition for instant reaction
                 });
 
                 let liftHeight = 150; 
@@ -736,15 +743,15 @@ if (servicesSection && track) {
                 
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
-                // FADE OUT IMAGES (Instant response)
+                // Fade Out Images
                 let boxOpacity = 0;
-                // Fade out over the first 5% of horizontal movement
                 if (horizProgress < 0.05) {
                     boxOpacity = 1 - (horizProgress * 20);
                 }
-                
-                // Apply the calculated opacity directly
-                introBoxes.forEach(box => box.style.opacity = boxOpacity);
+                introBoxes.forEach(box => {
+                    box.style.transition = 'none'; 
+                    box.style.opacity = boxOpacity;
+                });
 
                 if (introHeader && introPara) {
                     let liftHeight = introPara.offsetHeight - 25;
