@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Performance & Anti-Glitch) ==
+// == 14. ABOUT PAGE: Timeline (Stable) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -616,7 +616,6 @@ const stickyProfile = document.querySelector('.profile-grid-section') || documen
 
 if (servicesSection && track) {
     
-    // Logic Function
     function animateTimeline() {
         const rect = servicesSection.getBoundingClientRect();
         const incomingPosition = rect.top; 
@@ -636,23 +635,16 @@ if (servicesSection && track) {
                 const introCollage = items[0].querySelector('.intro-collage');
                 const introBoxes = items[0].querySelectorAll('.collage-box');
                 
-                // Header Position (Scale 2.0)
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
                     introHeader.style.transform = `translate3d(0, 0, 0) scale(2)`;
                 }
-                // Paragraph Hidden
                 if (introPara) introPara.style.opacity = 0;
                 
                 items[0].style.opacity = 1;
 
-                // TRIGGER ENTRY
                 if (introCollage) {
-                    // Reset transitions (Re-enable smooth entry)
-                    introBoxes.forEach(box => {
-                        box.style.opacity = 1;
-                        box.style.transition = ''; // Clear inline 'none' to let CSS take over
-                    });
+                    introBoxes.forEach(box => box.style.opacity = 1);
 
                     // Trigger earlier (0.85) for smoother catch
                     if (entryProgress > 0.85) {
@@ -662,7 +654,6 @@ if (servicesSection && track) {
                     }
                 }
 
-                // Dot Bounce
                 if (introDot) {
                     if (entryProgress > 0.05) introDot.classList.add('pop-in');
                     else introDot.classList.remove('pop-in');
@@ -709,10 +700,9 @@ if (servicesSection && track) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // CRITICAL FIX: Disable transition for instant scrub-fade
+                // Keep images visible
                 introBoxes.forEach(box => {
-                    box.style.transition = 'none'; 
-                    box.style.opacity = 1; // Keep visible here
+                    box.style.opacity = 1;
                 });
 
                 let liftHeight = 150; 
@@ -745,17 +735,13 @@ if (servicesSection && track) {
                 
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
-                // CRITICAL FIX: Fade Out Images Instantly (No CSS Lag)
+                // FADE OUT IMAGES (Fast & Clean)
                 let boxOpacity = 0;
                 if (horizProgress < 0.05) {
                     boxOpacity = 1 - (horizProgress * 20);
                 }
-                introBoxes.forEach(box => {
-                    box.style.transition = 'none'; // Force instant update
-                    box.style.opacity = boxOpacity;
-                });
+                introBoxes.forEach(box => box.style.opacity = boxOpacity);
 
-                // Lock Header
                 if (introHeader && introPara) {
                     let liftHeight = introPara.offsetHeight - 25;
                     introHeader.style.transform = `translate3d(0, -${liftHeight}px, 0) scale(1)`;
@@ -805,18 +791,6 @@ if (servicesSection && track) {
         }
     }
 
-    // --- PERFORMANCE FIX: RequestAnimationFrame Loop ---
-    let isTicking = false;
-    window.addEventListener('scroll', () => {
-        if (!isTicking) {
-            window.requestAnimationFrame(() => {
-                animateTimeline();
-                isTicking = false;
-            });
-            isTicking = true;
-        }
-    });
-    
-    // Initial call
+    window.addEventListener('scroll', animateTimeline);
     animateTimeline();
 }
