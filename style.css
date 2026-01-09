@@ -3211,12 +3211,15 @@ body.portfolio-page::before {
 /* == SERVICES: Intro Collage (Lag-Free Fix) == */
 /* ================================================================= */
 
-/* 1. Wrapper */
+/* Update this rule in style.css */
 .intro-collage {
     position: absolute;
-    top: 50%;
+    
+    /* CHANGED: Moved up from 50% to 45% */
+    top: 45%;
+    
     left: 50%;
-    transform: translate3d(-50%, -50%, 0); /* 3D for GPU */
+    transform: translate3d(-50%, -50%, 0);
     width: 100vw; 
     height: 100vh;
     pointer-events: none;
