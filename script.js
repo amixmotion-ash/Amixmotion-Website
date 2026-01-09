@@ -604,7 +604,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Finale: Form Grid) ==
+// == 14. ABOUT PAGE: Timeline (Finale: Drift & Grow) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -637,20 +637,13 @@ if (servicesSection && track && servicesSticky) {
         smoothProgress += (targetProgress - smoothProgress) * LERP_FACTOR;
 
         // PHASES
-        // 0.00 - 0.15: Entry
-        // 0.15 - 0.30: Expansion
-        // 0.30 - 0.85: Horizontal Scroll (Stops at 85%)
-        // 0.85 - 1.00: Grid Formation (Static Track)
-        
         let entryLocal = Math.max(0, Math.min(1, smoothProgress / 0.15));
         let expandLocal = Math.max(0, Math.min(1, (smoothProgress - 0.15) / 0.15));
         
-        // Horizontal stops at 0.85 (85% of section)
-        // Divisor = 0.85 - 0.30 = 0.55
+        // Horizontal Scroll (Finishes at 0.85)
         let horizLocal = Math.max(0, Math.min(1, (smoothProgress - 0.30) / 0.55));
         
-        // Grid Phase (Last 15%)
-        // Maps 0.85-1.0 to 0-1
+        // Grid/Finale Phase (0.85 to 1.0)
         let gridLocal = Math.max(0, Math.min(1, (smoothProgress - 0.85) / 0.15));
 
         if (items.length > 0) {
@@ -721,43 +714,51 @@ if (servicesSection && track && servicesSticky) {
             }
         }
 
-        // --- PHASE 3: HORIZONTAL SCROLL & GRID ---
+        // --- PHASE 3: HORIZONTAL SCROLL ---
         if (axisLine) {
             
-            // FADE OUT LINE during Grid Phase
-            // If Grid phase active, opacity goes 1 -> 0
+            // Fade out line during Finale
             let targetLineOpacity = (expandLocal >= 1) ? 1 : 0;
             if (gridLocal > 0) targetLineOpacity = 1 - gridLocal;
-            
             axisLine.style.opacity = targetLineOpacity;
             
             const trackWidth = track.scrollWidth;
             const viewportWidth = window.innerWidth;
             
-            // CALCULATE EXACT STOP POINT
-            // We want the Last Item Center to align with Screen Center.
-            // Distance = TrackWidth - (Screen/2 + LastItemWidth/2)
-            // But due to padding, TrackWidth includes the buffer.
-            // Simplest way: Move until the right edge is roughly centered.
-            // Let's use the padding-right value we set in CSS (50vw - 200px)
-            // Total Move = TrackWidth - ScreenWidth.
-            const moveDistance = trackWidth - viewportWidth; 
-            
+            // Standard Move Distance
+            const moveDistance = trackWidth - viewportWidth + 100;
             let xPos = -(horizLocal * moveDistance);
-            axisLine.style.width = Math.abs(xPos) + 'px';
-            track.style.transform = `translate3d(${xPos}px, -50%, 0)`;
 
-            // --- GRID TRIGGER ---
-            const lastItem = items[items.length - 1]; // Trusted By item
+            // --- FINALE LOGIC: Drift Left ---
+            // As grid forms (gridLocal goes 0->1), push track further left
+            let finaleDrift = 0;
+            if (gridLocal > 0) {
+                // Push left by 60% of screen width to clear previous items
+                finaleDrift = gridLocal * window.innerWidth * 0.6;
+            }
+
+            // Apply total movement to track
+            track.style.transform = `translate3d(${xPos - finaleDrift}px, -50%, 0)`;
+            axisLine.style.width = Math.abs(xPos) + 'px';
+
+            // --- FINALE LOGIC: Counter-Drift Right ---
+            // Find the Trusted Item (Last item)
+            const lastItem = items[items.length - 1];
             if (lastItem) {
-                if (gridLocal > 0.1) {
-                    lastItem.classList.add('form-grid');
+                // Trigger Grid CSS
+                if (gridLocal > 0.1) lastItem.classList.add('form-grid');
+                else lastItem.classList.remove('form-grid');
+
+                // Counter-move: Push it RIGHT by the same amount the track moved LEFT
+                // This keeps it visually pinned in the center while the rest flies away
+                if (gridLocal > 0) {
+                    lastItem.style.transform = `translate3d(${finaleDrift}px, 0, 0)`;
                 } else {
-                    lastItem.classList.remove('form-grid');
+                    lastItem.style.transform = `translate3d(0, 0, 0)`;
                 }
             }
 
-            // ACTIVE ITEMS LOGIC
+            // Active Items (Standard Logic)
             const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
             const currentLineLength = Math.abs(xPos);
 
@@ -766,11 +767,9 @@ if (servicesSection && track && servicesSticky) {
 
                 const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);
                 const distanceToItem = itemCenterX - startX;
-
                 const label = item.querySelector('.service-label');
                 const p = item.querySelector('p');
 
-                // Standard Hit Logic
                 if (currentLineLength >= distanceToItem) {
                     item.classList.add('has-arrived');
                     if (label && p && !item.classList.contains('trusted-item')) {
