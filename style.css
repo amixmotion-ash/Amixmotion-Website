@@ -3077,49 +3077,57 @@ body.portfolio-page::before {
 }
 
 /* ================================================================= */
-/* == SERVICES: Trusted By Finale (Explosion Only) == */
+/* == SERVICES: Trusted By (Explosion -> Grid) == */
 /* ================================================================= */
 
-/* 1. Container for Logos */
 .explosion-wrapper {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* Disable mouse interaction */
+    pointer-events: none;
     z-index: 1;
 }
 
-/* 2. The Logos (Initial State: Hidden inside dot) */
+/* Base Logo Style */
 .exploding-logo {
     position: absolute;
     bottom: 0; 
     left: 50%;
-    
-    /* Start centered and tiny */
+    /* Start hidden in dot */
     transform: translate(-50%, 0) scale(0);
     opacity: 0;
     
-    /* Big Sizes */
     width: auto;
-    height: 90px; 
-    max-width: 240px; 
+    height: 60px; /* Grid Size */
+    max-width: 200px;
     object-fit: contain;
     
-    /* Spring Physics for the pop */
-    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+    /* Smooth movement between states */
+    transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
 }
 
-/* 3. The Active State (Triggered by Line) */
+/* STATE 1: EXPLOSION (Triggered by 'has-arrived') */
 .service-item.has-arrived .exploding-logo {
     opacity: 1;
-    /* Move to coordinates. NO mouse variables involved. */
-    transform: translate(calc(-50% + var(--x)), var(--y)) scale(1);
+    transform: translate(calc(-50% + var(--x)), var(--y)) scale(1.2); /* 1.2x scale for explosion */
     transition-delay: var(--delay);
 }
 
-/* 4. The "Trusted By" Header */
+/* STATE 2: GRID FORMATION (Triggered by 'form-grid') */
+/* This overrides State 1 */
+.service-item.form-grid .exploding-logo {
+    opacity: 1;
+    /* Move to Grid Coordinates */
+    transform: translate(calc(-50% + var(--gx)), var(--gy)) scale(1) !important;
+    
+    /* Remove stagger delay so they move together */
+    transition-delay: 0s !important; 
+    transition-duration: 1.5s !important; /* Slow, elegant drift */
+}
+
+/* Header Styles */
 .service-item.trusted-item .service-label {
     background-color: transparent !important;
     color: #000000 !important;
@@ -3131,85 +3139,21 @@ body.portfolio-page::before {
     bottom: 0;
     left: 50%;
     z-index: 10;
-
     transform: translate(-50%, 0) scale(0) !important; 
     opacity: 0;
-    
     transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease !important;
 }
 
-/* 5. Active Header State */
+/* Header: Explosion State */
 .service-item.has-arrived.trusted-item .service-label {
     opacity: 1;
     transform: translate(-50%, -150px) scale(1) !important; 
 }
 
-/* ================================================================= */
-/* == SERVICES: Trusted By Finale (Explosion Only) == */
-/* ================================================================= */
-
-/* 1. Container for Logos */
-.explosion-wrapper {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Disable mouse interaction */
-    z-index: 1;
-}
-
-/* 2. The Logos (Initial State: Hidden inside dot) */
-.exploding-logo {
-    position: absolute;
-    bottom: 0; 
-    left: 50%;
-    
-    /* Start centered and tiny */
-    transform: translate(-50%, 0) scale(0);
-    opacity: 0;
-    
-    /* Big Sizes */
-    width: auto;
-    height: 90px; 
-    max-width: 240px; 
-    object-fit: contain;
-    
-    /* Spring Physics for the pop */
-    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
-}
-
-/* 3. The Active State (Triggered by Line) */
-.service-item.has-arrived .exploding-logo {
-    opacity: 1;
-    /* Move to coordinates. NO mouse variables involved. */
-    transform: translate(calc(-50% + var(--x)), var(--y)) scale(1);
-    transition-delay: var(--delay);
-}
-
-/* 4. The "Trusted By" Header */
-.service-item.trusted-item .service-label {
-    background-color: transparent !important;
-    color: #000000 !important;
-    font-size: 1.8rem !important;
-    padding: 0 !important;
-    width: max-content !important;
-    
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    z-index: 10;
-
-    transform: translate(-50%, 0) scale(0) !important; 
-    opacity: 0;
-    
-    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease !important;
-}
-
-/* 5. Active Header State */
-.service-item.has-arrived.trusted-item .service-label {
-    opacity: 1;
-    transform: translate(-50%, -150px) scale(1) !important; 
+/* Header: Grid State (Move Higher) */
+.service-item.form-grid .service-label {
+    transform: translate(-50%, -250px) scale(1) !important;
+    transition-duration: 1.5s !important;
 }
 
 /* ================================================================= */
