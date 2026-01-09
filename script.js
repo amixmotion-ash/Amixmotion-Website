@@ -603,13 +603,12 @@ if (scrollTrigger) {
         }
     });
 }
-
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Luxury Scroll + Slow Entry) ==
+// == 14. ABOUT PAGE: Timeline (Luxury Scroll + End Pause) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
-const servicesSticky = document.querySelector('.services-sticky-container'); // NEW
+const servicesSticky = document.querySelector('.services-sticky-container');
 const track = document.querySelector('.services-track');
 const items = document.querySelectorAll('.service-item');
 const axisLine = document.querySelector('.timeline-axis');
@@ -620,12 +619,11 @@ if (servicesSection && track && servicesSticky) {
     // PHYSICS VARIABLES
     let targetProgress = 0; 
     let smoothProgress = 0; 
-    const LERP_FACTOR = 0.1; // The "Weight" of the scroll
+    const LERP_FACTOR = 0.1; 
 
     // 1. LISTEN TO SCROLL
     window.addEventListener('scroll', () => {
         const rect = servicesSection.getBoundingClientRect();
-        const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
         const totalDistance = rect.height + windowHeight;
@@ -644,11 +642,15 @@ if (servicesSection && track && servicesSticky) {
         // MAP PHASES
         // Phase 1: Entry (0.0 to 0.15)
         // Phase 2: Expand (0.15 to 0.30)
-        // Phase 3: Horizontal (0.30 to 1.0)
+        // Phase 3: Horizontal (0.30 to 0.90) - CHANGED: Ends at 0.90 instead of 1.0
+        // Phase 4: Hold (0.90 to 1.0)
         
         let entryLocal = Math.max(0, Math.min(1, smoothProgress / 0.15));
         let expandLocal = Math.max(0, Math.min(1, (smoothProgress - 0.15) / 0.15));
-        let horizLocal = Math.max(0, Math.min(1, (smoothProgress - 0.30) / 0.70));
+        
+        // UPDATED: Divisor is now 0.60 (0.90 - 0.30). 
+        // This ensures movement finishes at 90% scroll.
+        let horizLocal = Math.max(0, Math.min(1, (smoothProgress - 0.30) / 0.60));
 
         if (items.length > 0) {
             const introHeader = items[0].querySelector('h2');
@@ -659,10 +661,7 @@ if (servicesSection && track && servicesSticky) {
 
             // --- PHASE 1: ENTRY & EXPANSION ---
             if (entryLocal < 1) {
-                // 1. SLOW DOWN BACKGROUND (Parallax Effect)
-                // We push the container DOWN as the page scrolls UP.
-                // 30vh * (1 - progress) means it starts pushed down 30vh, and settles to 0.
-                // This makes the white section appear to rise 30% slower than your mouse.
+                // Slow Entry Parallax
                 let slowDownOffset = (1 - entryLocal) * (window.innerHeight * 0.3);
                 servicesSticky.style.transform = `translate3d(0, ${slowDownOffset}px, 0)`;
 
@@ -676,10 +675,10 @@ if (servicesSection && track && servicesSticky) {
                 if (introPara) introPara.style.opacity = 0;
             } 
             else {
-                // Reset Sticky Position when fully entered
+                // Reset Sticky Position
                 servicesSticky.style.transform = `translate3d(0, 0px, 0)`;
 
-                // Expansion Logic (Header Shrink)
+                // Expansion Logic
                 let liftHeight = 150;
                 if (introPara) liftHeight = introPara.offsetHeight - 25;
 
@@ -733,12 +732,13 @@ if (servicesSection && track && servicesSticky) {
             const trackWidth = track.scrollWidth;
             const viewportWidth = window.innerWidth;
             const moveDistance = trackWidth - viewportWidth;
+            
+            // Move Track based on horizLocal (which finishes early)
             let xPos = -(horizLocal * moveDistance);
             axisLine.style.width = Math.abs(xPos) + 'px';
-            
             track.style.transform = `translate3d(${xPos}px, -50%, 0)`;
 
-            // Active Items
+            // 5. ACTIVE ITEMS LOGIC
             const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
             const currentLineLength = Math.abs(xPos);
 
@@ -766,7 +766,7 @@ if (servicesSection && track && servicesSticky) {
             });
         }
 
-        // BACKGROUND DIMMING
+        // 6. BACKGROUND PARALLAX
         if (stickyProfile) {
             if (entryLocal < 1) {
                 const scale = 1 - (entryLocal * 0.05); 
@@ -784,4 +784,4 @@ if (servicesSection && track && servicesSticky) {
     }
 
     animateTimeline();
-} 
+}
