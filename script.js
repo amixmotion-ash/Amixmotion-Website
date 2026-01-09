@@ -605,32 +605,29 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Luxury "Apple-Style" Smooth Scroll) ==
+// == 14. ABOUT PAGE: Timeline (Luxury Scroll + Slow Entry) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
+const servicesSticky = document.querySelector('.services-sticky-container'); // NEW
 const track = document.querySelector('.services-track');
 const items = document.querySelectorAll('.service-item');
 const axisLine = document.querySelector('.timeline-axis');
 const stickyProfile = document.querySelector('.profile-grid-section') || document.querySelector('.about-scroll-trigger');
 
-if (servicesSection && track) {
+if (servicesSection && track && servicesSticky) {
     
-    // VARIABLES FOR PHYSICS
+    // PHYSICS VARIABLES
     let targetProgress = 0; 
     let smoothProgress = 0; 
-    
-    // CHANGED: Increased friction so it doesn't glide for too long
-    const LERP_FACTOR = 0.1; 
+    const LERP_FACTOR = 0.1; // The "Weight" of the scroll
 
-    // 1. LISTEN TO SCROLL (Update Target Only)
+    // 1. LISTEN TO SCROLL
     window.addEventListener('scroll', () => {
         const rect = servicesSection.getBoundingClientRect();
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
-        // Calculate raw progress (0 to 1) based on the section height
-        // This covers Entry -> Expansion -> Horizontal Scroll all in one 0-1 value
         const totalDistance = rect.height + windowHeight;
         const scrolledDistance = (rect.top - windowHeight) * -1;
         
@@ -638,36 +635,20 @@ if (servicesSection && track) {
         targetProgress = Math.max(0, Math.min(1, rawProg));
     });
 
-    // 2. ANIMATION LOOP (The Physics Engine)
+    // 2. ANIMATION LOOP
     function animateTimeline() {
         
-        // Math: Move smoothProgress 5% closer to targetProgress every frame
+        // Apply Physics
         smoothProgress += (targetProgress - smoothProgress) * LERP_FACTOR;
 
-        // --- MAPPING THE PROGRESS ---
-        // We split the 0.0-1.0 global progress into phases manually
-        // because we are no longer relying on specific DOM rectangles for phases
-        
+        // MAP PHASES
         // Phase 1: Entry (0.0 to 0.15)
         // Phase 2: Expand (0.15 to 0.30)
         // Phase 3: Horizontal (0.30 to 1.0)
         
-        // --- LOGIC CALCULATIONS ---
-        
-        // A. ENTRY PHASE (White rising over black)
-        // We map 0.0-0.15 global progress to 0-1 local progress
         let entryLocal = Math.max(0, Math.min(1, smoothProgress / 0.15));
-        
-        // B. EXPANSION PHASE (Header Shrinking)
-        // We map 0.15-0.30 global to 0-1 local
         let expandLocal = Math.max(0, Math.min(1, (smoothProgress - 0.15) / 0.15));
-
-        // C. HORIZONTAL PHASE (Line Moving)
-        // We map 0.30-1.0 global to 0-1 local
         let horizLocal = Math.max(0, Math.min(1, (smoothProgress - 0.30) / 0.70));
-
-
-        // --- APPLYING ANIMATIONS ---
 
         if (items.length > 0) {
             const introHeader = items[0].querySelector('h2');
@@ -676,49 +657,56 @@ if (servicesSection && track) {
             const introCollage = items[0].querySelector('.intro-collage');
             const introBoxes = items[0].querySelectorAll('.collage-box');
 
-            // 1. HEADER & PARA LOGIC
-            let liftHeight = 150;
-            if (introPara) liftHeight = introPara.offsetHeight - 25;
+            // --- PHASE 1: ENTRY & EXPANSION ---
+            if (entryLocal < 1) {
+                // 1. SLOW DOWN BACKGROUND (Parallax Effect)
+                // We push the container DOWN as the page scrolls UP.
+                // 30vh * (1 - progress) means it starts pushed down 30vh, and settles to 0.
+                // This makes the white section appear to rise 30% slower than your mouse.
+                let slowDownOffset = (1 - entryLocal) * (window.innerHeight * 0.3);
+                servicesSticky.style.transform = `translate3d(0, ${slowDownOffset}px, 0)`;
 
-            if (introHeader) {
-                introHeader.style.transformOrigin = "bottom center";
-                
-                if (entryLocal < 1) {
-                    // Entry: Float Up, Scale 2
-                    let entryLift = 100 - (entryLocal * 100);
+                // Header Animation
+                let entryLift = 100 - (entryLocal * 100);
+                if (introHeader) {
+                    introHeader.style.transformOrigin = "bottom center";
                     introHeader.style.transform = `translate3d(0, ${entryLift}px, 0) scale(2)`;
-                    items[0].style.opacity = entryLocal;
-                    if (introPara) introPara.style.opacity = 0;
-                } else {
-                    // Expand: Shrink 2 -> 1, Move Up
+                }
+                items[0].style.opacity = entryLocal;
+                if (introPara) introPara.style.opacity = 0;
+            } 
+            else {
+                // Reset Sticky Position when fully entered
+                servicesSticky.style.transform = `translate3d(0, 0px, 0)`;
+
+                // Expansion Logic (Header Shrink)
+                let liftHeight = 150;
+                if (introPara) liftHeight = introPara.offsetHeight - 25;
+
+                if (introHeader) {
+                    introHeader.style.transformOrigin = "bottom center";
                     let currentLift = expandLocal * liftHeight;
                     let currentScale = 2 - expandLocal; 
                     introHeader.style.transform = `translate3d(0, -${currentLift}px, 0) scale(${currentScale})`;
-                    items[0].style.opacity = 1;
-                    
-                    if (introPara) {
-                        let fadeStart = 0.5;
-                        let textOpacity = 0;
-                        if (expandLocal > fadeStart) {
-                            textOpacity = (expandLocal - fadeStart) / (1 - fadeStart);
-                        }
-                        introPara.style.opacity = textOpacity;
+                }
+                items[0].style.opacity = 1;
+                
+                if (introPara) {
+                    let fadeStart = 0.5;
+                    let textOpacity = 0;
+                    if (expandLocal > fadeStart) {
+                        textOpacity = (expandLocal - fadeStart) / (1 - fadeStart);
                     }
+                    introPara.style.opacity = textOpacity;
                 }
             }
 
-            // 2. IMAGES LOGIC
+            // IMAGES LOGIC
             if (introCollage) {
-                // Trigger Up/Down
-                if (expandLocal > 0.3) {
-                    introCollage.classList.add('is-landed');
-                } else {
-                    introCollage.classList.remove('is-landed');
-                }
+                if (expandLocal > 0.3) introCollage.classList.add('is-landed');
+                else introCollage.classList.remove('is-landed');
 
-                // Fade Out Logic
                 let boxOpacity = 1;
-                // If scrolling horizontal, fade out fast
                 if (horizLocal > 0) {
                     if (horizLocal < 0.05) boxOpacity = 1 - (horizLocal * 20);
                     else boxOpacity = 0;
@@ -726,36 +714,31 @@ if (servicesSection && track) {
                 
                 introBoxes.forEach(box => {
                     box.style.opacity = boxOpacity;
-                    // Ensure smooth transition isn't fighting us
                     if (horizLocal > 0) box.style.transition = 'none';
                     else box.style.transition = '';
                 });
             }
 
-            // 3. DOT LOGIC
+            // DOT LOGIC
             if (introDot) {
-                // Bounce in late (end of expansion)
                 if (expandLocal > 0.85) introDot.classList.add('pop-in');
                 else introDot.classList.remove('pop-in');
             }
         }
 
-        // 4. TIMELINE & TRACK
+        // --- PHASE 3: HORIZONTAL SCROLL ---
         if (axisLine) {
-            // Line appears when expansion is done
             axisLine.style.opacity = (expandLocal >= 1) ? 1 : 0;
             
-            // Draw Line
             const trackWidth = track.scrollWidth;
             const viewportWidth = window.innerWidth;
             const moveDistance = trackWidth - viewportWidth;
             let xPos = -(horizLocal * moveDistance);
             axisLine.style.width = Math.abs(xPos) + 'px';
             
-            // Move Track
             track.style.transform = `translate3d(${xPos}px, -50%, 0)`;
 
-            // 5. ACTIVE ITEMS LOGIC
+            // Active Items
             const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
             const currentLineLength = Math.abs(xPos);
 
@@ -783,7 +766,7 @@ if (servicesSection && track) {
             });
         }
 
-        // 6. BACKGROUND PARALLAX
+        // BACKGROUND DIMMING
         if (stickyProfile) {
             if (entryLocal < 1) {
                 const scale = 1 - (entryLocal * 0.05); 
@@ -797,10 +780,8 @@ if (servicesSection && track) {
             }
         }
 
-        // KEEP LOOP RUNNING
         requestAnimationFrame(animateTimeline);
     }
 
-    // Kickoff
     animateTimeline();
 }
