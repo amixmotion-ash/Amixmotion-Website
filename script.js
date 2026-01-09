@@ -604,7 +604,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Finale: Form Grid) ==
+// == 14. ABOUT PAGE: Timeline (Longer Hold at End) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -616,11 +616,12 @@ const stickyProfile = document.querySelector('.profile-grid-section') || documen
 
 if (servicesSection && track && servicesSticky) {
     
-    // PHYSICS
+    // PHYSICS VARIABLES
     let targetProgress = 0; 
     let smoothProgress = 0; 
     const LERP_FACTOR = 0.1; 
 
+    // 1. LISTEN TO SCROLL
     window.addEventListener('scroll', () => {
         const rect = servicesSection.getBoundingClientRect();
         const incomingPosition = rect.top; 
@@ -633,25 +634,24 @@ if (servicesSection && track && servicesSticky) {
         targetProgress = Math.max(0, Math.min(1, rawProg));
     });
 
+    // 2. ANIMATION LOOP
     function animateTimeline() {
+        
         smoothProgress += (targetProgress - smoothProgress) * LERP_FACTOR;
 
-        // PHASES
-        // 0.00 - 0.15: Entry
-        // 0.15 - 0.30: Expansion
-        // 0.30 - 0.85: Horizontal Scroll (Stops at 85%)
-        // 0.85 - 1.00: Grid Formation (Static Track)
+        // MAP PHASES
+        // Phase 1: Entry (0.0 to 0.15)
+        // Phase 2: Expand (0.15 to 0.30)
+        // Phase 3: Horizontal (0.30 to 0.85) - CHANGED: Finishes at 85%
+        // Phase 4: Hold (0.85 to 1.0) - A solid 15% buffer at the end
         
         let entryLocal = Math.max(0, Math.min(1, smoothProgress / 0.15));
         let expandLocal = Math.max(0, Math.min(1, (smoothProgress - 0.15) / 0.15));
         
-        // Horizontal stops at 0.85 (85% of section)
-        // Divisor = 0.85 - 0.30 = 0.55
+        // HORIZONTAL LOGIC
+        // Maps the range 0.30 -> 0.85 to 0.0 -> 1.0
+        // Divisor is (0.85 - 0.30) = 0.55
         let horizLocal = Math.max(0, Math.min(1, (smoothProgress - 0.30) / 0.55));
-        
-        // Grid Phase (Last 15%)
-        // Maps 0.85-1.0 to 0-1
-        let gridLocal = Math.max(0, Math.min(1, (smoothProgress - 0.85) / 0.15));
 
         if (items.length > 0) {
             const introHeader = items[0].querySelector('h2');
@@ -697,7 +697,7 @@ if (servicesSection && track && servicesSticky) {
                 }
             }
 
-            // IMAGES
+            // IMAGES LOGIC
             if (introCollage) {
                 if (expandLocal > 0.3) introCollage.classList.add('is-landed');
                 else introCollage.classList.remove('is-landed');
@@ -707,6 +707,7 @@ if (servicesSection && track && servicesSticky) {
                     if (horizLocal < 0.05) boxOpacity = 1 - (horizLocal * 20);
                     else boxOpacity = 0;
                 }
+                
                 introBoxes.forEach(box => {
                     box.style.opacity = boxOpacity;
                     if (horizLocal > 0) box.style.transition = 'none';
@@ -714,50 +715,29 @@ if (servicesSection && track && servicesSticky) {
                 });
             }
 
-            // DOT
+            // DOT LOGIC
             if (introDot) {
                 if (expandLocal > 0.85) introDot.classList.add('pop-in');
                 else introDot.classList.remove('pop-in');
             }
         }
 
-        // --- PHASE 3: HORIZONTAL SCROLL & GRID ---
+        // --- PHASE 3: HORIZONTAL SCROLL ---
         if (axisLine) {
-            
-            // FADE OUT LINE during Grid Phase
-            // If Grid phase active, opacity goes 1 -> 0
-            let targetLineOpacity = (expandLocal >= 1) ? 1 : 0;
-            if (gridLocal > 0) targetLineOpacity = 1 - gridLocal;
-            
-            axisLine.style.opacity = targetLineOpacity;
+            axisLine.style.opacity = (expandLocal >= 1) ? 1 : 0;
             
             const trackWidth = track.scrollWidth;
             const viewportWidth = window.innerWidth;
             
-            // CALCULATE EXACT STOP POINT
-            // We want the Last Item Center to align with Screen Center.
-            // Distance = TrackWidth - (Screen/2 + LastItemWidth/2)
-            // But due to padding, TrackWidth includes the buffer.
-            // Simplest way: Move until the right edge is roughly centered.
-            // Let's use the padding-right value we set in CSS (50vw - 200px)
-            // Total Move = TrackWidth - ScreenWidth.
-            const moveDistance = trackWidth - viewportWidth; 
+            // Add a 100px buffer to ensure we definitely reach the end
+            const moveDistance = trackWidth - viewportWidth + 100;
             
             let xPos = -(horizLocal * moveDistance);
             axisLine.style.width = Math.abs(xPos) + 'px';
+            
             track.style.transform = `translate3d(${xPos}px, -50%, 0)`;
 
-            // --- GRID TRIGGER ---
-            const lastItem = items[items.length - 1]; // Trusted By item
-            if (lastItem) {
-                if (gridLocal > 0.1) {
-                    lastItem.classList.add('form-grid');
-                } else {
-                    lastItem.classList.remove('form-grid');
-                }
-            }
-
-            // ACTIVE ITEMS LOGIC
+            // Active Items
             const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
             const currentLineLength = Math.abs(xPos);
 
@@ -766,11 +746,9 @@ if (servicesSection && track && servicesSticky) {
 
                 const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);
                 const distanceToItem = itemCenterX - startX;
-
                 const label = item.querySelector('.service-label');
                 const p = item.querySelector('p');
 
-                // Standard Hit Logic
                 if (currentLineLength >= distanceToItem) {
                     item.classList.add('has-arrived');
                     if (label && p && !item.classList.contains('trusted-item')) {

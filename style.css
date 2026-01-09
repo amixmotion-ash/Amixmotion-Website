@@ -3119,8 +3119,8 @@ body.portfolio-page::before {
 /* This overrides State 1 */
 .service-item.form-grid .exploding-logo {
     opacity: 1;
-    /* CHANGED: Scale increased to 1.6 (Much bigger) */
-    transform: translate(calc(-50% + var(--grid-x)), var(--gy)) scale(1.6) !important;
+    /* CHANGED: Scale increased to 1.4 */
+    transform: translate(calc(-50% + var(--grid-x)), var(--gy)) scale(1.4) !important;
     
     transition-delay: 0s !important; 
     transition-duration: 1.5s !important; 
