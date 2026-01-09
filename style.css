@@ -2718,17 +2718,18 @@ body.portfolio-page::before {
     align-items: flex-start; 
     position: absolute;
     left: 0;
-    
-    /* CHANGED: Moved down from 50% to 55% */
-    top: 55%; 
-    
+    top: 50%;
     transform: translateY(-50%); 
     
     padding-left: calc(50vw - 300px);
     padding-right: calc(50vw - 200px);
     
     gap: 25vw; 
-    will-change: transform;
+    
+    /* ADDED: Optimize for the smooth physics engine */
+    will-change: transform; 
+    /* Ensure no CSS transition interferes with our JS physics */
+    transition: none; 
 }
 
 /* Update this rule in style.css */

@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Delayed Dot Bounce) ==
+// == 14. ABOUT PAGE: Timeline (Luxury "Apple-Style" Smooth Scroll) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -616,198 +616,189 @@ const stickyProfile = document.querySelector('.profile-grid-section') || documen
 
 if (servicesSection && track) {
     
-    function animateTimeline() {
+    // VARIABLES FOR PHYSICS
+    let targetProgress = 0; // Where the scrollbar IS
+    let smoothProgress = 0; // Where the animation IS (chasing the target)
+    const LERP_FACTOR = 0.05; // "Weight" (Lower = Heavier/Smoother)
+
+    // 1. LISTEN TO SCROLL (Update Target Only)
+    window.addEventListener('scroll', () => {
         const rect = servicesSection.getBoundingClientRect();
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
-        let entryProgress = 1 - (incomingPosition / windowHeight);
-        entryProgress = Math.max(0, Math.min(1, entryProgress));
+        // Calculate raw progress (0 to 1) based on the section height
+        // This covers Entry -> Expansion -> Horizontal Scroll all in one 0-1 value
+        const totalDistance = rect.height + windowHeight;
+        const scrolledDistance = (rect.top - windowHeight) * -1;
+        
+        let rawProg = scrolledDistance / totalDistance;
+        targetProgress = Math.max(0, Math.min(1, rawProg));
+    });
 
-        // --- STATE A: ENTERING (Black -> White Transition) ---
-        if (incomingPosition > 0) {
-            
-            if (items.length > 0) {
-                const introHeader = items[0].querySelector('h2');
-                const introPara = items[0].querySelector('p');
-                const introDot = items[0].querySelector('.timeline-dot');
-                
-                const introCollage = items[0].querySelector('.intro-collage');
-                const introBoxes = items[0].querySelectorAll('.collage-box');
-                
-                if (introHeader) {
-                    introHeader.style.transformOrigin = "bottom center";
-                    introHeader.style.transform = `translate3d(0, 0, 0) scale(2)`;
-                }
-                if (introPara) introPara.style.opacity = 0;
-                
-                items[0].style.opacity = 1;
+    // 2. ANIMATION LOOP (The Physics Engine)
+    function animateTimeline() {
+        
+        // Math: Move smoothProgress 5% closer to targetProgress every frame
+        smoothProgress += (targetProgress - smoothProgress) * LERP_FACTOR;
 
-                if (introCollage) {
-                    introBoxes.forEach(box => {
-                        box.style.opacity = 1;
-                        box.style.transition = ''; 
-                    });
+        // --- MAPPING THE PROGRESS ---
+        // We split the 0.0-1.0 global progress into phases manually
+        // because we are no longer relying on specific DOM rectangles for phases
+        
+        // Phase 1: Entry (0.0 to 0.15)
+        // Phase 2: Expand (0.15 to 0.30)
+        // Phase 3: Horizontal (0.30 to 1.0)
+        
+        // --- LOGIC CALCULATIONS ---
+        
+        // A. ENTRY PHASE (White rising over black)
+        // We map 0.0-0.15 global progress to 0-1 local progress
+        let entryLocal = Math.max(0, Math.min(1, smoothProgress / 0.15));
+        
+        // B. EXPANSION PHASE (Header Shrinking)
+        // We map 0.15-0.30 global to 0-1 local
+        let expandLocal = Math.max(0, Math.min(1, (smoothProgress - 0.15) / 0.15));
 
-                    if (entryProgress > 0.85) {
-                        introCollage.classList.add('is-landed');
-                    } else {
-                        introCollage.classList.remove('is-landed');
-                    }
-                }
+        // C. HORIZONTAL PHASE (Line Moving)
+        // We map 0.30-1.0 global to 0-1 local
+        let horizLocal = Math.max(0, Math.min(1, (smoothProgress - 0.30) / 0.70));
 
-                // CHANGED: Force dot hidden during entry
-                if (introDot) {
-                    introDot.classList.remove('pop-in');
-                }
-            }
 
-            if (axisLine) axisLine.style.opacity = 0;
-            track.style.transform = `translate3d(0, -50%, 0)`;
+        // --- APPLYING ANIMATIONS ---
 
-            if (stickyProfile) {
-                const scale = 1 - (entryProgress * 0.05); 
-                const brightness = 1 - (entryProgress * 0.5); 
-                const yPos = -(entryProgress * 100);
-                stickyProfile.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
-                stickyProfile.style.filter = `brightness(${brightness})`;
-            }
-        }
-
-        // --- STATE B: PINNED SCROLLING ---
-        else {
-            if (stickyProfile) {
-                stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
-                stickyProfile.style.filter = `brightness(0.5)`;
-            }
-            
-            const introCollage = items[0].querySelector('.intro-collage');
-            if (introCollage) introCollage.classList.add('is-landed');
-            
-            const introBoxes = items[0].querySelectorAll('.collage-box');
-
-            const totalScrollable = rect.height - windowHeight;
-            let scrollProgress = -incomingPosition / totalScrollable;
-            scrollProgress = Math.max(0, Math.min(1, scrollProgress));
-
-            const INTRO_PHASE = 0.15; 
-
+        if (items.length > 0) {
             const introHeader = items[0].querySelector('h2');
             const introPara = items[0].querySelector('p');
             const introDot = items[0].querySelector('.timeline-dot');
+            const introCollage = items[0].querySelector('.intro-collage');
+            const introBoxes = items[0].querySelectorAll('.collage-box');
 
-            // --- SUB-STATE B1: EXPAND INTRO ---
-            if (scrollProgress < INTRO_PHASE) {
-                
-                let expandProg = scrollProgress / INTRO_PHASE;
-                
-                // Keep images visible
-                introBoxes.forEach(box => {
-                    box.style.opacity = 1;
-                    box.style.transition = ''; 
-                });
+            // 1. HEADER & PARA LOGIC
+            let liftHeight = 150;
+            if (introPara) liftHeight = introPara.offsetHeight - 25;
 
-                let liftHeight = 150; 
-                if (introPara) liftHeight = introPara.offsetHeight - 25;
+            if (introHeader) {
+                introHeader.style.transformOrigin = "bottom center";
                 
-                if (introHeader) {
-                    let currentLift = expandProg * liftHeight;
-                    let currentScale = 2 - expandProg; 
+                if (entryLocal < 1) {
+                    // Entry: Float Up, Scale 2
+                    let entryLift = 100 - (entryLocal * 100);
+                    introHeader.style.transform = `translate3d(0, ${entryLift}px, 0) scale(2)`;
+                    items[0].style.opacity = entryLocal;
+                    if (introPara) introPara.style.opacity = 0;
+                } else {
+                    // Expand: Shrink 2 -> 1, Move Up
+                    let currentLift = expandLocal * liftHeight;
+                    let currentScale = 2 - expandLocal; 
                     introHeader.style.transform = `translate3d(0, -${currentLift}px, 0) scale(${currentScale})`;
-                }
-
-                if (introPara) {
-                    let fadeStart = 0.5;
-                    let textOpacity = 0;
-                    if (expandProg > fadeStart) {
-                        textOpacity = (expandProg - fadeStart) / (1 - fadeStart);
+                    items[0].style.opacity = 1;
+                    
+                    if (introPara) {
+                        let fadeStart = 0.5;
+                        let textOpacity = 0;
+                        if (expandLocal > fadeStart) {
+                            textOpacity = (expandLocal - fadeStart) / (1 - fadeStart);
+                        }
+                        introPara.style.opacity = textOpacity;
                     }
-                    introPara.style.opacity = textOpacity;
-                }
-
-                // CHANGED: Trigger Dot Bounce LATE
-                // Only bounce when 85% through the expansion (Just before line starts)
-                if (introDot) {
-                    if (expandProg > 0.85) {
-                        introDot.classList.add('pop-in');
-                    } else {
-                        introDot.classList.remove('pop-in');
-                    }
-                }
-
-                track.style.transform = `translate3d(0, -50%, 0)`;
-                if (axisLine) {
-                    axisLine.style.opacity = 0;
-                    axisLine.style.width = '0px';
                 }
             }
 
-            // --- SUB-STATE B2: HORIZONTAL SCROLL ---
-            else {
-                
-                // Ensure dot is visible
-                if (introDot) introDot.classList.add('pop-in');
-
-                let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
-
-                let boxOpacity = 0;
-                if (horizProgress < 0.05) {
-                    boxOpacity = 1 - (horizProgress * 20);
+            // 2. IMAGES LOGIC
+            if (introCollage) {
+                // Trigger Up/Down
+                if (expandLocal > 0.3) {
+                    introCollage.classList.add('is-landed');
+                } else {
+                    introCollage.classList.remove('is-landed');
                 }
+
+                // Fade Out Logic
+                let boxOpacity = 1;
+                // If scrolling horizontal, fade out fast
+                if (horizLocal > 0) {
+                    if (horizLocal < 0.05) boxOpacity = 1 - (horizLocal * 20);
+                    else boxOpacity = 0;
+                }
+                
                 introBoxes.forEach(box => {
-                    box.style.transition = 'none'; 
                     box.style.opacity = boxOpacity;
+                    // Ensure smooth transition isn't fighting us
+                    if (horizLocal > 0) box.style.transition = 'none';
+                    else box.style.transition = '';
                 });
+            }
 
-                if (introHeader && introPara) {
-                    let liftHeight = introPara.offsetHeight - 25;
-                    introHeader.style.transform = `translate3d(0, -${liftHeight}px, 0) scale(1)`;
-                    introPara.style.opacity = 1;
-                }
-
-                if (axisLine) axisLine.style.opacity = 1;
-
-                const trackWidth = track.scrollWidth;
-                const viewportWidth = window.innerWidth;
-                const moveDistance = trackWidth - viewportWidth;
-                
-                let xPos = -(horizProgress * moveDistance);
-                track.style.transform = `translate3d(${xPos}px, -50%, 0)`;
-
-                if (axisLine) {
-                    axisLine.style.width = Math.abs(xPos) + 'px';
-                }
-
-                const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
-                const currentLineLength = Math.abs(xPos);
-
-                items.forEach((item, index) => {
-                    if (index === 0) return;
-
-                    const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);
-                    const distanceToItem = itemCenterX - startX;
-
-                    const label = item.querySelector('.service-label');
-                    const p = item.querySelector('p');
-
-                    if (currentLineLength >= distanceToItem) {
-                        item.classList.add('has-arrived');
-                        if (label && p && !item.classList.contains('trusted-item')) {
-                            const pHeight = p.offsetHeight;
-                            const liftAmount = pHeight + 15; 
-                            label.style.transform = `translate3d(-50%, -${liftAmount}px, 0)`;
-                        }
-                    } else {
-                        item.classList.remove('has-arrived');
-                        if (label && !item.classList.contains('trusted-item')) {
-                            label.style.transform = `translate3d(-50%, 0px, 0)`;
-                        }
-                    }
-                });
+            // 3. DOT LOGIC
+            if (introDot) {
+                // Bounce in late (end of expansion)
+                if (expandLocal > 0.85) introDot.classList.add('pop-in');
+                else introDot.classList.remove('pop-in');
             }
         }
+
+        // 4. TIMELINE & TRACK
+        if (axisLine) {
+            // Line appears when expansion is done
+            axisLine.style.opacity = (expandLocal >= 1) ? 1 : 0;
+            
+            // Draw Line
+            const trackWidth = track.scrollWidth;
+            const viewportWidth = window.innerWidth;
+            const moveDistance = trackWidth - viewportWidth;
+            let xPos = -(horizLocal * moveDistance);
+            axisLine.style.width = Math.abs(xPos) + 'px';
+            
+            // Move Track
+            track.style.transform = `translate3d(${xPos}px, -50%, 0)`;
+
+            // 5. ACTIVE ITEMS LOGIC
+            const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
+            const currentLineLength = Math.abs(xPos);
+
+            items.forEach((item, index) => {
+                if (index === 0) return;
+
+                const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);
+                const distanceToItem = itemCenterX - startX;
+                const label = item.querySelector('.service-label');
+                const p = item.querySelector('p');
+
+                if (currentLineLength >= distanceToItem) {
+                    item.classList.add('has-arrived');
+                    if (label && p && !item.classList.contains('trusted-item')) {
+                        const pHeight = p.offsetHeight;
+                        const liftAmount = pHeight + 15; 
+                        label.style.transform = `translate3d(-50%, -${liftAmount}px, 0)`;
+                    }
+                } else {
+                    item.classList.remove('has-arrived');
+                    if (label && !item.classList.contains('trusted-item')) {
+                        label.style.transform = `translate3d(-50%, 0px, 0)`;
+                    }
+                }
+            });
+        }
+
+        // 6. BACKGROUND PARALLAX
+        if (stickyProfile) {
+            if (entryLocal < 1) {
+                const scale = 1 - (entryLocal * 0.05); 
+                const brightness = 1 - (entryLocal * 0.5); 
+                const yPos = -(entryLocal * 100);
+                stickyProfile.style.transform = `translate3d(0, ${yPos}px, 0) scale(${scale})`;
+                stickyProfile.style.filter = `brightness(${brightness})`;
+            } else {
+                stickyProfile.style.transform = `translate3d(0, -100px, 0) scale(0.95)`;
+                stickyProfile.style.filter = `brightness(0.5)`;
+            }
+        }
+
+        // KEEP LOOP RUNNING
+        requestAnimationFrame(animateTimeline);
     }
 
-    window.addEventListener('scroll', animateTimeline);
+    // Kickoff
     animateTimeline();
 }
