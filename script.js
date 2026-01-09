@@ -617,9 +617,11 @@ const stickyProfile = document.querySelector('.profile-grid-section') || documen
 if (servicesSection && track) {
     
     // VARIABLES FOR PHYSICS
-    let targetProgress = 0; // Where the scrollbar IS
-    let smoothProgress = 0; // Where the animation IS (chasing the target)
-    const LERP_FACTOR = 0.05; // "Weight" (Lower = Heavier/Smoother)
+    let targetProgress = 0; 
+    let smoothProgress = 0; 
+    
+    // CHANGED: Increased friction so it doesn't glide for too long
+    const LERP_FACTOR = 0.1; 
 
     // 1. LISTEN TO SCROLL (Update Target Only)
     window.addEventListener('scroll', () => {
