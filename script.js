@@ -345,7 +345,7 @@ if (contactForm) {
 }
 
 // ======================================================================
-// == 12. UNIVERSAL PAGE TRANSITIONS (Final - With Header Entry) ==
+// == 12. UNIVERSAL PAGE TRANSITIONS (Final) ==
 // ======================================================================
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -376,7 +376,7 @@ document.addEventListener('DOMContentLoaded', function() {
             curtain.style.transition = 'transform 0.8s cubic-bezier(0.83, 0, 0.17, 1)'; 
             curtain.style.transform = 'translateX(100%)'; 
 
-            // --- ABOUT PAGE HEADER ANIMATION ---
+            // About Page Header Animation
             var aboutTitle = document.querySelector('.about-hero-title');
             if (aboutTitle) {
                 aboutTitle.classList.add('allow-intro-transition');
@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 1300);
             }
 
-            // Trigger Portfolio Panels
+            // Portfolio Panels
             var portfolioGrid = document.querySelector('.portfolio-grid-section');
             if (portfolioGrid) {
                 setTimeout(function() {
@@ -603,8 +603,9 @@ if (scrollTrigger) {
         }
     });
 }
+
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Longer Hold at End) ==
+// == 14. ABOUT PAGE: Timeline (Luxury "Apple-Style" Physics) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -616,12 +617,11 @@ const stickyProfile = document.querySelector('.profile-grid-section') || documen
 
 if (servicesSection && track && servicesSticky) {
     
-    // PHYSICS VARIABLES
+    // PHYSICS
     let targetProgress = 0; 
     let smoothProgress = 0; 
     const LERP_FACTOR = 0.1; 
 
-    // 1. LISTEN TO SCROLL
     window.addEventListener('scroll', () => {
         const rect = servicesSection.getBoundingClientRect();
         const incomingPosition = rect.top; 
@@ -634,23 +634,18 @@ if (servicesSection && track && servicesSticky) {
         targetProgress = Math.max(0, Math.min(1, rawProg));
     });
 
-    // 2. ANIMATION LOOP
     function animateTimeline() {
-        
         smoothProgress += (targetProgress - smoothProgress) * LERP_FACTOR;
 
-        // MAP PHASES
-        // Phase 1: Entry (0.0 to 0.15)
-        // Phase 2: Expand (0.15 to 0.30)
-        // Phase 3: Horizontal (0.30 to 0.85) - CHANGED: Finishes at 85%
-        // Phase 4: Hold (0.85 to 1.0) - A solid 15% buffer at the end
+        // PHASES
+        // 1. Entry (0.0 - 0.15)
+        // 2. Expand (0.15 - 0.30)
+        // 3. Horizontal (0.30 - 0.85) - Hold the end for 15%
         
         let entryLocal = Math.max(0, Math.min(1, smoothProgress / 0.15));
         let expandLocal = Math.max(0, Math.min(1, (smoothProgress - 0.15) / 0.15));
         
-        // HORIZONTAL LOGIC
-        // Maps the range 0.30 -> 0.85 to 0.0 -> 1.0
-        // Divisor is (0.85 - 0.30) = 0.55
+        // Horizontal: Map 0.30 -> 0.85 (Duration 0.55)
         let horizLocal = Math.max(0, Math.min(1, (smoothProgress - 0.30) / 0.55));
 
         if (items.length > 0) {
@@ -662,9 +657,11 @@ if (servicesSection && track && servicesSticky) {
 
             // --- PHASE 1: ENTRY & EXPANSION ---
             if (entryLocal < 1) {
+                // Parallax Entry
                 let slowDownOffset = (1 - entryLocal) * (window.innerHeight * 0.3);
                 servicesSticky.style.transform = `translate3d(0, ${slowDownOffset}px, 0)`;
 
+                // Header Animation
                 let entryLift = 100 - (entryLocal * 100);
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
@@ -697,7 +694,7 @@ if (servicesSection && track && servicesSticky) {
                 }
             }
 
-            // IMAGES LOGIC
+            // --- IMAGES LOGIC (Trigger Early: 0.3) ---
             if (introCollage) {
                 if (expandLocal > 0.3) introCollage.classList.add('is-landed');
                 else introCollage.classList.remove('is-landed');
@@ -715,7 +712,7 @@ if (servicesSection && track && servicesSticky) {
                 });
             }
 
-            // DOT LOGIC
+            // --- DOT LOGIC (Bounce Late: 0.85) ---
             if (introDot) {
                 if (expandLocal > 0.85) introDot.classList.add('pop-in');
                 else introDot.classList.remove('pop-in');
@@ -728,13 +725,10 @@ if (servicesSection && track && servicesSticky) {
             
             const trackWidth = track.scrollWidth;
             const viewportWidth = window.innerWidth;
-            
-            // Add a 100px buffer to ensure we definitely reach the end
             const moveDistance = trackWidth - viewportWidth + 100;
             
             let xPos = -(horizLocal * moveDistance);
             axisLine.style.width = Math.abs(xPos) + 'px';
-            
             track.style.transform = `translate3d(${xPos}px, -50%, 0)`;
 
             // Active Items
