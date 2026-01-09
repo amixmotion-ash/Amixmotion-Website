@@ -605,7 +605,7 @@ if (scrollTrigger) {
 }
 
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Early Exit on Up Scroll) ==
+// == 14. ABOUT PAGE: Timeline (Fade On Header -> Trigger Images) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -635,26 +635,43 @@ if (servicesSection && track) {
                 const introCollage = items[0].querySelector('.intro-collage');
                 const introBoxes = items[0].querySelectorAll('.collage-box');
                 
-                // Header Position (Scale 2.0)
+                // 1. HEADER ANIMATION (Fade On & Up)
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
-                    introHeader.style.transform = `translate3d(0, 0, 0) scale(2)`;
+                    
+                    // Move from 100px down to 0px
+                    let entryLift = 100 - (entryProgress * 100);
+                    
+                    // Keep Scale 2.0 locked while entering
+                    introHeader.style.transform = `translate3d(0, ${entryLift}px, 0) scale(2)`;
+                    
+                    // Fade In
+                    introHeader.style.opacity = entryProgress;
                 }
+                
                 // Paragraph Hidden
                 if (introPara) introPara.style.opacity = 0;
                 
+                // Ensure container is visible
                 items[0].style.opacity = 1;
 
-                // ENSURE IMAGES ARE DOWN (Hidden)
+                // 2. IMAGE TRIGGER (The moment header finishes entering)
                 if (introCollage) {
+                    // Reset opacity for safety
                     introBoxes.forEach(box => {
                         box.style.opacity = 1;
                         box.style.transition = ''; 
                     });
-                    introCollage.classList.remove('is-landed');
+
+                    // Trigger ONLY when header is fully visible/arrived (98%)
+                    if (entryProgress > 0.98) {
+                        introCollage.classList.add('is-landed');
+                    } else {
+                        introCollage.classList.remove('is-landed');
+                    }
                 }
 
-                // Dot Bounce
+                // Dot Bounce (Keep early trigger)
                 if (introDot) {
                     if (entryProgress > 0.05) introDot.classList.add('pop-in');
                     else introDot.classList.remove('pop-in');
@@ -680,7 +697,9 @@ if (servicesSection && track) {
                 stickyProfile.style.filter = `brightness(0.5)`;
             }
             
+            // Force Images Landed
             const introCollage = items[0].querySelector('.intro-collage');
+            if (introCollage) introCollage.classList.add('is-landed');
             const introBoxes = items[0].querySelectorAll('.collage-box');
 
             const totalScrollable = rect.height - windowHeight;
@@ -694,32 +713,14 @@ if (servicesSection && track) {
             const introDot = items[0].querySelector('.timeline-dot');
             if (introDot) introDot.classList.add('pop-in');
 
-            // --- SUB-STATE B1: EXPAND INTRO ---
+            // --- SUB-STATE B1: EXPAND INTRO (Header Shrinks) ---
             if (scrollProgress < INTRO_PHASE) {
                 
                 let expandProg = scrollProgress / INTRO_PHASE;
                 
-                // --- NEW TRIGGER LOGIC ---
-                // Trigger based on Header Scale (Progression through Intro)
-                // 0.3 means "When the header has shrunk 30%"
-                // Scroll Down: > 0.3 -> Fly Up
-                // Scroll Up: < 0.3 -> Drop Down (Happens before black screen appears)
-                if (introCollage) {
-                    if (expandProg > 0.3) {
-                        introCollage.classList.add('is-landed');
-                    } else {
-                        introCollage.classList.remove('is-landed');
-                    }
-                }
-
-                // Fading Logic (Happens later, at 0.5)
-                // This ensures they are fully opaque (opacity: 1) when they drop at 0.3
+                // Keep images visible
                 introBoxes.forEach(box => {
-                    let boxOpacity = 1;
-                    if (expandProg > 0.5) {
-                        boxOpacity = 1 - ((expandProg - 0.5) / 0.5);
-                    }
-                    box.style.opacity = boxOpacity;
+                    box.style.opacity = 1;
                     box.style.transition = ''; 
                 });
 
@@ -728,8 +729,9 @@ if (servicesSection && track) {
                 
                 if (introHeader) {
                     let currentLift = expandProg * liftHeight;
-                    let currentScale = 2 - expandProg; 
+                    let currentScale = 2 - expandProg; // Shrink 2 -> 1
                     introHeader.style.transform = `translate3d(0, -${currentLift}px, 0) scale(${currentScale})`;
+                    introHeader.style.opacity = 1;
                 }
 
                 if (introPara) {
@@ -750,8 +752,6 @@ if (servicesSection && track) {
 
             // --- SUB-STATE B2: HORIZONTAL SCROLL ---
             else {
-                // Ensure images are considered "Landed" but invisible
-                if (introCollage) introCollage.classList.add('is-landed');
                 
                 let horizProgress = (scrollProgress - INTRO_PHASE) / (1 - INTRO_PHASE);
 
