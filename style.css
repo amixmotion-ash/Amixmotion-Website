@@ -3216,7 +3216,7 @@ body.portfolio-page::before {
     position: absolute;
     
     /* CHANGED: Moved up from 50% to 45% */
-    top: 45%;
+    top: 35%;
     
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
