@@ -604,7 +604,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Luxury Scroll + End Pause) ==
+// == 14. ABOUT PAGE: Timeline (Longer Hold at End) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -624,6 +624,7 @@ if (servicesSection && track && servicesSticky) {
     // 1. LISTEN TO SCROLL
     window.addEventListener('scroll', () => {
         const rect = servicesSection.getBoundingClientRect();
+        const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
         
         const totalDistance = rect.height + windowHeight;
@@ -636,21 +637,21 @@ if (servicesSection && track && servicesSticky) {
     // 2. ANIMATION LOOP
     function animateTimeline() {
         
-        // Apply Physics
         smoothProgress += (targetProgress - smoothProgress) * LERP_FACTOR;
 
         // MAP PHASES
         // Phase 1: Entry (0.0 to 0.15)
         // Phase 2: Expand (0.15 to 0.30)
-        // Phase 3: Horizontal (0.30 to 0.90) - CHANGED: Ends at 0.90 instead of 1.0
-        // Phase 4: Hold (0.90 to 1.0)
+        // Phase 3: Horizontal (0.30 to 0.85) - CHANGED: Finishes at 85%
+        // Phase 4: Hold (0.85 to 1.0) - A solid 15% buffer at the end
         
         let entryLocal = Math.max(0, Math.min(1, smoothProgress / 0.15));
         let expandLocal = Math.max(0, Math.min(1, (smoothProgress - 0.15) / 0.15));
         
-        // UPDATED: Divisor is now 0.60 (0.90 - 0.30). 
-        // This ensures movement finishes at 90% scroll.
-        let horizLocal = Math.max(0, Math.min(1, (smoothProgress - 0.30) / 0.60));
+        // HORIZONTAL LOGIC
+        // Maps the range 0.30 -> 0.85 to 0.0 -> 1.0
+        // Divisor is (0.85 - 0.30) = 0.55
+        let horizLocal = Math.max(0, Math.min(1, (smoothProgress - 0.30) / 0.55));
 
         if (items.length > 0) {
             const introHeader = items[0].querySelector('h2');
@@ -661,11 +662,9 @@ if (servicesSection && track && servicesSticky) {
 
             // --- PHASE 1: ENTRY & EXPANSION ---
             if (entryLocal < 1) {
-                // Slow Entry Parallax
                 let slowDownOffset = (1 - entryLocal) * (window.innerHeight * 0.3);
                 servicesSticky.style.transform = `translate3d(0, ${slowDownOffset}px, 0)`;
 
-                // Header Animation
                 let entryLift = 100 - (entryLocal * 100);
                 if (introHeader) {
                     introHeader.style.transformOrigin = "bottom center";
@@ -675,10 +674,8 @@ if (servicesSection && track && servicesSticky) {
                 if (introPara) introPara.style.opacity = 0;
             } 
             else {
-                // Reset Sticky Position
                 servicesSticky.style.transform = `translate3d(0, 0px, 0)`;
 
-                // Expansion Logic
                 let liftHeight = 150;
                 if (introPara) liftHeight = introPara.offsetHeight - 25;
 
@@ -731,14 +728,16 @@ if (servicesSection && track && servicesSticky) {
             
             const trackWidth = track.scrollWidth;
             const viewportWidth = window.innerWidth;
-            const moveDistance = trackWidth - viewportWidth;
             
-            // Move Track based on horizLocal (which finishes early)
+            // Add a 100px buffer to ensure we definitely reach the end
+            const moveDistance = trackWidth - viewportWidth + 100;
+            
             let xPos = -(horizLocal * moveDistance);
             axisLine.style.width = Math.abs(xPos) + 'px';
+            
             track.style.transform = `translate3d(${xPos}px, -50%, 0)`;
 
-            // 5. ACTIVE ITEMS LOGIC
+            // Active Items
             const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
             const currentLineLength = Math.abs(xPos);
 
@@ -766,7 +765,7 @@ if (servicesSection && track && servicesSticky) {
             });
         }
 
-        // 6. BACKGROUND PARALLAX
+        // BACKGROUND PARALLAX
         if (stickyProfile) {
             if (entryLocal < 1) {
                 const scale = 1 - (entryLocal * 0.05); 
@@ -784,4 +783,4 @@ if (servicesSection && track && servicesSticky) {
     }
 
     animateTimeline();
-} 
+}

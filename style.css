@@ -2688,10 +2688,14 @@ body.portfolio-page::before {
 /* == SERVICES SECTION: Horizontal Timeline (Fixed Order) == */
 /* ================================================================= */
 
-/* 1. Main Container */
+/* Update this block in style.css */
 .services-section {
     background-color: #ffffff !important;
-    height: 700vh; 
+    
+    /* INCREASED: From 700vh to 1200vh */
+    /* This creates much more scroll distance to fit the whole timeline */
+    height: 1200vh; 
+    
     position: relative;
     z-index: 5;
     margin: 0;
