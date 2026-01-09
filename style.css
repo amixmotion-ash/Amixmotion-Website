@@ -3215,8 +3215,8 @@ body.portfolio-page::before {
 .intro-collage {
     position: absolute;
     
-    /* CHANGED: Moved up from 50% to 45% */
-    top: 35%;
+    
+    top: 40%;
     
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
