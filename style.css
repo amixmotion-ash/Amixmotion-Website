@@ -3151,9 +3151,7 @@ body.portfolio-page::before {
 
 /* Header: Grid State (Move Higher) */
 .service-item.form-grid .service-label {
-    /* CHANGED: Moved up to -300px to make room, Scaled to 1.6 */
-    transform: translate(-50%, -300px) scale(1.6) !important;
-    
+    transform: translate(-50%, -250px) scale(1) !important;
     transition-duration: 1.5s !important;
 }
 

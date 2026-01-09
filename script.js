@@ -604,7 +604,7 @@ if (scrollTrigger) {
     });
 }
 // ======================================================================
-// == 14. ABOUT PAGE: Timeline (Finale: Drift & Grow) ==
+// == 14. ABOUT PAGE: Timeline (Finale: Form Grid) ==
 // ======================================================================
 
 const servicesSection = document.querySelector('.services-section');
@@ -637,14 +637,20 @@ if (servicesSection && track && servicesSticky) {
         smoothProgress += (targetProgress - smoothProgress) * LERP_FACTOR;
 
         // PHASES
-        // 1. Entry (0.0 - 0.15)
-        // 2. Expand (0.15 - 0.30)
-        // 3. Horizontal (0.30 - 0.85)
-        // 4. Finale Grid (0.85 - 1.0)
+        // 0.00 - 0.15: Entry
+        // 0.15 - 0.30: Expansion
+        // 0.30 - 0.85: Horizontal Scroll (Stops at 85%)
+        // 0.85 - 1.00: Grid Formation (Static Track)
         
         let entryLocal = Math.max(0, Math.min(1, smoothProgress / 0.15));
         let expandLocal = Math.max(0, Math.min(1, (smoothProgress - 0.15) / 0.15));
+        
+        // Horizontal stops at 0.85 (85% of section)
+        // Divisor = 0.85 - 0.30 = 0.55
         let horizLocal = Math.max(0, Math.min(1, (smoothProgress - 0.30) / 0.55));
+        
+        // Grid Phase (Last 15%)
+        // Maps 0.85-1.0 to 0-1
         let gridLocal = Math.max(0, Math.min(1, (smoothProgress - 0.85) / 0.15));
 
         if (items.length > 0) {
@@ -691,7 +697,7 @@ if (servicesSection && track && servicesSticky) {
                 }
             }
 
-            // IMAGES LOGIC
+            // IMAGES
             if (introCollage) {
                 if (expandLocal > 0.3) introCollage.classList.add('is-landed');
                 else introCollage.classList.remove('is-landed');
@@ -701,7 +707,6 @@ if (servicesSection && track && servicesSticky) {
                     if (horizLocal < 0.05) boxOpacity = 1 - (horizLocal * 20);
                     else boxOpacity = 0;
                 }
-                
                 introBoxes.forEach(box => {
                     box.style.opacity = boxOpacity;
                     if (horizLocal > 0) box.style.transition = 'none';
@@ -709,51 +714,46 @@ if (servicesSection && track && servicesSticky) {
                 });
             }
 
-            // DOT LOGIC
+            // DOT
             if (introDot) {
                 if (expandLocal > 0.85) introDot.classList.add('pop-in');
                 else introDot.classList.remove('pop-in');
             }
         }
 
-        // --- PHASE 3 & 4: HORIZONTAL + FINALE ---
+        // --- PHASE 3: HORIZONTAL SCROLL & GRID ---
         if (axisLine) {
             
-            // FADE OUT LINE (During Finale)
+            // FADE OUT LINE during Grid Phase
+            // If Grid phase active, opacity goes 1 -> 0
             let targetLineOpacity = (expandLocal >= 1) ? 1 : 0;
             if (gridLocal > 0) targetLineOpacity = 1 - gridLocal;
+            
             axisLine.style.opacity = targetLineOpacity;
             
             const trackWidth = track.scrollWidth;
             const viewportWidth = window.innerWidth;
-            const moveDistance = trackWidth - viewportWidth + 100;
-            let xPos = -(horizLocal * moveDistance);
-
-            // --- FINALE DRIFT CALCULATION ---
-            let driftAmount = 0;
-            if (gridLocal > 0) {
-                // Move 80% of screen width during the grid phase
-                driftAmount = gridLocal * window.innerWidth * 0.8;
-            }
-
-            // Move Track LEFT (Standard Move + Drift)
-            track.style.transform = `translate3d(${xPos - driftAmount}px, -50%, 0)`;
             
-            // Draw Line
+            // CALCULATE EXACT STOP POINT
+            // We want the Last Item Center to align with Screen Center.
+            // Distance = TrackWidth - (Screen/2 + LastItemWidth/2)
+            // But due to padding, TrackWidth includes the buffer.
+            // Simplest way: Move until the right edge is roughly centered.
+            // Let's use the padding-right value we set in CSS (50vw - 200px)
+            // Total Move = TrackWidth - ScreenWidth.
+            const moveDistance = trackWidth - viewportWidth; 
+            
+            let xPos = -(horizLocal * moveDistance);
             axisLine.style.width = Math.abs(xPos) + 'px';
+            track.style.transform = `translate3d(${xPos}px, -50%, 0)`;
 
-            // --- COUNTER-MOVE TRUSTED ITEM ---
-            const lastItem = items[items.length - 1];
+            // --- GRID TRIGGER ---
+            const lastItem = items[items.length - 1]; // Trusted By item
             if (lastItem) {
-                // Trigger CSS Grid State
-                if (gridLocal > 0.1) lastItem.classList.add('form-grid');
-                else lastItem.classList.remove('form-grid');
-
-                // Move Item RIGHT (Counteracting the track drift)
-                if (gridLocal > 0) {
-                    lastItem.style.transform = `translate3d(${driftAmount}px, 0, 0)`;
+                if (gridLocal > 0.1) {
+                    lastItem.classList.add('form-grid');
                 } else {
-                    lastItem.style.transform = `translate3d(0, 0, 0)`;
+                    lastItem.classList.remove('form-grid');
                 }
             }
 
@@ -766,9 +766,11 @@ if (servicesSection && track && servicesSticky) {
 
                 const itemCenterX = item.offsetLeft + (item.offsetWidth / 2);
                 const distanceToItem = itemCenterX - startX;
+
                 const label = item.querySelector('.service-label');
                 const p = item.querySelector('p');
 
+                // Standard Hit Logic
                 if (currentLineLength >= distanceToItem) {
                     item.classList.add('has-arrived');
                     if (label && p && !item.classList.contains('trusted-item')) {
