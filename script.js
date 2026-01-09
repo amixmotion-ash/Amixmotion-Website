@@ -637,13 +637,14 @@ if (servicesSection && track && servicesSticky) {
         smoothProgress += (targetProgress - smoothProgress) * LERP_FACTOR;
 
         // PHASES
+        // 1. Entry (0.0 - 0.15)
+        // 2. Expand (0.15 - 0.30)
+        // 3. Horizontal (0.30 - 0.85)
+        // 4. Finale Grid (0.85 - 1.0)
+        
         let entryLocal = Math.max(0, Math.min(1, smoothProgress / 0.15));
         let expandLocal = Math.max(0, Math.min(1, (smoothProgress - 0.15) / 0.15));
-        
-        // Horizontal Scroll (Finishes at 0.85)
         let horizLocal = Math.max(0, Math.min(1, (smoothProgress - 0.30) / 0.55));
-        
-        // Grid/Finale Phase (0.85 to 1.0)
         let gridLocal = Math.max(0, Math.min(1, (smoothProgress - 0.85) / 0.15));
 
         if (items.length > 0) {
@@ -690,7 +691,7 @@ if (servicesSection && track && servicesSticky) {
                 }
             }
 
-            // IMAGES
+            // IMAGES LOGIC
             if (introCollage) {
                 if (expandLocal > 0.3) introCollage.classList.add('is-landed');
                 else introCollage.classList.remove('is-landed');
@@ -700,6 +701,7 @@ if (servicesSection && track && servicesSticky) {
                     if (horizLocal < 0.05) boxOpacity = 1 - (horizLocal * 20);
                     else boxOpacity = 0;
                 }
+                
                 introBoxes.forEach(box => {
                     box.style.opacity = boxOpacity;
                     if (horizLocal > 0) box.style.transition = 'none';
@@ -707,58 +709,55 @@ if (servicesSection && track && servicesSticky) {
                 });
             }
 
-            // DOT
+            // DOT LOGIC
             if (introDot) {
                 if (expandLocal > 0.85) introDot.classList.add('pop-in');
                 else introDot.classList.remove('pop-in');
             }
         }
 
-        // --- PHASE 3: HORIZONTAL SCROLL ---
+        // --- PHASE 3 & 4: HORIZONTAL + FINALE ---
         if (axisLine) {
             
-            // Fade out line during Finale
+            // FADE OUT LINE (During Finale)
             let targetLineOpacity = (expandLocal >= 1) ? 1 : 0;
             if (gridLocal > 0) targetLineOpacity = 1 - gridLocal;
             axisLine.style.opacity = targetLineOpacity;
             
             const trackWidth = track.scrollWidth;
             const viewportWidth = window.innerWidth;
-            
-            // Standard Move Distance
             const moveDistance = trackWidth - viewportWidth + 100;
             let xPos = -(horizLocal * moveDistance);
 
-            // --- FINALE LOGIC: Drift Left ---
-            // As grid forms (gridLocal goes 0->1), push track further left
-            let finaleDrift = 0;
+            // --- FINALE DRIFT CALCULATION ---
+            let driftAmount = 0;
             if (gridLocal > 0) {
-                // Push left by 60% of screen width to clear previous items
-                finaleDrift = gridLocal * window.innerWidth * 0.6;
+                // Move 80% of screen width during the grid phase
+                driftAmount = gridLocal * window.innerWidth * 0.8;
             }
 
-            // Apply total movement to track
-            track.style.transform = `translate3d(${xPos - finaleDrift}px, -50%, 0)`;
+            // Move Track LEFT (Standard Move + Drift)
+            track.style.transform = `translate3d(${xPos - driftAmount}px, -50%, 0)`;
+            
+            // Draw Line
             axisLine.style.width = Math.abs(xPos) + 'px';
 
-            // --- FINALE LOGIC: Counter-Drift Right ---
-            // Find the Trusted Item (Last item)
+            // --- COUNTER-MOVE TRUSTED ITEM ---
             const lastItem = items[items.length - 1];
             if (lastItem) {
-                // Trigger Grid CSS
+                // Trigger CSS Grid State
                 if (gridLocal > 0.1) lastItem.classList.add('form-grid');
                 else lastItem.classList.remove('form-grid');
 
-                // Counter-move: Push it RIGHT by the same amount the track moved LEFT
-                // This keeps it visually pinned in the center while the rest flies away
+                // Move Item RIGHT (Counteracting the track drift)
                 if (gridLocal > 0) {
-                    lastItem.style.transform = `translate3d(${finaleDrift}px, 0, 0)`;
+                    lastItem.style.transform = `translate3d(${driftAmount}px, 0, 0)`;
                 } else {
                     lastItem.style.transform = `translate3d(0, 0, 0)`;
                 }
             }
 
-            // Active Items (Standard Logic)
+            // ACTIVE ITEMS LOGIC
             const startX = items[0].offsetLeft + (items[0].offsetWidth / 2);
             const currentLineLength = Math.abs(xPos);
 
