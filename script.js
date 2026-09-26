@@ -155,7 +155,7 @@ if (lightbox) {
 // ======================================================================
 // == 6. RELLAX PARALLAX (Smart Detection) ==
 // ======================================================================
-if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
+if (typeof Rellax !== 'undefined' && window.innerWidth > 600 && document.querySelector('.rellax')) {
     let options = {
         center: false, 
         speed: -2,
@@ -170,6 +170,41 @@ if (typeof Rellax !== 'undefined' && window.innerWidth > 600) {
     }
 
     var rellax = new Rellax('.rellax', options);
+}
+
+// Homepage films stay in one row while the white section first covers the hero.
+// Their existing speeds only start once that row is on screen.
+const workSection = document.querySelector('#work');
+const workFilms = workSection ? workSection.querySelectorAll('.grid-item') : [];
+if (workSection && workFilms.length) {
+    const workFilmQuery = window.matchMedia('(min-width: 769px)');
+
+    function updateWorkFilms() {
+        if (!workFilmQuery.matches) {
+            workFilms.forEach((film) => {
+                film.style.transform = '';
+            });
+            return;
+        }
+
+        const rect = workSection.getBoundingClientRect();
+        const viewH = window.innerHeight;
+        const traveled = Math.max(0, -rect.top);
+        const progress = Math.min(1, traveled / (viewH * 0.85));
+
+        workFilms.forEach((film) => {
+            const speed = parseFloat(film.getAttribute('data-rellax-speed')) || 0;
+            const offset = Math.round(speed * 55 * progress);
+            film.style.transform = 'translate3d(0, ' + offset + 'px, 0)';
+        });
+    }
+
+    window.addEventListener('scroll', updateWorkFilms, { passive: true });
+    window.addEventListener('resize', updateWorkFilms);
+    if (workFilmQuery.addEventListener) {
+        workFilmQuery.addEventListener('change', updateWorkFilms);
+    }
+    updateWorkFilms();
 }
 
 // ======================================================================
@@ -222,7 +257,7 @@ const scrollLink = document.querySelector('.scroll-indicator-link');
 if (scrollLink) {
     scrollLink.addEventListener('click', function(event) {
         event.preventDefault();
-        const targetSection = document.querySelector('#mission') || document.querySelector('#profile-start');
+        const targetSection = document.querySelector(scrollLink.getAttribute('href')) || document.querySelector('#mission') || document.querySelector('#profile-start');
         if (targetSection) {
             targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
@@ -619,10 +654,54 @@ if (servicesSection && track && servicesSticky) {
     // PHYSICS VARIABLES
     let targetProgress = 0; 
     let smoothProgress = 0; 
-    const LERP_FACTOR = 0.1; 
+    const LERP_FACTOR = 0.1;
+    const servicesMotionQuery = window.matchMedia('(min-width: 901px)');
+    let servicesMotionEnabled = servicesMotionQuery.matches;
+
+    function clearServicesMotion() {
+        servicesSticky.style.transform = '';
+        track.style.transform = '';
+        if (axisLine) {
+            axisLine.style.opacity = '';
+            axisLine.style.width = '';
+        }
+        if (stickyProfile) {
+            stickyProfile.style.transform = '';
+            stickyProfile.style.filter = '';
+        }
+        items.forEach((item) => {
+            item.style.opacity = '';
+            item.classList.remove('has-arrived');
+            item.classList.remove('form-grid');
+            const label = item.querySelector('.service-label');
+            const heading = item.querySelector('h2');
+            const paragraph = item.querySelector('p');
+            if (label) label.style.transform = '';
+            if (heading) heading.style.transform = '';
+            if (paragraph) paragraph.style.opacity = '';
+            item.querySelectorAll('.collage-box').forEach((box) => {
+                box.style.opacity = '';
+                box.style.transition = '';
+            });
+        });
+    }
+
+    function setServicesMotion(enabled) {
+        servicesMotionEnabled = enabled;
+        if (!enabled) {
+            targetProgress = 0;
+            smoothProgress = 0;
+            clearServicesMotion();
+        }
+    }
+
+    if (servicesMotionQuery.addEventListener) {
+        servicesMotionQuery.addEventListener('change', (event) => setServicesMotion(event.matches));
+    }
 
     // 1. LISTEN TO SCROLL
     window.addEventListener('scroll', () => {
+        if (!servicesMotionEnabled) return;
         const rect = servicesSection.getBoundingClientRect();
         const incomingPosition = rect.top; 
         const windowHeight = window.innerHeight;
@@ -636,6 +715,10 @@ if (servicesSection && track && servicesSticky) {
 
     // 2. ANIMATION LOOP
     function animateTimeline() {
+        if (!servicesMotionEnabled) {
+            requestAnimationFrame(animateTimeline);
+            return;
+        }
         
         smoothProgress += (targetProgress - smoothProgress) * LERP_FACTOR;
 

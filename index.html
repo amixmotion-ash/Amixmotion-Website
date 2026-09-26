@@ -33,7 +33,9 @@
     border: 0 !important;
   }
     </style>
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="homepage">
@@ -67,21 +69,61 @@
     <video playsinline autoplay muted loop id="bgvideo">
         <source src="Videos/hero-video.mp4" type="video/mp4">
     </video>
-</section>
-
-<a href="#mission" class="scroll-indicator-link">
-    <div class="scroll-indicator">
-        <div class="scroll-text">SCROLL</div>
-        <div class="scroll-arrow"></div>
+    <div class="hero-intro">
+        <p class="hero-intro-label">AMIXMOTION</p>
+        <p class="hero-intro-headline">Video &amp; storytelling that moves brands forward.</p>
+        <p class="hero-intro-sub">Films for businesses, events, products and social.</p>
+        <a href="contact.html" class="button-outline button-light hero-intro-cta">Discuss a project</a>
     </div>
-</a>
+    <a href="#work" class="scroll-indicator-link">
+        <div class="scroll-indicator">
+            <div class="scroll-text">SCROLL</div>
+            <div class="scroll-arrow"></div>
+        </div>
+    </a>
+</section>
 
     <div class="scroll-content-wrapper">
         <main>
+            <section class="portfolio-grid-section" id="work">
+<div class="portfolio-grid-container">
+    <a href="#" class="grid-item" data-video-src="videos/myokine-preview.mp4" data-rellax-speed="-3" data-aspect-ratio="9:16">
+        <div class="grid-item-image"><img loading="lazy" src="images/thumbnail1.png" alt="Project 1"></div>
+        <div class="grid-item-title-block">
+            <span class="grid-item-title">MYOKINE - BOXING</span>
+            <span class="grid-item-subtitle">SKIN CARE/LIFESTYLE</span>
+        </div>
+    </a>
+    <a href="#" class="grid-item" data-video-src="videos/cerrar-preview.mp4" data-rellax-speed="1.5" data-aspect-ratio="9:16">
+        <div class="grid-item-image"><img loading="lazy" src="images/thumbnail2.jpg" alt="Project 2"></div>
+        <div class="grid-item-title-block">
+            <span class="grid-item-title">CERRAR</span>
+            <span class="grid-item-subtitle">LAUNCH EVENT</span>
+        </div>
+    </a>
+    <a href="#" class="grid-item" data-video-src="videos/cat-80sgrafitti-preview.mp4" data-rellax-speed="-1.5">
+        <div class="grid-item-image"><img loading="lazy" src="images/thumbnail3.png" alt="Project 3"></div>
+        <div class="grid-item-title-block">
+            <span class="grid-item-title">CATERPILLAR - 80's GRAFITTI</span>
+            <span class="grid-item-subtitle">FASHION/PROMOTIONAL</span>
+        </div>
+    </a>
+    <a href="#" class="grid-item" data-video-src="videos/aston-martin-preview.mp4" data-rellax-speed="3" data-aspect-ratio="9:16">
+        <div class="grid-item-image"><img loading="lazy" src="images/thumbnail4.png" alt="Project 4"></div>
+        <div class="grid-item-title-block">
+            <span class="grid-item-title">ASTON MARTIN</span>
+            <span class="grid-item-subtitle">AUTOMOTIVE</span>
+        </div>
+    </a>
+</div>
+                <div class="portfolio-cta-container">
+                    <a href="portfolio.html" class="button-outline button-dark">MORE WORK</a>
+                </div>
+            </section>
            <section class="mission-section"id="mission">
     <div class="mission-grid">
         <div class="mission-image">
-            <img src="images/profile-banner.jpg" alt="Filmmaker holding a camera">
+            <img loading="lazy" src="images/profile-banner.jpg" alt="Filmmaker holding a camera">
         </div>
         <div class="mission-text">
             <p class="pre-title fade-in-on-scroll">Who is Amixmotion </p>
@@ -98,73 +140,27 @@
         </div>
     </div>
 </section>
-            
-            <section class="bridge-section">
-                <div class="container">
-                    <p class="bridge-text fade-in-on-scroll">
-                        Blending <strong>creativity</strong> with <strong>simplicity,</strong> Always<br>
-                        aiming to deliver high-quality content that<br>
-                        feels engaging and memorable.
-                    </p>
-                </div>
-            </section>
-
-            <section class="portfolio-grid-section">
-<div class="portfolio-grid-container">
-    <a href="#" class="grid-item rellax" data-video-src="videos/myokine-preview.mp4" data-rellax-speed="-3" data-aspect-ratio="9:16">
-        <div class="grid-item-image"><img src="images/thumbnail1.png" alt="Project 1"></div>
-        <div class="grid-item-title-block">
-            <span class="grid-item-title">MYOKINE - BOXING</span>
-            <span class="grid-item-subtitle">SKIN CARE/LIFESTYLE</span>
-        </div>
-    </a>
-    <a href="#" class="grid-item rellax" data-video-src="videos/cerrar-preview.mp4" data-rellax-speed="1.5" data-aspect-ratio="9:16">
-        <div class="grid-item-image"><img src="images/thumbnail2.jpg" alt="Project 2"></div>
-        <div class="grid-item-title-block">
-            <span class="grid-item-title">CERRAR</span>
-            <span class="grid-item-subtitle">LAUNCH EVENT</span>
-        </div>
-    </a>
-    <a href="#" class="grid-item rellax" data-video-src="videos/cat-80sgrafitti-preview.mp4" data-rellax-speed="-1.5">
-        <div class="grid-item-image"><img src="images/thumbnail3.png" alt="Project 3"></div>
-        <div class="grid-item-title-block">
-            <span class="grid-item-title">CATERPILLAR - 80's GRAFITTI</span>
-            <span class="grid-item-subtitle">FASHION/PROMOTIONAL</span>
-        </div>
-    </a>
-    <a href="#" class="grid-item rellax" data-video-src="videos/aston-martin-preview.mp4" data-rellax-speed="3" data-aspect-ratio="9:16">
-        <div class="grid-item-image"><img src="images/thumbnail4.png" alt="Project 4"></div>
-        <div class="grid-item-title-block">
-            <span class="grid-item-title">ASTON MARTIN</span>
-            <span class="grid-item-subtitle">AUTOMOTIVE</span>
-        </div>
-    </a>
-</div>
-                <div class="portfolio-cta-container">
-                    <a href="portfolio.html" class="button-outline button-dark">MORE WORK</a>
-                </div>
-            </section>
             <div class="client-scroller">
                     <div class="scroller-container">
                         <div class="scroller-track">
-                            <div class="client-logo"><img src="images/client-logo-1.png" alt="Client Logo 1"></div>
-                            <div class="client-logo"><img src="images/client-logo-2.png" alt="Client Logo 2"></div>
-                            <div class="client-logo"><img src="images/client-logo-3.png" alt="Client Logo 3"></div>
-                            <div class="client-logo"><img src="images/client-logo-4.png" alt="Client Logo 4"></div>
-                            <div class="client-logo"><img src="images/client-logo-5.png" alt="Client Logo 5"></div>
-                            <div class="client-logo"><img src="images/client-logo-6.png" alt="Client Logo 2"></div>
-                            <div class="client-logo"><img src="images/client-logo-7.png" alt="Client Logo 3"></div>
-                            <div class="client-logo"><img src="images/client-logo-8.png" alt="Client Logo 4"></div>
-                            <div class="client-logo"><img src="images/client-logo-9.png" alt="Client Logo 5"></div>
-                            <div class="client-logo"><img src="images/client-logo-1.png" alt="Client Logo 1"></div>
-                            <div class="client-logo"><img src="images/client-logo-2.png" alt="Client Logo 2"></div>
-                            <div class="client-logo"><img src="images/client-logo-3.png" alt="Client Logo 3"></div>
-                            <div class="client-logo"><img src="images/client-logo-4.png" alt="Client Logo 4"></div>
-                            <div class="client-logo"><img src="images/client-logo-5.png" alt="Client Logo 5"></div>
-                            <div class="client-logo"><img src="images/client-logo-6.png" alt="Client Logo 2"></div>
-                            <div class="client-logo"><img src="images/client-logo-7.png" alt="Client Logo 3"></div>
-                            <div class="client-logo"><img src="images/client-logo-8.png" alt="Client Logo 4"></div>
-                            <div class="client-logo"><img src="images/client-logo-9.png" alt="Client Logo 5"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-1.png" alt="Client Logo 1"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-2.png" alt="Client Logo 2"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-3.png" alt="Client Logo 3"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-4.png" alt="Client Logo 4"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-5.png" alt="Client Logo 5"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-6.png" alt="Client Logo 2"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-7.png" alt="Client Logo 3"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-8.png" alt="Client Logo 4"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-9.png" alt="Client Logo 5"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-1.png" alt="Client Logo 1"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-2.png" alt="Client Logo 2"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-3.png" alt="Client Logo 3"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-4.png" alt="Client Logo 4"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-5.png" alt="Client Logo 5"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-6.png" alt="Client Logo 2"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-7.png" alt="Client Logo 3"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-8.png" alt="Client Logo 4"></div>
+                            <div class="client-logo"><img loading="lazy" src="images/client-logo-9.png" alt="Client Logo 5"></div>
                         </div>
                     </div>
                 </div>
@@ -178,7 +174,7 @@
         <div class="testimonials-track">
                         <div class="testimonial-card">
                             <div class="testimonial-card-top">
-                                <img src="images/catavatar.png" alt="Client photo" class="testimonial-avatar">
+                                <img loading="lazy" src="images/catavatar.png" alt="Client photo" class="testimonial-avatar">
                                 <p class="testimonial-quote">From brief to delivery, the process was seamless. Amixmotion elevated our brand story with cinematic visuals and a crisp edit—delivered ahead of schedule.</p>
                             </div>
                             <div class="testimonial-card-bottom">
@@ -187,7 +183,7 @@
                         </div>
                             <div class="testimonial-card">
                             <div class="testimonial-card-top">
-                                <img src="images/myokineavatar.png" alt="Client photo" class="testimonial-avatar">
+                                <img loading="lazy" src="images/myokineavatar.png" alt="Client photo" class="testimonial-avatar">
                                 <p class="testimonial-quote">Ash is unbelievably talented at what he does. His Creative direction, camera skills and editing exceeded our expectations. We will continue to work with Ash going forward!</p>
                             </div>
                             <div class="testimonial-card-bottom">
@@ -196,7 +192,7 @@
                         </div>
                             <div class="testimonial-card">
                             <div class="testimonial-card-top">
-                                <img src="images/astonmartinavatar.png" alt="Client photo" class="testimonial-avatar">
+                                <img loading="lazy" src="images/astonmartinavatar.png" alt="Client photo" class="testimonial-avatar">
                                 <p class="testimonial-quote">Calm and very professional on set, meticulous in post. Everything in the final product took the piece from good to exceptional.</p>
                             </div>
                             <div class="testimonial-card-bottom">
@@ -205,7 +201,7 @@
                         </div>
                             <div class="testimonial-card">
                             <div class="testimonial-card-top">
-                                <img src="images/cerraravatar.png" alt="Client photo" class="testimonial-avatar">
+                                <img loading="lazy" src="images/cerraravatar.png" alt="Client photo" class="testimonial-avatar">
                                 <p class="testimonial-quote">We needed fast turnarounds for our project. Amixmotion delivered multiple cutdowns, ratios, and captions without compromising quality.</p>
                             </div>
                             <div class="testimonial-card-bottom">
@@ -214,7 +210,7 @@
                         </div>
                             <div class="testimonial-card">
                             <div class="testimonial-card-top">
-                                <img src="images/nominalavatar.png" alt="Client photo" class="testimonial-avatar">
+                                <img loading="lazy" src="images/nominalavatar.png" alt="Client photo" class="testimonial-avatar">
                                 <p class="testimonial-quote">Clear communication, thoughtful direction, and a great person to work with. The final edit exceeded expectations across the board.</p>
                             </div>
                             <div class="testimonial-card-bottom">
@@ -223,7 +219,7 @@
                         </div>
                             <div class="testimonial-card">
                             <div class="testimonial-card-top">
-                                <img src="images/yoonoavatar.png" alt="Client photo" class="testimonial-avatar">
+                                <img loading="lazy" src="images/yoonoavatar.png" alt="Client photo" class="testimonial-avatar">
                                 <p class="testimonial-quote">Amixmotion and Ash captured our event and speaker interviews flawlessly, with highlight reels the next day that kept the buzz going online.</p>
                             </div>
                             <div class="testimonial-card-bottom">
@@ -232,7 +228,7 @@
                         </div>
                             <div class="testimonial-card">
                             <div class="testimonial-card-top">
-                                <img src="images/josuakaneavatar.png" alt="Client photo" class="testimonial-avatar">
+                                <img loading="lazy" src="images/josuakaneavatar.png" alt="Client photo" class="testimonial-avatar">
                                 <p class="testimonial-quote">Our brand film feels premium and authentic. A perfect roundup for our decade fashion show</p>
                             </div>
                             <div class="testimonial-card-bottom">
@@ -261,13 +257,12 @@
             <div class="footer-nav-links">
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
                     <li><a href="portfolio.html">Work</a></li>
+                    <li><a href="about.html">About</a></li>
                 </ul>
                 <ul>
                     <li><a href="https://www.instagram.com/amixmotion/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
                     <li><a href="mailto:ash@amixmotion.com">Email</a></li>
-                    <li><a href="#">LinkedIn</a></li> <!-- Add your LinkedIn URL here -->
                 </ul>
             </div>
             <a href="contact.html" class="button-outline button-light">CONTACT</a>
@@ -291,7 +286,6 @@
     <div class="custom-cursor">Play</div>
     <div class="menu-cursor">&rarr;</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.12.1/rellax.min.js"></script>
     <script src="script.js"></script>
 
     <!-- PASTE THIS NEW SCRIPT TAG HERE -->

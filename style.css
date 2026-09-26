@@ -1,7 +1,5 @@
 
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap');
 html {
   box-sizing: border-box;
   background-color: #000000;
@@ -326,6 +324,88 @@ body.body-no-scroll .desktop-nav {
     transition: opacity 0.3s ease-in-out;
 }
 
+/* --- HOMEPAGE: Quiet lower-left intro over hero video --- */
+.hero-intro {
+    position: absolute;
+    left: 0;
+    bottom: 64px;
+    z-index: 6;
+    max-width: min(36rem, 62%);
+    padding: 120px 48px 48px 40px;
+    color: #ffffff;
+    pointer-events: none;
+}
+
+.hero-intro::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transform: translateY(64px);
+    background: radial-gradient(
+        ellipse 90% 85% at 0% 100%,
+        rgba(0, 0, 0, 0.62) 0%,
+        rgba(0, 0, 0, 0.28) 42%,
+        rgba(0, 0, 0, 0) 74%
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+.hero-intro-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0 0 14px 0;
+    opacity: 0.88;
+}
+
+.hero-intro-headline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(1.35rem, 2.1vw, 1.85rem);
+    line-height: 1.35;
+    color: #ffffff;
+    margin: 0 0 12px 0;
+}
+
+.hero-intro-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.76);
+    margin: 0;
+}
+
+.hero-intro-cta {
+    pointer-events: auto;
+    margin-top: 28px;
+    font-size: 16px;
+    padding: 14px 28px;
+}
+
+.homepage .hero-video .scroll-indicator-link {
+    position: absolute;
+    left: 50%;
+    right: auto;
+    bottom: 36px;
+    transform: translateX(-50%);
+    z-index: 6;
+}
+
+.homepage .hero-video .scroll-indicator {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+}
+
 /* --- SCROLLING CONTENT WRAPPER --- */
 .scroll-content-wrapper { position: relative; z-index: 2; background-color: #ffffff; }
 
@@ -468,7 +548,8 @@ body.body-no-scroll .desktop-nav {
         padding: 60px 40px 80px 40px; /* Adjust mobile padding */
     }
 
-    .mission-statement {
+    .mission-statement-background,
+    .mission-statement-foreground {
         font-size: 24px;
     }
 
@@ -575,11 +656,7 @@ body.body-no-scroll .desktop-nav {
     box-sizing: border-box;
     z-index: 2;
 
-    /* --- THESE ARE THE NEW LINES --- */
-    background-image: url('../images/gradient-overlay-portfolio.png');
-    background-size: 100% 100%; /* Stretches the image to fill the container */
-    background-repeat: no-repeat;
-     background-position: center bottom !important; /* BECOME MORE SPECIFIC and ADD !important */
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.4) 42%, rgba(0, 0, 0, 0) 100%);
 }
 
 /* This styles the text on BOTH pages */
@@ -700,7 +777,7 @@ body.portfolio-page::before {
 .testimonial-card { flex-shrink: 0; width: 350px; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; border-radius: 0; }
 .testimonial-card-top { padding: 40px 40px 20px; }
 .testimonial-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; }
-.testimonial-quote { font-size: 1.1em; line-height: 1.4; margin: 0; color: #7d7d7d; }
+.testimonial-quote { font-size: 1.1em; line-height: 1.4; margin: 0; color: #333333; }
 .testimonial-card-bottom { background-color: #000000; color: #ffffff; margin-top: auto; padding: 20px 40px; }
 .testimonial-author { font-size: 0.9em; font-weight: 600; color: #ffffff; margin: 0; }
 .draggable { cursor: grab; user-select: none; }
@@ -872,7 +949,7 @@ footer {
     line-height: 1.1;
     margin: 0 0 15px 0;
     text-transform: uppercase;
-    white-space: nowrap;
+    white-space: normal;
 }
 .contact-intro-subheadline {
     font-family: 'Inter', sans-serif;
@@ -1294,21 +1371,18 @@ body.contact-page {
 @media (max-width: 600px) {
     .service-card { flex-basis: 100%; }
 }
-/* --- Homepage Header Gradient Overlay --- */
-.homepage .hero-video::before {
+/* --- Header gradient: stays with the fixed bar over light and dark content --- */
+.homepage header::before,
+.about-page header::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    /* You can adjust this height to make the gradient taller or shorter */
-    height: 150px; 
-    /* This creates the gradient from a semi-transparent black to fully transparent */
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent);
-    /* This places the gradient above the video but below your header */
-    z-index: 2; 
-    /* This ensures the gradient doesn't interfere with any mouse clicks */
-    pointer-events: none; 
+    height: 150px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.2) 48%, rgba(0, 0, 0, 0) 100%);
+    pointer-events: none;
+    z-index: -1;
 }
 
 .lightbox-content.is-vertical {
@@ -1463,10 +1537,7 @@ body.contact-page {
     padding: 25px;
     box-sizing: border-box;
     z-index: 2;
-    background-image: url('../images/gradient-overlay-portfolio.png');
-    background-size: 100% 100%; 
-    background-repeat: no-repeat;
-     background-position: center bottom !important; 
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.4) 42%, rgba(0, 0, 0, 0) 100%);
 }
 .portfolio-page .grid-item-title,
 .portfolio-page .grid-item-subtitle {
@@ -1703,13 +1774,9 @@ body.menu-cursor-active .menu-cursor-visual {
 @media (max-width: 780px) {
 
     /* --- 1. Reduces the size of the Mission Statement paragraph --- */
-    .mission-statement {
-        font-size: 25px; /* Or your preferred size */
-    }
-
-    /* --- 2. Reduces the size of the "Blending creativity..." paragraph --- */
-    .bridge-text {
-        font-size: 25px; /* Or your preferred size */
+    .mission-statement-background,
+    .mission-statement-foreground {
+        font-size: 24px;
     }
 
 }
@@ -1753,12 +1820,6 @@ body.menu-cursor-active .menu-cursor-visual {
        and it reduces the large space at the bottom of it. */
     .homepage .portfolio-grid-section {
         padding-bottom: 60px; /* Reduced from a large desktop value */
-    }
-
-    /* We will also slightly reduce the space above the client scroller
-       to create the tight layout you want. */
-    .homepage .client-scroller {
-        padding-top: 60px; /* Reduced from 100px */
     }
 }
 /* ============================================================ */
@@ -2147,6 +2208,45 @@ body.menu-cursor-active .menu-cursor-visual {
 
     /* --- This creates the bouncing animation --- */
     animation: bounce 2s infinite;
+}
+
+@media (max-width: 768px) {
+    .hero-intro {
+        max-width: calc(100% - 88px);
+        padding: 88px 20px 36px 24px;
+    }
+
+    .hero-intro-headline {
+        font-size: 1.25rem;
+    }
+
+    .hero-intro-sub {
+        font-size: 0.92rem;
+    }
+
+    .hero-intro-cta {
+        margin-top: 22px;
+        font-size: 14px;
+        padding: 12px 22px;
+    }
+
+    .homepage .hero-video .scroll-indicator-link {
+        left: 50%;
+        right: auto;
+        bottom: 28px;
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-intro {
+        max-width: calc(100% - 72px);
+        padding: 72px 16px 32px 20px;
+    }
+
+    .hero-intro-headline {
+        font-size: 1.15rem;
+    }
 }
 
 /* This is the animation keyframes */
@@ -3253,6 +3353,129 @@ body.portfolio-page::before {
     width: 320px; height: 280px;
     margin-left: 550px; margin-top: 250px;
     --rot: 8deg;
+}
+
+#work {
+    scroll-margin-top: 100px;
+}
+
+.services-mobile-cta {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .about-page .services-section {
+        height: auto !important;
+        padding: 72px 24px 80px;
+    }
+
+    .about-page .services-sticky-container {
+        position: relative;
+        top: auto;
+        height: auto;
+        overflow: visible;
+        display: block;
+        transform: none !important;
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
+
+    .about-page .services-track {
+        position: relative;
+        left: auto;
+        top: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 40px;
+        width: 100%;
+        padding: 0;
+        transform: none !important;
+    }
+
+    .about-page .timeline-axis,
+    .about-page .timeline-dot,
+    .about-page .intro-collage {
+        display: none !important;
+    }
+
+    .about-page .service-item,
+    .about-page .service-item.intro-item {
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important;
+        flex-shrink: 1;
+    }
+
+    .about-page .service-content,
+    .about-page .intro-item .service-content {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        height: auto;
+        pointer-events: auto;
+    }
+
+    .about-page .intro-item h2,
+    .about-page .service-item p,
+    .about-page .intro-item p,
+    .about-page .service-label,
+    .about-page .service-item.trusted-item .service-label {
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        width: 100%;
+        margin: 0 0 12px 0;
+        padding: 0 !important;
+        text-align: left;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+
+    .about-page .service-label {
+        background: transparent;
+        color: #000000;
+        width: auto;
+        letter-spacing: 0.08em;
+    }
+
+    .about-page .intro-item h2 {
+        font-size: clamp(2rem, 9vw, 2.75rem);
+    }
+
+    .about-page .intro-item h2 br {
+        display: none;
+    }
+
+    .about-page .explosion-wrapper {
+        position: relative !important;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 18px 28px;
+        width: 100%;
+        height: auto !important;
+        left: auto;
+        bottom: auto;
+        margin-top: 8px;
+    }
+
+    .about-page .exploding-logo {
+        position: static !important;
+        height: 36px;
+        width: auto;
+        max-width: 120px;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .about-page .services-mobile-cta {
+        display: inline-block;
+        margin-top: 48px;
+    }
 }
 
 /* Mobile Adjustments */
