@@ -1412,17 +1412,40 @@ body.contact-page {
     z-index: -1;
 }
 
-/* Work page only: white fade on the fixed header, same height as the dark one. */
+/* Work page only. The fade eases out flat, so the bottom has no edge. */
+.portfolio-page header {
+    overflow: visible;
+}
 .portfolio-page header::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 150px;
-    background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0.94) 55%, rgba(255, 255, 255, 0) 100%);
+    height: 520px;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 1) 12%,
+        rgba(255, 255, 255, 0.86) 20%,
+        rgba(255, 255, 255, 0.63) 28%,
+        rgba(255, 255, 255, 0.44) 36%,
+        rgba(255, 255, 255, 0.30) 44%,
+        rgba(255, 255, 255, 0.19) 52%,
+        rgba(255, 255, 255, 0.11) 60%,
+        rgba(255, 255, 255, 0.055) 68%,
+        rgba(255, 255, 255, 0.023) 76%,
+        rgba(255, 255, 255, 0.007) 84%,
+        rgba(255, 255, 255, 0.001) 92%,
+        rgba(255, 255, 255, 0) 100%
+    );
     pointer-events: none;
-    z-index: -1;
+}
+.portfolio-page header .nav-toggle,
+.portfolio-page header .logo,
+.portfolio-page header .desktop-nav {
+    position: relative;
+    z-index: 1;
 }
 
 body.portfolio-page.body-no-scroll header::before {
@@ -1431,7 +1454,7 @@ body.portfolio-page.body-no-scroll header::before {
 
 /* The fade is taller than the bar, so hide the full strip with the header. */
 .portfolio-page header.is-hidden {
-    transform: translateY(-150px);
+    transform: translateY(-520px);
 }
 
 .lightbox-content.is-vertical {
