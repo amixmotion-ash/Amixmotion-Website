@@ -80,8 +80,32 @@ header.is-hidden {
     
     /* ADDED: Makes links sit side-by-side */
     display: flex; 
+    align-items: center;
     /* ADDED: Spacing between WORK and CONTACT */
     gap: 40px; 
+}
+
+.header-social,
+.footer-social {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 16px;
+}
+
+.header-social a,
+.footer-social a {
+    display: flex;
+    align-items: center;
+    line-height: 0;
+}
+
+.header-social svg,
+.footer-social svg {
+    width: 18px;
+    height: 18px;
+    display: block;
 }
 
 /* --- 2. Base Appearance (for pages with a WHITE background) --- */
@@ -166,6 +190,10 @@ body.body-no-scroll .desktop-nav {
     header .desktop-nav a {
         font-weight: 600; /* Consistent font weight on mobile */
     }
+
+    .header-social {
+        display: none;
+    }
 }
 
 
@@ -240,31 +268,6 @@ body.body-no-scroll .desktop-nav {
     }
 
 }
-
-/* ================================================================= */
-/* == MENU EXIT ANIMATION (Instant Lines & Far Slide) == */
-/* ================================================================= */
-
-/* 1. The Lines (The List Items) */
-/* CHANGED: Transition time reduced to 0.05s (Virtually instant) */
-.main-nav.menu-exiting li {
-    border-bottom-color: transparent;
-    transition: border-bottom-color 0.05s linear;
-}
-
-/* 2. The Text (The Links inside) */
-/* CHANGED: Moves 50vw (Half the screen width) to the right */
-.main-nav.menu-exiting a {
-    opacity: 0;
-    transform: translateX(50vw); 
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-/* 3. Staggered Delays for the TEXT only */
-.main-nav.menu-exiting li:nth-child(1) a { transition-delay: 0.0s; }
-.main-nav.menu-exiting li:nth-child(2) a { transition-delay: 0.1s; }
-.main-nav.menu-exiting li:nth-child(3) a { transition-delay: 0.2s; }
-.main-nav.menu-exiting li:nth-child(4) a { transition-delay: 0.3s; }
 
 /* ================================================================= */
 /* == MENU: Staggered "Cascade" Animation == */
@@ -354,21 +357,10 @@ body.body-no-scroll .desktop-nav {
     z-index: -1;
 }
 
-.hero-intro-label {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 0.75rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: #ffffff;
-    margin: 0 0 14px 0;
-    opacity: 0.88;
-}
-
 .hero-intro-headline {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
-    font-size: clamp(1.35rem, 2.1vw, 1.85rem);
+    font-size: clamp(1.5rem, 2.35vw, 2.05rem);
     line-height: 1.35;
     color: #ffffff;
     margin: 0 0 12px 0;
@@ -377,7 +369,7 @@ body.body-no-scroll .desktop-nav {
 .hero-intro-sub {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
-    font-size: 1rem;
+    font-size: 1.3rem;
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.76);
     margin: 0;
@@ -747,7 +739,7 @@ body.portfolio-page::before {
 }
 
 /* --- BUTTON STYLES & CTA CONTAINER --- */
-.portfolio-cta-container { padding-top: 280px; text-align: center; }
+.portfolio-cta-container { padding-top: 220px; text-align: center; }
 .button-outline { display: inline-block; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 18px; margin-top: 40px; padding: 16px 32px; border: 1px solid; text-decoration: none; transition: all 0.3s ease; }
 .button-light { border-color: #e0e0e0; color: #e0e0e0; background-color: transparent; }
 .button-light:hover { background-color: #e0e0e0; color: #000000; }
@@ -821,6 +813,8 @@ footer {
 .footer-nav-links li { margin-bottom: 15px; }
 .footer-nav-links a { color: #ffffff; text-decoration: none; font-size: 1rem; transition: color 0.3s ease; }
 .footer-nav-links a:hover { color: #888; }
+.footer-social a { color: #ffffff; text-decoration: none; transition: color 0.3s ease; }
+.footer-social a:hover { color: #888; }
 
 
 /* --- 2. Desktop-Only Adjustment --- */
@@ -862,30 +856,63 @@ footer {
 .lightbox-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); }
 .lightbox-content {
     position: relative;
-    /* CHANGED: Dialed back to 95% of the viewport width */
-    width: 95vw; 
-    /* CHANGED: Adjusted max-width to a more reasonable large size */
-    max-width: 1600px; 
+    /* Room above the frame is the CLOSE strip (44px) plus a little viewport margin. */
+    width: min(88vw, 1480px, calc((100vh - 108px) * 16 / 9));
+    width: min(88vw, 1480px, calc((100dvh - 108px) * 16 / 9));
     aspect-ratio: 16 / 9;
+    /* Size comes from this box. A file's display size must not stretch it. */
+    min-width: 0;
+    min-height: 0;
+    margin-top: 44px;
+    background: #000;
 }
-.lightbox-video { width: 100%; height: 100%; display: block; }
+.lightbox-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 1;
+    object-fit: cover;
+    object-position: center;
+}
+/* Full screen uses the monitor shape. Contain keeps a vertical film vertical. */
+.lightbox-content.is-vertical .lightbox-video:fullscreen {
+    object-fit: contain;
+    background-color: #000;
+}
+.lightbox-content.is-vertical .lightbox-video:-webkit-full-screen {
+    object-fit: contain;
+    background-color: #000;
+}
 .lightbox-close {
-    /* CHANGED: Position is now fixed to the screen */
-    position: fixed;
-    /* CHANGED: Pushed down from the top edge of the screen */
-    top: 40px;
-    /* CHANGED: Pushed in from the right edge of the screen */
-    right: 40px;
-    /* ADDED: Ensure it's on top of all other lightbox content */
-    z-index: 1001;
-
-    background: none;
+    position: absolute;
+    top: -44px;
+    right: 0;
+    z-index: 2;
+    box-sizing: border-box;
+    height: 44px;
+    margin: 0;
+    padding: 0 0 0 16px;
     border: none;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 44px;
     color: #ffffff;
-    font-size: 3em;
-    font-weight: 100;
     cursor: pointer;
-    line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.lightbox-close:hover {
+    background: none;
+    color: #ffffff;
+    opacity: 0.7;
 }
 
 
@@ -1385,13 +1412,175 @@ body.contact-page {
     z-index: -1;
 }
 
+/* Work page only: white fade on the fixed header, same height as the dark one. */
+.portfolio-page header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0.94) 55%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+body.portfolio-page.body-no-scroll header::before {
+    content: none;
+}
+
+/* The fade is taller than the bar, so hide the full strip with the header. */
+.portfolio-page header.is-hidden {
+    transform: translateY(-150px);
+}
+
 .lightbox-content.is-vertical {
-    width: auto;
-    /* CHANGED: Dialed back to 95% of the viewport height */
-    height: 95vh;
-    /* CHANGED: Adjusted max-height */
-    max-height: 950px;
+    /* Width-led so a tall 9:16 film cannot grow wider than the screen and clip CLOSE. */
+    width: min(88vw, calc(860px * 9 / 16), calc((100vh - 108px) * 9 / 16));
+    width: min(88vw, calc(860px * 9 / 16), calc((100dvh - 108px) * 9 / 16));
+    height: auto;
+    max-height: none;
     aspect-ratio: 9 / 16;
+}
+
+.lightbox-stage {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    max-width: 100%;
+    max-height: 100%;
+    box-sizing: border-box;
+    /* Empty black around the player stays clickable as the overlay. */
+    pointer-events: none;
+}
+
+.video-lightbox.is-visible .lightbox-content,
+.video-lightbox.is-visible .lightbox-cuts,
+.video-lightbox.is-visible .lightbox-cuts-label,
+.video-lightbox.is-visible .lightbox-close {
+    pointer-events: auto;
+}
+
+.lightbox-cuts-label {
+    display: none;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+}
+
+.lightbox-cuts-label.is-visible {
+    display: block;
+}
+
+.lightbox-cuts {
+    display: none;
+    flex-wrap: nowrap;
+    justify-content: safe center;
+    align-items: center;
+    gap: 10px;
+    width: max-content;
+    max-width: min(88vw, 1480px);
+    overflow-x: auto;
+    overflow-y: hidden;
+    box-sizing: border-box;
+    padding: 2px 0;
+}
+
+.lightbox-cuts.is-visible {
+    display: flex;
+}
+
+.lightbox-cut {
+    flex: 0 0 auto;
+    height: 72px;
+    width: calc(72px * 16 / 9);
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: #000;
+    cursor: pointer;
+    opacity: 1;
+    overflow: hidden;
+    appearance: none;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+}
+
+.lightbox-cut.is-vertical {
+    width: calc(72px * 9 / 16);
+}
+
+.lightbox-cut img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+.lightbox-cut.is-active {
+    border-color: #fff;
+    box-shadow: 0 0 0 1px #fff;
+}
+
+.lightbox-cut:hover {
+    border-color: #fff;
+}
+
+.lightbox-cut:focus-visible {
+    outline: 1px solid #fff;
+    outline-offset: 2px;
+}
+
+.grid-item-count {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 3;
+    background: #ffffff;
+    color: #000000;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    text-transform: uppercase;
+    padding: 7px 9px;
+    pointer-events: none;
+}
+
+.video-lightbox.has-cuts .lightbox-content:not(.is-vertical) {
+    width: min(88vw, 1480px, calc((100vh - 236px) * 16 / 9));
+    width: min(88vw, 1480px, calc((100dvh - 236px) * 16 / 9));
+}
+
+.video-lightbox.has-cuts .lightbox-content.is-vertical {
+    width: min(88vw, calc(860px * 9 / 16), calc((100vh - 236px) * 9 / 16));
+    width: min(88vw, calc(860px * 9 / 16), calc((100dvh - 236px) * 9 / 16));
+    height: auto;
+}
+
+@media (max-width: 600px) {
+    .lightbox-cut,
+    .lightbox-cut.is-vertical {
+        height: 56px;
+    }
+
+    .lightbox-cut {
+        width: calc(56px * 16 / 9);
+    }
+
+    .lightbox-cut.is-vertical {
+        width: calc(56px * 9 / 16);
+    }
 }
 
 /* --- CUSTOM VIDEO LOADER (FINAL) --- */
@@ -2217,11 +2406,11 @@ body.menu-cursor-active .menu-cursor-visual {
     }
 
     .hero-intro-headline {
-        font-size: 1.25rem;
+        font-size: 1.45rem;
     }
 
     .hero-intro-sub {
-        font-size: 0.92rem;
+        font-size: 1.05rem;
     }
 
     .hero-intro-cta {
@@ -2245,7 +2434,7 @@ body.menu-cursor-active .menu-cursor-visual {
     }
 
     .hero-intro-headline {
-        font-size: 1.15rem;
+        font-size: 1.35rem;
     }
 }
 
@@ -2406,7 +2595,7 @@ body.portfolio-page::before {
     }
 }
 /* ================================================================= */
-/* == PAGE TRANSITION (Wipe Right-to-Left) == */
+/* == PAGE TRANSITION (Short fade to black) == */
 /* ================================================================= */
 
 .page-transition-curtain {
@@ -2416,67 +2605,15 @@ body.portfolio-page::before {
     width: 100%;
     height: 100%;
     background-color: #000000;
-    z-index: 9999; 
-    
-    /* CHANGED: Start off-screen to the RIGHT */
-    transform: translateX(100%);
-    
-    /* Cinematic easing */
-    transition: transform 0.6s cubic-bezier(0.83, 0, 0.17, 1);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.15s ease;
     pointer-events: none;
 }
 
 .page-transition-curtain.is-active {
-    /* CHANGED: Slide to the CENTER */
-    transform: translateX(0%);
+    opacity: 1;
     pointer-events: auto;
-}
-
-/* ================================================================= */
-/* == PAGE TRANSITION LOADER == */
-/* ================================================================= */
-
-.page-loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px; 
-    height: 80px;
-    z-index: 10000; /* Above the black curtain */
-    
-    /* Your Logo */
-    background-image: url('logo.png'); 
-    background-size: 50%;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-/* ================================================================= */
-/* == PAGE TRANSITION VARIANT (Vertical for About Page) == */
-/* ================================================================= */
-
-/* When this class is present, we switch to Vertical movement */
-.page-transition-curtain.is-vertical {
-    /* Start at the BOTTOM (100%) instead of the Right */
-    transform: translateY(100%); 
-}
-
-/* Override the active state for vertical */
-.page-transition-curtain.is-vertical.is-active {
-    transform: translateY(0%);
-}
-
-/* The Spinning Ring */
-.page-loader::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 3px solid rgba(255, 255, 255, 0.2); /* Faint white track */
-    border-top-color: #ffffff; /* Bright white spinner */
-    animation: spin 1s linear infinite;
 }
 
 /* ================================================================= */
@@ -3482,5 +3619,274 @@ body.portfolio-page::before {
 @media (max-width: 900px) {
     .intro-collage {
         transform: translate3d(-50%, -50%, 0) scale(0.55);
+    }
+}
+
+/* ================================================================= */
+/* == ABOUT PAGE: Studio layout == */
+/* ================================================================= */
+
+.about-studio {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: #000000;
+    color: #ffffff;
+    overflow: hidden;
+}
+
+.about-studio-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+}
+
+.about-studio-copy {
+    position: absolute;
+    left: 0;
+    bottom: 48px;
+    z-index: 2;
+    max-width: min(40rem, 68%);
+    padding: 120px 48px 28px 40px;
+}
+
+.about-studio-copy::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: -48px;
+    background: radial-gradient(
+        ellipse 90% 85% at 0% 100%,
+        rgba(0, 0, 0, 0.72) 0%,
+        rgba(0, 0, 0, 0.34) 46%,
+        rgba(0, 0, 0, 0) 76%
+    );
+    z-index: -1;
+    pointer-events: none;
+}
+
+.about-studio-copy h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 33px;
+    line-height: 1.4;
+    letter-spacing: 0;
+    text-transform: none;
+    margin: 0 0 18px 0;
+    max-width: 38rem;
+}
+
+.about-studio-bio {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 38rem;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.about-studio-cta {
+    margin-top: 28px;
+    font-size: 16px;
+    padding: 14px 28px;
+}
+
+.about-selected {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 16px 16px 88px;
+    background: #000000;
+}
+
+.about-selected a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.about-selected img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    display: block;
+}
+
+.about-selected span {
+    display: block;
+    margin-top: 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.about-expertise {
+    padding: 96px 48px 48px;
+    background: #ffffff;
+    color: #111111;
+}
+
+.about-expertise-inner {
+    max-width: 68rem;
+    margin: 0 auto;
+}
+
+.about-expertise h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0 0 28px 0;
+}
+
+.about-expertise-intro {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 33px;
+    line-height: 1.4;
+    color: #111111;
+    max-width: 40rem;
+    margin: 0 0 72px 0;
+}
+
+.about-expertise-stages {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.about-expertise-stages > li {
+    display: grid;
+    grid-template-columns: minmax(220px, 280px) minmax(0, 42rem);
+    gap: 48px;
+    padding: 40px 0 48px;
+    border-top: 1px solid #e2e2e2;
+}
+
+.about-expertise-stages > li:last-child {
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.about-expertise-heading span {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 3rem;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: #111111;
+    margin-bottom: 14px;
+}
+
+.about-expertise h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.35;
+    margin: 0;
+}
+
+.about-expertise-stages p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #333333;
+    margin: 0;
+    max-width: 42rem;
+}
+
+.about-clients {
+    padding: 64px 48px 100px;
+    background: #ffffff;
+}
+
+.about-clients-inner {
+    max-width: 68rem;
+    margin: 0 auto;
+}
+
+.about-clients h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0 0 48px 0;
+}
+
+.about-clients-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 48px 40px;
+    align-items: center;
+}
+
+.about-clients-grid img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    object-fit: contain;
+    filter: grayscale(1);
+}
+
+@media (max-width: 900px) {
+    .about-studio-copy {
+        max-width: calc(100% - 8px);
+        bottom: 28px;
+        padding: 96px 24px 12px 24px;
+    }
+
+    .about-studio-copy h1 {
+        font-size: 24px;
+    }
+
+    .about-studio-bio {
+        font-size: 0.95rem;
+    }
+
+    .about-selected {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 8px 20px 64px;
+    }
+
+    .about-selected img {
+        aspect-ratio: 16 / 9;
+    }
+
+    .about-expertise {
+        padding: 64px 24px 32px;
+    }
+
+    .about-expertise-intro {
+        font-size: 24px;
+        margin-bottom: 48px;
+    }
+
+    .about-expertise-stages > li {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 32px 0 36px;
+    }
+
+    .about-clients {
+        padding: 48px 24px 72px;
+    }
+
+    .about-clients-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 36px 24px;
     }
 }

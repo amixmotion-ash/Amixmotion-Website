@@ -50,20 +50,15 @@
 </head>
 <body class="success-page">
 
+    <div class="page-transition-curtain is-active"></div>
+
     <div class="success-message">
         <h1>Message<br>Received</h1>
         <p>Thanks for reaching out. I'll review your message and get back to you shortly.</p>
         <a href="index.html" class="button-outline">BACK TO HOME</a>
     </div>
 
-    <!-- Fade in effect on load -->
-    <script>
-        document.body.style.opacity = '0';
-        document.body.style.transition = 'opacity 0.8s ease';
-        window.onload = function() {
-            document.body.style.opacity = '1';
-        };
-    </script>
+    <script src="script.js"></script>
 
 </body>
 </html>
