@@ -75,7 +75,7 @@ header.is-hidden {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 20px;
 }
 
 .about-section-nav {
@@ -355,7 +355,7 @@ body.body-no-scroll .desktop-nav {
 .main-nav.nav-open li:nth-child(4) { transition-delay: 0.55s; } /* Contact */
 
 /* --- HERO VIDEO SECTION --- */
-.hero-video { height: 100vh; position: -webkit-sticky; position: sticky; top: 0; z-index: 1; }
+.hero-video { height: 100vh; height: 100dvh; position: -webkit-sticky; position: sticky; top: 0; z-index: 1; }
 #bgvideo {
     position: absolute;
     top: 0;
@@ -2457,6 +2457,17 @@ body.menu-cursor-active .menu-cursor-visual {
         padding-left: 20px;
         padding-right: 20px;
     }
+
+    .about-page .logo {
+        position: relative;
+    }
+
+    .about-section-nav {
+        position: absolute;
+        top: calc(100% + 20px);
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
 @media (max-width: 768px) {
   .portfolio-page .page-title-section {
@@ -2529,10 +2540,14 @@ body.menu-cursor-active .menu-cursor-visual {
         padding: 12px 22px;
     }
 
+    .hero-intro {
+        bottom: 112px;
+    }
+
     .homepage .hero-video .scroll-indicator-link {
         left: 50%;
         right: auto;
-        bottom: 28px;
+        bottom: 76px;
         transform: translateX(-50%);
     }
 }
