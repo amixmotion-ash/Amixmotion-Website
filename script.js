@@ -28,8 +28,11 @@ const header = document.querySelector('header');
 let lastScrollY = window.scrollY;
 
 if (header) {
+    const workPage = document.body.classList.contains('portfolio-page');
+
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) { 
+        if (window.scrollY > 50) {
+            if (workPage) header.classList.add('has-fade');
             if (lastScrollY < window.scrollY) {
                 header.classList.add('is-hidden');
             } else {
@@ -37,6 +40,7 @@ if (header) {
             }
         } else {
             header.classList.remove('is-hidden');
+            if (workPage) header.classList.remove('has-fade');
         }
         lastScrollY = window.scrollY;
     });
