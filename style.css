@@ -2556,7 +2556,7 @@ body.menu-cursor-active .menu-cursor-visual {
     .homepage .hero-video .scroll-indicator-link {
         left: 50%;
         right: auto;
-        bottom: 56px;
+        bottom: 40px;
         transform: translateX(-50%);
     }
 }
