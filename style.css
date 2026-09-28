@@ -1002,7 +1002,8 @@ footer {
     display: flex;
     align-items: center;
     min-height: 100vh;
-    padding: 120px 40px;
+    /* Extra top padding biases the vertically centered block down (~32px under the fixed header) */
+    padding: 184px 40px 120px;
     box-sizing: border-box;
 }
 
@@ -1104,6 +1105,10 @@ footer {
     margin-top: 10px;
 }
 @media (max-width: 900px) {
+    /* Tall stacked layout sits at the padding edge, so a smaller top bump is enough */
+    .contact-page .contact-page-main {
+        padding: 152px 40px 120px;
+    }
     .contact-layout-container {
         grid-template-columns: 1fr;
         gap: 80px;
@@ -1650,7 +1655,7 @@ body.portfolio-page.body-no-scroll header::before {
     top: 12px;
     left: 12px;
     z-index: 3;
-    width: 72px;
+    width: 108px;
     height: auto;
     pointer-events: none;
 }
@@ -2633,48 +2638,21 @@ body.menu-cursor-active .menu-cursor-visual {
 }
 
 /* ================================================================= */
-/* == PORTFOLIO PAGE: FINAL & CORRECT Non-Conflicting Animation == */
+/* == PORTFOLIO PAGE: column mask (legacy) — disabled on Work page == */
+/* Work tiles now enter via .grid-item.work-filter-enter (fade/rise). */
+/* Keep rules inert so first-enter does not double-animate.          */
 /* ================================================================= */
 
-/* --- Step 1: The Parent Column --- */
-/* This is what Rellax controls. We make it a "mask". */
-.portfolio-column {
-    opacity: 0;
-    overflow: hidden; /* This is critical */
-    transition: opacity 0.8s ease-out;
+body.portfolio-page .portfolio-column {
+    opacity: 1;
+    overflow: visible;
+    transition: none;
 }
 
-/* --- Step 2: The Inner Content --- */
-/* This is what we animate. It does not conflict with Rellax. */
-.column-content-wrapper {
-    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+body.portfolio-page .column-content-wrapper {
+    transform: none;
+    transition: none;
 }
-
-/* --- Step 3: Define the "Hidden" States --- */
-.portfolio-column:nth-child(1) .column-content-wrapper,
-.portfolio-column:nth-child(3) .column-content-wrapper {
-    transform: translateY(-100%); /* Start off-screen UP */
-}
-
-.portfolio-column:nth-child(2) .column-content-wrapper,
-.portfolio-column:nth-child(4) .column-content-wrapper {
-    transform: translateY(100%); /* Start off-screen DOWN */
-}
-
-/* --- Step 4: The "Revealed" State --- */
-/* When the 'animate-in' class is added, everything animates to its final state. */
-.animate-in .portfolio-column {
-    opacity: 1; /* The mask becomes visible */
-}
-.animate-in .column-content-wrapper {
-    transform: translateY(0); /* The content slides into the mask */
-}
-
-/* --- Step 5: The Stagger Delay --- */
-.animate-in .portfolio-column:nth-child(1) { transition-delay: 0.1s; }
-.animate-in .portfolio-column:nth-child(2) { transition-delay: 0.2s; }
-.animate-in .portfolio-column:nth-child(3) { transition-delay: 0.3s; }
-.animate-in .portfolio-column:nth-child(4) { transition-delay: 0.4s; }
 
 
 
@@ -2792,6 +2770,34 @@ body.portfolio-page::before {
 .portfolio-page .portfolio-column[hidden],
 .portfolio-page .grid-item[hidden] {
     display: none !important;
+}
+
+/* Work page: filter click entrance (JS-gated; no effect on first paint) */
+body.portfolio-page.js-work-filter-motion .grid-item.work-filter-enter {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: none;
+}
+
+body.portfolio-page.js-work-filter-motion .grid-item.work-filter-enter.work-filter-enter-animate {
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition-delay: var(--work-filter-enter-delay, 0s);
+}
+
+body.portfolio-page.js-work-filter-motion .grid-item.work-filter-enter.is-entered {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.portfolio-page.js-work-filter-motion .grid-item.work-filter-enter,
+    body.portfolio-page.js-work-filter-motion .grid-item.work-filter-enter.work-filter-enter-animate,
+    body.portfolio-page.js-work-filter-motion .grid-item.work-filter-enter.is-entered {
+        opacity: 1;
+        transform: none;
+        transition: none;
+        transition-delay: 0s;
+    }
 }
 
 .portfolio-page .portfolio-grid-section {
@@ -4139,6 +4145,7 @@ body.portfolio-page::before {
     letter-spacing: 0.04em;
     text-transform: uppercase;
     margin: 0 0 48px 0;
+    text-align: center;
 }
 
 .about-clients-grid {
@@ -4246,10 +4253,115 @@ body.portfolio-page::before {
         padding: 48px 24px 72px;
     }
 
+    .about-clients h2 {
+        text-align: left;
+    }
+
     .about-clients-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 36px 24px;
     }
+}
+
+/* About page: fade-and-rise reveals (JS-gated; visible without JS) */
+/* Hidden state has no transition so the start pose can paint before motion begins */
+body.about-page.js-about-motion .about-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: none;
+}
+
+body.about-page.js-about-motion .about-reveal.about-reveal-animate {
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition-delay: var(--about-reveal-delay, 0s);
+}
+
+body.about-page.js-about-motion .about-reveal.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.about-page.js-about-motion .about-reveal,
+    body.about-page.js-about-motion .about-reveal.about-reveal-animate,
+    body.about-page.js-about-motion .about-reveal.is-revealed {
+        opacity: 1;
+        transform: none;
+        transition: none;
+        transition-delay: 0s;
+    }
+}
+
+/*
+ * Homepage: clip horizontal overflow without creating a scrollport.
+ * Footer flex + testimonials negative margins make scrollWidth > viewport;
+ * focus/scrollIntoView on those edges was shifting the whole page left.
+ * overflow-x: hidden on a wrapper can still scroll; clip cannot.
+ */
+html:has(body.homepage) {
+    overflow-x: clip;
+}
+
+body.homepage {
+    overflow-x: clip;
+}
+
+body.homepage .scroll-content-wrapper {
+    overflow-x: clip;
+}
+
+/* Homepage: fade-and-rise reveals (JS-gated; visible without JS) */
+body.homepage.js-home-motion .home-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: none;
+}
+
+body.homepage.js-home-motion .home-reveal.home-reveal-animate {
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition-delay: var(--home-reveal-delay, 0s);
+}
+
+body.homepage.js-home-motion .home-reveal.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.homepage.js-home-motion .home-reveal,
+    body.homepage.js-home-motion .home-reveal.home-reveal-animate,
+    body.homepage.js-home-motion .home-reveal.is-revealed {
+        opacity: 1;
+        transform: none;
+        transition: none;
+        transition-delay: 0s;
+    }
+
+    body.homepage .scroll-arrow {
+        animation: none;
+    }
+
+    body.homepage .scroller-track {
+        animation: none !important;
+    }
+
+    body.homepage .mission-statement-foreground-wrapper {
+        -webkit-mask-image: none;
+        mask-image: none;
+        --progress: 100%;
+    }
+
+    body.homepage .testimonials-track,
+    body.homepage .testimonials-section.is-visible .testimonials-track {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* Homepage: back-to-top is mobile circle only (no desktop TOP block) */
+.homepage .back-to-top {
+    display: none;
 }
 
 .back-to-top {
@@ -4319,6 +4431,10 @@ body.body-no-scroll .back-to-top {
         border-radius: 50%;
     }
 
+    .homepage .back-to-top {
+        display: inline-flex;
+    }
+
     .back-to-top-label {
         display: none;
     }
@@ -4327,5 +4443,33 @@ body.body-no-scroll .back-to-top {
         display: block;
         width: 22px;
         height: 22px;
+    }
+}
+
+/* Contact page: fade-and-rise on load (JS-gated; visible without JS) */
+body.contact-page.js-contact-motion .contact-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: none;
+}
+
+body.contact-page.js-contact-motion .contact-reveal.contact-reveal-animate {
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition-delay: var(--contact-reveal-delay, 0s);
+}
+
+body.contact-page.js-contact-motion .contact-reveal.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.contact-page.js-contact-motion .contact-reveal,
+    body.contact-page.js-contact-motion .contact-reveal.contact-reveal-animate,
+    body.contact-page.js-contact-motion .contact-reveal.is-revealed {
+        opacity: 1;
+        transform: none;
+        transition: none;
+        transition-delay: 0s;
     }
 }

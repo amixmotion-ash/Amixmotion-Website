@@ -92,21 +92,33 @@ if (elementsToFadeIn.length > 0) {
 const textWipes = document.querySelectorAll('.mission-statement-scroll-effect');
 
 if (textWipes.length > 0) {
-    window.addEventListener('scroll', function() {
-        const viewportHeight = window.innerHeight;
+    const reduceMissionWipe = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        && document.body.classList.contains('homepage');
 
+    if (reduceMissionWipe) {
         textWipes.forEach(wipe => {
             const foregroundWrapper = wipe.querySelector('.mission-statement-foreground-wrapper');
-            const rect = wipe.getBoundingClientRect();
-            const startPoint = viewportHeight * 0.9;
-            const endPoint = viewportHeight * 0.3; 
-            const progress = Math.max(0, Math.min(1, (startPoint - rect.top) / (startPoint - endPoint)));
-            
             if (foregroundWrapper) {
-                foregroundWrapper.style.setProperty('--progress', (progress * 100) + '%');
+                foregroundWrapper.style.setProperty('--progress', '100%');
             }
         });
-    });
+    } else {
+        window.addEventListener('scroll', function() {
+            const viewportHeight = window.innerHeight;
+
+            textWipes.forEach(wipe => {
+                const foregroundWrapper = wipe.querySelector('.mission-statement-foreground-wrapper');
+                const rect = wipe.getBoundingClientRect();
+                const startPoint = viewportHeight * 0.9;
+                const endPoint = viewportHeight * 0.3;
+                const progress = Math.max(0, Math.min(1, (startPoint - rect.top) / (startPoint - endPoint)));
+
+                if (foregroundWrapper) {
+                    foregroundWrapper.style.setProperty('--progress', (progress * 100) + '%');
+                }
+            });
+        });
+    }
 }
 
 // ======================================================================
@@ -354,8 +366,63 @@ function restartWorkParallax(enabled) {
     updateWorkColumns();
 }
 
+// Work page panel entrance: shared by first paint and filter clicks.
+// Stagger is compressed into a fixed window so All (~25 panels) feels as
+// snappy as a small filter — per-panel duration stays 0.6s.
+const WORK_FILTER_STAGGER_WINDOW_MS = 400;
+const WORK_FILTER_ENTER_MS = 600;
+let workFilterEnterTimer = null;
+let animateWorkPanelsEntrance = null;
+
+if (portfolioPage) {
+    const workGridContainer = document.querySelector('.portfolio-grid-container-new');
+    const workGridItems = [...document.querySelectorAll('.portfolio-page .portfolio-grid-section .grid-item')];
+
+    const clearWorkFilterEnter = (item) => {
+        item.classList.remove('work-filter-enter', 'work-filter-enter-animate', 'is-entered');
+        item.style.removeProperty('--work-filter-enter-delay');
+    };
+
+    animateWorkPanelsEntrance = (visibleItems) => {
+        if (workFilterEnterTimer) {
+            clearTimeout(workFilterEnterTimer);
+            workFilterEnterTimer = null;
+        }
+
+        workGridItems.forEach(clearWorkFilterEnter);
+
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduceMotion || !visibleItems.length) return;
+
+        document.body.classList.add('js-work-filter-motion');
+
+        const lastIndex = Math.max(0, visibleItems.length - 1);
+        visibleItems.forEach((item, index) => {
+            const delayMs = lastIndex === 0
+                ? 0
+                : (index / lastIndex) * WORK_FILTER_STAGGER_WINDOW_MS;
+            item.classList.add('work-filter-enter');
+            item.style.setProperty('--work-filter-enter-delay', (delayMs / 1000) + 's');
+        });
+
+        // Paint the hidden pose before enabling the transition (matches About)
+        if (workGridContainer) void workGridContainer.offsetWidth;
+
+        visibleItems.forEach((item) => {
+            item.classList.add('work-filter-enter-animate');
+            void item.offsetWidth;
+            item.classList.add('is-entered');
+        });
+
+        workFilterEnterTimer = setTimeout(() => {
+            visibleItems.forEach(clearWorkFilterEnter);
+            workFilterEnterTimer = null;
+        }, WORK_FILTER_STAGGER_WINDOW_MS + WORK_FILTER_ENTER_MS + 40);
+    };
+}
+
 const workFilters = document.querySelector('.work-filters');
-if (workFilters && document.body.classList.contains('portfolio-page')) {
+if (workFilters && portfolioPage) {
     const container = document.querySelector('.portfolio-grid-container-new');
     const columns = [...document.querySelectorAll('.portfolio-page .portfolio-column')];
     const items = [...document.querySelectorAll('.portfolio-page .portfolio-grid-section .grid-item')];
@@ -367,7 +434,7 @@ if (workFilters && document.body.classList.contains('portfolio-page')) {
     let currentFilter = 'all';
     const mobileQuery = window.matchMedia('(max-width: 768px)');
 
-    const applyWorkFilter = (filter) => {
+    const applyWorkFilter = (filter, animate) => {
         currentFilter = filter;
 
         if (filter === 'all') {
@@ -402,6 +469,11 @@ if (workFilters && document.body.classList.contains('portfolio-page')) {
         }
 
         restartWorkParallax(filter === 'all');
+
+        if (animate && animateWorkPanelsEntrance) {
+            const visibleItems = items.filter((item) => !item.hidden);
+            animateWorkPanelsEntrance(visibleItems);
+        }
     };
 
     workFilters.addEventListener('click', (event) => {
@@ -412,11 +484,11 @@ if (workFilters && document.body.classList.contains('portfolio-page')) {
             item.classList.toggle('is-active', active);
             item.setAttribute('aria-pressed', active ? 'true' : 'false');
         });
-        applyWorkFilter(button.dataset.filter);
+        applyWorkFilter(button.dataset.filter, true);
     });
 
     mobileQuery.addEventListener('change', () => {
-        if (currentFilter !== 'all') applyWorkFilter(currentFilter);
+        if (currentFilter !== 'all') applyWorkFilter(currentFilter, false);
     });
 }
 
@@ -424,11 +496,15 @@ if (workFilters && document.body.classList.contains('portfolio-page')) {
 // Their existing speeds only start once that row is on screen.
 const workSection = document.querySelector('#work');
 const workFilms = workSection ? workSection.querySelectorAll('.grid-item') : [];
+
 if (workSection && workFilms.length) {
     const workFilmQuery = window.matchMedia('(min-width: 769px)');
 
     function updateWorkFilms() {
-        if (!workFilmQuery.matches) {
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            && document.body.classList.contains('homepage');
+
+        if (reduceMotion || !workFilmQuery.matches) {
             workFilms.forEach((film) => {
                 film.style.transform = '';
             });
@@ -669,9 +745,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 1300);
         }
 
+        // Work page: same fade/rise as filter clicks (not the old column slide)
         var portfolioGrid = document.querySelector('body.portfolio-page .portfolio-grid-section');
-        if (portfolioGrid) {
-            portfolioGrid.classList.add('animate-in');
+        if (portfolioGrid && typeof animateWorkPanelsEntrance === 'function') {
+            var visiblePanels = Array.prototype.slice.call(
+                portfolioGrid.querySelectorAll('.grid-item')
+            ).filter(function(item) {
+                return !item.hidden;
+            });
+            animateWorkPanelsEntrance(visiblePanels);
         }
     }
 
@@ -1086,3 +1168,325 @@ if (servicesSection && track && servicesSticky) {
 
     animateTimeline();
 }
+
+// ======================================================================
+// == ABOUT PAGE: Opening + scroll reveals ==
+// ======================================================================
+(function initAboutReveals() {
+    if (!document.body.classList.contains('about-page')) return;
+
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var STAGGER_MS = 100;
+    var revealGroups = [];
+
+    function prepareReveal(el, delayIndex) {
+        if (!el) return null;
+        el.classList.add('about-reveal');
+        el.style.setProperty('--about-reveal-delay', ((delayIndex || 0) * STAGGER_MS / 1000) + 's');
+        return el;
+    }
+
+    function revealAll(els) {
+        els.forEach(function(el) {
+            if (!el) return;
+            // Enable transition only while already at the hidden pose, then reveal
+            el.classList.add('about-reveal-animate');
+            void el.offsetWidth;
+            el.classList.add('is-revealed');
+        });
+    }
+
+    // Opening copy over the studio photo (photo itself is not animated)
+    var openingEls = [];
+    var studioCopy = document.querySelector('.about-studio-copy');
+    if (studioCopy) {
+        var openingHeadline = studioCopy.querySelector('h1');
+        var openingParagraph = studioCopy.querySelector('p');
+        var openingButtons = studioCopy.querySelectorAll('a.button-outline, a.about-studio-cta, button');
+        if (openingHeadline) openingEls.push(prepareReveal(openingHeadline, openingEls.length));
+        if (openingParagraph) openingEls.push(prepareReveal(openingParagraph, openingEls.length));
+        openingButtons.forEach(function(btn) {
+            openingEls.push(prepareReveal(btn, openingEls.length));
+        });
+        revealGroups.push({ els: openingEls, opening: true });
+    }
+
+    // On set: title, then paragraph
+    var onsetTitle = document.getElementById('about-onset-title');
+    if (onsetTitle) {
+        var onsetBlock = onsetTitle.closest('.about-block') || onsetTitle.parentElement;
+        var onsetParagraph = onsetBlock ? onsetBlock.querySelector(':scope > p') : null;
+        var onsetEls = [];
+        onsetEls.push(prepareReveal(onsetTitle, 0));
+        if (onsetParagraph) onsetEls.push(prepareReveal(onsetParagraph, 1));
+        revealGroups.push({ els: onsetEls.filter(Boolean), root: onsetTitle });
+    }
+
+    // From the film: title, then content under it
+    var filmBlocks = document.querySelectorAll('.about-selected .about-block');
+    filmBlocks.forEach(function(block) {
+        if (block.querySelector('#about-onset-title')) return;
+        var filmTitle = block.querySelector('h2');
+        if (!filmTitle) return;
+        var filmContent = null;
+        var sibling = filmTitle.nextElementSibling;
+        while (sibling) {
+            if (sibling.tagName !== 'H2') {
+                filmContent = sibling;
+                break;
+            }
+            sibling = sibling.nextElementSibling;
+        }
+        var filmEls = [];
+        filmEls.push(prepareReveal(filmTitle, 0));
+        if (filmContent) filmEls.push(prepareReveal(filmContent, 1));
+        revealGroups.push({ els: filmEls.filter(Boolean), root: filmTitle });
+    });
+
+    // Our Expertise: title, paragraph, then numbered items (staggered)
+    var expertiseTitle = document.getElementById('about-expertise-title');
+    if (expertiseTitle) {
+        var expertiseSection = expertiseTitle.closest('.about-expertise') || expertiseTitle.parentElement;
+        var expertiseIntro = expertiseSection ? expertiseSection.querySelector('.about-expertise-intro') : null;
+        var expertiseItems = expertiseSection
+            ? expertiseSection.querySelectorAll('.about-expertise-stages > li')
+            : [];
+        var expertiseEls = [];
+        expertiseEls.push(prepareReveal(expertiseTitle, 0));
+        if (expertiseIntro) expertiseEls.push(prepareReveal(expertiseIntro, 1));
+        expertiseItems.forEach(function(item, i) {
+            expertiseEls.push(prepareReveal(item, 2 + i));
+        });
+        revealGroups.push({ els: expertiseEls.filter(Boolean), root: expertiseTitle });
+    }
+
+    // Trusted by: title, then logo grid as one group
+    var clientsTitle = document.getElementById('about-clients-title');
+    if (clientsTitle) {
+        var clientsInner = clientsTitle.closest('.about-clients-inner') || clientsTitle.parentElement;
+        var clientsGrid = clientsInner ? clientsInner.querySelector('.about-clients-grid') : null;
+        var clientsEls = [];
+        clientsEls.push(prepareReveal(clientsTitle, 0));
+        if (clientsGrid) clientsEls.push(prepareReveal(clientsGrid, 1));
+        revealGroups.push({ els: clientsEls.filter(Boolean), root: clientsTitle });
+    }
+
+    // Gate CSS hide only after elements are marked (avoids blank page without JS)
+    document.body.classList.add('js-about-motion');
+
+    if (reduceMotion) {
+        revealGroups.forEach(function(group) {
+            group.els.forEach(function(el) {
+                if (!el) return;
+                el.classList.add('about-reveal-animate', 'is-revealed');
+            });
+        });
+        return;
+    }
+
+    // Opening: paint the hidden pose first, then enable transitions and reveal once
+    var openingGroup = revealGroups.find(function(g) { return g.opening; });
+    if (openingGroup && openingGroup.els.length) {
+        openingGroup.els.forEach(function(el) {
+            void el.offsetWidth;
+        });
+        window.requestAnimationFrame(function() {
+            window.requestAnimationFrame(function() {
+                window.setTimeout(function() {
+                    revealAll(openingGroup.els);
+                }, 50);
+            });
+        });
+    }
+
+    var scrollGroups = revealGroups.filter(function(g) { return !g.opening && g.root; });
+    if (!scrollGroups.length || !('IntersectionObserver' in window)) {
+        scrollGroups.forEach(function(group) {
+            revealAll(group.els);
+        });
+        return;
+    }
+
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (!entry.isIntersecting) return;
+            var group = scrollGroups.find(function(g) { return g.root === entry.target; });
+            if (!group || group.done) return;
+            group.done = true;
+            revealAll(group.els);
+            observer.unobserve(entry.target);
+        });
+    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+
+    scrollGroups.forEach(function(group) {
+        observer.observe(group.root);
+    });
+})();
+// ======================================================================
+// == HOMEPAGE: Opening + scroll reveals ==
+// ======================================================================
+(function initHomeReveals() {
+    if (!document.body.classList.contains('homepage')) return;
+
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var STAGGER_MS = 100;
+    var revealGroups = [];
+
+    function prepareReveal(el, delayIndex) {
+        if (!el) return null;
+        el.classList.add('home-reveal');
+        el.style.setProperty('--home-reveal-delay', ((delayIndex || 0) * STAGGER_MS / 1000) + 's');
+        return el;
+    }
+
+    function revealAll(els) {
+        els.forEach(function(el) {
+            if (!el) return;
+            el.classList.add('home-reveal-animate');
+            void el.offsetWidth;
+            el.classList.add('is-revealed');
+        });
+    }
+
+    // Hero intro on load (video stays still)
+    var heroEls = [];
+    var heroHeadline = document.querySelector('.hero-intro-headline');
+    var heroSub = document.querySelector('.hero-intro-sub');
+    var heroCta = document.querySelector('.hero-intro-cta');
+    if (heroHeadline) heroEls.push(prepareReveal(heroHeadline, 0));
+    if (heroSub) heroEls.push(prepareReveal(heroSub, 1));
+    if (heroCta) heroEls.push(prepareReveal(heroCta, 2));
+    if (heroEls.length) {
+        revealGroups.push({ els: heroEls, opening: true });
+    }
+
+    // Mission image + ABOUT CTA (not the pre-title)
+    var missionImage = document.querySelector('.mission-image');
+    var missionCta = document.querySelector('.mission-text > a.button-outline');
+    var missionEls = [];
+    if (missionImage) missionEls.push(prepareReveal(missionImage, 0));
+    if (missionCta) missionEls.push(prepareReveal(missionCta, 1));
+    if (missionEls.length) {
+        var missionRoot = missionImage || missionCta;
+        revealGroups.push({ els: missionEls, root: missionRoot });
+    }
+
+    // Footer CTA + nav
+    var footerCta = document.querySelector('.footer-cta-new');
+    var footerNav = document.querySelector('.footer-nav-new');
+    var footerEls = [];
+    if (footerCta) footerEls.push(prepareReveal(footerCta, 0));
+    if (footerNav) footerEls.push(prepareReveal(footerNav, 1));
+    if (footerEls.length) {
+        var footerRoot = footerCta || footerNav;
+        revealGroups.push({ els: footerEls, root: footerRoot });
+    }
+
+    document.body.classList.add('js-home-motion');
+
+    if (reduceMotion) {
+        revealGroups.forEach(function(group) {
+            group.els.forEach(function(el) {
+                if (!el) return;
+                el.classList.add('home-reveal-animate', 'is-revealed');
+            });
+        });
+        return;
+    }
+
+    var openingGroup = revealGroups.find(function(g) { return g.opening; });
+    if (openingGroup && openingGroup.els.length) {
+        openingGroup.els.forEach(function(el) {
+            void el.offsetWidth;
+        });
+        window.requestAnimationFrame(function() {
+            window.requestAnimationFrame(function() {
+                window.setTimeout(function() {
+                    revealAll(openingGroup.els);
+                }, 50);
+            });
+        });
+    }
+
+    var scrollGroups = revealGroups.filter(function(g) { return !g.opening && g.root; });
+    if (!scrollGroups.length || !('IntersectionObserver' in window)) {
+        scrollGroups.forEach(function(group) {
+            revealAll(group.els);
+        });
+        return;
+    }
+
+    var homeObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (!entry.isIntersecting) return;
+            var group = scrollGroups.find(function(g) { return g.root === entry.target; });
+            if (!group || group.done) return;
+            group.done = true;
+            revealAll(group.els);
+            homeObserver.unobserve(entry.target);
+        });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+    scrollGroups.forEach(function(group) {
+        homeObserver.observe(group.root);
+    });
+})();
+// ======================================================================
+// == CONTACT PAGE: On-load fade-and-rise (no scroll reveals) ==
+// ======================================================================
+(function initContactReveals() {
+    if (!document.body.classList.contains('contact-page')) return;
+
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var STAGGER_MS = 100;
+    var openingEls = [];
+
+    function prepareReveal(el, delayIndex) {
+        if (!el) return null;
+        el.classList.add('contact-reveal');
+        el.style.setProperty('--contact-reveal-delay', ((delayIndex || 0) * STAGGER_MS / 1000) + 's');
+        return el;
+    }
+
+    function revealAll(els) {
+        els.forEach(function(el) {
+            if (!el) return;
+            el.classList.add('contact-reveal-animate');
+            void el.offsetWidth;
+            el.classList.add('is-revealed');
+        });
+    }
+
+    var introHeadline = document.querySelector('.contact-intro h1');
+    var introSub = document.querySelector('.contact-intro-subheadline');
+    var contactDetails = document.querySelector('.contact-details');
+    var formGroup = document.querySelector('.contact-form-container') || document.querySelector('.contact-form');
+
+    if (introHeadline) openingEls.push(prepareReveal(introHeadline, 0));
+    if (introSub) openingEls.push(prepareReveal(introSub, 1));
+    if (contactDetails) openingEls.push(prepareReveal(contactDetails, 2));
+    if (formGroup) openingEls.push(prepareReveal(formGroup, 3));
+
+    document.body.classList.add('js-contact-motion');
+
+    if (!openingEls.length) return;
+
+    if (reduceMotion) {
+        openingEls.forEach(function(el) {
+            if (!el) return;
+            el.classList.add('contact-reveal-animate', 'is-revealed');
+        });
+        return;
+    }
+
+    openingEls.forEach(function(el) {
+        void el.offsetWidth;
+    });
+    window.requestAnimationFrame(function() {
+        window.requestAnimationFrame(function() {
+            window.setTimeout(function() {
+                revealAll(openingEls);
+            }, 50);
+        });
+    });
+})();
