@@ -47,6 +47,26 @@ if (header) {
 }
 
 // ======================================================================
+// == 2b. BACK TO TOP ==
+// ======================================================================
+const backToTop = document.querySelector('.back-to-top');
+
+if (backToTop) {
+    const updateBackToTop = () => {
+        const revealAfter = Math.max(480, window.innerHeight * 0.7);
+        backToTop.classList.toggle('is-visible', window.scrollY > revealAfter);
+    };
+
+    window.addEventListener('scroll', updateBackToTop, { passive: true });
+    updateBackToTop();
+
+    backToTop.addEventListener('click', () => {
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+}
+
+// ======================================================================
 // == 3. ANIMATION TRIGGERS (Scroll Reveal) ==
 // ======================================================================
 const elementsToFadeIn = document.querySelectorAll('.fade-in-on-scroll, .mission-section, .testimonials-section, .profile-grid-section');
@@ -277,7 +297,10 @@ if (lightbox) {
 // ======================================================================
 // == 6. RELLAX PARALLAX (Smart Detection) ==
 // ======================================================================
-if (typeof Rellax !== 'undefined' && window.innerWidth > 600 && document.querySelector('.rellax')) {
+var rellax = null;
+const portfolioPage = document.body.classList.contains('portfolio-page');
+
+if (!portfolioPage && typeof Rellax !== 'undefined' && window.innerWidth > 600 && document.querySelector('.rellax')) {
     let options = {
         center: false, 
         speed: -2,
@@ -291,7 +314,110 @@ if (typeof Rellax !== 'undefined' && window.innerWidth > 600 && document.querySe
         options.center = true; 
     }
 
-    var rellax = new Rellax('.rellax', options);
+    rellax = new Rellax('.rellax', options);
+}
+
+let workParallaxOn = true;
+const WORK_PARALLAX_DELAY = 260;
+
+function updateWorkColumns() {
+    const columns = document.querySelectorAll('.portfolio-page .portfolio-column');
+    if (!columns.length) return;
+
+    const traveled = (!workParallaxOn || window.innerWidth <= 600)
+        ? 0
+        : Math.max(0, window.scrollY - WORK_PARALLAX_DELAY);
+
+    columns.forEach((column) => {
+        if (!traveled) {
+            column.style.transform = '';
+            return;
+        }
+        const speed = parseFloat(column.getAttribute('data-rellax-speed')) || 0;
+        const offset = Math.round(-speed * traveled * 0.02);
+        column.style.transform = 'translate3d(0,' + offset + 'px,0)';
+    });
+}
+
+if (portfolioPage) {
+    window.addEventListener('scroll', updateWorkColumns, { passive: true });
+    window.addEventListener('resize', updateWorkColumns);
+    updateWorkColumns();
+}
+
+function restartWorkParallax(enabled) {
+    workParallaxOn = enabled;
+    if (rellax) {
+        rellax.destroy();
+        rellax = null;
+    }
+    updateWorkColumns();
+}
+
+const workFilters = document.querySelector('.work-filters');
+if (workFilters && document.body.classList.contains('portfolio-page')) {
+    const container = document.querySelector('.portfolio-grid-container-new');
+    const columns = [...document.querySelectorAll('.portfolio-page .portfolio-column')];
+    const items = [...document.querySelectorAll('.portfolio-page .portfolio-grid-section .grid-item')];
+    const origins = items.map((item) => ({
+        item,
+        column: item.closest('.portfolio-column'),
+        index: [...item.parentElement.children].indexOf(item)
+    }));
+    let currentFilter = 'all';
+    const mobileQuery = window.matchMedia('(max-width: 768px)');
+
+    const applyWorkFilter = (filter) => {
+        currentFilter = filter;
+
+        if (filter === 'all') {
+            columns.forEach((column) => {
+                column.hidden = false;
+                origins
+                    .filter((entry) => entry.column === column)
+                    .sort((a, b) => a.index - b.index)
+                    .forEach((entry) => {
+                        entry.item.hidden = false;
+                        column.appendChild(entry.item);
+                    });
+            });
+            container.removeAttribute('data-columns');
+        } else {
+            const matching = origins.filter((entry) =>
+                (entry.item.dataset.cats || '').split(/\s+/).includes(filter)
+            );
+            origins.forEach((entry) => {
+                entry.item.hidden = true;
+            });
+            const mobile = mobileQuery.matches;
+            columns.forEach((column) => {
+                column.hidden = false;
+            });
+            matching.forEach((entry, index) => {
+                entry.item.hidden = false;
+                const target = mobile ? columns[0] : columns[index % columns.length];
+                target.appendChild(entry.item);
+            });
+            container.removeAttribute('data-columns');
+        }
+
+        restartWorkParallax(filter === 'all');
+    };
+
+    workFilters.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-filter]');
+        if (!button || button.classList.contains('is-active')) return;
+        workFilters.querySelectorAll('button').forEach((item) => {
+            const active = item === button;
+            item.classList.toggle('is-active', active);
+            item.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+        applyWorkFilter(button.dataset.filter);
+    });
+
+    mobileQuery.addEventListener('change', () => {
+        if (currentFilter !== 'all') applyWorkFilter(currentFilter);
+    });
 }
 
 // Homepage films stay in one row while the white section first covers the hero.

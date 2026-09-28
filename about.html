@@ -39,7 +39,14 @@
 
     <header>
         <button class="nav-toggle" aria-label="menu" aria-expanded="false">MENU</button>
-        <div class="logo"><a href="index.html"><img src="logo.png" alt="Amixmotion Logo"></a></div>
+        <div class="logo">
+            <a href="index.html"><img src="logo.png" alt="Amixmotion Logo"></a>
+            <nav class="about-section-nav" aria-label="On this page">
+                <a href="#about-onset-title">On set</a>
+                <a href="#about-expertise-title">Our expertise</a>
+                <a href="#about-clients-title">Trusted by</a>
+            </nav>
+        </div>
         <nav class="desktop-nav">
             <ul>
                 <li class="header-social">
@@ -73,20 +80,31 @@
         </div>
     </section>
 
-    <section class="about-selected" aria-labelledby="about-selected-title">
-        <h2 id="about-selected-title" class="visually-hidden">Selected work</h2>
-        <a href="portfolio.html">
-            <img src="images/thumbnail4.png" alt="Aston Martin automotive film still">
-            <span>Aston Martin</span>
-        </a>
-        <a href="portfolio.html">
-            <img loading="lazy" src="images/thumbnail3.png" alt="Caterpillar fashion film still">
-            <span>Caterpillar</span>
-        </a>
-        <a href="portfolio.html">
-            <img loading="lazy" src="images/thumbnail1.png" alt="Myokine boxing film still">
-            <span>Myokine</span>
-        </a>
+    <section class="about-selected" aria-labelledby="about-onset-title">
+        <div class="about-block">
+            <h2 id="about-onset-title">On set</h2>
+            <p>We know being filmed can feel unfamiliar, especially if you are not used to being in front of a camera. Our job is to make that part easy. We bring structure, direction and attention to detail to every shoot, while keeping the atmosphere relaxed enough for people to be themselves.</p>
+            <div class="about-onset-grid">
+                <img class="about-onset-wide" loading="lazy" src="images/About-Work-1.jpg" alt="Filming a subject at the side of a boxing ring" width="3584" height="4800">
+                <img loading="lazy" src="images/About-Work-3.jpg" alt="Checking the shot while filming" width="3584" height="4800">
+                <img loading="lazy" src="images/About-Work-2.jpg" alt="The frame on the camera monitor" width="1344" height="1800">
+            </div>
+        </div>
+        <div class="about-block">
+            <h2>From the film</h2>
+            <div class="about-film">
+                <img class="about-film-still" src="images/thumbnail1.png" alt="Still from a Myokine film" width="618" height="973">
+                <div class="about-frames-row">
+                    <img src="images/Frame%201.png" alt="A man wrapping his hand" width="476" height="785">
+                    <img loading="lazy" src="images/Frame%202.png" alt="Close view of hand wraps" width="476" height="785">
+                    <img loading="lazy" src="images/Frame%203.png" alt="A man seen through boxing ring ropes" width="476" height="785">
+                    <img loading="lazy" src="images/Frame%204.png" alt="A woman mid punch" width="476" height="785">
+                    <img loading="lazy" src="images/Frame%205.png" alt="A woman wearing boxing gloves" width="476" height="785">
+                </div>
+                <p class="about-film-credit">Myokine</p>
+            </div>
+        </div>
+        <a href="portfolio.html" class="button-outline button-light about-see-work">VIEW OUR WORK</a>
     </section>
 
     <section class="about-expertise" aria-labelledby="about-expertise-title">
@@ -184,8 +202,12 @@
 
     </div>
 </footer>
+<button type="button" class="back-to-top" aria-label="Back to top">
+    <svg class="back-to-top-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 11 8 6l5 5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+    <span class="back-to-top-label">Top</span>
+</button>
 <div class="menu-cursor">&rarr;</div>
-    <script src="script.js"></script>
+    <script src="script.js?v=back-to-top"></script>
 
     <!-- PASTE THIS NEW SCRIPT TAG HERE -->
     <script>document.body.classList.add('js-page-loaded');</script>
