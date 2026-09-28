@@ -239,6 +239,11 @@ body.body-no-scroll .desktop-nav {
     display: none; /* Hide "WORK +" button */
 }
 
+body.about-page.body-no-scroll .about-section-nav {
+    visibility: hidden;
+    pointer-events: none;
+}
+
 /* --- 6. Mobile-Specific Adjustments --- */
 @media (max-width: 768px) {
     header .logo img {
@@ -2541,13 +2546,17 @@ body.menu-cursor-active .menu-cursor-visual {
     }
 
     .hero-intro {
-        bottom: 112px;
+        bottom: 92px;
+    }
+
+    .hero-intro::before {
+        transform: translateY(92px);
     }
 
     .homepage .hero-video .scroll-indicator-link {
         left: 50%;
         right: auto;
-        bottom: 76px;
+        bottom: 56px;
         transform: translateX(-50%);
     }
 }
