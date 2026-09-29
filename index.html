@@ -36,7 +36,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=home-no-work-reveal">
+    <link rel="stylesheet" href="style.css?v=menu-gap-half">
 </head>
 <body class="homepage">
 
@@ -62,7 +62,7 @@
 
     <nav class="main-nav">
         <ul>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html" class="is-page" aria-current="page">Home</a></li>
             <li><a href="portfolio.html">Work</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
@@ -185,7 +185,7 @@
         <p class="pre-title fade-in-on-scroll">TESTIMONIALS</p>
         <h2 class="fade-in-on-scroll">Don't take my word for it!<br>Hear it from my clients.</h2>
     </div>
-    <div class="testimonials-scroller draggable">
+    <div class="testimonials-viewport">
         <div class="testimonials-track">
                         <div class="testimonial-card">
                             <div class="testimonial-card-top">
@@ -252,6 +252,15 @@
                         </div>
                     </div>
                 </div>
+    <div class="testimonials-controls">
+        <button type="button" class="testimonials-arrow testimonials-arrow-prev" aria-label="Previous review" disabled>
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+        </button>
+        <div class="testimonials-dots" role="group" aria-label="Testimonials"></div>
+        <button type="button" class="testimonials-arrow testimonials-arrow-next" aria-label="Next review">
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+        </button>
+    </div>
             </section>
         </main>
 
@@ -311,7 +320,7 @@
     <span class="back-to-top-label">Top</span>
 </button>
 
-    <script src="script.js?v=home-no-work-reveal"></script>
+    <script src="script.js?v=menu-fade-close"></script>
 
     <!-- PASTE THIS NEW SCRIPT TAG HERE -->
     <script>document.body.classList.add('js-page-loaded');</script>

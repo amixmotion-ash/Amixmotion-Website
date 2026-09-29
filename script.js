@@ -6,44 +6,219 @@ const mainNav = document.querySelector('.main-nav');
 const body = document.querySelector('body');
 
 if (navToggle && mainNav && body) {
+    let menuLockedScrollY = 0;
+    let menuCloseTimer = null;
+    const MENU_TRANSITION_MS = 600; /* matches .main-nav transform 0.6s */
+    const toggleParent = navToggle.parentNode;
+    const toggleNextSibling = navToggle.nextSibling;
+
     const setMenuToggleLabel = (isOpen) => {
         navToggle.textContent = isOpen ? 'CLOSE' : 'MENU';
         navToggle.setAttribute('aria-label', isOpen ? 'close' : 'menu');
         navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     };
 
+    const clearMenuCursorState = () => {
+        document.documentElement.classList.remove('menu-cursor-active', 'cursor-hover');
+        body.classList.remove('menu-cursor-active', 'cursor-hover');
+        mainNav.classList.remove('has-menu-hover');
+        mainNav.querySelectorAll('a.is-current').forEach((a) => a.classList.remove('is-current'));
+    };
+
+    const lockPageScroll = () => {
+        menuLockedScrollY = window.scrollY || window.pageYOffset || 0;
+        body.style.top = `-${menuLockedScrollY}px`;
+        body.classList.add('body-no-scroll');
+    };
+
+    const unlockPageScroll = () => {
+        body.classList.remove('body-no-scroll');
+        body.style.top = '';
+        window.scrollTo(0, menuLockedScrollY);
+    };
+
+    const floatCloseButton = () => {
+        // Reparent above the raised panel (z 920); keep screen position
+        const toggleRect = navToggle.getBoundingClientRect();
+        navToggle.style.top = `${toggleRect.top}px`;
+        navToggle.style.left = `${toggleRect.left}px`;
+        navToggle.classList.add('menu-close-float');
+        body.appendChild(navToggle);
+    };
+
+    const restoreCloseButton = () => {
+        navToggle.classList.remove('menu-close-float');
+        navToggle.style.top = '';
+        navToggle.style.left = '';
+        if (toggleNextSibling && toggleNextSibling.parentNode === toggleParent) {
+            toggleParent.insertBefore(navToggle, toggleNextSibling);
+        } else {
+            toggleParent.insertBefore(navToggle, toggleParent.firstChild);
+        }
+    };
+
+    const finishMenuClose = () => {
+        if (menuCloseTimer) {
+            clearTimeout(menuCloseTimer);
+            menuCloseTimer = null;
+        }
+        mainNav.removeEventListener('transitionend', onMenuCloseTransitionEnd);
+        body.classList.remove('menu-is-closing');
+        unlockPageScroll();
+    };
+
+    const onMenuCloseTransitionEnd = (event) => {
+        if (event.target !== mainNav || event.propertyName !== 'transform') return;
+        finishMenuClose();
+    };
+
+    const openMenu = () => {
+        if (mainNav.classList.contains('nav-open')) return;
+        // Interrupt an in-progress close
+        if (body.classList.contains('menu-is-closing')) {
+            finishMenuClose();
+        }
+        floatCloseButton();
+        mainNav.classList.add('nav-open');
+        lockPageScroll();
+        body.classList.add('menu-dim-active');
+        setMenuToggleLabel(true);
+    };
+
+    const closeMenu = () => {
+        if (!mainNav.classList.contains('nav-open')) return;
+        if (body.classList.contains('menu-is-closing')) return;
+
+        // Hold panel-above-header stacking until the slide finishes
+        body.classList.add('menu-is-closing');
+        body.classList.remove('menu-dim-active'); /* start scrim fade-out */
+        mainNav.classList.remove('nav-open');
+        restoreCloseButton();
+        setMenuToggleLabel(false);
+        clearMenuCursorState();
+
+        mainNav.addEventListener('transitionend', onMenuCloseTransitionEnd);
+        menuCloseTimer = setTimeout(finishMenuClose, MENU_TRANSITION_MS + 50);
+    };
+
+    // Belt-and-suspenders: block wheel / trackpad / touch / keys while menu is open
+    // even if a page overflow rule tries to leave a scrollport.
+    const menuScrollKeys = new Set([
+        'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' ', 'Spacebar'
+    ]);
+    const preventMenuPageScroll = (event) => {
+        if (!body.classList.contains('body-no-scroll')) return;
+        if (event.type === 'keydown' && !menuScrollKeys.has(event.key)) return;
+        event.preventDefault();
+    };
+    window.addEventListener('wheel', preventMenuPageScroll, { passive: false });
+    window.addEventListener('touchmove', preventMenuPageScroll, { passive: false });
+    window.addEventListener('keydown', preventMenuPageScroll, { passive: false });
+
     setMenuToggleLabel(mainNav.classList.contains('nav-open'));
 
     navToggle.addEventListener('click', () => {
-        mainNav.classList.toggle('nav-open');
-        body.classList.toggle('body-no-scroll');
-        setMenuToggleLabel(mainNav.classList.contains('nav-open'));
+        if (mainNav.classList.contains('nav-open')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+
+    // Click anywhere off the black menu panel (dimmed page / scrim) to close.
+    // Ignore clicks on the panel (incl. menu words) and on CLOSE/MENU.
+    document.addEventListener('click', (event) => {
+        if (!mainNav.classList.contains('nav-open')) return;
+        const target = event.target;
+        if (!(target instanceof Node)) return;
+        if (navToggle.contains(target) || mainNav.contains(target)) return;
+        event.preventDefault();
+        closeMenu();
     });
 }
 
 // ======================================================================
-// == 2. HEADER HIDE ON SCROLL ==
+// == 2. HEADER HIDE ON SCROLL + POINTER REVEAL ==
 // ======================================================================
 const header = document.querySelector('header');
 let lastScrollY = window.scrollY;
 
 if (header) {
-    const workPage = document.body.classList.contains('portfolio-page');
+    const HEADER_POINTER_ZONE = 100; // top viewport band (px) that can reveal the bar
+    const SCROLL_IDLE_MS = 180; // "screen is static" after no scroll for this long
+    let scrollIdleTimer = null;
+    let isScrolling = false;
+    let lastPointerY = null;
+    const finePointer = window.matchMedia('(pointer: fine)');
+
+    const menuIsOpen = () => document.body.classList.contains('body-no-scroll');
+
+    const pointerInHeaderZone = () =>
+        typeof lastPointerY === 'number' && lastPointerY <= HEADER_POINTER_ZONE;
+
+    const revealHeaderIfPointerIdle = () => {
+        if (menuIsOpen()) return;
+        if (isScrolling) return;
+        if (!finePointer.matches) return;
+        if (!header.classList.contains('is-hidden')) return;
+        if (pointerInHeaderZone()) {
+            header.classList.remove('is-hidden');
+            // Pointer reveal also turns the wash on when not at the true top
+            if (window.scrollY > 50) header.classList.add('has-fade');
+        }
+    };
+
+    const markScrolling = () => {
+        isScrolling = true;
+        if (scrollIdleTimer) clearTimeout(scrollIdleTimer);
+        scrollIdleTimer = setTimeout(() => {
+            isScrolling = false;
+            // After scroll-down finishes, show if the pointer is already in the top zone
+            revealHeaderIfPointerIdle();
+        }, SCROLL_IDLE_MS);
+    };
 
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            if (workPage) header.classList.add('has-fade');
-            if (lastScrollY < window.scrollY) {
+        markScrolling();
+
+        const y = window.scrollY;
+        if (y > 50) {
+            if (lastScrollY < y) {
+                // Scrolling down: hide header and clear wash
                 header.classList.add('is-hidden');
-            } else {
+                header.classList.remove('has-fade');
+            } else if (lastScrollY > y) {
+                // Scrolling up: show header and turn wash on
                 header.classList.remove('is-hidden');
+                header.classList.add('has-fade');
             }
+            // Equal Y (duplicate scroll events): leave visibility as-is
         } else {
+            // At the top: header visible, wash off
             header.classList.remove('is-hidden');
-            if (workPage) header.classList.remove('has-fade');
+            header.classList.remove('has-fade');
         }
-        lastScrollY = window.scrollY;
-    });
+        lastScrollY = y;
+    }, { passive: true });
+
+    // When the page is static, moving the pointer into the top zone reveals the header.
+    // If scrollY > 50, also turn the gradient on (same as scroll-up).
+    // Coarse/touch pointers are ignored so phantom mouse events don't flash the bar.
+    const onPointerMove = (event) => {
+        if (typeof event.clientY === 'number') {
+            lastPointerY = event.clientY;
+        }
+        if (menuIsOpen()) return;
+        if (!finePointer.matches) return;
+        if (isScrolling) return;
+        if (lastPointerY !== null && lastPointerY <= HEADER_POINTER_ZONE) {
+            header.classList.remove('is-hidden');
+            if (window.scrollY > 50) header.classList.add('has-fade');
+        }
+    };
+
+    document.addEventListener('mousemove', onPointerMove, { passive: true });
+    document.addEventListener('pointermove', onPointerMove, { passive: true });
 }
 
 // ======================================================================
@@ -331,6 +506,8 @@ if (!portfolioPage && typeof Rellax !== 'undefined' && window.innerWidth > 600 &
 
 let workParallaxOn = true;
 const WORK_PARALLAX_DELAY = 260;
+let workColumnsRafId = 0;
+let workColumnsLatestScrollY = 0;
 
 function updateWorkColumns() {
     const columns = document.querySelectorAll('.portfolio-page .portfolio-column');
@@ -338,7 +515,7 @@ function updateWorkColumns() {
 
     const traveled = (!workParallaxOn || window.innerWidth <= 600)
         ? 0
-        : Math.max(0, window.scrollY - WORK_PARALLAX_DELAY);
+        : Math.max(0, workColumnsLatestScrollY - WORK_PARALLAX_DELAY);
 
     columns.forEach((column) => {
         if (!traveled) {
@@ -351,9 +528,22 @@ function updateWorkColumns() {
     });
 }
 
+function scheduleWorkColumnsUpdate() {
+    workColumnsLatestScrollY = window.scrollY;
+    if (workColumnsRafId) return;
+    workColumnsRafId = requestAnimationFrame(function () {
+        workColumnsRafId = 0;
+        updateWorkColumns();
+    });
+}
+
 if (portfolioPage) {
-    window.addEventListener('scroll', updateWorkColumns, { passive: true });
-    window.addEventListener('resize', updateWorkColumns);
+    window.addEventListener('scroll', scheduleWorkColumnsUpdate, { passive: true });
+    window.addEventListener('resize', function () {
+        workColumnsLatestScrollY = window.scrollY;
+        updateWorkColumns();
+    });
+    workColumnsLatestScrollY = window.scrollY;
     updateWorkColumns();
 }
 
@@ -363,6 +553,7 @@ function restartWorkParallax(enabled) {
         rellax.destroy();
         rellax = null;
     }
+    workColumnsLatestScrollY = window.scrollY;
     updateWorkColumns();
 }
 
@@ -532,34 +723,143 @@ if (workSection && workFilms.length) {
 }
 
 // ======================================================================
-// == 7. TESTIMONIALS DRAG ==
+// == 7. TESTIMONIALS SLIDESHOW ==
 // ======================================================================
-const slider = document.querySelector('.testimonials-scroller.draggable');
-if (slider) {
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-    slider.addEventListener('mousedown', (e) => {
-        isDown = true;
-        slider.classList.add('is-dragging');
-        startX = e.pageX - slider.offsetLeft;
-        scrollLeft = slider.scrollLeft;
-    });
-    slider.addEventListener('mouseleave', () => {
-        isDown = false;
-        slider.classList.remove('is-dragging');
-    });
-    slider.addEventListener('mouseup', () => {
-        isDown = false;
-        slider.classList.remove('is-dragging');
-    });
-    slider.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 2;
-        slider.scrollLeft = scrollLeft - walk;
-    });
+const testimonialsViewport = document.querySelector('.testimonials-viewport');
+if (testimonialsViewport) {
+    const testimonialsSection = testimonialsViewport.closest('.testimonials-section');
+    const track = testimonialsViewport.querySelector('.testimonials-track');
+    const cards = Array.from(testimonialsViewport.querySelectorAll('.testimonial-card'));
+    const prevBtn = testimonialsSection && testimonialsSection.querySelector('.testimonials-arrow-prev');
+    const nextBtn = testimonialsSection && testimonialsSection.querySelector('.testimonials-arrow-next');
+    const dotsContainer = testimonialsSection && testimonialsSection.querySelector('.testimonials-dots');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mobileQuery = window.matchMedia('(max-width: 768px)');
+
+    let index = 0;
+    let cardWidth = 0;
+    let gap = 0;
+
+    function getVisibleCount() {
+        return mobileQuery.matches ? 1 : 3;
+    }
+
+    function getMaxIndex() {
+        return Math.max(0, cards.length - getVisibleCount());
+    }
+
+    function getStride() {
+        return cardWidth + gap;
+    }
+
+    function measure() {
+        if (!cards.length) return;
+        const trackStyles = window.getComputedStyle(track);
+        gap = parseFloat(trackStyles.columnGap || trackStyles.gap) || 0;
+
+        const viewportStyles = window.getComputedStyle(testimonialsViewport);
+        const padL = parseFloat(viewportStyles.paddingLeft) || 0;
+        const padR = parseFloat(viewportStyles.paddingRight) || 0;
+        const windowWidth = Math.max(0, testimonialsViewport.clientWidth - padL - padR);
+        const visible = getVisibleCount();
+
+        // Fill the clipping window: 1 card on mobile, 3 equal cards on desktop.
+        const nextCardWidth = visible <= 1
+            ? windowWidth
+            : (windowWidth - (visible - 1) * gap) / visible;
+
+        cards.forEach((card) => {
+            card.style.width = nextCardWidth + 'px';
+        });
+        cardWidth = cards[0].offsetWidth;
+    }
+
+    function renderDots() {
+        if (!dotsContainer) return;
+        const stopCount = getMaxIndex() + 1;
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < stopCount; i++) {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'testimonials-dot' + (i === index ? ' is-active' : '');
+            dot.setAttribute('aria-label', `Go to review set ${i + 1}`);
+            dot.setAttribute('aria-current', i === index ? 'true' : 'false');
+            dot.addEventListener('click', () => setIndex(i));
+            dotsContainer.appendChild(dot);
+        }
+    }
+
+    function updateControls() {
+        const maxIndex = getMaxIndex();
+        if (prevBtn) prevBtn.disabled = index <= 0;
+        if (nextBtn) nextBtn.disabled = index >= maxIndex;
+        if (dotsContainer) {
+            const dots = dotsContainer.querySelectorAll('.testimonials-dot');
+            if (dots.length !== maxIndex + 1) {
+                renderDots();
+                return;
+            }
+            dots.forEach((dot, i) => {
+                const active = i === index;
+                dot.classList.toggle('is-active', active);
+                dot.setAttribute('aria-current', active ? 'true' : 'false');
+            });
+        }
+    }
+
+    function applyTransform() {
+        const x = -(index * getStride());
+        track.style.transform = 'translateX(' + x + 'px)';
+        updateControls();
+    }
+
+    function setIndex(nextIndex) {
+        const maxIndex = getMaxIndex();
+        index = Math.max(0, Math.min(maxIndex, nextIndex));
+        applyTransform();
+    }
+
+    function refresh() {
+        measure();
+        index = Math.max(0, Math.min(getMaxIndex(), index));
+        renderDots();
+        applyTransform();
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => setIndex(index - 1));
+    }
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => setIndex(index + 1));
+    }
+
+    // Touch swipe on the viewport (mobile).
+    let touchStartX = null;
+    testimonialsViewport.addEventListener('touchstart', (e) => {
+        if (!e.touches || !e.touches.length) return;
+        touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    testimonialsViewport.addEventListener('touchend', (e) => {
+        if (touchStartX === null || !e.changedTouches || !e.changedTouches.length) return;
+        const deltaX = e.changedTouches[0].clientX - touchStartX;
+        touchStartX = null;
+        if (Math.abs(deltaX) < 40) return;
+        if (deltaX < 0) setIndex(index + 1);
+        else setIndex(index - 1);
+    }, { passive: true });
+
+    window.addEventListener('resize', refresh);
+    if (mobileQuery.addEventListener) {
+        mobileQuery.addEventListener('change', refresh);
+    } else if (mobileQuery.addListener) {
+        mobileQuery.addListener(refresh);
+    }
+
+    if (reducedMotionQuery.matches) {
+        track.style.transition = 'none';
+    }
+
+    refresh();
 }
 
 // ======================================================================
@@ -611,6 +911,20 @@ if (document.body.classList.contains('homepage')) {
 const customCursor = document.querySelector('.custom-cursor');
 const menuCursor = document.querySelector('.menu-cursor');
 const bodyForCursor = document.querySelector('body');
+const htmlForCursor = document.documentElement;
+
+const setCursorModeClass = (className, isOn) => {
+    if (isOn && !window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        return;
+    }
+    htmlForCursor.classList.toggle(className, isOn);
+    if (bodyForCursor) bodyForCursor.classList.toggle(className, isOn);
+};
+
+const leftForRelated = (root, related) => {
+    // true when the pointer left the root (not just moved to a child)
+    return !related || !root.contains(related);
+};
 
 if (customCursor && !customCursor.querySelector('.cursor-visual')) {
     const content = customCursor.innerHTML;
@@ -620,6 +934,19 @@ if (menuCursor && !menuCursor.querySelector('.menu-cursor-visual')) {
     const content = menuCursor.innerHTML;
     menuCursor.innerHTML = `<div class="menu-cursor-visual">${content}</div>`;
 }
+
+// Followers must never steal hit-testing from the page under the pointer
+[customCursor, menuCursor].forEach((el) => {
+    if (!el) return;
+    el.style.pointerEvents = 'none';
+    el.querySelectorAll('*').forEach((child) => {
+        child.style.pointerEvents = 'none';
+    });
+});
+
+// Sit the custom icons beside the OS arrow (down-right), not under the hotspot
+const CURSOR_FOLLOW_OFFSET_X = 12;
+const CURSOR_FOLLOW_OFFSET_Y = 12;
 
 let mouseX = 0;
 let mouseY = 0;
@@ -636,29 +963,98 @@ window.addEventListener('mousemove', (e) => {
 
 function animateCursors() {
     if (customCursor) {
-        customCursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        customCursor.style.transform =
+            `translate3d(${mouseX + CURSOR_FOLLOW_OFFSET_X}px, ${mouseY + CURSOR_FOLLOW_OFFSET_Y}px, 0)`;
     }
     if (menuCursor) {
-        menuCursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        menuCursor.style.transform =
+            `translate3d(${mouseX + CURSOR_FOLLOW_OFFSET_X}px, ${mouseY + CURSOR_FOLLOW_OFFSET_Y}px, 0)`;
     }
     requestAnimationFrame(animateCursors);
 }
 
-if (bodyForCursor) {
+if (htmlForCursor) {
     const portfolioItemsForCursor = document.querySelectorAll('.portfolio-grid-section .grid-item');
-    if (portfolioItemsForCursor.length > 0) {
-        portfolioItemsForCursor.forEach(item => {
-            item.addEventListener('mouseenter', () => bodyForCursor.classList.add('cursor-hover'));
-            item.addEventListener('mouseleave', () => bodyForCursor.classList.remove('cursor-hover'));
+    portfolioItemsForCursor.forEach((item) => {
+        item.addEventListener('pointerover', (e) => {
+            if (leftForRelated(item, e.relatedTarget)) {
+                setCursorModeClass('cursor-hover', true);
+            }
         });
-    }
+        item.addEventListener('pointerout', (e) => {
+            if (leftForRelated(item, e.relatedTarget)) {
+                setCursorModeClass('cursor-hover', false);
+            }
+        });
+    });
+
+    const navRoot = document.querySelector('.main-nav');
     const navLinks = document.querySelectorAll('.main-nav a');
-    if (navLinks.length > 0) {
-        navLinks.forEach(link => {
-            link.addEventListener('mouseenter', () => bodyForCursor.classList.add('menu-cursor-active'));
-            link.addEventListener('mouseleave', () => bodyForCursor.classList.remove('menu-cursor-active'));
+    const navList = navRoot ? navRoot.querySelector('ul') : null;
+    const navItems = navRoot ? navRoot.querySelectorAll('li') : [];
+    const isMenuLinkNode = (node) =>
+        !!(node && node.nodeType === 1 && node.closest && node.closest('.main-nav a'));
+    const activateMenuCursor = (e, root) => {
+        if (navRoot && !navRoot.classList.contains('nav-open')) return;
+        if (leftForRelated(root, e.relatedTarget)) {
+            setCursorModeClass('menu-cursor-active', true);
+        }
+    };
+    const deactivateMenuCursor = (e, root) => {
+        if (leftForRelated(root, e.relatedTarget)) {
+            // Keep active when moving between the four words
+            if (isMenuLinkNode(e.relatedTarget)) return;
+            setCursorModeClass('menu-cursor-active', false);
+        }
+    };
+    const clearMenuLinkHover = () => {
+        if (!navRoot) return;
+        navRoot.classList.remove('has-menu-hover');
+        navLinks.forEach((a) => a.classList.remove('is-current'));
+    };
+    const setMenuLinkCurrent = (link) => {
+        if (!navRoot || !navRoot.classList.contains('nav-open')) return;
+        navRoot.classList.add('has-menu-hover');
+        navLinks.forEach((a) => a.classList.toggle('is-current', a === link));
+    };
+
+    // Menu arrow cursor ONLY on the four words — not the empty black panel.
+    navLinks.forEach((link) => {
+        link.addEventListener('pointerover', (e) => activateMenuCursor(e, link));
+        link.addEventListener('pointerout', (e) => deactivateMenuCursor(e, link));
+    });
+
+    // Dim while pointer is inside the list (including gaps); highlight only the current word.
+    // Class-based colors — not :hover — so the menu-cursor follower cannot flicker a:hover.
+    if (navList) {
+        navList.addEventListener('pointerover', (e) => {
+            if (!navRoot.classList.contains('nav-open')) return;
+            if (leftForRelated(navList, e.relatedTarget)) {
+                navRoot.classList.add('has-menu-hover');
+            }
+        });
+        navList.addEventListener('pointerout', (e) => {
+            if (leftForRelated(navList, e.relatedTarget)) {
+                clearMenuLinkHover();
+            }
         });
     }
+    navItems.forEach((item) => {
+        const link = item.querySelector('a');
+        if (!link) return;
+        item.addEventListener('pointerover', (e) => {
+            if (!leftForRelated(item, e.relatedTarget)) return;
+            setMenuLinkCurrent(link);
+        });
+        item.addEventListener('pointerout', (e) => {
+            if (!leftForRelated(item, e.relatedTarget)) return;
+            link.classList.remove('is-current');
+            // Stay dimmed if still inside the list (gap / another li); clear only when leaving ul
+            if (!navList || !navList.contains(e.relatedTarget)) {
+                clearMenuLinkHover();
+            }
+        });
+    });
 }
 
 // ======================================================================
@@ -1321,6 +1717,113 @@ if (servicesSection && track && servicesSticky) {
     scrollGroups.forEach(function(group) {
         observer.observe(group.root);
     });
+})();
+// ======================================================================
+// == ABOUT PAGE: Sub-nav scroll-spy (is-active follows section in view) ==
+// ======================================================================
+(function initAboutSectionNav() {
+    if (!document.body.classList.contains('about-page')) return;
+
+    var nav = document.querySelector('.about-section-nav');
+    if (!nav) return;
+
+    var items = [];
+    nav.querySelectorAll('a[href^="#"]').forEach(function(link) {
+        var id = (link.getAttribute('href') || '').replace(/^#/, '');
+        if (!id) return;
+        var target = document.getElementById(id);
+        if (!target) return;
+        var section = document.querySelector('[aria-labelledby="' + id + '"]')
+            || target.closest('section')
+            || target;
+        items.push({ link: link, section: section, id: id });
+    });
+    if (!items.length) return;
+
+    var activeLink = null;
+    var suppressSpy = false;
+    var settleTimer = null;
+    var PROBE_RATIO = 0.35; // ~30–40% down the viewport
+
+    function setActiveLink(link) {
+        if (activeLink === link) return;
+        items.forEach(function(item) {
+            if (item.link === link) item.link.classList.add('is-active');
+            else item.link.classList.remove('is-active');
+        });
+        activeLink = link || null;
+    }
+
+    function pickSectionItem() {
+        var vh = window.innerHeight || 0;
+        if (!vh) return null;
+        var probeY = vh * PROBE_RATIO;
+
+        // Prefer the section whose bounds contain the probe line
+        var i;
+        for (i = 0; i < items.length; i++) {
+            var rect = items[i].section.getBoundingClientRect();
+            if (rect.top <= probeY && rect.bottom > probeY) return items[i];
+        }
+
+        // Fallback: greatest intersection with the top half of the viewport
+        var half = vh * 0.5;
+        var best = null;
+        var bestVisible = 0;
+        for (i = 0; i < items.length; i++) {
+            var r = items[i].section.getBoundingClientRect();
+            var visible = Math.min(r.bottom, half) - Math.max(r.top, 0);
+            if (visible > bestVisible) {
+                bestVisible = visible;
+                best = items[i];
+            }
+        }
+        if (bestVisible < vh * 0.12) return null;
+        return best;
+    }
+
+    function updateSpy() {
+        if (suppressSpy) return;
+        var match = pickSectionItem();
+        setActiveLink(match ? match.link : null);
+    }
+
+    function endSuppress() {
+        suppressSpy = false;
+        settleTimer = null;
+        updateSpy();
+    }
+
+    function scheduleSettle(ms) {
+        if (settleTimer) window.clearTimeout(settleTimer);
+        settleTimer = window.setTimeout(endSuppress, ms);
+    }
+
+    function onScroll() {
+        if (suppressSpy) {
+            // Keep destination highlight until smooth scroll settles
+            scheduleSettle(150);
+            return;
+        }
+        updateSpy();
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', updateSpy);
+
+    items.forEach(function(item) {
+        item.link.addEventListener('click', function() {
+            suppressSpy = true;
+            setActiveLink(item.link);
+            // Fallback if no scroll events fire (already at target / reduced motion)
+            scheduleSettle(800);
+            window.requestAnimationFrame(function() {
+                item.link.blur();
+            });
+        });
+    });
+
+    updateSpy();
 })();
 // ======================================================================
 // == HOMEPAGE: Opening + scroll reveals ==

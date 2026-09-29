@@ -29,8 +29,50 @@ button:focus,
     outline: none !important;
 }
 
+/* Menu open: lock page scroll (position:fixed + saved scrollY in script.js).
+   Homepage overflow-x: clip alone can leave a scrollport — override while locked. */
 .body-no-scroll {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
     overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: none;
+}
+
+html:has(body.body-no-scroll) {
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
+body.homepage.body-no-scroll,
+body.homepage.body-no-scroll .scroll-content-wrapper {
+    overflow: hidden;
+    overflow-x: hidden;
+}
+
+/* Page dim scrim — always in the DOM so opacity can fade in/out (0.6s = menu panel). */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.62);
+    z-index: 750;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+body.menu-dim-active::after {
+    opacity: 1;
+    pointer-events: auto; /* block page clicks; click-away closes menu */
+}
+
+/* Keep catching clicks while fading out; opacity returns to 0 via transition */
+body.menu-is-closing::after {
+    opacity: 0;
+    pointer-events: auto;
 }
 
 /* --- REUSABLE CONTAINER --- */
@@ -111,7 +153,8 @@ header.is-hidden {
 }
 
 .about-section-nav a:hover,
-.about-section-nav a:focus-visible {
+.about-section-nav a:focus-visible,
+.about-section-nav a.is-active {
     color: #ffffff;
 }
 
@@ -191,9 +234,9 @@ header .desktop-nav a {
 .contact-page header .logo img {
     filter: brightness(0);
 }
-/* Make logo white when menu is open (no filter) */
+/* Keep logo black (dimmed via header opacity) when the menu is open — do not flip to white */
 body.contact-page.body-no-scroll header .logo img {
-    filter: none !important;
+    filter: brightness(0);
 }
 
 /* Header/navigation link color -- black for contact */
@@ -230,18 +273,76 @@ body.js-page-loaded header .desktop-nav a {
 }
 
 
-/* --- 5. UNIVERSAL Rules for When the Menu is OPEN --- */
-body.body-no-scroll header .nav-toggle {
-    color: #ffffff !important; /* "CLOSE" text must be white */
-}
-
-body.body-no-scroll .desktop-nav {
-    display: none; /* Hide "WORK +" button */
-}
-
-body.about-page.body-no-scroll .about-section-nav {
-    visibility: hidden;
+/* --- 5. UNIVERSAL Rules for When the Menu is OPEN / CLOSING --- */
+/*
+ * Stacking (open + closing):
+ *   750  scrim — fades via .menu-dim-active
+ *   860  header — ABOVE scrim so logo/chrome stay visible (dimmed)
+ *   920  panel — above header; covers About sub-nav (held during .menu-is-closing)
+ *   1000 CLOSE float
+ *
+ * .menu-is-closing keeps panel z-index 920 until the 0.6s transform finishes,
+ * so Our expertise / Trusted by do not pop over the black mid-close.
+ *
+ * Header chrome dim fades with .menu-dim-active (same 0.6s as scrim). Opacity is
+ * NOT tied to .menu-is-closing, so removing .menu-dim-active fades 0.38 → 1 while
+ * stacking is still held. CLOSE (.menu-close-float) is outside these selectors.
+ */
+body.body-no-scroll header,
+body.menu-is-closing header {
+    z-index: 860; /* above scrim (750), below open panel (920) */
+    transform: none !important;
     pointer-events: none;
+}
+
+/* Base fade for logo (incl. About sub-nav) + contact/desktop nav — not CLOSE */
+header .logo,
+header .desktop-nav {
+    transition: opacity 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Dim only while menu-dim-active so close can fade back to full */
+body.menu-dim-active header .logo,
+body.menu-dim-active header .desktop-nav {
+    opacity: 0.38;
+}
+
+/* Block header chrome clicks while open / closing (stacking hold window) */
+body.body-no-scroll header .logo,
+body.body-no-scroll header .desktop-nav,
+body.menu-is-closing header .logo,
+body.menu-is-closing header .desktop-nav {
+    pointer-events: none;
+}
+
+/* CLOSE floated to body while open so it escapes the header stacking context.
+   Re-apply header toggle type — font: inherit from body would look lighter. */
+.nav-toggle.menu-close-float {
+    position: fixed;
+    z-index: 1000;
+    margin-top: 0 !important;
+    pointer-events: auto;
+    opacity: 1 !important;
+    color: #ffffff !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 1em;
+    font-weight: bold; /* same as header .nav-toggle */
+    letter-spacing: normal;
+    text-decoration: none;
+    text-transform: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.main-nav.nav-open,
+body.menu-is-closing .main-nav {
+    z-index: 920;
 }
 
 /* --- 6. Mobile-Specific Adjustments --- */
@@ -251,7 +352,8 @@ body.about-page.body-no-scroll .about-section-nav {
     }
 
     header .nav-toggle,
-    header .desktop-nav a {
+    header .desktop-nav a,
+    .nav-toggle.menu-close-float {
         font-weight: 600; /* Consistent font weight on mobile */
     }
 
@@ -266,16 +368,23 @@ body.about-page.body-no-scroll .about-section-nav {
 
 
 
-/* --- FULL-SCREEN OVERLAY MENU (NEW SLIDE-IN STYLE) --- */
+/* --- LEFT SLIDE-IN MENU (solid black panel, stops before centered logo) --- */
 
 .main-nav {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    /* Solid black panel from the left; stops just before the centered logo.
+       -3.75rem ≈ logo half + gap; -3rem (~48px) further left so more page shows. */
+    width: calc(50% - 3.75rem - 3rem);
+    max-width: 100%;
     height: 100%;
-    background: #000000; /* Changed to a solid black background */
-    z-index: 800;
+    background: #000000;
+    z-index: 800; /* closed/off-screen; .nav-open raises to 920 above header chrome */
+    overflow-x: hidden; /* Keep menu words inside the panel, never under the logo */
+    box-sizing: border-box;
+    container-type: inline-size;
+    container-name: menu-panel;
     
     display: flex;
     justify-content: center; /* Center the links vertically */
@@ -300,17 +409,28 @@ body.about-page.body-no-scroll .about-section-nav {
 .main-nav ul {
     list-style: none;
     margin: 0;
-    padding: 0 10vw; /* Add generous padding on the left/right */
+    /* Extra bottom padding offsets the tighter li gaps so flex centering
+       keeps Home fixed while Work/About/Contact move up toward it.
+       +6rem vs original 6rem bottom: four lis lost 1.5rem each (2rem→0.5rem).
+       Modest ~48px left shift kept so words sit comfortably inside the panel. */
+    padding: 0 10vw 12rem; /* was 10rem; +2rem for this 1rem→0.5rem gap cut */
+    padding-left: max(1.25rem, calc(10vw - 3rem));
+    padding-right: max(1.5rem, 10vw);
     text-align: left; /* Align the text to the left */
+    box-sizing: border-box;
+    max-width: 100%;
 }
 
+/* Padding (not margin) covers the gap between items so hover stays on the li.
+   Gap between words halved again (1rem → 0.5rem); dividers removed. */
 .main-nav li {
-    margin-bottom: 2rem;
-    border-bottom: 1px solid #333; /* Add a subtle separating line */
-    padding-bottom: 2rem;
+    margin-bottom: 0;
+    padding-bottom: 0.5rem; /* was 1rem; continuous hit area preserved */
+    border-bottom: none;
+    background-image: none;
 }
 .main-nav li:last-child {
-    border-bottom: none; /* Remove the line from the last item */
+    padding-bottom: 0.5rem;
 }
 
 .main-nav a {
@@ -319,10 +439,41 @@ body.about-page.body-no-scroll .about-section-nav {
     text-decoration: none;
     font-size: clamp(2.5rem, 8vw, 4.5rem); /* Slightly larger font */
     font-weight: 600; /* A strong but not overly bold weight */
+    transition: color 0.2s ease;
 }
+
+/* Open-menu link colors (class-based — not :hover; menu-cursor would flicker a:hover).
+   Rest: non-page links knocked back; .is-page = current page (separate from hover .is-current).
+   Hover: only .is-current goes full white; .is-page stays 0.72 when another word is hovered. */
+.main-nav.nav-open a {
+    color: rgba(255, 255, 255, 0.4);
+}
+.main-nav.nav-open a.is-page {
+    color: rgba(255, 255, 255, 0.72);
+}
+.main-nav.nav-open a.is-current,
+.main-nav.nav-open a:focus-visible {
+    color: #ffffff;
+}
+
+/* Narrow panel: shrink type & side padding so words stay readable inside the black panel. */
+@container menu-panel (max-width: 420px) {
+    .main-nav ul {
+        padding-left: 0.75rem;
+        padding-right: 1rem;
+    }
+    .main-nav a {
+        font-size: clamp(1.5rem, 14cqi, 2.75rem);
+    }
+}
+
 @media (max-width: 900px) {
 
     .main-nav {
+        /* Smaller logo (40px) → half ~37px + gap; -3rem pulls edge further left */
+        width: calc(50% - 3.25rem - 3rem);
+        background: #000000;
+
         /* This pushes the content down from the top by 25% of the screen height */
         padding-top: 25vh;
 
@@ -617,9 +768,35 @@ body.about-page.body-no-scroll .about-section-nav {
 }
 
 /* --- CLIENT SCROLLER SECTION --- */
-.client-scroller { padding: 100px 0; }
-.scroller-container { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); }
-.scroller-track { display: flex; width: max-content; animation: scroll 40s linear infinite; }
+/*
+ * Clip the translating track on this strip — not only via html/body overflow-x: clip.
+ * Ancestor clip can make logos hard-pop at the viewport edge on mobile Safari/Chrome
+ * when the track's transform escapes an intermediate overflow:hidden.
+ */
+.client-scroller {
+    padding: 100px 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.scroller-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    /* Paint containment keeps transformed logos clipped to this box (iOS Safari). */
+    contain: paint;
+    isolation: isolate;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+.scroller-track {
+    display: flex;
+    width: max-content;
+    max-width: none;
+    animation: scroll 40s linear infinite;
+}
 @keyframes scroll { from { transform: translateX(0%); } to { transform: translateX(-50%); } }
 .client-logo { display: flex; align-items: center; justify-content: center; --logo-width: 240px; width: var(--logo-width); padding: 0 40px; box-sizing: border-box; }
 .client-logo img { max-width: 100%; height: auto; }
@@ -826,18 +1003,126 @@ body.portfolio-page::before {
 }
 .testimonials-header .pre-title { font-size: 0.9em; font-weight: 600; color: #888; letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
 .testimonials-header h2 { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 3rem; line-height: 1.2; margin: 0; color: #222; }
-.testimonials-scroller { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-.testimonials-scroller::-webkit-scrollbar { display: none; }
-.testimonials-track { display: flex; gap: 30px; width: max-content; padding: 20px 40px; opacity: 0; transform: translateX(200px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-.testimonials-section.is-visible .testimonials-track { opacity: 1; transform: translateX(0); }
-.testimonial-card { flex-shrink: 0; width: 350px; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; border-radius: 0; }
+
+/* Slideshow viewport: full content width (aligned with heading) */
+.testimonials-viewport {
+    overflow: hidden;
+    width: auto;
+    max-width: none;
+    margin-left: 40px;
+    margin-right: 40px;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.8s ease-out;
+}
+.testimonials-section.is-visible .testimonials-viewport {
+    opacity: 1;
+}
+.testimonials-track {
+    display: flex;
+    gap: 30px;
+    width: max-content;
+    padding: 20px 0;
+    transform: translateX(0);
+    transition: transform 0.4s ease;
+    will-change: transform;
+}
+.testimonial-card {
+    flex-shrink: 0;
+    width: 350px; /* fallback; JS sizes to fill the window */
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 0;
+    box-sizing: border-box;
+}
 .testimonial-card-top { padding: 40px 40px 20px; }
 .testimonial-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; }
 .testimonial-quote { font-size: 1.1em; line-height: 1.4; margin: 0; color: #333333; }
 .testimonial-card-bottom { background-color: #000000; color: #ffffff; margin-top: auto; padding: 20px 40px; }
 .testimonial-author { font-size: 0.9em; font-weight: 600; color: #ffffff; margin: 0; }
-.draggable { cursor: grab; user-select: none; }
-.draggable.is-dragging { cursor: grabbing; }
+
+.testimonials-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 8px 40px 40px;
+    font-family: 'Inter', sans-serif;
+}
+.testimonials-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #000000;
+    border-radius: 50%;
+    background-color: #000000;
+    color: #ffffff;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+.testimonials-arrow svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+.testimonials-arrow:hover:not(:disabled),
+.testimonials-arrow:focus-visible:not(:disabled) {
+    background-color: #ffffff;
+    color: #000000;
+}
+.testimonials-arrow:disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+}
+.testimonials-arrow:focus-visible {
+    outline: 1px solid #000000;
+    outline-offset: 3px;
+}
+.testimonials-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.testimonials-dot {
+    width: 6px;
+    height: 6px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+}
+.testimonials-dot.is-active {
+    background-color: #000000;
+}
+.testimonials-dot:focus-visible {
+    outline: 1px solid #000000;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .testimonials-viewport {
+        transition: none;
+    }
+    .testimonials-track {
+        transition: none;
+    }
+}
 
 /* ================================================================= */
 /* == DEFINITIVE & COMPLETE FOOTER STYLES (DESKTOP & MOBILE) == */
@@ -1467,7 +1752,7 @@ body.contact-page {
 @media (max-width: 600px) {
     .service-card { flex-basis: 100%; }
 }
-/* --- Header gradient: stays with the fixed bar over light and dark content --- */
+/* --- Header gradient wash: off at top; on only after scroll-up (.has-fade) --- */
 .homepage header::before,
 .about-page header::before {
     content: '';
@@ -1475,29 +1760,40 @@ body.contact-page {
     top: 0;
     left: 0;
     width: 100%;
-    height: 240px;
+    height: 320px;
     background: linear-gradient(
         to bottom,
-        rgba(0, 0, 0, 0.6) 0%,
-        rgba(0, 0, 0, 0.6) 38%,
-        rgba(0, 0, 0, 0.42) 48%,
-        rgba(0, 0, 0, 0.28) 58%,
-        rgba(0, 0, 0, 0.16) 68%,
-        rgba(0, 0, 0, 0.08) 78%,
-        rgba(0, 0, 0, 0.02) 88%,
-        rgba(0, 0, 0, 0.004) 95%,
+        rgba(0, 0, 0, 0.58) 0%,
+        rgba(0, 0, 0, 0.52) 8%,
+        rgba(0, 0, 0, 0.45) 16%,
+        rgba(0, 0, 0, 0.36) 26%,
+        rgba(0, 0, 0, 0.27) 36%,
+        rgba(0, 0, 0, 0.20) 46%,
+        rgba(0, 0, 0, 0.14) 56%,
+        rgba(0, 0, 0, 0.09) 66%,
+        rgba(0, 0, 0, 0.055) 74%,
+        rgba(0, 0, 0, 0.03) 82%,
+        rgba(0, 0, 0, 0.012) 90%,
+        rgba(0, 0, 0, 0.004) 96%,
         rgba(0, 0, 0, 0) 100%
     );
     pointer-events: none;
     z-index: -1;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.homepage header.has-fade:not(.is-hidden)::before,
+.about-page header.has-fade:not(.is-hidden)::before {
+    opacity: 1;
 }
 
 .homepage header.is-hidden,
 .about-page header.is-hidden {
-    transform: translateY(-240px);
+    transform: translateY(-320px);
 }
 
-/* Work page only. Solid through the bar, then a flat ease so the bottom has no edge. */
+/* Work: white wash, same has-fade gate; dark type reads on white intro and wash */
 .portfolio-page header {
     overflow: visible;
 }
@@ -1507,21 +1803,24 @@ body.contact-page {
     top: 0;
     left: 0;
     width: 100%;
-    height: 280px;
+    height: 340px;
     background: linear-gradient(
         to bottom,
         rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 1) 36%,
-        rgba(255, 255, 255, 0.77) 44%,
-        rgba(255, 255, 255, 0.56) 52%,
-        rgba(255, 255, 255, 0.39) 60%,
-        rgba(255, 255, 255, 0.25) 68%,
-        rgba(255, 255, 255, 0.14) 76%,
-        rgba(255, 255, 255, 0.06) 84%,
-        rgba(255, 255, 255, 0.016) 92%,
+        rgba(255, 255, 255, 0.92) 8%,
+        rgba(255, 255, 255, 0.80) 16%,
+        rgba(255, 255, 255, 0.64) 26%,
+        rgba(255, 255, 255, 0.48) 36%,
+        rgba(255, 255, 255, 0.34) 46%,
+        rgba(255, 255, 255, 0.22) 56%,
+        rgba(255, 255, 255, 0.14) 66%,
+        rgba(255, 255, 255, 0.07) 76%,
+        rgba(255, 255, 255, 0.03) 86%,
+        rgba(255, 255, 255, 0.01) 93%,
         rgba(255, 255, 255, 0) 100%
     );
     pointer-events: none;
+    z-index: 0;
     opacity: 0;
     transition: opacity 0.25s ease;
 }
@@ -1535,13 +1834,16 @@ body.contact-page {
     z-index: 1;
 }
 
+/* Don't paint the wash over the black full-screen menu */
+body.homepage.body-no-scroll header::before,
+body.about-page.body-no-scroll header::before,
 body.portfolio-page.body-no-scroll header::before {
     content: none;
 }
 
-/* The fade is taller than the bar, so hide the full strip with the header. */
+/* Wash is taller than the bar; hide the full strip with the header. */
 .portfolio-page header.is-hidden {
-    transform: translateY(-280px);
+    transform: translateY(-340px);
 }
 
 .lightbox-content.is-vertical {
@@ -1878,11 +2180,10 @@ body.portfolio-page.body-no-scroll header::before {
     z-index: 1100;
     pointer-events: none;
     
-    /* Center the cursor point */
+    /* Positioned in JS beside the OS pointer (lower-right offset) */
     width: 80px;
     height: 80px;
-    margin-left: -20px; 
-    margin-top: -40px;
+    margin: 0;
     
     /* FORCE TRANSPARENCY (Fixes the Black Square Box) */
     background: none !important;
@@ -1901,6 +2202,7 @@ body.portfolio-page.body-no-scroll header::before {
 .cursor-visual {
     width: 100%;
     height: 100%;
+    pointer-events: none;
     
     /* This creates the circle */
     background-color: rgba(0, 0, 0, 0.8);
@@ -1920,8 +2222,14 @@ body.portfolio-page.body-no-scroll header::before {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Hover State */
-.cursor-hover .cursor-visual {
+.custom-cursor,
+.custom-cursor * {
+    pointer-events: none !important;
+}
+
+/* Hover State — class lives on html/body while over a film tile */
+html.cursor-hover .cursor-visual,
+body.cursor-hover .cursor-visual {
     opacity: 1;
     transform: scale(1);
 }
@@ -1936,8 +2244,7 @@ body.portfolio-page.body-no-scroll header::before {
     
     width: 60px;
     height: 60px;
-    margin-left: -30px;
-    margin-top: -30px;
+    margin: 0;
     
     /* FORCE TRANSPARENCY (Fixes the Black Square Box) */
     background: none !important;
@@ -1953,6 +2260,7 @@ body.portfolio-page.body-no-scroll header::before {
 .menu-cursor-visual {
     width: 100%;
     height: 100%;
+    pointer-events: none;
     
     /* This creates the circle */
     background-color: rgba(255, 255, 255, 0.8);
@@ -1973,6 +2281,11 @@ body.portfolio-page.body-no-scroll header::before {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+.menu-cursor,
+.menu-cursor * {
+    pointer-events: none !important;
+}
+
 /* Portfolio Page Color Override */
 .portfolio-page .menu-cursor-visual {
     background-color: rgba(0, 0, 0, 0.8);
@@ -1980,9 +2293,22 @@ body.portfolio-page.body-no-scroll header::before {
 }
 
 /* Active State */
+html.menu-cursor-active .menu-cursor-visual,
 body.menu-cursor-active .menu-cursor-visual {
     opacity: 1;
     transform: scale(1);
+}
+
+/* One consistent OS cursor over film tiles — avoid hand/arrow flicker on <a> vs children */
+.portfolio-grid-section .grid-item,
+.portfolio-grid-section .grid-item * {
+    cursor: default;
+}
+
+/* Same for the open full-screen menu — arrow only, no hand flicker on links/gaps */
+.main-nav.nav-open,
+.main-nav.nav-open * {
+    cursor: default;
 }
 
 
@@ -2017,18 +2343,29 @@ body.menu-cursor-active .menu-cursor-visual {
         box-sizing: border-box;
     }
 
-    /* --- Step 3: Fix the Scroller --- */
-    /* This aligns the scroller correctly. */
-    .homepage .testimonials-scroller {
-        max-width: 100%;
-        margin: 0; /* Removes 'auto' centering */
+    /* --- Step 3: Slideshow viewport — inset like homepage content --- */
+    .homepage .testimonials-viewport {
+        width: auto;
+        max-width: none;
+        margin-left: 20px;
+        margin-right: 20px;
+        padding: 0;
+        box-sizing: border-box;
     }
 
-    /* --- Step 4: Fix the Scrolling Track --- */
-    /* This indents the first and last cards correctly. */
     .homepage .testimonials-track {
-        padding-left: 20px;
-        padding-right: 20px;
+        gap: 20px;
+        padding: 20px 0;
+    }
+
+    .homepage .testimonial-card {
+        width: auto;
+        max-width: none;
+    }
+
+    .homepage .testimonials-controls {
+        padding: 4px 20px 0;
+        gap: 16px;
     }
 }
 
@@ -2671,14 +3008,17 @@ body.portfolio-page::before {
     display: none;
 }
 
-/* 3. Invert Header Colors (Make Logo & Text Black) */
+/* 3. Dark header type on the always-on white wash (readable CONTACT) */
 .portfolio-page header .nav-toggle,
 .portfolio-page header .desktop-nav a {
     color: #222222;
 }
 
-/* 4. Force the Logo to be Black */
+/* 4. Black logo on the white wash; stay black (dimmed) when the menu is open */
 .portfolio-page header .logo img {
+    filter: brightness(0);
+}
+body.portfolio-page.body-no-scroll header .logo img {
     filter: brightness(0);
 }
 
@@ -4226,7 +4566,7 @@ body.portfolio-page.js-work-filter-motion .grid-item.work-filter-enter.is-entere
 
     .about-onset-grid {
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 160px 120px;
+        grid-template-rows: 320px 240px;
         height: auto;
     }
 
@@ -4351,10 +4691,13 @@ body.homepage.js-home-motion .home-reveal.is-revealed {
         --progress: 100%;
     }
 
-    body.homepage .testimonials-track,
-    body.homepage .testimonials-section.is-visible .testimonials-track {
+    body.homepage .testimonials-viewport,
+    body.homepage .testimonials-section.is-visible .testimonials-viewport {
         opacity: 1;
-        transform: none;
+        transition: none;
+    }
+
+    body.homepage .testimonials-track {
         transition: none;
     }
 }
