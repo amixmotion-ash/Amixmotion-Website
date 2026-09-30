@@ -124,6 +124,8 @@ header.is-hidden {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: max-content;
+    gap: 8px;
 }
 
 .about-section-nav a {
@@ -136,26 +138,26 @@ header.is-hidden {
     color: rgba(255, 255, 255, 0.75);
     text-decoration: none;
     white-space: nowrap;
-    padding: 0 14px;
-    transition: color 0.2s ease;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    background: transparent;
+    padding: 6px 10px;
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.about-section-nav a + a {
-    border-left: 1px solid rgba(255, 255, 255, 0.45);
-}
-
-.about-section-nav a:first-child {
-    padding-left: 0;
-}
-
-.about-section-nav a:last-child {
-    padding-right: 0;
+.about-section-nav a.is-active {
+    color: #000000;
+    background-color: #ffffff;
+    border-color: #ffffff;
 }
 
 .about-section-nav a:hover,
 .about-section-nav a:focus-visible,
-.about-section-nav a.is-active {
-    color: #ffffff;
+.about-section-nav a.is-active:hover,
+.about-section-nav a.is-active:focus-visible {
+    color: #000000;
+    background-color: #ffffff;
+    border-color: #ffffff;
 }
 
 .about-page .nav-toggle,
@@ -487,6 +489,7 @@ body.menu-is-closing .main-nav {
     font-size: 0; /* icons only — never inherit menu word type */
     text-decoration: none;
     pointer-events: auto;
+    cursor: pointer;
     transition: color 0.2s ease;
 }
 
@@ -496,8 +499,8 @@ body.menu-is-closing .main-nav {
 }
 
 .main-nav-social svg {
-    width: 20px;
-    height: 20px;
+    width: 30px; /* midpoint of 20px and 40px */
+    height: 30px;
     display: block;
 }
 
@@ -597,8 +600,8 @@ body.menu-is-closing .main-nav {
     }
 
     .main-nav-social svg {
-        width: 22px;
-        height: 22px;
+        width: 33px; /* midpoint of 22px and 44px */
+        height: 33px;
     }
 
     /* Custom menu arrow not needed on touch; OS cursor stays visible */
@@ -2454,10 +2457,14 @@ body.menu-cursor-active .menu-cursor-visual {
     cursor: default;
 }
 
-/* Same for the open full-screen menu — arrow only, no hand flicker on links/gaps */
+/* Same for the open menu — arrow only on the four words; socials keep the hand */
 .main-nav.nav-open,
 .main-nav.nav-open * {
     cursor: default;
+}
+.main-nav.nav-open .main-nav-social a,
+.main-nav.nav-open .main-nav-social a * {
+    cursor: pointer;
 }
 
 
@@ -3220,6 +3227,7 @@ body.portfolio-page.body-no-scroll header .logo img {
 }
 
 .work-filters button {
+    position: relative;
     appearance: none;
     background: none;
     border: 0;
@@ -3249,6 +3257,33 @@ body.portfolio-page.body-no-scroll header .logo img {
 .work-filters button:focus-visible,
 .work-filters button.is-active {
     color: #111111;
+}
+
+.work-filters button.is-active {
+    font-weight: 600;
+}
+
+/* Selected marker: centered under the word on desktop. First/last
+   buttons have uneven side padding, so the dot is shifted onto the type. */
+.work-filters button.is-active::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 4px);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: currentColor;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.work-filters button:first-child.is-active::after {
+    left: calc(50% - 7px);
+}
+
+.work-filters button:last-child.is-active::after {
+    left: calc(50% + 7px);
 }
 
 .work-filters button:focus-visible {
@@ -3309,15 +3344,30 @@ body.portfolio-page.js-work-filter-motion .grid-item.work-filter-enter.is-entere
     }
 
     .work-filters {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 14px;
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-rows: repeat(4, auto);
+        grid-template-columns: max-content max-content;
+        justify-content: start;
+        align-items: start;
+        column-gap: 2.5rem;
+        row-gap: 14px;
         margin-top: 56px;
     }
 
     .work-filters button {
         padding: 0;
         border-left: 0;
+        text-align: left;
+    }
+
+    .work-filters button.is-active::after,
+    .work-filters button:first-child.is-active::after,
+    .work-filters button:last-child.is-active::after {
+        left: auto;
+        right: calc(100% + 8px);
+        top: 50%;
+        transform: translateY(-50%);
     }
 
     .portfolio-page .portfolio-grid-section {
@@ -4668,10 +4718,14 @@ body.portfolio-page.js-work-filter-motion .grid-item.work-filter-enter.is-entere
         font-size: 0.95rem;
     }
 
+    .about-section-nav {
+        gap: 6px;
+    }
+
     .about-section-nav a {
         font-size: 0.72rem;
         letter-spacing: 0.08em;
-        padding: 0 9px;
+        padding: 5px 8px;
     }
 
     .about-selected {

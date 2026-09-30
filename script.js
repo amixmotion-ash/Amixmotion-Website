@@ -989,11 +989,14 @@ if (htmlForCursor) {
     });
 
     const navRoot = document.querySelector('.main-nav');
-    const navLinks = document.querySelectorAll('.main-nav a');
-    const navList = navRoot ? navRoot.querySelector('ul') : null;
-    const navItems = navRoot ? navRoot.querySelectorAll('li') : [];
+    /* Word links only — social icons in .main-nav-meta stay a normal hand cursor */
+    const navLinks = navRoot
+        ? navRoot.querySelectorAll('.main-nav-inner > ul a')
+        : [];
+    const navList = navRoot ? navRoot.querySelector('.main-nav-inner > ul') : null;
+    const navItems = navList ? navList.querySelectorAll('li') : [];
     const isMenuLinkNode = (node) =>
-        !!(node && node.nodeType === 1 && node.closest && node.closest('.main-nav a'));
+        !!(node && node.nodeType === 1 && node.closest && node.closest('.main-nav-inner > ul a'));
     const activateMenuCursor = (e, root) => {
         if (navRoot && !navRoot.classList.contains('nav-open')) return;
         if (leftForRelated(root, e.relatedTarget)) {
@@ -1018,7 +1021,7 @@ if (htmlForCursor) {
         navLinks.forEach((a) => a.classList.toggle('is-current', a === link));
     };
 
-    // Menu arrow cursor ONLY on the four words — not the empty black panel.
+    // Menu arrow cursor ONLY on the four words — not the panel, socials, or copyright.
     navLinks.forEach((link) => {
         link.addEventListener('pointerover', (e) => activateMenuCursor(e, link));
         link.addEventListener('pointerout', (e) => deactivateMenuCursor(e, link));
