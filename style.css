@@ -411,9 +411,9 @@ body.menu-is-closing .main-nav {
     margin: 0;
     /* Extra bottom padding offsets the tighter li gaps so flex centering
        keeps Home fixed while Work/About/Contact move up toward it.
-       +6rem vs original 6rem bottom: four lis lost 1.5rem each (2rem→0.5rem).
+       +7rem vs original 6rem bottom: four lis lost 1.75rem each (2rem→0.25rem).
        Modest ~48px left shift kept so words sit comfortably inside the panel. */
-    padding: 0 10vw 12rem; /* was 10rem; +2rem for this 1rem→0.5rem gap cut */
+    padding: 0 10vw 13rem; /* was 12rem; +1rem for this 0.5rem→0.25rem gap cut */
     padding-left: max(1.25rem, calc(10vw - 3rem));
     padding-right: max(1.5rem, 10vw);
     text-align: left; /* Align the text to the left */
@@ -422,15 +422,15 @@ body.menu-is-closing .main-nav {
 }
 
 /* Padding (not margin) covers the gap between items so hover stays on the li.
-   Gap between words halved again (1rem → 0.5rem); dividers removed. */
+   Gap between words halved again (0.5rem → 0.25rem); dividers removed. */
 .main-nav li {
     margin-bottom: 0;
-    padding-bottom: 0.5rem; /* was 1rem; continuous hit area preserved */
+    padding-bottom: 0.25rem; /* was 0.5rem; continuous hit area preserved */
     border-bottom: none;
     background-image: none;
 }
 .main-nav li:last-child {
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.25rem;
 }
 
 .main-nav a {
@@ -442,18 +442,90 @@ body.menu-is-closing .main-nav {
     transition: color 0.2s ease;
 }
 
-/* Open-menu link colors (class-based — not :hover; menu-cursor would flicker a:hover).
-   Rest: non-page links knocked back; .is-page = current page (separate from hover .is-current).
-   Hover: only .is-current goes full white; .is-page stays 0.72 when another word is hovered. */
-.main-nav.nav-open a {
+/* Open-menu WORD colors only (not .main-nav-social links).
+   Rest: non-page knocked back; .is-page = current page; .is-current = hover (desktop). */
+.main-nav.nav-open .main-nav-inner > ul a {
     color: rgba(255, 255, 255, 0.4);
 }
-.main-nav.nav-open a.is-page {
+.main-nav.nav-open .main-nav-inner > ul a.is-page {
     color: rgba(255, 255, 255, 0.72);
 }
-.main-nav.nav-open a.is-current,
-.main-nav.nav-open a:focus-visible {
+.main-nav.nav-open .main-nav-inner > ul a.is-current,
+.main-nav.nav-open .main-nav-inner > ul a:focus-visible {
     color: #ffffff;
+}
+
+/* Social + copyright under the menu words (desktop: pinned to panel bottom;
+   mobile: flex-pushed to viewport bottom — see max-width 900px). */
+.main-nav-inner {
+    width: 100%;
+    box-sizing: border-box;
+    /* no position:relative — desktop .main-nav-meta absolute anchors to .main-nav */
+}
+
+.main-nav-meta {
+    display: block;
+    text-align: left;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+.main-nav-social {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 18px;
+    margin: 0 0 1.1rem;
+}
+
+.main-nav-social a {
+    display: flex;
+    align-items: center;
+    line-height: 0;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0; /* icons only — never inherit menu word type */
+    text-decoration: none;
+    pointer-events: auto;
+    transition: color 0.2s ease;
+}
+
+.main-nav-social a:hover,
+.main-nav-social a:focus-visible {
+    color: #ffffff;
+}
+
+.main-nav-social svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.main-nav-legal {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 0.72rem;
+    line-height: 1.45;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.75);
+    text-transform: none;
+}
+
+.main-nav-legal + .main-nav-legal {
+    margin-top: 0.35rem;
+}
+
+/* Desktop: pin meta to the bottom of the left panel — do not disturb word stack */
+@media (min-width: 901px) {
+    .main-nav-meta {
+        position: absolute;
+        left: max(1.25rem, calc(10vw - 3rem));
+        right: max(1.5rem, 10vw);
+        bottom: 2.5rem; /* ~40px from panel bottom */
+        margin-top: 0;
+    }
 }
 
 /* Narrow panel: shrink type & side padding so words stay readable inside the black panel. */
@@ -469,17 +541,69 @@ body.menu-is-closing .main-nav {
 
 @media (max-width: 900px) {
 
+    /* Full-screen black menu on mobile — not the desktop left strip */
     .main-nav {
-        /* Smaller logo (40px) → half ~37px + gap; -3rem pulls edge further left */
-        width: calc(50% - 3.25rem - 3rem);
+        width: 100%;
+        max-width: none;
         background: #000000;
-
-        /* This pushes the content down from the top by 25% of the screen height */
-        padding-top: 25vh;
-
-        /* This ensures the padding is calculated inside the element's height,
-           preventing it from becoming taller than the screen. */
         box-sizing: border-box;
+        /* Words a bit lower than before; meta sits near the bottom */
+        padding-top: 8.5rem;
+        padding-bottom: 2.5rem; /* ~40px from viewport bottom */
+        justify-content: flex-start;
+        align-items: center; /* center the left-aligned block horizontally */
+    }
+
+    /* Tall flex column: words up top, meta pushed to bottom */
+    .main-nav-inner {
+        width: max-content;
+        max-width: calc(100% - 2.5rem);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+
+    .main-nav-inner > ul {
+        padding: 0;
+        text-align: left;
+        width: max-content;
+        max-width: 100%;
+        flex: 0 0 auto;
+    }
+
+    /* Large menu words only — overrides the narrow-panel @container shrink */
+    .main-nav-inner > ul > li > a {
+        font-size: clamp(3rem, 14vw, 4.5rem);
+    }
+
+    /* No hover / touch flash on mobile — only current page (.is-page) stands out */
+    .main-nav.nav-open .main-nav-inner > ul a.is-current,
+    .main-nav.nav-open .main-nav-inner > ul a:focus-visible {
+        color: rgba(255, 255, 255, 0.4);
+    }
+    .main-nav.nav-open .main-nav-inner > ul a.is-page,
+    .main-nav.nav-open .main-nav-inner > ul a.is-page.is-current,
+    .main-nav.nav-open .main-nav-inner > ul a.is-page:focus-visible {
+        color: rgba(255, 255, 255, 0.72);
+    }
+
+    .main-nav-meta {
+        position: static;
+        margin-top: auto; /* large gap — pins socials/legal to the bottom */
+        left: auto;
+        right: auto;
+        bottom: auto;
+    }
+
+    .main-nav-social svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* Custom menu arrow not needed on touch; OS cursor stays visible */
+    .menu-cursor {
+        display: none !important;
     }
 
 }
@@ -1165,6 +1289,26 @@ footer {
 .footer-social a { color: #ffffff; text-decoration: none; transition: color 0.3s ease; }
 .footer-social a:hover { color: #888; }
 
+.footer-legal {
+    margin-top: 48px;
+    max-width: 36rem;
+}
+
+.footer-legal p {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.footer-legal p + p {
+    margin-top: 0.35rem;
+}
+
 
 /* --- 2. Desktop-Only Adjustment --- */
 /* This rule ONLY applies on screens wider than 901px to reduce the bottom padding. */
@@ -1195,6 +1339,11 @@ footer {
         flex-direction: column;
         align-items: flex-start;
         gap: 30px;
+    }
+
+    .footer-legal {
+        margin-top: 40px;
+        max-width: 100%;
     }
 }
 
