@@ -307,12 +307,17 @@ if (lightbox) {
     const customLoader = lightbox.querySelector('.custom-loader');
     const lightboxOverlay = lightbox.querySelector('.lightbox-overlay');
     const cutsRow = lightbox.querySelector('.lightbox-cuts');
+    const cutsNav = lightbox.querySelector('.lightbox-cuts-nav');
+    const cutPrev = lightbox.querySelector('.lightbox-cut-prev');
+    const cutNext = lightbox.querySelector('.lightbox-cut-next');
     const portfolioItems = document.querySelectorAll('.grid-item');
     let cutsLabel = lightbox.querySelector('.lightbox-cuts-label');
+    let currentCuts = [];
+    let activeCutIndex = 0;
     if (!cutsLabel && cutsRow) {
         cutsLabel = document.createElement('p');
         cutsLabel.className = 'lightbox-cuts-label';
-        cutsRow.before(cutsLabel);
+        (cutsNav || cutsRow).before(cutsLabel);
     }
 
     let playToken = 0;
@@ -350,7 +355,29 @@ if (lightbox) {
         }
     }
 
+    function updateCutArrows() {
+        const count = currentCuts.length;
+        if (cutPrev) cutPrev.disabled = activeCutIndex <= 0;
+        if (cutNext) cutNext.disabled = count === 0 || activeCutIndex >= count - 1;
+    }
+
+    function selectCut(index) {
+        if (!currentCuts[index] || !cutsRow) return;
+        activeCutIndex = index;
+        cutsRow.querySelectorAll('.lightbox-cut').forEach((el, i) => {
+            const on = i === index;
+            el.classList.toggle('is-active', on);
+            el.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        updateCutArrows();
+        const cut = currentCuts[index];
+        playSource(cut.src, cut.aspect);
+    }
+
     function clearCuts() {
+        currentCuts = [];
+        activeCutIndex = 0;
+        updateCutArrows();
         if (!cutsRow) return;
         cutsRow.innerHTML = '';
         cutsRow.classList.remove('is-visible');
@@ -364,8 +391,11 @@ if (lightbox) {
     function playSource(videoSrc, aspectRatio) {
         if (!videoSrc) return;
         const token = ++playToken;
+        touchControlsPinned = false;
         lightboxVideo.pause();
         applyAspect(aspectRatio);
+        if (coarsePointer) concealTouchControls();
+        else setNativeControls(true);
         if (customLoader) customLoader.classList.add('is-loading');
         lightbox.classList.add('is-loading');
         lightboxVideo.src = videoSrc;
@@ -385,6 +415,10 @@ if (lightbox) {
             clearCuts();
             return;
         }
+
+        currentCuts = cuts;
+        activeCutIndex = activeIndex;
+        updateCutArrows();
 
         if (cutsLabel) {
             cutsLabel.textContent = 'Choose from ' + cutCountWords(cuts.length) + ' videos below';
@@ -408,14 +442,8 @@ if (lightbox) {
             button.addEventListener('click', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                if (button.classList.contains('is-active')) return;
-                cutsRow.querySelectorAll('.lightbox-cut').forEach((el) => {
-                    el.classList.remove('is-active');
-                    el.setAttribute('aria-pressed', 'false');
-                });
-                button.classList.add('is-active');
-                button.setAttribute('aria-pressed', 'true');
-                playSource(cut.src, cut.aspect);
+                if (index === activeCutIndex) return;
+                selectCut(index);
             });
 
             cutsRow.appendChild(button);
@@ -459,15 +487,49 @@ if (lightbox) {
         });
     }
 
-    lightboxVideo.addEventListener('playing', () => lightboxVideo.classList.add('controls-hidden'));
-    lightboxContent.addEventListener('mouseenter', () => lightboxVideo.classList.remove('controls-hidden'));
-    lightboxContent.addEventListener('mouseleave', () => {
-        if (!lightboxVideo.paused) lightboxVideo.classList.add('controls-hidden');
+    const coarsePointer = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    let touchControlsPinned = false;
+
+    function setNativeControls(on) {
+        lightboxVideo.controls = on;
+        if (on) lightboxVideo.setAttribute('controls', '');
+        else lightboxVideo.removeAttribute('controls');
+    }
+
+    function concealTouchControls() {
+        if (!coarsePointer || touchControlsPinned) return;
+        setNativeControls(false);
+        lightboxVideo.classList.add('controls-hidden');
+    }
+
+    lightboxVideo.addEventListener('playing', () => {
+        lightboxVideo.classList.add('controls-hidden');
+        concealTouchControls();
     });
-    lightboxContent.addEventListener('click', () => {
-        if (!lightboxVideo.paused) lightboxVideo.classList.toggle('controls-hidden');
+    if (coarsePointer) {
+        lightboxVideo.addEventListener('click', (event) => {
+            if (lightboxVideo.hasAttribute('controls')) return;
+            event.preventDefault();
+            event.stopPropagation();
+            touchControlsPinned = true;
+            setNativeControls(true);
+            lightboxVideo.classList.remove('controls-hidden');
+            const playPromise = lightboxVideo.play();
+            if (playPromise && typeof playPromise.catch === 'function') playPromise.catch(() => {});
+        }, true);
+    } else {
+        lightboxContent.addEventListener('mouseenter', () => lightboxVideo.classList.remove('controls-hidden'));
+        lightboxContent.addEventListener('mouseleave', () => {
+            if (!lightboxVideo.paused) lightboxVideo.classList.add('controls-hidden');
+        });
+        lightboxContent.addEventListener('click', () => {
+            if (!lightboxVideo.paused) lightboxVideo.classList.toggle('controls-hidden');
+        });
+    }
+    lightboxVideo.addEventListener('pause', () => {
+        if (coarsePointer && !touchControlsPinned) return;
+        lightboxVideo.classList.remove('controls-hidden');
     });
-    lightboxVideo.addEventListener('pause', () => lightboxVideo.classList.remove('controls-hidden'));
 
     portfolioItems.forEach(item => {
         item.addEventListener('click', (event) => {
@@ -476,7 +538,37 @@ if (lightbox) {
         });
     });
 
+    if (cutPrev) {
+        cutPrev.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            if (activeCutIndex > 0) selectCut(activeCutIndex - 1);
+        });
+    }
+    if (cutNext) {
+        cutNext.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            if (activeCutIndex < currentCuts.length - 1) selectCut(activeCutIndex + 1);
+        });
+    }
     closeButton.addEventListener('click', closeLightbox);
+    const fullscreenButton = lightbox.querySelector('.lightbox-fullscreen');
+    if (fullscreenButton) {
+        fullscreenButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            if (typeof lightboxVideo.webkitEnterFullscreen === 'function') {
+                lightboxVideo.webkitEnterFullscreen();
+                return;
+            }
+            const request = lightboxVideo.requestFullscreen || lightboxVideo.webkitRequestFullscreen;
+            if (request) {
+                const pending = request.call(lightboxVideo);
+                if (pending && typeof pending.catch === 'function') pending.catch(() => {});
+            }
+        });
+    }
     if (lightboxOverlay) lightboxOverlay.addEventListener('click', closeLightbox);
     window.addEventListener('pagehide', stopVideo);
 }
@@ -624,40 +716,80 @@ if (workFilters && portfolioPage) {
     }));
     let currentFilter = 'all';
     const mobileQuery = window.matchMedia('(max-width: 768px)');
+    // Columns actually on screen. First paint is All, so this starts as the
+    // authored columns and nothing is shuffled until a filter click.
+    let columnByItem = new Map(origins.map((entry) => [
+        entry.item,
+        columns.indexOf(entry.column)
+    ]));
+
+    // Swap a project that would stay in the same column with one already
+    // sitting in another occupied column. That moves the shared film without
+    // opening an empty column, which was leaving holes and a centered row.
+    const shiftSharedPlacements = (placements) => {
+        placements.forEach((placement) => {
+            const previous = columnByItem.get(placement.entry.item);
+            if (previous === undefined || previous !== placement.columnIndex) return;
+            const partner = placements.find((other) => {
+                if (other === placement || other.columnIndex === placement.columnIndex) return false;
+                const otherPrevious = columnByItem.get(other.entry.item);
+                return otherPrevious === undefined || otherPrevious !== placement.columnIndex;
+            }) || placements.find((other) => (
+                other !== placement && other.columnIndex !== placement.columnIndex
+            ));
+            if (!partner) return;
+            const fromColumn = placement.columnIndex;
+            placement.columnIndex = partner.columnIndex;
+            partner.columnIndex = fromColumn;
+        });
+    };
 
     const applyWorkFilter = (filter, animate) => {
+        const filterChanged = filter !== currentFilter;
         currentFilter = filter;
+        const columnCount = columns.length;
+        const mobile = mobileQuery.matches;
+        const natural = [];
 
         if (filter === 'all') {
-            columns.forEach((column) => {
-                column.hidden = false;
-                origins
-                    .filter((entry) => entry.column === column)
-                    .sort((a, b) => a.index - b.index)
-                    .forEach((entry) => {
-                        entry.item.hidden = false;
-                        column.appendChild(entry.item);
-                    });
+            origins.forEach((entry) => {
+                natural.push({
+                    entry,
+                    columnIndex: columns.indexOf(entry.column)
+                });
             });
-            container.removeAttribute('data-columns');
         } else {
             const matching = origins.filter((entry) =>
                 (entry.item.dataset.cats || '').split(/\s+/).includes(filter)
             );
-            origins.forEach((entry) => {
-                entry.item.hidden = true;
-            });
-            const mobile = mobileQuery.matches;
-            columns.forEach((column) => {
-                column.hidden = false;
-            });
             matching.forEach((entry, index) => {
-                entry.item.hidden = false;
-                const target = mobile ? columns[0] : columns[index % columns.length];
-                target.appendChild(entry.item);
+                natural.push({
+                    entry,
+                    columnIndex: mobile ? 0 : index % columnCount
+                });
             });
-            container.removeAttribute('data-columns');
         }
+
+        if (filterChanged && !mobile && columnCount > 1) {
+            shiftSharedPlacements(natural);
+        }
+
+        const visible = new Set(natural.map((placement) => placement.entry.item));
+        items.forEach((item) => {
+            item.hidden = !visible.has(item);
+        });
+        columns.forEach((column) => {
+            column.hidden = false;
+        });
+        natural.forEach((placement) => {
+            columns[placement.columnIndex].appendChild(placement.entry.item);
+        });
+        container.removeAttribute('data-columns');
+
+        columnByItem = new Map(natural.map((placement) => [
+            placement.entry.item,
+            placement.columnIndex
+        ]));
 
         restartWorkParallax(filter === 'all');
 

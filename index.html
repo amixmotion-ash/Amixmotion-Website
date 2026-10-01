@@ -36,7 +36,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=work-filter-dot">
+    <link rel="stylesheet" href="style.css?v=lightbox-cut-arrows-sm">
 </head>
 <body class="homepage">
 
@@ -319,12 +319,21 @@
         <div class="lightbox-overlay"></div>
         <div class="lightbox-stage">
             <div class="lightbox-content">
+                <button type="button" class="lightbox-fullscreen" aria-label="Full screen">FULL SCREEN</button>
                 <button class="lightbox-close" aria-label="Close video preview">CLOSE</button>
                 <div class="custom-loader">
     </div>
-                <video class="lightbox-video" controls autoplay playsinline></video>
+                <video class="lightbox-video" autoplay playsinline></video>
             </div>
-            <div class="lightbox-cuts"></div>
+            <div class="lightbox-cuts-nav">
+                <button type="button" class="lightbox-cut-arrow lightbox-cut-prev" aria-label="Previous film" disabled>
+                    <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+                </button>
+                <div class="lightbox-cuts"></div>
+                <button type="button" class="lightbox-cut-arrow lightbox-cut-next" aria-label="Next film">
+                    <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -336,7 +345,7 @@
     <span class="back-to-top-label">Top</span>
 </button>
 
-    <script src="script.js?v=menu-social-cursor"></script>
+    <script src="script.js?v=lightbox-cut-arrows"></script>
 
     <!-- PASTE THIS NEW SCRIPT TAG HERE -->
     <script>document.body.classList.add('js-page-loaded');</script>

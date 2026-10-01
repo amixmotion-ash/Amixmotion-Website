@@ -1378,10 +1378,12 @@ footer {
     object-position: center;
 }
 /* Full screen uses the monitor shape. Contain keeps a vertical film vertical. */
+.lightbox-video:fullscreen,
 .lightbox-content.is-vertical .lightbox-video:fullscreen {
     object-fit: contain;
     background-color: #000;
 }
+.lightbox-video:-webkit-full-screen,
 .lightbox-content.is-vertical .lightbox-video:-webkit-full-screen {
     object-fit: contain;
     background-color: #000;
@@ -1403,7 +1405,7 @@ footer {
     -webkit-appearance: none;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 15px;
     line-height: 44px;
     color: #ffffff;
     cursor: pointer;
@@ -1411,6 +1413,37 @@ footer {
 }
 
 .lightbox-close:hover {
+    background: none;
+    color: #ffffff;
+    opacity: 0.7;
+}
+
+.lightbox-fullscreen {
+    position: absolute;
+    top: -44px;
+    left: 0;
+    z-index: 2;
+    box-sizing: border-box;
+    height: 44px;
+    margin: 0;
+    padding: 0 16px 0 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 44px;
+    color: #ffffff;
+    cursor: pointer;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.lightbox-fullscreen:hover {
     background: none;
     color: #ffffff;
     opacity: 0.7;
@@ -1430,6 +1463,16 @@ footer {
 /* --- 2. This is the helper class that will hide the controls --- */
 .lightbox-video.controls-hidden::-webkit-media-controls {
     opacity: 0;
+}
+
+/* iPhone keeps its own bar even when the bar is faded. No controls attribute means it stays off until a tap. */
+@media (hover: none) and (pointer: coarse) {
+    .lightbox-video:not([controls])::-webkit-media-controls,
+    .lightbox-video:not([controls])::-webkit-media-controls-panel,
+    .lightbox-video:not([controls])::-webkit-media-controls-start-playback-button {
+        display: none !important;
+        opacity: 0 !important;
+    }
 }
 
 
@@ -2023,9 +2066,65 @@ body.portfolio-page.body-no-scroll header::before {
 
 .video-lightbox.is-visible .lightbox-content,
 .video-lightbox.is-visible .lightbox-cuts,
+.video-lightbox.is-visible .lightbox-cuts-nav,
 .video-lightbox.is-visible .lightbox-cuts-label,
-.video-lightbox.is-visible .lightbox-close {
+.video-lightbox.is-visible .lightbox-close,
+.video-lightbox.is-visible .lightbox-fullscreen {
     pointer-events: auto;
+}
+
+.lightbox-cuts-nav {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    max-width: min(88vw, 1480px);
+}
+
+.video-lightbox.has-cuts .lightbox-cuts-nav {
+    display: flex;
+}
+
+.lightbox-cut-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 29px;
+    height: 29px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: #000000;
+    color: #ffffff;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.lightbox-cut-arrow svg {
+    width: 12px;
+    height: 12px;
+    display: block;
+}
+
+.lightbox-cut-arrow:hover:not(:disabled),
+.lightbox-cut-arrow:focus-visible:not(:disabled) {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.lightbox-cut-arrow:disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+}
+
+.lightbox-cut-arrow:focus-visible {
+    outline: 1px solid #ffffff;
+    outline-offset: 3px;
 }
 
 .lightbox-cuts-label {
