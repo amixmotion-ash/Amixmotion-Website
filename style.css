@@ -46,6 +46,27 @@ html:has(body.body-no-scroll) {
     overscroll-behavior: none;
 }
 
+/* Video open: same scroll lock as the menu, without the menu dim or header changes. */
+body.lightbox-scroll-lock {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
+html:has(body.lightbox-scroll-lock) {
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
+body.homepage.lightbox-scroll-lock,
+body.homepage.lightbox-scroll-lock .scroll-content-wrapper {
+    overflow: hidden;
+    overflow-x: hidden;
+}
+
 body.homepage.body-no-scroll,
 body.homepage.body-no-scroll .scroll-content-wrapper {
     overflow: hidden;
@@ -2094,14 +2115,14 @@ body.portfolio-page.body-no-scroll header::before {
     height: 44px;
     padding: 0;
     margin: 0;
-    border: 1px solid #ffffff;
-    border-radius: 50%;
-    background-color: #000000;
+    border: none;
+    border-radius: 0;
+    background: none;
     color: #ffffff;
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
-    transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+    transition: opacity 0.2s ease;
 }
 
 .lightbox-cut-arrow svg {
@@ -2112,8 +2133,9 @@ body.portfolio-page.body-no-scroll header::before {
 
 .lightbox-cut-arrow:hover:not(:disabled),
 .lightbox-cut-arrow:focus-visible:not(:disabled) {
-    background-color: #ffffff;
-    color: #000000;
+    background: none;
+    color: #ffffff;
+    opacity: 0.7;
 }
 
 .lightbox-cut-arrow:disabled {

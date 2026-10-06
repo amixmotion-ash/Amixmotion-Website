@@ -453,6 +453,65 @@ if (lightbox) {
         lightbox.classList.add('has-cuts');
     }
 
+    let lightboxLockedScrollY = 0;
+    let lightboxScrollLocked = false;
+    let lightboxInertRoots = [];
+
+    function setLightboxPageInert(on) {
+        if (on) {
+            lightboxInertRoots = [...document.body.children].filter((el) => el !== lightbox && el.tagName !== 'SCRIPT');
+            lightboxInertRoots.forEach((el) => {
+                el.inert = true;
+            });
+            return;
+        }
+        lightboxInertRoots.forEach((el) => {
+            el.inert = false;
+        });
+        lightboxInertRoots = [];
+    }
+
+    function lockLightboxScroll() {
+        if (lightboxScrollLocked) return;
+        lightboxScrollLocked = true;
+        if (!document.body.classList.contains('body-no-scroll')) {
+            lightboxLockedScrollY = window.scrollY || window.pageYOffset || 0;
+            document.body.style.top = `-${lightboxLockedScrollY}px`;
+        }
+        document.body.classList.add('lightbox-scroll-lock');
+        setLightboxPageInert(true);
+    }
+
+    function unlockLightboxScroll() {
+        if (!lightboxScrollLocked) return;
+        lightboxScrollLocked = false;
+        document.body.classList.remove('lightbox-scroll-lock');
+        setLightboxPageInert(false);
+        if (document.body.classList.contains('body-no-scroll')) return;
+        document.body.style.top = '';
+        const root = document.documentElement;
+        const previousScrollBehavior = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';
+        window.scrollTo(0, lightboxLockedScrollY);
+        root.style.scrollBehavior = previousScrollBehavior;
+    }
+
+    const lightboxScrollKeys = new Set([
+        'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' ', 'Spacebar'
+    ]);
+    const preventLightboxPageScroll = (event) => {
+        if (!document.body.classList.contains('lightbox-scroll-lock')) return;
+        if (event.type === 'keydown') {
+            if (!lightboxScrollKeys.has(event.key)) return;
+            if (lightbox.contains(event.target)) return;
+        }
+        if (event.type === 'touchmove' && event.target.closest && event.target.closest('.lightbox-video, .lightbox-cuts')) return;
+        event.preventDefault();
+    };
+    window.addEventListener('wheel', preventLightboxPageScroll, { passive: false });
+    window.addEventListener('touchmove', preventLightboxPageScroll, { passive: false });
+    window.addEventListener('keydown', preventLightboxPageScroll, { passive: false });
+
     function openLightbox(videoSrc, aspectRatio, cuts) {
         const list = Array.isArray(cuts) && cuts.length > 1 ? cuts : [];
         let activeIndex = 0;
@@ -462,11 +521,13 @@ if (lightbox) {
         }
         renderCuts(list, activeIndex);
         const activeCut = list[activeIndex];
+        lockLightboxScroll();
         playSource(videoSrc, activeCut ? activeCut.aspect : aspectRatio);
     }
 
     function closeLightbox() {
         lightbox.classList.remove('is-visible');
+        unlockLightboxScroll();
         stopVideo();
         setTimeout(() => {
             if(customLoader) customLoader.classList.remove('is-loading');
