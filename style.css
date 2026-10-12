@@ -366,6 +366,7 @@ body.menu-is-closing header .desktop-nav {
 .main-nav.nav-open,
 body.menu-is-closing .main-nav {
     z-index: 920;
+    visibility: visible;
 }
 
 /* --- 6. Mobile-Specific Adjustments --- */
@@ -413,8 +414,11 @@ body.menu-is-closing .main-nav {
     justify-content: center; /* Center the links vertically */
     flex-direction: column;
     
-    /* This moves the menu off-screen to the left by default */
+    /* This moves the menu off-screen to the left by default.
+       visibility hides the black panel if a device ignores the shift
+       (iPad portrait menu is full-screen, so a missed shift covers the page). */
     transform: translateX(-100%);
+    visibility: hidden;
     
     /* This makes the slide animation smooth and polished */
     transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
@@ -659,7 +663,17 @@ body.menu-is-closing .main-nav {
 .main-nav.nav-open li:nth-child(4) { transition-delay: 0.55s; } /* Contact */
 
 /* --- HERO VIDEO SECTION --- */
-.hero-video { height: 100vh; height: 100dvh; position: -webkit-sticky; position: sticky; top: 0; z-index: 1; }
+.hero-video {
+    height: 100vh;
+    height: 100dvh;
+    /* Holds the hero open if 100dvh collapses for a frame while the iPad rotates */
+    min-height: 100vh;
+    min-height: 100svh;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
 #bgvideo {
     position: absolute;
     top: 0;
@@ -669,6 +683,9 @@ body.menu-is-closing .main-nav {
     object-fit: cover;
     /* ADD THIS LINE: This aligns the top of the video with the top of the container */
     object-position: center top;
+    /* Own layer so iPad Safari paints the film instead of a black box inside the sticky hero */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
 .hero-video::after {
     content: '';
@@ -696,7 +713,7 @@ body.menu-is-closing .main-nav {
     left: 0;
     bottom: 64px;
     z-index: 6;
-    max-width: min(36rem, 62%);
+    max-width: min(46rem, 72%);
     padding: 120px 48px 48px 40px;
     color: #ffffff;
     pointer-events: none;
@@ -1209,14 +1226,14 @@ body.portfolio-page::before {
     height: 44px;
     padding: 0;
     margin: 0;
-    border: 1px solid #000000;
+    border: 1px solid #222222;
     border-radius: 50%;
-    background-color: #000000;
-    color: #ffffff;
+    background-color: transparent;
+    color: #222222;
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
-    transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
 }
 .testimonials-arrow svg {
     width: 18px;
@@ -1224,9 +1241,10 @@ body.portfolio-page::before {
     display: block;
 }
 .testimonials-arrow:hover:not(:disabled),
-.testimonials-arrow:focus-visible:not(:disabled) {
-    background-color: #ffffff;
-    color: #000000;
+.testimonials-arrow:focus-visible:not(:disabled),
+.testimonials-arrow:active:not(:disabled) {
+    background-color: #222222;
+    color: #ffffff;
 }
 .testimonials-arrow:disabled {
     opacity: 0.35;
@@ -1554,7 +1572,25 @@ footer {
 }
 .contact-details {
     display: flex;
-    gap: 40px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+}
+.contact-social {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.contact-social a {
+    display: flex;
+    align-items: center;
+    line-height: 0;
+    color: #222;
+}
+.contact-social svg {
+    width: 18px;
+    height: 18px;
+    display: block;
 }
 .contact-detail-item {
     display: flex;
@@ -1584,7 +1620,8 @@ footer {
     text-transform: uppercase;
 }
 .form-group-cluster input,
-.form-group-cluster textarea {
+.form-group-cluster textarea,
+.form-group-cluster select {
     display: block;
     width: 100%;
     margin-bottom: 15px;
@@ -1595,9 +1632,27 @@ footer {
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
     background-color: #f9f9f9;
+    color: #222;
+}
+.form-group-cluster select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23222' stroke-width='1.4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+}
+.form-group-cluster input::placeholder,
+.form-group-cluster textarea::placeholder {
+    color: #b5b5b5;
+    opacity: 1;
+}
+.form-group-cluster select:has(option[value=""]:checked) {
+    color: #b5b5b5;
 }
 .form-group-cluster input:focus,
-.form-group-cluster textarea:focus {
+.form-group-cluster textarea:focus,
+.form-group-cluster select:focus {
     outline: none;
     border-color: #222;
 }
@@ -1619,7 +1674,7 @@ footer {
         align-items: center;
     }
     .contact-details {
-        flex-direction: column;
+        align-items: center;
         gap: 20px;
     }
 }
@@ -3158,6 +3213,10 @@ body.menu-cursor-active .menu-cursor-visual {
         font-size: 1.05rem;
     }
 
+    .hero-intro-sub br {
+        display: none;
+    }
+
     .hero-intro-cta {
         margin-top: 22px;
         font-size: 14px;
@@ -3508,13 +3567,16 @@ body.portfolio-page.js-work-filter-motion .grid-item.work-filter-enter.is-entere
     background-color: #000000;
     z-index: 9999;
     opacity: 0;
-    transition: opacity 0.15s ease;
+    visibility: hidden;
     pointer-events: none;
+    transition: opacity 0.15s ease, visibility 0s linear 0.15s;
 }
 
 .page-transition-curtain.is-active {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
+    transition: opacity 0.15s ease, visibility 0s linear 0s;
 }
 
 /* ================================================================= */
@@ -4957,17 +5019,17 @@ body.about-page.js-about-motion .about-reveal.is-revealed {
 }
 
 /*
- * Homepage: clip horizontal overflow without creating a scrollport.
- * Footer flex + testimonials negative margins make scrollWidth > viewport;
- * focus/scrollIntoView on those edges was shifting the whole page left.
- * overflow-x: hidden on a wrapper can still scroll; clip cannot.
+ * Homepage must NOT clip or hide overflow on html/body.
+ * body already sets overflow-x: hidden, which forces overflow-y to auto.
+ * On iPad that scroll container plus the sticky hero makes the film paint
+ * as a black sheet over the page. Rotating drops the sheet for a moment
+ * (the four work tiles show) and then it covers them again.
+ * Sideways spill (logo track, testimonials) is clipped on those sections
+ * and on the content wrapper, which is not an ancestor of the film.
  */
-html:has(body.homepage) {
-    overflow-x: clip;
-}
-
 body.homepage {
-    overflow-x: clip;
+    overflow-x: visible;
+    overflow-y: visible;
 }
 
 body.homepage .scroll-content-wrapper {

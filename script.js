@@ -1083,18 +1083,49 @@ if (scrollLink) {
 
 if (document.body.classList.contains('homepage')) {
     const heroVideoSection = document.querySelector('.hero-video');
+    const bgVideo = document.getElementById('bgvideo');
+
+    if (bgVideo) {
+        bgVideo.muted = true;
+        bgVideo.defaultMuted = true;
+        bgVideo.playsInline = true;
+        bgVideo.setAttribute('playsinline', '');
+        bgVideo.setAttribute('webkit-playsinline', '');
+        const tryPlayHero = () => {
+            const pending = bgVideo.play();
+            if (pending && typeof pending.catch === 'function') pending.catch(function () {});
+        };
+        tryPlayHero();
+        bgVideo.addEventListener('loadeddata', tryPlayHero);
+        document.addEventListener('visibilitychange', function () {
+            if (!document.hidden) tryPlayHero();
+        });
+        window.addEventListener('pageshow', tryPlayHero);
+        window.addEventListener('orientationchange', function () {
+            window.setTimeout(tryPlayHero, 50);
+        });
+    }
+
     if (heroVideoSection) {
-        window.addEventListener('scroll', function() {
+        const updateHeroVisibility = function () {
             const scrollHeight = document.documentElement.scrollHeight;
             const clientHeight = document.documentElement.clientHeight;
             const scrollTop = window.scrollY;
             const maxScroll = scrollHeight - clientHeight;
-            if (scrollTop >= (maxScroll - 100)) {
-                heroVideoSection.classList.add('is-hidden');
-            } else {
+            /* A collapsed scroll range (common for a frame on iPad rotate) would
+               hide the hero at the top of the page and leave a black viewport. */
+            if (maxScroll < 200 || scrollTop < (maxScroll - 100)) {
                 heroVideoSection.classList.remove('is-hidden');
+            } else {
+                heroVideoSection.classList.add('is-hidden');
             }
+        };
+        window.addEventListener('scroll', updateHeroVisibility, { passive: true });
+        window.addEventListener('resize', updateHeroVisibility);
+        window.addEventListener('orientationchange', function () {
+            window.setTimeout(updateHeroVisibility, 50);
         });
+        updateHeroVisibility();
     }
 }
 
@@ -1307,6 +1338,7 @@ function fadeToPage(url) {
         return;
     }
 
+    curtain.dataset.hold = '1';
     curtain.classList.add('is-active');
     setTimeout(function() {
         window.location.href = url;
@@ -1349,7 +1381,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    var pageRevealed = false;
+
     function revealPage() {
+        if (pageRevealed) return;
+        pageRevealed = true;
         window.requestAnimationFrame(function() {
             window.requestAnimationFrame(function() {
                 curtain.classList.remove('is-active');
@@ -1358,13 +1394,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function dropCurtain() {
+        if (curtain.dataset.hold === '1') return;
+        curtain.classList.remove('is-active');
+    }
+
     revealPage();
+    /* If the fade never runs (iPad can skip it), the black curtain must still leave */
+    window.setTimeout(dropCurtain, 500);
 
     window.addEventListener('pageshow', function(event) {
         if (event.persisted) {
+            pageRevealed = false;
             revealPage();
+            window.setTimeout(dropCurtain, 500);
         }
     });
+
+    window.addEventListener('orientationchange', dropCurtain);
 
     var internalLinks = document.querySelectorAll('a[href="index.html"], a[href="about.html"], a[href="portfolio.html"], a[href="contact.html"], a[href="./"]');
 
