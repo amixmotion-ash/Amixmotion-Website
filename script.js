@@ -975,7 +975,25 @@ if (testimonialsViewport) {
         const viewportStyles = window.getComputedStyle(testimonialsViewport);
         const padL = parseFloat(viewportStyles.paddingLeft) || 0;
         const padR = parseFloat(viewportStyles.paddingRight) || 0;
-        const windowWidth = Math.max(0, testimonialsViewport.clientWidth - padL - padR);
+        let windowWidth = Math.max(0, testimonialsViewport.clientWidth - padL - padR);
+
+        /* On iPad the review row can stretch its own box to the full track,
+           so clientWidth is the width of every card, not the screen. Size
+           from the window instead, or two and a half cards show and a tap
+           moves by a distance you cannot see. */
+        if (document.documentElement.classList.contains('ipad') && testimonialsSection) {
+            const sectionStyles = window.getComputedStyle(testimonialsSection);
+            const secPad = (parseFloat(sectionStyles.paddingLeft) || 0) + (parseFloat(sectionStyles.paddingRight) || 0);
+            const viewMargin = (parseFloat(viewportStyles.marginLeft) || 0) + (parseFloat(viewportStyles.marginRight) || 0);
+            const pageWidth = Math.min(window.innerWidth, document.documentElement.clientWidth);
+            windowWidth = Math.max(0, pageWidth - secPad - viewMargin - padL - padR);
+            testimonialsViewport.style.width = windowWidth + 'px';
+            testimonialsViewport.style.maxWidth = '100%';
+            track.style.position = 'relative';
+            track.style.top = 'auto';
+            track.style.left = 'auto';
+        }
+
         const visible = getVisibleCount();
 
         // Fill the clipping window: 1 card on mobile, 3 equal cards on desktop.
@@ -987,10 +1005,13 @@ if (testimonialsViewport) {
 
         cards.forEach((card) => {
             card.style.width = nextCardWidth + 'px';
+            card.style.flex = '0 0 ' + nextCardWidth + 'px';
+            if (document.documentElement.classList.contains('ipad')) {
+                card.style.minWidth = '0';
+                card.style.maxWidth = nextCardWidth + 'px';
+            }
         });
-        /* iPad can report offsetWidth as 0 while the card is on screen,
-           which makes the arrows translate by nothing. */
-        cardWidth = cards[0].getBoundingClientRect().width || nextCardWidth;
+        cardWidth = nextCardWidth;
     }
 
     function renderDots() {
@@ -1004,10 +1025,7 @@ if (testimonialsViewport) {
             dot.setAttribute('aria-label', `Go to review set ${i + 1}`);
             dot.setAttribute('aria-current', i === index ? 'true' : 'false');
             if (document.documentElement.classList.contains('ipad')) {
-                const mark = document.createElement('span');
-                mark.className = 'testimonials-dot-mark';
-                mark.setAttribute('aria-hidden', 'true');
-                dot.appendChild(mark);
+                dot.innerHTML = '<svg viewBox="0 0 8 8" width="8" height="8" aria-hidden="true"><circle cx="4" cy="4" r="3.5" fill="currentColor"/></svg>';
                 dot.addEventListener('touchend', (event) => {
                     event.preventDefault();
                     setIndex(i);
@@ -1036,23 +1054,6 @@ if (testimonialsViewport) {
         }
     }
 
-    function containTrack() {
-        if (!document.documentElement.classList.contains('ipad')) return;
-        let tallest = 0;
-        cards.forEach((card) => {
-            const h = card.getBoundingClientRect().height;
-            if (h > tallest) tallest = h;
-        });
-        if (tallest < 40) return;
-        const trackStyles = window.getComputedStyle(track);
-        const pad = (parseFloat(trackStyles.paddingTop) || 0) + (parseFloat(trackStyles.paddingBottom) || 0);
-        testimonialsViewport.style.position = 'relative';
-        testimonialsViewport.style.height = (tallest + pad) + 'px';
-        track.style.position = 'absolute';
-        track.style.top = '0';
-        track.style.left = '0';
-    }
-
     function applyTransform() {
         const x = -(index * getStride());
         track.style.transform = 'translate3d(' + x + 'px, 0, 0)';
@@ -1068,7 +1069,6 @@ if (testimonialsViewport) {
 
     function refresh() {
         measure();
-        containTrack();
         index = Math.max(0, Math.min(getMaxIndex(), index));
         renderDots();
         applyTransform();
