@@ -1333,7 +1333,7 @@ var PAGE_FADE_MS = 150;
 
 function fadeToPage(url) {
     var curtain = document.querySelector('.page-transition-curtain');
-    if (!curtain) {
+    if (!curtain || document.documentElement.classList.contains('ios')) {
         window.location.href = url;
         return;
     }
@@ -1397,6 +1397,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function dropCurtain() {
         if (curtain.dataset.hold === '1') return;
         curtain.classList.remove('is-active');
+        curtain.style.display = 'none';
     }
 
     revealPage();
