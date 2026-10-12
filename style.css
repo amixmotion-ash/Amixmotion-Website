@@ -5255,12 +5255,75 @@ html.ipad body.homepage .grid-item-subtitle {
     font-size: 0.72rem;
 }
 
-/* Keep the page from sliding sideways. Do not clip html/body:
-   that is what painted the black sheet over the film. */
+/* Four-across on an iPad makes 8/10.8 tiles into tall strips and crops the photos.
+   Square frames stay in one row and show the subject. iPhone stays one tall column. */
+html.ipad body.homepage .portfolio-grid-section .grid-item-image {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    height: auto;
+}
+
+html.ipad body.homepage .portfolio-grid-section .grid-item-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
+
+/* Stop a sideways pan. Do not clip html or body: that painted the black sheet. */
+html.ipad body.homepage {
+    touch-action: pan-y;
+}
+
 html.ipad body.homepage .scroll-content-wrapper {
-    overflow-x: visible;
-    overflow-y: visible;
+    overflow: visible;
     max-width: 100%;
+}
+
+/* Take the moving logo row out of the page width. A translated track
+   still widens an iPad page even when a parent is overflow hidden. */
+html.ipad body.homepage .scroller-container {
+    height: 80px;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+html.ipad body.homepage .scroller-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 80px;
+}
+
+/* The desktop footer is a headline plus a link row. On an iPad that row
+   runs past the right edge and the whole page can slide sideways. */
+html.ipad body.homepage footer {
+    max-width: 100%;
+    overflow-x: clip;
+}
+
+html.ipad body.homepage .new-footer-container {
+    max-width: 100%;
+    min-width: 0;
+}
+
+html.ipad body.homepage .footer-cta-new {
+    min-width: 0;
+    max-width: 100%;
+}
+
+html.ipad body.homepage .footer-cta-new h2 {
+    font-size: clamp(2.75rem, 7vw, 6rem);
+}
+
+@media (max-width: 1280px) {
+    html.ipad body.homepage .new-footer-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 48px;
+    }
 }
 
 html.ipad body.homepage .testimonials-section {
@@ -5274,18 +5337,68 @@ html.ipad body.homepage .testimonials-section {
 html.ipad body.homepage .testimonials-viewport {
     overflow: hidden;
     max-width: 100%;
+    position: relative;
+}
+
+html.ipad body.homepage .testimonials-track {
+    will-change: auto;
+}
+
+html.ipad body.homepage .testimonials-controls {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    touch-action: manipulation;
 }
 
 html.ipad body.homepage .testimonials-dots {
+    display: flex;
+    flex-direction: row;
     flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 48px;
+    min-height: 24px;
 }
 
 html.ipad body.homepage .testimonials-dot {
-    width: 6px;
-    height: 6px;
-    min-width: 6px;
-    min-height: 6px;
-    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    min-height: 16px;
+    flex: 0 0 16px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: transparent;
+    line-height: 0;
+    font-size: 0;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+html.ipad body.homepage .testimonials-dot-mark {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+html.ipad body.homepage .testimonials-dot.is-active .testimonials-dot-mark {
+    background-color: #000000;
 }
 
 /* Portrait iPad: one review at a time, same shape as the phone */

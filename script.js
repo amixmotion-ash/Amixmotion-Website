@@ -904,14 +904,25 @@ if (workSection && workFilms.length) {
             const speed = parseFloat(film.getAttribute('data-rellax-speed')) || 0;
             const offset = Math.round(speed * 55 * progress);
             film.style.transform = 'translate3d(0, ' + offset + 'px, 0)';
+            film.style.webkitTransform = film.style.transform;
         });
     }
 
     window.addEventListener('scroll', updateWorkFilms, { passive: true });
-    /* iPad can scroll a nested box instead of the window, which skips the
-       listener above and leaves the four films still. */
+    /* iPad often scrolls a nested box, or moves the page on touch without a
+       window scroll event, so the four films stay still. */
     if (document.documentElement.classList.contains('ipad')) {
         document.addEventListener('scroll', updateWorkFilms, { passive: true, capture: true });
+        var workWrap = document.querySelector('.scroll-content-wrapper');
+        if (workWrap) workWrap.addEventListener('scroll', updateWorkFilms, { passive: true });
+        window.addEventListener('touchmove', updateWorkFilms, { passive: true });
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('scroll', updateWorkFilms, { passive: true });
+            window.visualViewport.addEventListener('resize', updateWorkFilms);
+        }
+        window.addEventListener('orientationchange', function () {
+            window.setTimeout(updateWorkFilms, 50);
+        });
     }
     window.addEventListener('resize', updateWorkFilms);
     if (workFilmQuery.addEventListener) {
@@ -972,10 +983,14 @@ if (testimonialsViewport) {
             ? windowWidth
             : (windowWidth - (visible - 1) * gap) / visible;
 
+        if (nextCardWidth < 40) return;
+
         cards.forEach((card) => {
             card.style.width = nextCardWidth + 'px';
         });
-        cardWidth = cards[0].offsetWidth;
+        /* iPad can report offsetWidth as 0 while the card is on screen,
+           which makes the arrows translate by nothing. */
+        cardWidth = cards[0].getBoundingClientRect().width || nextCardWidth;
     }
 
     function renderDots() {
@@ -988,6 +1003,16 @@ if (testimonialsViewport) {
             dot.className = 'testimonials-dot' + (i === index ? ' is-active' : '');
             dot.setAttribute('aria-label', `Go to review set ${i + 1}`);
             dot.setAttribute('aria-current', i === index ? 'true' : 'false');
+            if (document.documentElement.classList.contains('ipad')) {
+                const mark = document.createElement('span');
+                mark.className = 'testimonials-dot-mark';
+                mark.setAttribute('aria-hidden', 'true');
+                dot.appendChild(mark);
+                dot.addEventListener('touchend', (event) => {
+                    event.preventDefault();
+                    setIndex(i);
+                });
+            }
             dot.addEventListener('click', () => setIndex(i));
             dotsContainer.appendChild(dot);
         }
@@ -1011,9 +1036,27 @@ if (testimonialsViewport) {
         }
     }
 
+    function containTrack() {
+        if (!document.documentElement.classList.contains('ipad')) return;
+        let tallest = 0;
+        cards.forEach((card) => {
+            const h = card.getBoundingClientRect().height;
+            if (h > tallest) tallest = h;
+        });
+        if (tallest < 40) return;
+        const trackStyles = window.getComputedStyle(track);
+        const pad = (parseFloat(trackStyles.paddingTop) || 0) + (parseFloat(trackStyles.paddingBottom) || 0);
+        testimonialsViewport.style.position = 'relative';
+        testimonialsViewport.style.height = (tallest + pad) + 'px';
+        track.style.position = 'absolute';
+        track.style.top = '0';
+        track.style.left = '0';
+    }
+
     function applyTransform() {
         const x = -(index * getStride());
         track.style.transform = 'translate3d(' + x + 'px, 0, 0)';
+        track.style.webkitTransform = track.style.transform;
         updateControls();
     }
 
@@ -1025,16 +1068,38 @@ if (testimonialsViewport) {
 
     function refresh() {
         measure();
+        containTrack();
         index = Math.max(0, Math.min(getMaxIndex(), index));
         renderDots();
         applyTransform();
     }
 
+    function bindIpadTap(button, delta) {
+        if (!button || !document.documentElement.classList.contains('ipad')) return;
+        let startX = 0;
+        let startY = 0;
+        button.addEventListener('touchstart', (event) => {
+            if (!event.touches || !event.touches.length) return;
+            startX = event.touches[0].clientX;
+            startY = event.touches[0].clientY;
+        }, { passive: true });
+        button.addEventListener('touchend', (event) => {
+            if (!event.changedTouches || !event.changedTouches.length) return;
+            const dx = Math.abs(event.changedTouches[0].clientX - startX);
+            const dy = Math.abs(event.changedTouches[0].clientY - startY);
+            if (dx > 12 || dy > 12) return;
+            event.preventDefault();
+            setIndex(index + delta);
+        });
+    }
+
     if (prevBtn) {
         prevBtn.addEventListener('click', () => setIndex(index - 1));
+        bindIpadTap(prevBtn, -1);
     }
     if (nextBtn) {
         nextBtn.addEventListener('click', () => setIndex(index + 1));
+        bindIpadTap(nextBtn, 1);
     }
 
     // Touch swipe on the viewport (mobile).
