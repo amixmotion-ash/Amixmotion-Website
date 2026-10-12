@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>document.documentElement.classList.toggle("ios",/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1));</script>
+    <script>(function(){var ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);var root=document.documentElement;root.classList.toggle("ios",ios);root.classList.toggle("ipad",ios&&Math.min(screen.width,screen.height)>=700);})();</script>
     <title>Message Sent | Amixmotion</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=ipad-cover">
+    <link rel="stylesheet" href="style.css?v=ipad-home">
     <style>
         body.success-page {
             background-color: #000000; /* Dark theme for impact */

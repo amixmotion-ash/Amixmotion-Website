@@ -5219,3 +5219,129 @@ body.contact-page.js-contact-motion .contact-reveal.is-revealed {
         transition-delay: 0s;
     }
 }
+
+/* ================================================================= */
+/* == IPAD HOMEPAGE ONLY (html.ipad is never set on iPhone or desktop) == */
+/* ================================================================= */
+
+html.ipad body.homepage .custom-cursor,
+html.ipad body.homepage .menu-cursor {
+    display: none !important;
+}
+
+html.ipad body.homepage #bgvideo::-webkit-media-controls,
+html.ipad body.homepage #bgvideo::-webkit-media-controls-panel,
+html.ipad body.homepage #bgvideo::-webkit-media-controls-play-button,
+html.ipad body.homepage #bgvideo::-webkit-media-controls-start-playback-button,
+html.ipad body.homepage #bgvideo::-webkit-media-controls-overlay-play-button {
+    display: none !important;
+    opacity: 0 !important;
+    -webkit-appearance: none !important;
+}
+
+/* Clear the home indicator that sits on top of SCROLL */
+html.ipad body.homepage .hero-video .scroll-indicator-link {
+    bottom: 64px;
+}
+
+/* The 150px title fade was covering most of a narrow four-column tile */
+html.ipad body.homepage .grid-item-title-block {
+    min-height: 0;
+    padding: 28px 8px 10px;
+}
+
+html.ipad body.homepage .grid-item-title,
+html.ipad body.homepage .grid-item-subtitle {
+    font-size: 0.72rem;
+}
+
+/* Keep the page from sliding sideways. Do not clip html/body:
+   that is what painted the black sheet over the film. */
+html.ipad body.homepage .scroll-content-wrapper {
+    overflow-x: visible;
+    overflow-y: visible;
+    max-width: 100%;
+}
+
+html.ipad body.homepage .testimonials-section {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+html.ipad body.homepage .testimonials-viewport {
+    overflow: hidden;
+    max-width: 100%;
+}
+
+html.ipad body.homepage .testimonials-dots {
+    flex-shrink: 0;
+}
+
+html.ipad body.homepage .testimonials-dot {
+    width: 6px;
+    height: 6px;
+    min-width: 6px;
+    min-height: 6px;
+    flex-shrink: 0;
+}
+
+/* Portrait iPad: one review at a time, same shape as the phone */
+@media (max-width: 1080px) {
+    html.ipad body.homepage .testimonials-section {
+        padding-top: 60px;
+        padding-bottom: 80px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    html.ipad body.homepage .testimonials-header {
+        max-width: 100%;
+        margin: 0 0 30px 0;
+        padding-left: 20px;
+        padding-right: 20px;
+        box-sizing: border-box;
+    }
+
+    html.ipad body.homepage .testimonials-viewport {
+        width: auto;
+        margin-left: 20px;
+        margin-right: 20px;
+        padding: 0;
+    }
+
+    html.ipad body.homepage .testimonials-track {
+        gap: 20px;
+        padding: 20px 0;
+    }
+
+    html.ipad body.homepage .testimonials-controls {
+        padding: 4px 20px 0;
+        gap: 16px;
+    }
+}
+
+/* Side-by-side "Who is Amixmotion": cover the 1px white seam iPad leaves */
+@media (min-width: 901px) {
+    html.ipad body.homepage .mission-image {
+        margin-right: -2px;
+        z-index: 1;
+    }
+
+    html.ipad body.homepage .mission-text {
+        position: relative;
+        z-index: 2;
+        background-color: #000000;
+    }
+}
+
+@media (max-width: 900px) {
+    html.ipad body.homepage .mission-text {
+        position: relative;
+        z-index: 2;
+        margin-top: -2px;
+        background-color: #000000;
+    }
+}

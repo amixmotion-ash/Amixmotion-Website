@@ -888,7 +888,7 @@ if (workSection && workFilms.length) {
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
             && document.body.classList.contains('homepage');
 
-        if (reduceMotion || !workFilmQuery.matches) {
+        if (reduceMotion || (!workFilmQuery.matches && !(document.documentElement.classList.contains('ipad') && window.innerWidth > 700))) {
             workFilms.forEach((film) => {
                 film.style.transform = '';
             });
@@ -908,6 +908,11 @@ if (workSection && workFilms.length) {
     }
 
     window.addEventListener('scroll', updateWorkFilms, { passive: true });
+    /* iPad can scroll a nested box instead of the window, which skips the
+       listener above and leaves the four films still. */
+    if (document.documentElement.classList.contains('ipad')) {
+        document.addEventListener('scroll', updateWorkFilms, { passive: true, capture: true });
+    }
     window.addEventListener('resize', updateWorkFilms);
     if (workFilmQuery.addEventListener) {
         workFilmQuery.addEventListener('change', updateWorkFilms);
@@ -933,8 +938,14 @@ if (testimonialsViewport) {
     let cardWidth = 0;
     let gap = 0;
 
+    const ipadOneQuery = window.matchMedia('(max-width: 1080px)');
+
     function getVisibleCount() {
-        return mobileQuery.matches ? 1 : 3;
+        if (mobileQuery.matches) return 1;
+        /* iPad portrait is wide enough for the desktop rules, but three cards
+           there turn into tall strips and a fourth card sticks out the side. */
+        if (document.documentElement.classList.contains('ipad') && ipadOneQuery.matches) return 1;
+        return 3;
     }
 
     function getMaxIndex() {
@@ -1002,7 +1013,7 @@ if (testimonialsViewport) {
 
     function applyTransform() {
         const x = -(index * getStride());
-        track.style.transform = 'translateX(' + x + 'px)';
+        track.style.transform = 'translate3d(' + x + 'px, 0, 0)';
         updateControls();
     }
 
@@ -1044,8 +1055,10 @@ if (testimonialsViewport) {
     window.addEventListener('resize', refresh);
     if (mobileQuery.addEventListener) {
         mobileQuery.addEventListener('change', refresh);
+        ipadOneQuery.addEventListener('change', refresh);
     } else if (mobileQuery.addListener) {
         mobileQuery.addListener(refresh);
+        ipadOneQuery.addListener(refresh);
     }
 
     if (reducedMotionQuery.matches) {
