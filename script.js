@@ -593,10 +593,35 @@ if (lightbox) {
     });
 
     portfolioItems.forEach(item => {
-        item.addEventListener('click', (event) => {
-            event.preventDefault();
+        const openItem = (event) => {
+            if (event) event.preventDefault();
             openLightbox(item.dataset.videoSrc, item.dataset.aspectRatio, readCuts(item));
-        });
+        };
+        item.addEventListener('click', openItem);
+        /* iPad treats the first tap as a hover, and a zero-height frame
+           never receives it. Open on a tap that didn't turn into a scroll. */
+        if (document.documentElement.classList.contains('ipad')) {
+            let startX = 0;
+            let startY = 0;
+            let moved = false;
+            item.addEventListener('touchstart', (event) => {
+                if (!event.touches || !event.touches.length) return;
+                startX = event.touches[0].clientX;
+                startY = event.touches[0].clientY;
+                moved = false;
+            }, { passive: true });
+            item.addEventListener('touchmove', (event) => {
+                if (!event.touches || !event.touches.length) return;
+                if (Math.abs(event.touches[0].clientX - startX) > 12 || Math.abs(event.touches[0].clientY - startY) > 12) {
+                    moved = true;
+                }
+            }, { passive: true });
+            item.addEventListener('touchend', (event) => {
+                if (moved) return;
+                event.preventDefault();
+                openItem(event);
+            });
+        }
     });
 
     if (cutPrev) {
@@ -891,6 +916,7 @@ if (workSection && workFilms.length) {
         if (reduceMotion || (!workFilmQuery.matches && !(document.documentElement.classList.contains('ipad') && window.innerWidth > 700))) {
             workFilms.forEach((film) => {
                 film.style.transform = '';
+                film.style.webkitTransform = '';
             });
             return;
         }
@@ -903,8 +929,9 @@ if (workSection && workFilms.length) {
         workFilms.forEach((film) => {
             const speed = parseFloat(film.getAttribute('data-rellax-speed')) || 0;
             const offset = Math.round(speed * 55 * progress);
-            film.style.transform = 'translate3d(0, ' + offset + 'px, 0)';
-            film.style.webkitTransform = film.style.transform;
+            const shift = 'translate3d(0, ' + offset + 'px, 0)';
+            film.style.transform = shift;
+            film.style.webkitTransform = shift;
         });
     }
 
@@ -923,6 +950,26 @@ if (workSection && workFilms.length) {
         window.addEventListener('orientationchange', function () {
             window.setTimeout(updateWorkFilms, 50);
         });
+        /* Sample the row on every frame while a finger is down. iPad can
+           move the page without a window scroll event, which left the four
+           panels sitting in a straight line. */
+        var workPump = 0;
+        var workPumpUntil = 0;
+        function pumpWorkFilms() {
+            updateWorkFilms();
+            if (Date.now() < workPumpUntil) {
+                workPump = window.requestAnimationFrame(pumpWorkFilms);
+            } else {
+                workPump = 0;
+            }
+        }
+        function kickWorkFilms() {
+            workPumpUntil = Date.now() + 900;
+            if (!workPump) workPump = window.requestAnimationFrame(pumpWorkFilms);
+        }
+        window.addEventListener('touchstart', kickWorkFilms, { passive: true });
+        window.addEventListener('touchmove', kickWorkFilms, { passive: true });
+        window.addEventListener('scroll', kickWorkFilms, { passive: true });
     }
     window.addEventListener('resize', updateWorkFilms);
     if (workFilmQuery.addEventListener) {
@@ -1019,13 +1066,17 @@ if (testimonialsViewport) {
         const stopCount = getMaxIndex() + 1;
         dotsContainer.innerHTML = '';
         for (let i = 0; i < stopCount; i++) {
-            const dot = document.createElement('button');
-            dot.type = 'button';
+            const onIpad = document.documentElement.classList.contains('ipad');
+            const dot = document.createElement(onIpad ? 'span' : 'button');
+            if (!onIpad) dot.type = 'button';
+            else {
+                dot.setAttribute('role', 'button');
+                dot.tabIndex = 0;
+            }
             dot.className = 'testimonials-dot' + (i === index ? ' is-active' : '');
             dot.setAttribute('aria-label', `Go to review set ${i + 1}`);
             dot.setAttribute('aria-current', i === index ? 'true' : 'false');
-            if (document.documentElement.classList.contains('ipad')) {
-                dot.innerHTML = '<svg viewBox="0 0 8 8" width="8" height="8" aria-hidden="true"><circle cx="4" cy="4" r="3.5" fill="currentColor"/></svg>';
+            if (onIpad) {
                 dot.addEventListener('touchend', (event) => {
                     event.preventDefault();
                     setIndex(i);
@@ -1056,8 +1107,9 @@ if (testimonialsViewport) {
 
     function applyTransform() {
         const x = -(index * getStride());
-        track.style.transform = 'translate3d(' + x + 'px, 0, 0)';
-        track.style.webkitTransform = track.style.transform;
+        const shift = 'translate3d(' + x + 'px, 0, 0)';
+        track.style.transform = shift;
+        track.style.webkitTransform = shift;
         updateControls();
     }
 
@@ -1087,7 +1139,7 @@ if (testimonialsViewport) {
             if (!event.changedTouches || !event.changedTouches.length) return;
             const dx = Math.abs(event.changedTouches[0].clientX - startX);
             const dy = Math.abs(event.changedTouches[0].clientY - startY);
-            if (dx > 12 || dy > 12) return;
+            if (dx > 28 || dy > 28) return;
             event.preventDefault();
             setIndex(index + delta);
         });

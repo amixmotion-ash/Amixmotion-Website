@@ -5255,26 +5255,47 @@ html.ipad body.homepage .grid-item-subtitle {
     font-size: 0.72rem;
 }
 
-/* iPad was ignoring aspect-ratio and, once the photo was taken out of the
-   flow, the frame collapsed to nothing. Padding is a height the iPad will
-   keep: the same 8/10.8 frame as desktop, so the picture fills the panel. */
+/* Same 8/10.8 frame as desktop. The spacer is in the flow so the panel has
+   a real height: a height of 0 lets the picture show and then ignores taps.
+   Overflow stays visible so the scroll shift can break the row apart. */
+html.ipad body.homepage main,
+html.ipad body.homepage .portfolio-grid-section,
+html.ipad body.homepage .portfolio-grid-container,
 html.ipad body.homepage .portfolio-grid-section .grid-item {
-    overflow: hidden;
+    overflow: visible;
 }
 
-html.ipad body.homepage .portfolio-grid-section,
 html.ipad body.homepage .portfolio-grid-container {
-    overflow: visible;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+html.ipad body.homepage .portfolio-grid-container > .grid-item {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    touch-action: manipulation;
+    cursor: pointer;
 }
 
 html.ipad body.homepage .portfolio-grid-section .grid-item-image {
     position: relative;
-    display: block;
+    display: grid;
     width: 100%;
-    height: 0;
-    padding-top: 135%;
+    height: auto;
+    padding: 0;
     aspect-ratio: auto;
     overflow: hidden;
+}
+
+html.ipad body.homepage .portfolio-grid-section .grid-item-image::before {
+    content: "";
+    display: block;
+    width: 100%;
+    padding-top: 135%;
+    grid-area: 1 / 1;
+    pointer-events: none;
 }
 
 html.ipad body.homepage .portfolio-grid-section .grid-item-image img {
@@ -5288,6 +5309,11 @@ html.ipad body.homepage .portfolio-grid-section .grid-item-image img {
     max-width: none;
     object-fit: cover;
     object-position: center center;
+    z-index: 1;
+}
+
+html.ipad body.homepage .grid-item:hover .grid-item-image img {
+    transform: none;
 }
 
 html.ipad body.homepage .scroll-content-wrapper {
@@ -5388,33 +5414,33 @@ html.ipad body.homepage .testimonials-dots {
     min-height: 24px;
 }
 
-html.ipad body.homepage .testimonials-dot {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    min-width: 22px;
-    min-height: 22px;
-    flex: 0 0 22px;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    color: rgba(0, 0, 0, 0.35);
-    line-height: 0;
-    -webkit-appearance: none;
-    appearance: none;
+html.ipad body.homepage .testimonials-arrow:hover:not(:disabled) {
+    background-color: transparent;
+    color: #222222;
 }
 
-html.ipad body.homepage .testimonials-dot svg {
+html.ipad body.homepage .testimonials-arrow:active:not(:disabled) {
+    background-color: #222222;
+    color: #ffffff;
+}
+
+html.ipad body.homepage .testimonials-dot {
     display: block;
     width: 8px;
     height: 8px;
+    min-width: 8px;
+    min-height: 8px;
+    flex: 0 0 8px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.35);
+    cursor: pointer;
 }
 
 html.ipad body.homepage .testimonials-dot.is-active {
-    color: #000000;
+    background-color: #000000;
 }
 
 /* Portrait iPad: one review at a time, same shape as the phone */
