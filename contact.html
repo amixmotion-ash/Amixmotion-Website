@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>(function(){var nav=window.navigator;var ua=nav.userAgent||"";var platform=nav.platform||"";var touch=(nav.maxTouchPoints||0)>1;var ios=/iPad|iPhone|iPod/.test(ua)||(platform==="MacIntel"&&touch)||(touch&&/Macintosh/.test(ua));var shortSide=Math.min(screen.width,screen.height);var root=document.documentElement;root.classList.toggle("ios",ios);root.classList.toggle("ipad",ios&&shortSide>=700);root.classList.toggle("touch",touch);})();</script>
+    <script>(function(){var nav=window.navigator;var ua=nav.userAgent||"";var platform=nav.platform||"";var touch=(nav.maxTouchPoints||0)>1;var ios=/iPad|iPhone|iPod/.test(ua)||(platform==="MacIntel"&&touch)||(touch&&/Macintosh/.test(ua));var shortSide=Math.min(screen.width,screen.height);var root=document.documentElement;root.classList.toggle("ios",ios||(touch&&shortSide>=700));root.classList.toggle("ipad",touch&&shortSide>=700);root.classList.toggle("touch",touch);})();</script>
     <meta name="description" content="Start a film project with Amixmotion. Send a message about a brand film, event, product, interview, or social campaign.">
     <meta property="og:title" content="Contact | Amixmotion">
     <meta property="og:description" content="Start a film project with Amixmotion. Send a message about a brand film, event, product, interview, or social campaign.">
@@ -35,7 +35,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=ipad-home7">
+    <link rel="stylesheet" href="style.css?v=ipad-home8">
 </head>
 <body class="contact-page">
 
@@ -173,7 +173,7 @@
     </div>
 </footer>
 <div class="menu-cursor">&rarr;</div>
-    <script src="script.js?v=ipad-home7"></script>
+    <script src="script.js?v=ipad-home8"></script>
 
     <!-- PASTE THIS NEW SCRIPT TAG HERE -->
     <script>document.body.classList.add('js-page-loaded');</script>

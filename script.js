@@ -1,12 +1,12 @@
-// iPadOS reports itself as a desktop Mac, so a normal click often never arrives.
+// iPadOS reports itself as a desktop Mac. A finger tap often never becomes a click.
+// Phones are excluded by the short side of the screen (under 700). A desktop
+// mouse has no touch points and no coarse pointer.
 function isIpadDevice() {
     var nav = window.navigator;
     var touch = (nav.maxTouchPoints || 0) > 1;
     var shortSide = Math.min(screen.width, screen.height);
-    var ua = nav.userAgent || '';
-    var platform = nav.platform || '';
-    var ios = /iPad|iPhone|iPod/.test(ua) || (platform === 'MacIntel' && touch) || (touch && /Macintosh/.test(ua));
-    var match = touch && shortSide >= 700 && (ios || document.documentElement.classList.contains('ipad'));
+    var coarse = window.matchMedia('(any-pointer: coarse)').matches;
+    var match = shortSide >= 700 && (touch || coarse);
     if (match) document.documentElement.classList.add('ipad', 'ios', 'touch');
     return match;
 }
@@ -619,7 +619,7 @@ if (lightbox) {
             openItem(event);
         });
         /* A finger tap on iPad is delivered as touchend. Click often never follows. */
-        if (isIpadDevice() && item.closest('#work')) {
+        if (item.closest('#work') && (isIpadDevice() || (window.matchMedia('(any-pointer: coarse)').matches && window.innerWidth >= 1081))) {
             let startX = 0;
             let startY = 0;
             let moved = false;
@@ -637,6 +637,12 @@ if (lightbox) {
             }, { passive: true });
             item.addEventListener('touchend', (event) => {
                 if (moved) return;
+                tileTouchAt = Date.now();
+                event.preventDefault();
+                openItem(event);
+            });
+            item.addEventListener('pointerup', (event) => {
+                if (event.pointerType === 'mouse' || moved) return;
                 tileTouchAt = Date.now();
                 event.preventDefault();
                 openItem(event);
@@ -994,7 +1000,9 @@ if (workSection && workFilms.length) {
         workFilms.forEach((film) => {
             const speed = parseFloat(film.getAttribute('data-rellax-speed')) || 0;
             const offset = Math.round(speed * 55 * progress);
-            film.style.transform = 'translate3d(0, ' + offset + 'px, 0)';
+            const shift = 'translate3d(0, ' + offset + 'px, 0)';
+            film.style.transform = shift;
+            film.style.webkitTransform = shift;
         });
     }
 
@@ -1002,7 +1010,7 @@ if (workSection && workFilms.length) {
     window.addEventListener('scroll', updateWorkFilms, { passive: true });
     /* iPad often scrolls a nested box, or moves the page on touch without a
        window scroll event, so the four films stay still. */
-    if (isIpadDevice()) {
+    if (isIpadDevice() || (window.matchMedia('(any-pointer: coarse)').matches && window.innerWidth >= 1081)) {
         document.addEventListener('scroll', updateWorkFilms, { passive: true, capture: true });
         var workWrap = document.querySelector('.scroll-content-wrapper');
         if (workWrap) workWrap.addEventListener('scroll', updateWorkFilms, { passive: true });
@@ -1122,17 +1130,22 @@ if (testimonialsViewport) {
             ? windowWidth
             : (windowWidth - (visible - 1) * gap) / visible;
 
-        if (nextCardWidth < 40) return;
+        if (!(nextCardWidth > 40)) {
+            const page = Math.min(window.innerWidth || 0, document.documentElement.clientWidth || 0);
+            nextCardWidth = visible <= 1 ? Math.max(page - 80, 40) : Math.max((page - 220) / 3, 40);
+        }
 
+        const lockCard = isIpadDevice() || (window.matchMedia('(any-pointer: coarse)').matches && window.innerWidth >= 1081);
         cards.forEach((card) => {
             card.style.width = nextCardWidth + 'px';
             card.style.flex = '0 0 ' + nextCardWidth + 'px';
-            if (isIpadDevice()) {
+            if (lockCard) {
                 card.style.minWidth = '0';
                 card.style.maxWidth = nextCardWidth + 'px';
             }
         });
-        cardWidth = nextCardWidth;
+        const rendered = cards[0].getBoundingClientRect().width;
+        cardWidth = rendered > 40 ? rendered : nextCardWidth;
     }
 
     function renderDots() {
@@ -1140,26 +1153,40 @@ if (testimonialsViewport) {
         const stopCount = getMaxIndex() + 1;
         dotsContainer.innerHTML = '';
         for (let i = 0; i < stopCount; i++) {
-            const onIpad = isIpadDevice();
+            const onIpad = isIpadDevice() || (window.matchMedia('(any-pointer: coarse)').matches && window.innerWidth >= 1081);
             const dot = document.createElement(onIpad ? 'span' : 'button');
+            const mark = document.createElement('i');
+            mark.setAttribute('aria-hidden', 'true');
+            mark.style.display = 'block';
+            mark.style.width = onIpad ? '8px' : '6px';
+            mark.style.height = onIpad ? '8px' : '6px';
+            mark.style.borderRadius = '50%';
+            mark.style.backgroundColor = i === index ? '#000000' : 'rgba(0,0,0,0.35)';
             if (!onIpad) dot.type = 'button';
             else {
                 dot.setAttribute('role', 'button');
                 dot.tabIndex = 0;
-                dot.style.display = 'inline-block';
+                dot.style.display = 'inline-flex';
                 dot.style.width = '8px';
                 dot.style.height = '8px';
                 dot.style.margin = '0 5px';
                 dot.style.padding = '0';
                 dot.style.borderRadius = '50%';
-                dot.style.backgroundColor = i === index ? '#000000' : 'rgba(0,0,0,0.35)';
+                dot.style.backgroundColor = 'transparent';
+                dot.style.boxShadow = 'inset 0 0 0 8px ' + (i === index ? '#000000' : 'rgba(0,0,0,0.35)');
                 dot.style.verticalAlign = 'middle';
             }
+            dot.appendChild(mark);
             dot.className = 'testimonials-dot' + (i === index ? ' is-active' : '');
             dot.setAttribute('aria-label', `Go to review set ${i + 1}`);
             dot.setAttribute('aria-current', i === index ? 'true' : 'false');
             if (onIpad) {
                 dot.addEventListener('touchend', (event) => {
+                    event.preventDefault();
+                    setIndex(i);
+                });
+                dot.addEventListener('pointerup', (event) => {
+                    if (event.pointerType === 'mouse') return;
                     event.preventDefault();
                     setIndex(i);
                 });
@@ -1183,8 +1210,10 @@ if (testimonialsViewport) {
                 const active = i === index;
                 dot.classList.toggle('is-active', active);
                 dot.setAttribute('aria-current', active ? 'true' : 'false');
+                const mark = dot.querySelector('i');
+                if (mark) mark.style.backgroundColor = active ? '#000000' : 'rgba(0,0,0,0.35)';
                 if (isIpadDevice() && dot.style) {
-                    dot.style.backgroundColor = active ? '#000000' : 'rgba(0,0,0,0.35)';
+                    dot.style.boxShadow = 'inset 0 0 0 8px ' + (active ? '#000000' : 'rgba(0,0,0,0.35)');
                 }
             });
         }
@@ -1192,7 +1221,9 @@ if (testimonialsViewport) {
 
     function applyTransform() {
         const x = -(index * getStride());
-        track.style.transform = 'translate3d(' + x + 'px, 0, 0)';
+        const shift = 'translate3d(' + x + 'px, 0, 0)';
+        track.style.transform = shift;
+        track.style.webkitTransform = shift;
         updateControls();
     }
 
@@ -1213,7 +1244,8 @@ if (testimonialsViewport) {
     let touchNavAt = 0;
 
     function bindIpadTap(button, delta) {
-        if (!button || !isIpadDevice()) return;
+        const tabletTap = isIpadDevice() || (window.matchMedia('(any-pointer: coarse)').matches && window.innerWidth >= 1081);
+        if (!button || !tabletTap) return;
         let startX = 0;
         let startY = 0;
         button.addEventListener('touchstart', (event) => {
@@ -1230,6 +1262,12 @@ if (testimonialsViewport) {
         }, { passive: true });
         button.addEventListener('touchend', (event) => {
             if (touchMovedReview) return;
+            touchNavAt = Date.now();
+            event.preventDefault();
+            setIndex(index + delta);
+        });
+        button.addEventListener('pointerup', (event) => {
+            if (event.pointerType === 'mouse' || touchMovedReview) return;
             touchNavAt = Date.now();
             event.preventDefault();
             setIndex(index + delta);

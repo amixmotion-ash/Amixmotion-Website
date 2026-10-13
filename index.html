@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>(function(){var nav=window.navigator;var ua=nav.userAgent||"";var platform=nav.platform||"";var touch=(nav.maxTouchPoints||0)>1;var ios=/iPad|iPhone|iPod/.test(ua)||(platform==="MacIntel"&&touch)||(touch&&/Macintosh/.test(ua));var shortSide=Math.min(screen.width,screen.height);var root=document.documentElement;root.classList.toggle("ios",ios);root.classList.toggle("ipad",ios&&shortSide>=700);root.classList.toggle("touch",touch);})();</script>
+    <script>(function(){var nav=window.navigator;var ua=nav.userAgent||"";var platform=nav.platform||"";var touch=(nav.maxTouchPoints||0)>1;var ios=/iPad|iPhone|iPod/.test(ua)||(platform==="MacIntel"&&touch)||(touch&&/Macintosh/.test(ua));var shortSide=Math.min(screen.width,screen.height);var root=document.documentElement;root.classList.toggle("ios",ios||(touch&&shortSide>=700));root.classList.toggle("ipad",touch&&shortSide>=700);root.classList.toggle("touch",touch);})();</script>
         <meta name="description" content="Amixmotion is a professional videographer and editor passionate about turning visions into visuals. Specializing in commercial, event, and brand storytelling.">
         <meta property="og:title" content="Amixmotion | Professional Videography &amp; Editing">
         <meta property="og:description" content="Amixmotion is a professional videographer and editor passionate about turning visions into visuals. Specializing in commercial, event, and brand storytelling.">
@@ -43,7 +43,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=ipad-home7">
+    <link rel="stylesheet" href="style.css?v=ipad-home8">
 </head>
 <body class="homepage">
 
@@ -275,7 +275,13 @@
         <button type="button" class="testimonials-arrow testimonials-arrow-prev" aria-label="Previous review" disabled>
             <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
         </button>
-        <div class="testimonials-dots" role="group" aria-label="Testimonials"></div>
+        <div class="testimonials-dots" role="group" aria-label="Testimonials">
+            <span class="testimonials-dot is-active" role="button" aria-label="Go to review set 1"><i></i></span>
+            <span class="testimonials-dot" role="button" aria-label="Go to review set 2"><i></i></span>
+            <span class="testimonials-dot" role="button" aria-label="Go to review set 3"><i></i></span>
+            <span class="testimonials-dot" role="button" aria-label="Go to review set 4"><i></i></span>
+            <span class="testimonials-dot" role="button" aria-label="Go to review set 5"><i></i></span>
+        </div>
         <button type="button" class="testimonials-arrow testimonials-arrow-next" aria-label="Next review">
             <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
         </button>
@@ -352,7 +358,7 @@
     <span class="back-to-top-label">Top</span>
 </button>
 
-    <script src="script.js?v=ipad-home7"></script>
+    <script src="script.js?v=ipad-home8"></script>
 
     <!-- PASTE THIS NEW SCRIPT TAG HERE -->
     <script>document.body.classList.add('js-page-loaded');</script>
