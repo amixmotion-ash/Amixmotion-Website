@@ -5312,8 +5312,15 @@ html.ipad body.homepage .portfolio-grid-section .grid-item-image img {
     z-index: 1;
 }
 
-html.ipad body.homepage .grid-item:hover .grid-item-image img {
+html.touch .grid-item:hover .grid-item-image img,
+html.ipad .grid-item:hover .grid-item-image img,
+html.touch .grid-item:focus .grid-item-image img {
     transform: none;
+}
+
+html.ipad body.homepage #work .grid-item {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 html.ipad body.homepage .scroll-content-wrapper {

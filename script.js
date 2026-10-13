@@ -1,3 +1,16 @@
+// iPadOS reports itself as a desktop Mac, so a normal click often never arrives.
+function isIpadDevice() {
+    var nav = window.navigator;
+    var touch = (nav.maxTouchPoints || 0) > 1;
+    var shortSide = Math.min(screen.width, screen.height);
+    var ua = nav.userAgent || '';
+    var platform = nav.platform || '';
+    var ios = /iPad|iPhone|iPod/.test(ua) || (platform === 'MacIntel' && touch) || (touch && /Macintosh/.test(ua));
+    var match = touch && shortSide >= 700 && (ios || document.documentElement.classList.contains('ipad'));
+    if (match) document.documentElement.classList.add('ipad', 'ios', 'touch');
+    return match;
+}
+
 // ======================================================================
 // == 1. MENU TOGGLE ==
 // ======================================================================
@@ -593,14 +606,20 @@ if (lightbox) {
     });
 
     portfolioItems.forEach(item => {
+        let tileTouchAt = 0;
         const openItem = (event) => {
             if (event) event.preventDefault();
             openLightbox(item.dataset.videoSrc, item.dataset.aspectRatio, readCuts(item));
         };
-        item.addEventListener('click', openItem);
-        /* iPad treats the first tap as a hover, and a zero-height frame
-           never receives it. Open on a tap that didn't turn into a scroll. */
-        if (document.documentElement.classList.contains('ipad')) {
+        item.addEventListener('click', (event) => {
+            if (Date.now() - tileTouchAt < 700) {
+                event.preventDefault();
+                return;
+            }
+            openItem(event);
+        });
+        /* A finger tap on iPad is delivered as touchend. Click often never follows. */
+        if (isIpadDevice() && item.closest('#work')) {
             let startX = 0;
             let startY = 0;
             let moved = false;
@@ -612,12 +631,13 @@ if (lightbox) {
             }, { passive: true });
             item.addEventListener('touchmove', (event) => {
                 if (!event.touches || !event.touches.length) return;
-                if (Math.abs(event.touches[0].clientX - startX) > 12 || Math.abs(event.touches[0].clientY - startY) > 12) {
+                if (Math.abs(event.touches[0].clientX - startX) > 18 || Math.abs(event.touches[0].clientY - startY) > 18) {
                     moved = true;
                 }
             }, { passive: true });
             item.addEventListener('touchend', (event) => {
                 if (moved) return;
+                tileTouchAt = Date.now();
                 event.preventDefault();
                 openItem(event);
             });
@@ -909,36 +929,80 @@ const workFilms = workSection ? workSection.querySelectorAll('.grid-item') : [];
 if (workSection && workFilms.length) {
     const workFilmQuery = window.matchMedia('(min-width: 769px)');
 
+    function sizeHomePanels() {
+        if (!isIpadDevice()) return;
+        workFilms.forEach((film) => {
+            const width = film.clientWidth || film.getBoundingClientRect().width;
+            if (width < 40) return;
+            const height = Math.round(width * 1.35);
+            film.style.display = 'block';
+            film.style.position = 'relative';
+            film.style.height = height + 'px';
+            film.style.touchAction = 'manipulation';
+            const imageBox = film.querySelector('.grid-item-image');
+            if (imageBox) {
+                imageBox.style.position = 'absolute';
+                imageBox.style.top = '0';
+                imageBox.style.right = '0';
+                imageBox.style.bottom = '0';
+                imageBox.style.left = '0';
+                imageBox.style.width = '100%';
+                imageBox.style.height = '100%';
+                imageBox.style.padding = '0';
+            }
+            const image = film.querySelector('.grid-item-image img');
+            if (image) {
+                image.style.position = 'absolute';
+                image.style.top = '0';
+                image.style.left = '0';
+                image.style.width = '100%';
+                image.style.height = '100%';
+                image.style.objectFit = 'cover';
+            }
+        });
+    }
+
     function updateWorkFilms() {
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        const onIpad = isIpadDevice();
+        const reduceMotion = !onIpad
+            && window.matchMedia('(prefers-reduced-motion: reduce)').matches
             && document.body.classList.contains('homepage');
 
-        if (reduceMotion || (!workFilmQuery.matches && !(document.documentElement.classList.contains('ipad') && window.innerWidth > 700))) {
+        if (reduceMotion || (!workFilmQuery.matches && !(onIpad && window.innerWidth > 700))) {
             workFilms.forEach((film) => {
                 film.style.transform = '';
-                film.style.webkitTransform = '';
             });
             return;
         }
 
         const rect = workSection.getBoundingClientRect();
-        const viewH = window.innerHeight;
-        const traveled = Math.max(0, -rect.top);
+        const viewH = window.innerHeight || document.documentElement.clientHeight || 1;
+        const scrollTop = Math.max(
+            window.pageYOffset || 0,
+            document.documentElement.scrollTop || 0,
+            document.body.scrollTop || 0
+        );
+        let pageTop = 0;
+        let node = workSection;
+        while (node) {
+            pageTop += node.offsetTop || 0;
+            node = node.offsetParent;
+        }
+        const traveled = Math.max(0, -rect.top, scrollTop - pageTop);
         const progress = Math.min(1, traveled / (viewH * 0.85));
 
         workFilms.forEach((film) => {
             const speed = parseFloat(film.getAttribute('data-rellax-speed')) || 0;
             const offset = Math.round(speed * 55 * progress);
-            const shift = 'translate3d(0, ' + offset + 'px, 0)';
-            film.style.transform = shift;
-            film.style.webkitTransform = shift;
+            film.style.transform = 'translate3d(0, ' + offset + 'px, 0)';
         });
     }
 
+    sizeHomePanels();
     window.addEventListener('scroll', updateWorkFilms, { passive: true });
     /* iPad often scrolls a nested box, or moves the page on touch without a
        window scroll event, so the four films stay still. */
-    if (document.documentElement.classList.contains('ipad')) {
+    if (isIpadDevice()) {
         document.addEventListener('scroll', updateWorkFilms, { passive: true, capture: true });
         var workWrap = document.querySelector('.scroll-content-wrapper');
         if (workWrap) workWrap.addEventListener('scroll', updateWorkFilms, { passive: true });
@@ -971,7 +1035,10 @@ if (workSection && workFilms.length) {
         window.addEventListener('touchmove', kickWorkFilms, { passive: true });
         window.addEventListener('scroll', kickWorkFilms, { passive: true });
     }
-    window.addEventListener('resize', updateWorkFilms);
+    window.addEventListener('resize', function () {
+        sizeHomePanels();
+        updateWorkFilms();
+    });
     if (workFilmQuery.addEventListener) {
         workFilmQuery.addEventListener('change', updateWorkFilms);
     }
@@ -1002,7 +1069,7 @@ if (testimonialsViewport) {
         if (mobileQuery.matches) return 1;
         /* iPad portrait is wide enough for the desktop rules, but three cards
            there turn into tall strips and a fourth card sticks out the side. */
-        if (document.documentElement.classList.contains('ipad') && ipadOneQuery.matches) return 1;
+        if (isIpadDevice() && ipadOneQuery.matches) return 1;
         return 3;
     }
 
@@ -1028,17 +1095,24 @@ if (testimonialsViewport) {
            so clientWidth is the width of every card, not the screen. Size
            from the window instead, or two and a half cards show and a tap
            moves by a distance you cannot see. */
-        if (document.documentElement.classList.contains('ipad') && testimonialsSection) {
+        if (isIpadDevice() && testimonialsSection) {
             const sectionStyles = window.getComputedStyle(testimonialsSection);
             const secPad = (parseFloat(sectionStyles.paddingLeft) || 0) + (parseFloat(sectionStyles.paddingRight) || 0);
             const viewMargin = (parseFloat(viewportStyles.marginLeft) || 0) + (parseFloat(viewportStyles.marginRight) || 0);
-            const pageWidth = Math.min(window.innerWidth, document.documentElement.clientWidth);
+            const sectionBox = testimonialsSection.getBoundingClientRect().width;
+            const pageWidth = sectionBox > 40
+                ? sectionBox
+                : Math.min(window.innerWidth, document.documentElement.clientWidth);
             windowWidth = Math.max(0, pageWidth - secPad - viewMargin - padL - padR);
+            testimonialsSection.style.overflow = 'hidden';
+            testimonialsSection.style.maxWidth = '100%';
+            testimonialsViewport.style.overflow = 'hidden';
             testimonialsViewport.style.width = windowWidth + 'px';
             testimonialsViewport.style.maxWidth = '100%';
             track.style.position = 'relative';
             track.style.top = 'auto';
             track.style.left = 'auto';
+            track.style.width = 'max-content';
         }
 
         const visible = getVisibleCount();
@@ -1053,7 +1127,7 @@ if (testimonialsViewport) {
         cards.forEach((card) => {
             card.style.width = nextCardWidth + 'px';
             card.style.flex = '0 0 ' + nextCardWidth + 'px';
-            if (document.documentElement.classList.contains('ipad')) {
+            if (isIpadDevice()) {
                 card.style.minWidth = '0';
                 card.style.maxWidth = nextCardWidth + 'px';
             }
@@ -1066,12 +1140,20 @@ if (testimonialsViewport) {
         const stopCount = getMaxIndex() + 1;
         dotsContainer.innerHTML = '';
         for (let i = 0; i < stopCount; i++) {
-            const onIpad = document.documentElement.classList.contains('ipad');
+            const onIpad = isIpadDevice();
             const dot = document.createElement(onIpad ? 'span' : 'button');
             if (!onIpad) dot.type = 'button';
             else {
                 dot.setAttribute('role', 'button');
                 dot.tabIndex = 0;
+                dot.style.display = 'inline-block';
+                dot.style.width = '8px';
+                dot.style.height = '8px';
+                dot.style.margin = '0 5px';
+                dot.style.padding = '0';
+                dot.style.borderRadius = '50%';
+                dot.style.backgroundColor = i === index ? '#000000' : 'rgba(0,0,0,0.35)';
+                dot.style.verticalAlign = 'middle';
             }
             dot.className = 'testimonials-dot' + (i === index ? ' is-active' : '');
             dot.setAttribute('aria-label', `Go to review set ${i + 1}`);
@@ -1101,15 +1183,16 @@ if (testimonialsViewport) {
                 const active = i === index;
                 dot.classList.toggle('is-active', active);
                 dot.setAttribute('aria-current', active ? 'true' : 'false');
+                if (isIpadDevice() && dot.style) {
+                    dot.style.backgroundColor = active ? '#000000' : 'rgba(0,0,0,0.35)';
+                }
             });
         }
     }
 
     function applyTransform() {
         const x = -(index * getStride());
-        const shift = 'translate3d(' + x + 'px, 0, 0)';
-        track.style.transform = shift;
-        track.style.webkitTransform = shift;
+        track.style.transform = 'translate3d(' + x + 'px, 0, 0)';
         updateControls();
     }
 
@@ -1126,31 +1209,47 @@ if (testimonialsViewport) {
         applyTransform();
     }
 
+    let touchMovedReview = false;
+    let touchNavAt = 0;
+
     function bindIpadTap(button, delta) {
-        if (!button || !document.documentElement.classList.contains('ipad')) return;
+        if (!button || !isIpadDevice()) return;
         let startX = 0;
         let startY = 0;
         button.addEventListener('touchstart', (event) => {
             if (!event.touches || !event.touches.length) return;
             startX = event.touches[0].clientX;
             startY = event.touches[0].clientY;
+            touchMovedReview = false;
+        }, { passive: true });
+        button.addEventListener('touchmove', (event) => {
+            if (!event.touches || !event.touches.length) return;
+            if (Math.abs(event.touches[0].clientX - startX) > 18 || Math.abs(event.touches[0].clientY - startY) > 18) {
+                touchMovedReview = true;
+            }
         }, { passive: true });
         button.addEventListener('touchend', (event) => {
-            if (!event.changedTouches || !event.changedTouches.length) return;
-            const dx = Math.abs(event.changedTouches[0].clientX - startX);
-            const dy = Math.abs(event.changedTouches[0].clientY - startY);
-            if (dx > 28 || dy > 28) return;
+            if (touchMovedReview) return;
+            touchNavAt = Date.now();
             event.preventDefault();
             setIndex(index + delta);
         });
     }
 
+    function onReviewClick(event, delta) {
+        if (Date.now() - touchNavAt < 700) {
+            event.preventDefault();
+            return;
+        }
+        setIndex(index + delta);
+    }
+
     if (prevBtn) {
-        prevBtn.addEventListener('click', () => setIndex(index - 1));
+        prevBtn.addEventListener('click', (event) => onReviewClick(event, -1));
         bindIpadTap(prevBtn, -1);
     }
     if (nextBtn) {
-        nextBtn.addEventListener('click', () => setIndex(index + 1));
+        nextBtn.addEventListener('click', (event) => onReviewClick(event, 1));
         bindIpadTap(nextBtn, 1);
     }
 
