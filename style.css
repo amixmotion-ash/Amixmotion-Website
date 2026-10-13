@@ -5519,121 +5519,108 @@ html.ipad body.homepage .testimonials-dot.is-active {
     }
 }
 
-/* Wide touch screens (iPad landscape). A phone never reaches this width.
-   The review row is one third of the visible window, so a fourth card
-   cannot sit half in view, and a tap is not eaten by a hover style. */
-@media (any-pointer: coarse) and (min-width: 1081px) {
-    body.homepage .testimonials-section {
-        margin-left: 0;
-        margin-right: 0;
-        width: 100%;
-        max-width: 100%;
-        overflow: hidden;
-        box-sizing: border-box;
-    }
-
-    body.homepage .testimonials-viewport {
-        container-type: inline-size;
-        width: auto;
-        max-width: 100%;
-        min-width: 0;
-        overflow: hidden;
-    }
-
-    body.homepage .testimonial-card {
-        width: calc((100cqw - 60px) / 3) !important;
-        flex: 0 0 calc((100cqw - 60px) / 3) !important;
-        min-width: 0 !important;
-        max-width: calc((100cqw - 60px) / 3) !important;
-    }
-
-    body.homepage .grid-item:hover .grid-item-image img,
-    body.homepage .grid-item:focus .grid-item-image img {
-        transform: none;
-    }
-
-    body.homepage .testimonials-arrow:hover:not(:disabled) {
-        background-color: transparent;
-        color: #222222;
-    }
-
-    body.homepage .testimonials-dot {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 8px;
-        height: 8px;
-        min-width: 8px;
-        min-height: 8px;
-        padding: 0;
-        border: 0;
-        border-radius: 50%;
-        background: transparent;
-        box-shadow: inset 0 0 0 8px rgba(0, 0, 0, 0.35);
-        overflow: hidden;
-    }
-
-    body.homepage .testimonials-dot i {
-        width: 8px;
-        height: 8px;
-        background-color: rgba(0, 0, 0, 0.35);
-    }
-
-    body.homepage .testimonials-dot.is-active,
-    body.homepage .testimonials-dot.is-active i {
-        background-color: #000000;
-        box-shadow: inset 0 0 0 8px #000000;
-    }
-}
-
-/* Same lock when the page is marked as an iPad, even if it reports a mouse. */
-@media (min-width: 1081px) {
+/* iPad reviews: size from the window, not from the row of cards.
+   Three cards plus the two gaps fill the visible area exactly. */
+@media (min-width: 900px) {
     html.ipad body.homepage .testimonials-section {
-        margin-left: 0;
-        margin-right: 0;
-        width: 100%;
-        max-width: 100%;
-        overflow: hidden;
-        box-sizing: border-box;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
     }
 
     html.ipad body.homepage .testimonials-viewport {
-        container-type: inline-size;
-        width: auto;
-        max-width: 100%;
-        min-width: 0;
-        overflow: hidden;
+        width: calc(100vw - 160px) !important;
+        max-width: calc(100vw - 160px) !important;
+        min-width: 0 !important;
+        margin-left: 40px !important;
+        margin-right: 40px !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    html.ipad body.homepage .testimonials-track {
+        gap: 30px !important;
     }
 
     html.ipad body.homepage .testimonial-card {
-        width: calc((100cqw - 60px) / 3) !important;
-        flex: 0 0 calc((100cqw - 60px) / 3) !important;
-        min-width: 0 !important;
-        max-width: calc((100cqw - 60px) / 3) !important;
+        width: calc((100vw - 220px) / 3) !important;
+        flex: 0 0 calc((100vw - 220px) / 3) !important;
+        min-width: calc((100vw - 220px) / 3) !important;
+        max-width: calc((100vw - 220px) / 3) !important;
+    }
+}
+
+@media (max-width: 899px) {
+    html.ipad body.homepage .testimonials-section {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
     }
 
-    html.ipad body.homepage .grid-item:hover .grid-item-image img,
-    html.ipad body.homepage .grid-item:focus .grid-item-image img {
-        transform: none !important;
+    html.ipad body.homepage .testimonials-viewport {
+        width: calc(100vw - 80px) !important;
+        max-width: calc(100vw - 80px) !important;
+        margin-left: 20px !important;
+        margin-right: 20px !important;
+        overflow: hidden !important;
     }
 
-    html.ipad body.homepage .testimonials-dot {
-        display: inline-flex;
-        width: 8px;
-        height: 8px;
-        min-width: 8px;
-        min-height: 8px;
-        background: transparent;
-        box-shadow: inset 0 0 0 8px rgba(0, 0, 0, 0.35);
+    html.ipad body.homepage .testimonial-card {
+        width: calc(100vw - 80px) !important;
+        flex: 0 0 calc(100vw - 80px) !important;
+        min-width: calc(100vw - 80px) !important;
+        max-width: calc(100vw - 80px) !important;
     }
+}
 
-    html.ipad body.homepage .testimonials-dot i,
-    html.ipad body.homepage .testimonials-dot.is-active i {
-        width: 8px;
-        height: 8px;
-    }
+html.ipad body.homepage .grid-item-image img {
+    transform: none !important;
+}
 
-    html.ipad body.homepage .testimonials-dot.is-active {
-        box-shadow: inset 0 0 0 8px #000000;
-    }
+html.ipad body.homepage #work .grid-item,
+html.ipad body.homepage .testimonials-arrow,
+html.ipad body.homepage .testimonials-dot {
+    touch-action: manipulation;
+}
+
+html.ipad body.homepage .testimonials-arrow:hover:not(:disabled),
+html.ipad body.homepage .testimonials-arrow:focus:not(:disabled) {
+    background-color: transparent;
+    color: #222222;
+}
+
+html.ipad body.homepage .testimonials-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 8px;
+    height: 8px;
+    min-width: 8px;
+    min-height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: inset 0 0 0 8px rgba(0, 0, 0, 0.35);
+}
+
+html.ipad body.homepage .testimonials-dot i {
+    width: 8px;
+    height: 8px;
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+html.ipad body.homepage .testimonials-dot.is-active,
+html.ipad body.homepage .testimonials-dot.is-active i {
+    background-color: #000000;
+    box-shadow: inset 0 0 0 8px #000000;
 }
