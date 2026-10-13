@@ -610,11 +610,12 @@ if (lightbox) {
         let openedAt = 0;
         const openItem = (event) => {
             var now = Date.now();
-            if (now - openedAt < 600) {
+            if ((window.amixTapAt && now - window.amixTapAt < 500) || now - openedAt < 600) {
                 if (event) event.preventDefault();
                 return;
             }
             openedAt = now;
+            window.amixTapAt = now;
             if (event) event.preventDefault();
             openLightbox(item.dataset.videoSrc, item.dataset.aspectRatio, readCuts(item));
         };
@@ -649,12 +650,16 @@ if (lightbox) {
                 if ((navigator.maxTouchPoints || 0) < 2 && event.pointerType === 'mouse') return;
                 openItem(event);
             });
-            item.ontouchend = (event) => {
-                if (moved) return;
-                openItem(event);
-            };
         }
     });
+
+    window.amixOpenTile = function (el) {
+        if (!el) return;
+        var now = Date.now();
+        if (window.amixTapAt && now - window.amixTapAt < 500) return;
+        window.amixTapAt = now;
+        openLightbox(el.getAttribute('data-video-src'), el.getAttribute('data-aspect-ratio'), readCuts(el));
+    };
 
     if (cutPrev) {
         cutPrev.addEventListener('click', (event) => {
@@ -1258,9 +1263,14 @@ if (testimonialsViewport) {
         const now = Date.now();
         if (now - touchNavAt < 450) return;
         touchNavAt = now;
+        window.amixTapAt = now;
         if (!(cardWidth > 40)) measure();
         setIndex(index + delta);
     }
+
+    window.amixStepReview = function (delta) {
+        activateReview(delta);
+    };
 
     function bindIpadTap(button, delta) {
         if (!button) return;

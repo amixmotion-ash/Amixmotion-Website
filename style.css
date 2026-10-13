@@ -1004,7 +1004,7 @@ body.menu-is-closing .main-nav {
     display: block;
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-.grid-item:hover .grid-item-image img {
+html:not(.ipad) .grid-item:hover .grid-item-image img {
     transform: scale(1.1);
 }
 /*
@@ -1034,7 +1034,7 @@ body.menu-is-closing .main-nav {
     display: block;
     transition: transform 0.5s ease;
 }
-.grid-item:hover .grid-item-image img {
+html:not(.ipad) .grid-item:hover .grid-item-image img {
     transform: scale(1.1);
 }
 
@@ -1242,7 +1242,7 @@ body.portfolio-page::before {
     height: 18px;
     display: block;
 }
-.testimonials-arrow:hover:not(:disabled),
+html:not(.ipad) .testimonials-arrow:hover:not(:disabled),
 .testimonials-arrow:focus-visible:not(:disabled),
 .testimonials-arrow:active:not(:disabled) {
     background-color: #222222;
@@ -2429,7 +2429,7 @@ body.portfolio-page.body-no-scroll header::before {
     display: block;
     transition: transform 0.5s ease;
 }
-.grid-item:hover .grid-item-image img {
+html:not(.ipad) .grid-item:hover .grid-item-image img {
     transform: scale(1.1);
 }
 
@@ -3320,7 +3320,7 @@ body.menu-cursor-active .menu-cursor-visual {
 @media (max-width: 1024px) {
 
     /* This finds the hover rule and tells the image NOT to transform. */
-    .grid-item:hover .grid-item-image img {
+    html:not(.ipad) .grid-item:hover .grid-item-image img {
         transform: none; /* Disables the 'scale(1.1)' effect */
     }
 }
@@ -5323,12 +5323,6 @@ html.ipad body.homepage .portfolio-grid-section .grid-item-image img {
     z-index: 1;
 }
 
-html.touch .grid-item:hover .grid-item-image img,
-html.ipad .grid-item:hover .grid-item-image img,
-html.touch .grid-item:focus .grid-item-image img {
-    transform: none;
-}
-
 html.ipad body.homepage #work .grid-item {
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
@@ -5430,11 +5424,6 @@ html.ipad body.homepage .testimonials-dots {
     gap: 8px;
     min-width: 48px;
     min-height: 24px;
-}
-
-html.ipad body.homepage .testimonials-arrow:hover:not(:disabled) {
-    background-color: transparent;
-    color: #222222;
 }
 
 html.ipad body.homepage .testimonials-arrow:active:not(:disabled) {
@@ -5590,12 +5579,6 @@ html.ipad body.homepage #work .grid-item,
 html.ipad body.homepage .testimonials-arrow,
 html.ipad body.homepage .testimonials-dot {
     touch-action: manipulation;
-}
-
-html.ipad body.homepage .testimonials-arrow:hover:not(:disabled),
-html.ipad body.homepage .testimonials-arrow:focus:not(:disabled) {
-    background-color: transparent;
-    color: #222222;
 }
 
 html.ipad body.homepage .testimonials-dot {
