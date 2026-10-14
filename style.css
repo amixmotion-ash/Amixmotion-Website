@@ -5664,7 +5664,7 @@ html.ipad .lightbox-content.is-vertical::before {
     padding-top: 177.78%;
 }
 
-html.ipad .lightbox-video {
+html.ipad .lightbox-video:not(.is-onstage) {
     position: fixed !important;
     left: -4000px !important;
     top: 0 !important;
@@ -5679,19 +5679,33 @@ html.ipad .lightbox-video {
     pointer-events: none !important;
 }
 
-html.ipad .lightbox-content > .lightbox-video.is-onstage {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
+html.ipad .video-lightbox .lightbox-video {
+    display: none !important;
+}
+
+html.ipad body > video.lightbox-video.is-onstage {
+    display: block !important;
+    position: fixed !important;
+    left: var(--ipad-video-x) !important;
+    top: var(--ipad-video-y) !important;
     right: auto !important;
     bottom: auto !important;
-    z-index: 6 !important;
+    z-index: 1100 !important;
     width: var(--ipad-video-w) !important;
     height: var(--ipad-video-h) !important;
     margin: 0 !important;
-    object-fit: cover !important;
+    padding: 0 !important;
+    object-fit: fill !important;
     background: transparent !important;
+    opacity: 1 !important;
+    visibility: visible !important;
     pointer-events: none !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+}
+
+html.ipad .lightbox-content > .lightbox-video.is-onstage {
+    display: none !important;
 }
 
 html.ipad .lightbox-play,
@@ -5767,8 +5781,9 @@ html.ipad body.homepage .portfolio-grid-section {
 }
 
 html.ipad .video-lightbox.is-visible {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible !important;
+    -webkit-overflow-scrolling: auto;
+    transition: none !important;
 }
 
 html.ipad .lightbox-stage {

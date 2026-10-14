@@ -315,22 +315,7 @@ if (textWipes.length > 0) {
 const lightbox = document.querySelector('.video-lightbox');
 if (lightbox) {
     const lightboxContent = lightbox.querySelector('.lightbox-content');
-    const lightboxVideo = lightbox.querySelector('.lightbox-video');
-    /* iPad will not start a film that lives inside a hidden overlay.
-       The player sits on the page from the start, off to the side. */
-    function mountIpadVideo() {
-        if (!lightboxVideo || !isIpadDevice()) return;
-        if (lightboxVideo.parentNode !== document.body) document.body.appendChild(lightboxVideo);
-        lightboxVideo.removeAttribute('autoplay');
-        lightboxVideo.autoplay = false;
-        lightboxVideo.controls = false;
-        lightboxVideo.removeAttribute('controls');
-        lightboxVideo.preload = 'auto';
-        lightboxVideo.setAttribute('playsinline', '');
-        lightboxVideo.setAttribute('webkit-playsinline', '');
-        lightboxVideo.playsInline = true;
-    }
-    mountIpadVideo();
+    let lightboxVideo = lightbox.querySelector('.lightbox-video');
     window.amixPrimeTile = function () {};
     const closeButton = lightbox.querySelector('.lightbox-close');
     const customLoader = lightbox.querySelector('.custom-loader');
@@ -449,12 +434,13 @@ if (lightbox) {
         if (cutsRow) cutsRow.style.removeProperty('display');
     }
 
-    function placeIpadVideo() {
-        if (!isIpadDevice() || !lightboxContent || !lightboxVideo) return;
+    function spawnIpadVideo(src, poster) {
         var vertical = lightboxContent.classList.contains('is-vertical');
         var rect = lightboxContent.getBoundingClientRect();
         var width = rect.width;
         var height = rect.height;
+        var left = rect.left;
+        var top = rect.top;
         if (width < 40 || height < 40) {
             var viewW = window.innerWidth;
             var viewH = window.innerHeight;
@@ -465,22 +451,50 @@ if (lightbox) {
                 width = Math.min(viewW * 0.88, (viewH - 230) * 16 / 9);
                 height = width * 9 / 16;
             }
+            left = (viewW - width) / 2;
+            top = Math.max(56, (viewH - height) / 2);
         }
-        if (lightboxVideo.parentNode !== lightboxContent) lightboxContent.appendChild(lightboxVideo);
+        var video = document.createElement('video');
+        video.className = 'lightbox-video is-onstage';
+        video.setAttribute('playsinline', 'true');
+        video.setAttribute('webkit-playsinline', 'true');
+        video.playsInline = true;
+        video.controls = false;
+        video.preload = 'auto';
+        if (poster) video.poster = poster;
         var w = Math.round(width);
         var h = Math.round(height);
-        lightboxVideo.style.setProperty('--ipad-video-w', w + 'px');
-        lightboxVideo.style.setProperty('--ipad-video-h', h + 'px');
-        lightboxVideo.setAttribute('width', String(w));
-        lightboxVideo.setAttribute('height', String(h));
-        lightboxVideo.classList.add('is-onstage');
-        lightboxVideo.controls = false;
-        lightboxVideo.removeAttribute('controls');
-        void lightboxVideo.offsetWidth;
+        video.setAttribute('width', String(w));
+        video.setAttribute('height', String(h));
+        video.style.setProperty('--ipad-video-x', Math.round(left) + 'px');
+        video.style.setProperty('--ipad-video-y', Math.round(top) + 'px');
+        video.style.setProperty('--ipad-video-w', w + 'px');
+        video.style.setProperty('--ipad-video-h', h + 'px');
+        document.body.appendChild(video);
+        void video.offsetWidth;
+        var previous = lightboxVideo;
+        lightboxVideo = video;
+        if (previous && previous !== video && previous.parentNode === document.body) {
+            previous.pause();
+            previous.removeAttribute('src');
+            previous.remove();
+        }
+        video.addEventListener('playing', function () {
+            lightbox.classList.add('is-playing');
+        });
+        video.src = src;
+        return video.play();
     }
-    window.addEventListener('resize', function () {
-        if (lightboxVideo && lightboxVideo.classList.contains('is-onstage')) placeIpadVideo();
-    });
+    function retireIpadVideo() {
+        var spawned = document.querySelectorAll('body > video.lightbox-video');
+        for (var i = 0; i < spawned.length; i++) {
+            spawned[i].pause();
+            spawned[i].removeAttribute('src');
+            spawned[i].remove();
+        }
+        var template = lightbox.querySelector('.lightbox-video');
+        if (template) lightboxVideo = template;
+    }
 
     function posterFor(videoSrc, cut) {
         if (cut && cut.poster) return cut.poster;
@@ -526,13 +540,13 @@ if (lightbox) {
             if (customLoader) customLoader.classList.add('is-loading');
             lightbox.classList.add('is-loading');
         }
+        var playPromise;
         if (onIpad) {
-            placeIpadVideo();
-            if ((lightboxVideo.getAttribute('src') || '') !== videoSrc) lightboxVideo.src = videoSrc;
+            playPromise = spawnIpadVideo(videoSrc, poster);
         } else {
             lightboxVideo.src = videoSrc;
+            playPromise = lightboxVideo.play();
         }
-        const playPromise = lightboxVideo.play();
         if (playPromise && typeof playPromise.then === 'function') {
         playPromise.then(() => {
             if (token !== playToken) return;
@@ -678,8 +692,11 @@ if (lightbox) {
         const aspect = activeCut ? activeCut.aspect : aspectRatio;
         const poster = posterFor(videoSrc, activeCut);
         if (onIpad) {
-            playSource(videoSrc, aspect, poster);
+            applyAspect(aspect);
+            lightbox.classList.add('is-visible');
+            lightbox.style.display = 'flex';
             renderCuts(list, activeIndex);
+            playSource(videoSrc, aspect, poster);
             return;
         }
         renderCuts(list, activeIndex);
@@ -697,13 +714,14 @@ if (lightbox) {
         ['height', 'width', 'padding-top', 'max-height', 'box-sizing'].forEach((prop) => {
             lightboxContent.style.removeProperty(prop);
         });
-        lightboxVideo.classList.remove('is-onstage');
-        lightboxVideo.style.removeProperty('--ipad-video-w');
-        lightboxVideo.style.removeProperty('--ipad-video-h');
-        ['height', 'width', 'position', 'top', 'right', 'bottom', 'left', 'z-index', 'opacity', 'pointer-events'].forEach((prop) => {
-            lightboxVideo.style.removeProperty(prop);
-        });
-        if (isIpadDevice() && lightboxVideo.parentNode !== document.body) document.body.appendChild(lightboxVideo);
+        if (isIpadDevice()) {
+            retireIpadVideo();
+        } else if (lightboxVideo) {
+            lightboxVideo.classList.remove('is-onstage');
+            ['height', 'width', 'position', 'top', 'right', 'bottom', 'left', 'z-index', 'opacity', 'pointer-events'].forEach((prop) => {
+                lightboxVideo.style.removeProperty(prop);
+            });
+        }
         unlockLightboxScroll();
         stopVideo();
         setTimeout(() => {
