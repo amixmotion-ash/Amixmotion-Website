@@ -319,22 +319,15 @@ if (lightbox) {
     let ipadFilm = document.getElementById('ipad-film');
     window.amixPlayFilm = function (src, poster) {
         if (!src || !isIpadDevice() || !ipadFilm) return;
-        var now = Date.now();
-        if (window.amixFilmAt && now - window.amixFilmAt < 500 && ipadFilm.getAttribute('src') === src) return;
-        window.amixFilmAt = now;
         if (poster) ipadFilm.poster = poster;
-        ipadFilm.controls = true;
+        ipadFilm.controls = false;
         ipadFilm.setAttribute('playsinline', 'true');
         ipadFilm.setAttribute('webkit-playsinline', 'true');
         ipadFilm.playsInline = true;
         document.body.classList.add('ipad-film-open');
-        void ipadFilm.offsetWidth;
         if (ipadFilm.getAttribute('src') !== src) ipadFilm.src = src;
         var pending = ipadFilm.play();
         if (pending && typeof pending.catch === 'function') pending.catch(function () {});
-        if (typeof ipadFilm.webkitEnterFullscreen === 'function') {
-            try { ipadFilm.webkitEnterFullscreen(); } catch (error) {}
-        }
     };
     window.amixCloseFilm = function () {
         if (!ipadFilm) return;
@@ -344,7 +337,10 @@ if (lightbox) {
     };
     if (ipadFilm) {
         ipadFilm.addEventListener('webkitendfullscreen', function () {
-            window.amixCloseFilm();
+            if (ipadFilm.paused) {
+                var pending = ipadFilm.play();
+                if (pending && typeof pending.catch === 'function') pending.catch(function () {});
+            }
         });
         var ipadFilmClose = document.getElementById('ipad-film-close');
         if (ipadFilmClose) ipadFilmClose.addEventListener('click', function () { window.amixCloseFilm(); });
@@ -503,6 +499,11 @@ if (lightbox) {
         ipadFilm.setAttribute('height', String(h));
         ipadFilm.classList.add('is-onstage');
         ipadFilm.controls = false;
+        ipadFilm.style.setProperty('left', Math.round(left) + 'px', 'important');
+        ipadFilm.style.setProperty('top', Math.round(top) + 'px', 'important');
+        ipadFilm.style.setProperty('width', w + 'px', 'important');
+        ipadFilm.style.setProperty('height', h + 'px', 'important');
+        document.body.classList.add('ipad-film-open');
         void ipadFilm.offsetWidth;
         if (poster) ipadFilm.poster = poster;
         if ((ipadFilm.getAttribute('src') || '') !== src) ipadFilm.src = src;
@@ -513,6 +514,10 @@ if (lightbox) {
         ipadFilm.pause();
         ipadFilm.classList.remove('is-onstage');
         ipadFilm.removeAttribute('src');
+        ['left', 'top', 'width', 'height'].forEach(function (prop) {
+            ipadFilm.style.removeProperty(prop);
+        });
+        document.body.classList.remove('ipad-film-open');
     }
 
     function posterFor(videoSrc, cut) {
@@ -711,7 +716,14 @@ if (lightbox) {
         const aspect = activeCut ? activeCut.aspect : aspectRatio;
         const poster = posterFor(videoSrc, activeCut);
         if (onIpad) {
-            if (window.amixPlayFilm) window.amixPlayFilm(videoSrc, poster);
+            applyAspect(aspect);
+            lightbox.classList.add('is-visible');
+            lightbox.style.display = 'flex';
+            lightbox.style.opacity = '1';
+            lightbox.style.visibility = 'visible';
+            lightbox.style.pointerEvents = 'auto';
+            renderCuts(list, activeIndex);
+            stageIpadFilm(videoSrc, poster);
             return;
         }
         renderCuts(list, activeIndex);
