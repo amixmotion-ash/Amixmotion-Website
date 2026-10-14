@@ -319,15 +319,25 @@ if (lightbox) {
     let ipadFilm = document.getElementById('ipad-film');
     window.amixPlayFilm = function (src, poster) {
         if (!src || !isIpadDevice() || !ipadFilm) return;
+        var now = Date.now();
+        if (window.amixFilmAt && now - window.amixFilmAt < 500 && ipadFilm.getAttribute('src') === src) return;
+        window.amixFilmAt = now;
         if (poster) ipadFilm.poster = poster;
-        ipadFilm.controls = false;
+        ipadFilm.controls = true;
         ipadFilm.setAttribute('playsinline', 'true');
         ipadFilm.setAttribute('webkit-playsinline', 'true');
         ipadFilm.playsInline = true;
+        ['left', 'top', 'width', 'height'].forEach(function (prop) {
+            ipadFilm.style.removeProperty(prop);
+        });
         document.body.classList.add('ipad-film-open');
+        void ipadFilm.offsetWidth;
         if (ipadFilm.getAttribute('src') !== src) ipadFilm.src = src;
         var pending = ipadFilm.play();
         if (pending && typeof pending.catch === 'function') pending.catch(function () {});
+        if (typeof ipadFilm.webkitEnterFullscreen === 'function') {
+            try { ipadFilm.webkitEnterFullscreen(); } catch (error) {}
+        }
     };
     window.amixCloseFilm = function () {
         if (!ipadFilm) return;
@@ -337,10 +347,7 @@ if (lightbox) {
     };
     if (ipadFilm) {
         ipadFilm.addEventListener('webkitendfullscreen', function () {
-            if (ipadFilm.paused) {
-                var pending = ipadFilm.play();
-                if (pending && typeof pending.catch === 'function') pending.catch(function () {});
-            }
+            window.amixCloseFilm();
         });
         var ipadFilmClose = document.getElementById('ipad-film-close');
         if (ipadFilmClose) ipadFilmClose.addEventListener('click', function () { window.amixCloseFilm(); });
@@ -716,14 +723,7 @@ if (lightbox) {
         const aspect = activeCut ? activeCut.aspect : aspectRatio;
         const poster = posterFor(videoSrc, activeCut);
         if (onIpad) {
-            applyAspect(aspect);
-            lightbox.classList.add('is-visible');
-            lightbox.style.display = 'flex';
-            lightbox.style.opacity = '1';
-            lightbox.style.visibility = 'visible';
-            lightbox.style.pointerEvents = 'auto';
-            renderCuts(list, activeIndex);
-            stageIpadFilm(videoSrc, poster);
+            if (window.amixPlayFilm) window.amixPlayFilm(videoSrc, poster);
             return;
         }
         renderCuts(list, activeIndex);
@@ -874,15 +874,11 @@ if (lightbox) {
         try {
             openLightbox(el.getAttribute('data-video-src'), el.getAttribute('data-aspect-ratio'), readCuts(el));
         } catch (error) {}
-        if (lightbox) {
+        if (lightbox && !isIpadDevice()) {
             lightbox.style.display = 'flex';
             lightbox.style.opacity = '1';
             lightbox.style.visibility = 'visible';
             lightbox.style.pointerEvents = 'auto';
-        }
-        if (ipadFilm && ipadFilm.paused) {
-            var pendingPlay = ipadFilm.play();
-            if (pendingPlay && typeof pendingPlay.catch === 'function') pendingPlay.catch(function () {});
         }
     };
 
