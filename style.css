@@ -5632,17 +5632,54 @@ html.ipad .testimonials-arrow:disabled {
     pointer-events: auto !important;
 }
 
-/* iPad drops aspect-ratio, so the film frame collapses and only the black
-   sheet plus FULL SCREEN and CLOSE remain. The padding gives the frame a height. */
+/* iPad: a real pixel height, not a padding trick. A zero-height film never
+   starts, and the black padding is all that shows. The other films in a
+   project sit underneath the frame. */
 html.ipad .lightbox-content {
-    box-sizing: content-box !important;
-    height: 0 !important;
-    aspect-ratio: auto !important;
-    padding-top: 56.25%;
+    box-sizing: border-box !important;
+    height: auto;
+    padding-top: 0 !important;
+    aspect-ratio: 16 / 9;
 }
 
 html.ipad .lightbox-content.is-vertical {
-    padding-top: 177.78%;
+    aspect-ratio: 9 / 16;
+    padding-top: 0 !important;
+}
+
+html.ipad .lightbox-video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain;
+    background: #000;
+}
+
+html.ipad .video-lightbox.is-visible {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+html.ipad .lightbox-stage {
+    max-height: none;
+    overflow: visible;
+    margin-top: 36px;
+    margin-bottom: 28px;
+}
+
+html.ipad .video-lightbox.has-cuts .lightbox-cuts-nav,
+html.ipad .lightbox-cuts.is-visible {
+    display: flex !important;
+    pointer-events: auto !important;
+}
+
+html.ipad .lightbox-cuts-label.is-visible {
+    display: block !important;
+}
+
+html.ipad .lightbox-cut,
+html.ipad .lightbox-cut-arrow,
+html.ipad .lightbox-cut-arrow:disabled {
+    pointer-events: auto !important;
 }
 
 html.ipad .video-lightbox.is-loading .lightbox-video {
