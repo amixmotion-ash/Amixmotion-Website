@@ -5632,26 +5632,86 @@ html.ipad .testimonials-arrow:disabled {
     pointer-events: auto !important;
 }
 
-/* iPad: a real pixel height, not a padding trick. A zero-height film never
-   starts, and the black padding is all that shows. The other films in a
-   project sit underneath the frame. */
-html.ipad .lightbox-content {
+/* The frame height comes from the spacer, not from the video. iPad ignores
+   aspect-ratio and treats a percentage height on the film as zero, which
+   leaves only FULL SCREEN and CLOSE. */
+html.ipad .lightbox-content,
+html.ipad .lightbox-content.is-vertical {
     box-sizing: border-box !important;
-    height: auto;
+    height: auto !important;
+    min-height: 0 !important;
     padding-top: 0 !important;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: auto !important;
+    overflow: visible !important;
+}
+
+html.ipad .lightbox-content {
+    width: min(88vw, calc((100dvh - 230px) * 16 / 9)) !important;
 }
 
 html.ipad .lightbox-content.is-vertical {
-    aspect-ratio: 9 / 16;
-    padding-top: 0 !important;
+    width: min(78vw, calc((100dvh - 160px) * 9 / 16)) !important;
+}
+
+html.ipad .lightbox-content::before {
+    content: "";
+    display: block;
+    width: 100%;
+    padding-top: 56.25%;
+}
+
+html.ipad .lightbox-content.is-vertical::before {
+    padding-top: 177.78%;
 }
 
 html.ipad .lightbox-video {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
     width: 100% !important;
     height: 100% !important;
     object-fit: contain;
     background: #000;
+}
+
+.lightbox-play {
+    display: none;
+}
+
+html.ipad .video-lightbox.is-visible .lightbox-play {
+    display: block;
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 14px 22px;
+    border: 1px solid #ffffff;
+    background: rgba(0, 0, 0, 0.45);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+html.ipad .video-lightbox.is-playing .lightbox-play {
+    display: none;
+}
+
+html.ipad body.homepage .portfolio-grid-section {
+    position: relative;
+    z-index: 3;
+    padding-top: 180px;
+    padding-bottom: 200px;
+    overflow: visible !important;
 }
 
 html.ipad .video-lightbox.is-visible {

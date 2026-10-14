@@ -431,31 +431,16 @@ if (lightbox) {
 
     function sizeIpadLightbox() {
         if (!document.documentElement.classList.contains('ipad') || !lightboxContent || !lightboxVideo) return;
-        var vertical = lightboxContent.classList.contains('is-vertical');
-        var cuts = lightbox.classList.contains('has-cuts');
-        var viewH = window.innerHeight || document.documentElement.clientHeight || 800;
-        var viewW = window.innerWidth || document.documentElement.clientWidth || 800;
-        var maxH = Math.max(200, viewH - (cuts ? 250 : 140));
-        var maxW = Math.min(viewW * 0.88, vertical ? 520 : 1400);
-        var heightOverWidth = vertical ? (16 / 9) : (9 / 16);
-        var width = maxW;
-        var height = Math.round(width * heightOverWidth);
-        if (height > maxH) {
-            height = Math.round(maxH);
-            width = Math.round(height / heightOverWidth);
-        }
-        lightboxContent.style.setProperty('box-sizing', 'border-box', 'important');
-        lightboxContent.style.setProperty('padding-top', '0px', 'important');
-        lightboxContent.style.setProperty('width', width + 'px', 'important');
-        lightboxContent.style.setProperty('height', height + 'px', 'important');
-        lightboxContent.style.setProperty('max-height', height + 'px', 'important');
+        var width = lightboxContent.offsetWidth;
+        var height = lightboxContent.offsetHeight;
+        if (width < 40 || height < 40) return;
         lightboxVideo.style.setProperty('position', 'absolute', 'important');
         lightboxVideo.style.setProperty('top', '0', 'important');
-        lightboxVideo.style.setProperty('right', '0', 'important');
-        lightboxVideo.style.setProperty('bottom', '0', 'important');
         lightboxVideo.style.setProperty('left', '0', 'important');
-        lightboxVideo.style.setProperty('width', '100%', 'important');
-        lightboxVideo.style.setProperty('height', '100%', 'important');
+        lightboxVideo.style.setProperty('right', 'auto', 'important');
+        lightboxVideo.style.setProperty('bottom', 'auto', 'important');
+        lightboxVideo.style.setProperty('width', width + 'px', 'important');
+        lightboxVideo.style.setProperty('height', height + 'px', 'important');
         lightboxVideo.setAttribute('width', String(width));
         lightboxVideo.setAttribute('height', String(height));
     }
@@ -478,7 +463,6 @@ if (lightbox) {
         touchControlsPinned = false;
         applyAspect(aspectRatio);
         if (poster) lightboxVideo.poster = poster;
-        sizeIpadLightbox();
         lightboxVideo.setAttribute('playsinline', '');
         lightboxVideo.setAttribute('webkit-playsinline', '');
         lightboxVideo.setAttribute('preload', 'auto');
@@ -495,12 +479,19 @@ if (lightbox) {
             if (customLoader) customLoader.classList.add('is-loading');
             lightbox.classList.add('is-loading');
         }
+        lightbox.classList.remove('is-playing');
         lightboxVideo.src = videoSrc;
         lightbox.classList.add('is-visible');
+        lightbox.style.display = 'flex';
+        sizeIpadLightbox();
         const playPromise = lightboxVideo.play();
         if (playPromise && typeof playPromise.then === 'function') {
             playPromise.then(() => {
-                if (token !== playToken) lightboxVideo.pause();
+                if (token !== playToken) {
+                    lightboxVideo.pause();
+                    return;
+                }
+                lightbox.classList.add('is-playing');
             }).catch(() => {
                 if (token !== playToken) return;
                 revealLightboxVideo();
@@ -645,6 +636,7 @@ if (lightbox) {
 
     function closeLightbox() {
         lightbox.classList.remove('is-visible');
+        lightbox.classList.remove('is-playing');
         lightbox.style.display = '';
         lightbox.style.opacity = '';
         lightbox.style.visibility = '';
@@ -693,6 +685,7 @@ if (lightbox) {
     }
 
     lightboxVideo.addEventListener('playing', () => {
+        lightbox.classList.add('is-playing');
         if (document.documentElement.classList.contains('ipad')) return;
         lightboxVideo.classList.add('controls-hidden');
         concealTouchControls();
@@ -804,6 +797,27 @@ if (lightbox) {
     bindCutStep(cutPrev, -1);
     bindCutStep(cutNext, 1);
     closeButton.addEventListener('click', closeLightbox);
+    const playButton = lightbox.querySelector('.lightbox-play');
+    if (playButton) {
+        const startFromButton = (event) => {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            const pending = lightboxVideo.play();
+            if (pending && typeof pending.then === 'function') {
+                pending.then(() => {
+                    lightbox.classList.add('is-playing');
+                }).catch(() => {});
+            }
+        };
+        playButton.addEventListener('click', startFromButton);
+        playButton.addEventListener('touchend', startFromButton);
+        playButton.addEventListener('pointerup', (event) => {
+            if ((navigator.maxTouchPoints || 0) < 2 && event.pointerType === 'mouse') return;
+            startFromButton(event);
+        });
+    }
     const fullscreenButton = lightbox.querySelector('.lightbox-fullscreen');
     if (fullscreenButton) {
         fullscreenButton.addEventListener('click', (event) => {
@@ -1117,6 +1131,7 @@ if (workSection && workFilms.length) {
         if (!workFilmQuery.matches && !(onIpad && window.innerWidth > 700)) {
             workFilms.forEach((film) => {
                 film.style.removeProperty('transform');
+                film.style.top = '';
             });
             return;
         }
@@ -1124,6 +1139,7 @@ if (workSection && workFilms.length) {
         if (reduceMotion) {
             workFilms.forEach((film) => {
                 film.style.removeProperty('transform');
+                film.style.top = '';
             });
             return;
         }
@@ -1157,7 +1173,17 @@ if (workSection && workFilms.length) {
         workFilms.forEach((film) => {
             const speed = parseFloat(film.getAttribute('data-rellax-speed')) || 0;
             const offset = Math.round(speed * 55 * progress);
-            film.style.setProperty('transform', 'translate3d(0, ' + offset + 'px, 0)', 'important');
+            if (onIpad) {
+                /* iPad paints a button transform as nothing. Shift the panel
+                   itself so the row breaks apart on screen. */
+                film.style.position = 'relative';
+                film.style.zIndex = '2';
+                film.style.setProperty('transform', 'none', 'important');
+                film.style.top = offset + 'px';
+            } else {
+                film.style.top = '';
+                film.style.setProperty('transform', 'translate3d(0, ' + offset + 'px, 0)', 'important');
+            }
         });
     }
 
