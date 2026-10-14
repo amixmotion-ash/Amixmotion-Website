@@ -316,6 +316,29 @@ const lightbox = document.querySelector('.video-lightbox');
 if (lightbox) {
     const lightboxContent = lightbox.querySelector('.lightbox-content');
     const lightboxVideo = lightbox.querySelector('.lightbox-video');
+    /* iPad will not start a film that lives inside a hidden overlay.
+       The player sits on the page from the start, off to the side. */
+    function mountIpadVideo() {
+        if (!lightboxVideo || !isIpadDevice()) return;
+        if (lightboxVideo.parentNode !== document.body) document.body.appendChild(lightboxVideo);
+        lightboxVideo.removeAttribute('autoplay');
+        lightboxVideo.autoplay = false;
+        lightboxVideo.controls = true;
+        lightboxVideo.preload = 'auto';
+        lightboxVideo.setAttribute('playsinline', '');
+        lightboxVideo.setAttribute('webkit-playsinline', '');
+        lightboxVideo.playsInline = true;
+    }
+    mountIpadVideo();
+    window.amixPrimeTile = function (el) {
+        if (!el || !lightboxVideo || !isIpadDevice()) return;
+        var src = el.getAttribute('data-video-src');
+        if (!src) return;
+        mountIpadVideo();
+        var img = el.querySelector('.grid-item-image img');
+        if (img) lightboxVideo.poster = img.currentSrc || img.getAttribute('src') || '';
+        if ((lightboxVideo.getAttribute('src') || '') !== src) lightboxVideo.src = src;
+    };
     const closeButton = lightbox.querySelector('.lightbox-close');
     const customLoader = lightbox.querySelector('.custom-loader');
     const lightboxOverlay = lightbox.querySelector('.lightbox-overlay');
@@ -429,21 +452,43 @@ if (lightbox) {
         if (cutsRow) cutsRow.style.removeProperty('display');
     }
 
-    function sizeIpadLightbox() {
-        if (!document.documentElement.classList.contains('ipad') || !lightboxContent || !lightboxVideo) return;
-        var width = lightboxContent.offsetWidth;
-        var height = lightboxContent.offsetHeight;
-        if (width < 40 || height < 40) return;
-        lightboxVideo.style.setProperty('position', 'absolute', 'important');
-        lightboxVideo.style.setProperty('top', '0', 'important');
-        lightboxVideo.style.setProperty('left', '0', 'important');
-        lightboxVideo.style.setProperty('right', 'auto', 'important');
-        lightboxVideo.style.setProperty('bottom', 'auto', 'important');
-        lightboxVideo.style.setProperty('width', width + 'px', 'important');
-        lightboxVideo.style.setProperty('height', height + 'px', 'important');
-        lightboxVideo.setAttribute('width', String(width));
-        lightboxVideo.setAttribute('height', String(height));
+    function placeIpadVideo() {
+        if (!isIpadDevice() || !lightboxContent || !lightboxVideo) return;
+        mountIpadVideo();
+        var vertical = lightboxContent.classList.contains('is-vertical');
+        var rect = lightboxContent.getBoundingClientRect();
+        var width = rect.width;
+        var height = rect.height;
+        var left = rect.left;
+        var top = rect.top;
+        if (width < 40 || height < 40) {
+            var viewW = window.innerWidth;
+            var viewH = window.innerHeight;
+            if (vertical) {
+                height = Math.min(viewW * 0.78 * 16 / 9, viewH - 160);
+                width = height * 9 / 16;
+            } else {
+                width = Math.min(viewW * 0.88, (viewH - 230) * 16 / 9);
+                height = width * 9 / 16;
+            }
+            left = (viewW - width) / 2;
+            top = Math.max(56, (viewH - height) / 2);
+        }
+        lightboxVideo.classList.add('is-onstage');
+        lightboxVideo.style.setProperty('position', 'fixed', 'important');
+        lightboxVideo.style.setProperty('left', left + 'px', 'important');
+        lightboxVideo.style.setProperty('top', top + 'px', 'important');
+        lightboxVideo.style.setProperty('width', Math.round(width) + 'px', 'important');
+        lightboxVideo.style.setProperty('height', Math.round(height) + 'px', 'important');
+        lightboxVideo.style.setProperty('z-index', '1002', 'important');
+        lightboxVideo.style.setProperty('opacity', '1', 'important');
+        lightboxVideo.style.setProperty('pointer-events', 'auto', 'important');
+        lightboxVideo.setAttribute('width', String(Math.round(width)));
+        lightboxVideo.setAttribute('height', String(Math.round(height)));
     }
+    window.addEventListener('resize', function () {
+        if (lightboxVideo && lightboxVideo.classList.contains('is-onstage')) placeIpadVideo();
+    });
 
     function posterFor(videoSrc, cut) {
         if (cut && cut.poster) return cut.poster;
@@ -465,12 +510,14 @@ if (lightbox) {
         lightbox.classList.remove('is-playing');
         lightbox.classList.add('is-visible');
         lightbox.style.display = 'flex';
-        if (poster) lightboxVideo.poster = poster;
+        const onIpad = document.documentElement.classList.contains('ipad');
+        if (poster && !(onIpad && (lightboxVideo.getAttribute('src') || '') === videoSrc)) {
+            lightboxVideo.poster = poster;
+        }
         lightboxVideo.setAttribute('playsinline', '');
         lightboxVideo.setAttribute('webkit-playsinline', '');
         lightboxVideo.setAttribute('preload', 'auto');
         lightboxVideo.playsInline = true;
-        const onIpad = document.documentElement.classList.contains('ipad');
         if (onIpad) {
             revealLightboxVideo();
             var still = lightbox.querySelector('.lightbox-still');
@@ -487,8 +534,12 @@ if (lightbox) {
             if (customLoader) customLoader.classList.add('is-loading');
             lightbox.classList.add('is-loading');
         }
-        sizeIpadLightbox();
-        lightboxVideo.src = videoSrc;
+        if (onIpad) {
+            placeIpadVideo();
+            if ((lightboxVideo.getAttribute('src') || '') !== videoSrc) lightboxVideo.src = videoSrc;
+        } else {
+            lightboxVideo.src = videoSrc;
+        }
         const playPromise = lightboxVideo.play();
         if (playPromise && typeof playPromise.then === 'function') {
         playPromise.then(() => {
@@ -630,12 +681,18 @@ if (lightbox) {
             const match = list.findIndex((cut) => cut.src === videoSrc);
             if (match >= 0) activeIndex = match;
         }
-        renderCuts(list, activeIndex);
         const activeCut = list[activeIndex];
-        const onIpad = document.documentElement.classList.contains('ipad');
-        playSource(videoSrc, activeCut ? activeCut.aspect : aspectRatio, posterFor(videoSrc, activeCut));
-        /* iPad drops the film if the page is locked in the same tap. */
-        if (onIpad) return;
+        const onIpad = isIpadDevice();
+        const aspect = activeCut ? activeCut.aspect : aspectRatio;
+        const poster = posterFor(videoSrc, activeCut);
+        if (onIpad) {
+            playSource(videoSrc, aspect, poster);
+            renderCuts(list, activeIndex);
+            placeIpadVideo();
+            return;
+        }
+        renderCuts(list, activeIndex);
+        playSource(videoSrc, aspect, poster);
         try { lockLightboxScroll(); } catch (error) {}
     }
 
@@ -649,7 +706,8 @@ if (lightbox) {
         ['height', 'width', 'padding-top', 'max-height', 'box-sizing'].forEach((prop) => {
             lightboxContent.style.removeProperty(prop);
         });
-        ['height', 'width', 'position', 'top', 'right', 'bottom', 'left'].forEach((prop) => {
+        lightboxVideo.classList.remove('is-onstage');
+        ['height', 'width', 'position', 'top', 'right', 'bottom', 'left', 'z-index', 'opacity', 'pointer-events'].forEach((prop) => {
             lightboxVideo.style.removeProperty(prop);
         });
         unlockLightboxScroll();
@@ -694,6 +752,12 @@ if (lightbox) {
         if (document.documentElement.classList.contains('ipad')) return;
         lightboxVideo.classList.add('controls-hidden');
         concealTouchControls();
+    });
+    lightboxVideo.addEventListener('touchend', (event) => {
+        if (!document.documentElement.classList.contains('ipad') || !lightboxVideo.paused) return;
+        var pending = lightboxVideo.play();
+        if (pending && typeof pending.catch === 'function') pending.catch(function () {});
+        if (event) event.stopPropagation();
     });
     if (coarsePointer) {
         lightboxVideo.addEventListener('click', (event) => {
@@ -743,6 +807,7 @@ if (lightbox) {
                 startX = event.touches[0].clientX;
                 startY = event.touches[0].clientY;
                 moved = false;
+                if (window.amixPrimeTile) window.amixPrimeTile(item);
             }, { passive: true });
             item.addEventListener('touchmove', (event) => {
                 if (!event.touches || !event.touches.length) return;
