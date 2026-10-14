@@ -5670,14 +5670,39 @@ html.ipad .lightbox-video {
     left: 0 !important;
     right: auto !important;
     bottom: auto !important;
+    z-index: 1;
     width: 100% !important;
     height: min(calc(88vw * 9 / 16), calc(100dvh - 230px)) !important;
     object-fit: contain;
-    background: #000;
+    background: transparent !important;
 }
 
 html.ipad .lightbox-content.is-vertical .lightbox-video {
     height: min(calc(78vw * 16 / 9), calc(100dvh - 160px)) !important;
+}
+
+.lightbox-still {
+    display: none;
+}
+
+html.ipad .video-lightbox.is-visible .lightbox-still {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: min(calc(88vw * 9 / 16), calc(100dvh - 230px)) !important;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+html.ipad .lightbox-content.is-vertical .lightbox-still {
+    height: min(calc(78vw * 16 / 9), calc(100dvh - 160px)) !important;
+}
+
+html.ipad .video-lightbox.is-playing .lightbox-still {
+    display: none;
 }
 
 .lightbox-play {
