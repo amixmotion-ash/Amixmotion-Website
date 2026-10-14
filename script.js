@@ -540,6 +540,10 @@ if (lightbox) {
 
     function closeLightbox() {
         lightbox.classList.remove('is-visible');
+        lightbox.style.display = '';
+        lightbox.style.opacity = '';
+        lightbox.style.visibility = '';
+        lightbox.style.pointerEvents = '';
         unlockLightboxScroll();
         stopVideo();
         setTimeout(() => {
@@ -635,7 +639,7 @@ if (lightbox) {
             }, { passive: true });
             item.addEventListener('touchmove', (event) => {
                 if (!event.touches || !event.touches.length) return;
-                if (Math.abs(event.touches[0].clientX - startX) > 18 || Math.abs(event.touches[0].clientY - startY) > 18) {
+                if (Math.abs(event.touches[0].clientX - startX) > 48 || Math.abs(event.touches[0].clientY - startY) > 48) {
                     moved = true;
                 }
             }, { passive: true });
@@ -658,7 +662,15 @@ if (lightbox) {
         var now = Date.now();
         if (window.amixTapAt && now - window.amixTapAt < 500) return;
         window.amixTapAt = now;
-        openLightbox(el.getAttribute('data-video-src'), el.getAttribute('data-aspect-ratio'), readCuts(el));
+        try {
+            openLightbox(el.getAttribute('data-video-src'), el.getAttribute('data-aspect-ratio'), readCuts(el));
+        } catch (error) {}
+        if (lightbox) {
+            lightbox.style.display = 'flex';
+            lightbox.style.opacity = '1';
+            lightbox.style.visibility = 'visible';
+            lightbox.style.pointerEvents = 'auto';
+        }
     };
 
     if (cutPrev) {
@@ -986,9 +998,16 @@ if (workSection && workFilms.length) {
             && window.matchMedia('(prefers-reduced-motion: reduce)').matches
             && document.body.classList.contains('homepage');
 
-        if (reduceMotion || (!workFilmQuery.matches && !(onIpad && window.innerWidth > 700))) {
+        if (!workFilmQuery.matches && !(onIpad && window.innerWidth > 700)) {
             workFilms.forEach((film) => {
-                film.style.transform = '';
+                film.style.removeProperty('transform');
+            });
+            return;
+        }
+
+        if (reduceMotion) {
+            workFilms.forEach((film) => {
+                film.style.removeProperty('transform');
             });
             return;
         }
@@ -1012,9 +1031,11 @@ if (workSection && workFilms.length) {
         workFilms.forEach((film) => {
             const speed = parseFloat(film.getAttribute('data-rellax-speed')) || 0;
             const offset = Math.round(speed * 55 * progress);
-            film.style.transform = 'translate3d(0, ' + offset + 'px, 0)';
+            film.style.setProperty('transform', 'translate3d(0, ' + offset + 'px, 0)', 'important');
         });
     }
+
+    window.amixUpdateFilms = updateWorkFilms;
 
     sizeHomePanels();
     window.addEventListener('scroll', updateWorkFilms, { passive: true });
@@ -1032,26 +1053,14 @@ if (workSection && workFilms.length) {
         window.addEventListener('orientationchange', function () {
             window.setTimeout(updateWorkFilms, 50);
         });
-        /* Sample the row on every frame while a finger is down. iPad can
-           move the page without a window scroll event, which left the four
-           panels sitting in a straight line. */
-        var workPump = 0;
-        var workPumpUntil = 0;
-        function pumpWorkFilms() {
-            updateWorkFilms();
-            if (Date.now() < workPumpUntil) {
-                workPump = window.requestAnimationFrame(pumpWorkFilms);
-            } else {
-                workPump = 0;
-            }
-        }
-        function kickWorkFilms() {
-            workPumpUntil = Date.now() + 900;
-            if (!workPump) workPump = window.requestAnimationFrame(pumpWorkFilms);
-        }
-        window.addEventListener('touchstart', kickWorkFilms, { passive: true });
-        window.addEventListener('touchmove', kickWorkFilms, { passive: true });
-        window.addEventListener('scroll', kickWorkFilms, { passive: true });
+        /* iPad can move the page without ever firing a scroll event.
+           Read the row's position every frame so the four panels still
+           break apart while the finger is moving. */
+        window.amixFilmsLoop = true;
+        (function loopWorkFilms() {
+            if (!document.hidden) updateWorkFilms();
+            window.requestAnimationFrame(loopWorkFilms);
+        })();
     }
     window.addEventListener('resize', function () {
         sizeHomePanels();
@@ -1137,7 +1146,7 @@ if (testimonialsViewport) {
         const visible = getVisibleCount();
 
         // Fill the clipping window: 1 card on mobile, 3 equal cards on desktop.
-        const nextCardWidth = visible <= 1
+        let nextCardWidth = visible <= 1
             ? windowWidth
             : (windowWidth - (visible - 1) * gap) / visible;
 
@@ -1237,9 +1246,11 @@ if (testimonialsViewport) {
     function applyTransform() {
         const live = cards[0] ? cards[0].getBoundingClientRect().width : 0;
         if (live > 40) cardWidth = live;
-        const x = -(index * getStride());
+        const stride = getStride();
+        const x = -(index * stride);
         if (!isFinite(x)) return;
-        track.style.transform = 'translate3d(' + x + 'px, 0, 0)';
+        track.style.willChange = 'auto';
+        track.style.setProperty('transform', 'translate3d(' + x + 'px, 0, 0)', 'important');
         updateControls();
     }
 
@@ -1284,7 +1295,7 @@ if (testimonialsViewport) {
         }, { passive: true });
         button.addEventListener('touchmove', (event) => {
             if (!event.touches || !event.touches.length) return;
-            if (Math.abs(event.touches[0].clientX - startX) > 18 || Math.abs(event.touches[0].clientY - startY) > 18) {
+            if (Math.abs(event.touches[0].clientX - startX) > 48 || Math.abs(event.touches[0].clientY - startY) > 48) {
                 touchMovedReview = true;
             }
         }, { passive: true });
@@ -1293,10 +1304,6 @@ if (testimonialsViewport) {
             event.preventDefault();
             activateReview(delta);
         });
-        button.ontouchend = (event) => {
-            event.preventDefault();
-            activateReview(delta);
-        };
         button.addEventListener('pointerup', (event) => {
             if (touchMovedReview) return;
             if ((navigator.maxTouchPoints || 0) < 2 && event.pointerType === 'mouse') return;

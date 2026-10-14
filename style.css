@@ -2418,6 +2418,19 @@ body.portfolio-page.body-no-scroll header::before {
     position: relative;
     overflow: hidden;
 }
+button.grid-item {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+}
 .grid-item-image {
     aspect-ratio: 8 / 10.8;
     overflow: hidden;
@@ -5269,11 +5282,12 @@ html.ipad body.homepage .grid-item-subtitle {
 /* Same 8/10.8 frame as desktop. The spacer is in the flow so the panel has
    a real height: a height of 0 lets the picture show and then ignores taps.
    Overflow stays visible so the scroll shift can break the row apart. */
+html.ipad body.homepage .scroll-content-wrapper,
 html.ipad body.homepage main,
 html.ipad body.homepage .portfolio-grid-section,
 html.ipad body.homepage .portfolio-grid-container,
 html.ipad body.homepage .portfolio-grid-section .grid-item {
-    overflow: visible;
+    overflow: visible !important;
 }
 
 html.ipad body.homepage .portfolio-grid-container {

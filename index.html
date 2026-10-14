@@ -43,7 +43,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=ipad-home10">
+    <link rel="stylesheet" href="style.css?v=ipad-home11">
 </head>
 <body class="homepage">
 
@@ -110,14 +110,14 @@
         <main>
             <section class="portfolio-grid-section" id="work">
 <div class="portfolio-grid-container">
-    <a href="#" class="grid-item" data-video-src="videos/myokine-preview.mp4" data-rellax-speed="-3" data-aspect-ratio="9:16">
+    <button type="button" class="grid-item" data-video-src="videos/myokine-preview.mp4" data-rellax-speed="-3" data-aspect-ratio="9:16" ontouchend="amixTapTile(this, event)" onpointerup="amixTapTile(this, event)" onclick="amixTapTile(this, event)">
         <div class="grid-item-image"><img loading="lazy" src="images/thumbnail1.jpg" alt="Myokine Boxing" width="890" height="1200"></div>
         <div class="grid-item-title-block">
             <span class="grid-item-title">MYOKINE - BOXING</span>
             <span class="grid-item-subtitle">SKIN CARE/LIFESTYLE</span>
         </div>
-    </a>
-    <a href="#" class="grid-item" data-video-src="Videos/hd-lbrty-preview.mp4" data-rellax-speed="1.5" data-cuts='[{"src":"Videos/hd-lbrty-preview.mp4","aspect":"16:9","poster":"images/cuts/hd-lbrty-preview.jpg"},{"src":"Videos/hd-lbrty-cutdown-preview.mp4","aspect":"9:16","poster":"images/cuts/hd-lbrty-cutdown-preview.jpg"}]'>
+    </button>
+    <button type="button" class="grid-item" data-video-src="Videos/hd-lbrty-preview.mp4" data-rellax-speed="1.5" data-cuts='[{"src":"Videos/hd-lbrty-preview.mp4","aspect":"16:9","poster":"images/cuts/hd-lbrty-preview.jpg"},{"src":"Videos/hd-lbrty-cutdown-preview.mp4","aspect":"9:16","poster":"images/cuts/hd-lbrty-cutdown-preview.jpg"}]' ontouchend="amixTapTile(this, event)" onpointerup="amixTapTile(this, event)" onclick="amixTapTile(this, event)">
         <div class="grid-item-image"><img loading="lazy" src="images/hdlbrty.jpg" alt="Harley Davidson LBRTY" width="1080" height="1920"></div>
         <img class="grid-item-logo" src="images/Harleydavidsonlogo.png?v=216" alt="">
         <span class="grid-item-count">2 FILMS</span>
@@ -125,22 +125,22 @@
             <span class="grid-item-title">HARLEY DAVIDSON-LBRTY</span>
             <span class="grid-item-subtitle">PRODUCT/FASHION</span>
         </div>
-    </a>
-    <a href="#" class="grid-item" data-video-src="Videos/hytest-hyspring-preview.mp4" data-rellax-speed="-1.5" data-cuts='[{"src":"Videos/hytest-hyspring-preview.mp4","aspect":"16:9","poster":"images/cuts/hytest-hyspring-preview.jpg"},{"src":"Videos/hytest-hyspring-cutdown-preview.mp4","aspect":"9:16","poster":"images/cuts/hytest-hyspring-cutdown-preview.jpg"}]'>
+    </button>
+    <button type="button" class="grid-item" data-video-src="Videos/hytest-hyspring-preview.mp4" data-rellax-speed="-1.5" data-cuts='[{"src":"Videos/hytest-hyspring-preview.mp4","aspect":"16:9","poster":"images/cuts/hytest-hyspring-preview.jpg"},{"src":"Videos/hytest-hyspring-cutdown-preview.mp4","aspect":"9:16","poster":"images/cuts/hytest-hyspring-cutdown-preview.jpg"}]' ontouchend="amixTapTile(this, event)" onpointerup="amixTapTile(this, event)" onclick="amixTapTile(this, event)">
         <div class="grid-item-image"><img loading="lazy" src="images/hytest.jpg" alt="Hytest Hyspring" width="1080" height="1920"></div>
         <span class="grid-item-count">2 FILMS</span>
         <div class="grid-item-title-block">
             <span class="grid-item-title">HYTEST HYSPRING</span>
             <span class="grid-item-subtitle">PRODUCT/FASHION</span>
         </div>
-    </a>
-    <a href="#" class="grid-item" data-video-src="videos/aston-martin-preview.mp4" data-rellax-speed="3" data-aspect-ratio="9:16">
+    </button>
+    <button type="button" class="grid-item" data-video-src="videos/aston-martin-preview.mp4" data-rellax-speed="3" data-aspect-ratio="9:16" ontouchend="amixTapTile(this, event)" onpointerup="amixTapTile(this, event)" onclick="amixTapTile(this, event)">
         <div class="grid-item-image"><img loading="lazy" src="images/thumbnail4.png" alt="Aston Martin"></div>
         <div class="grid-item-title-block">
             <span class="grid-item-title">ASTON MARTIN</span>
             <span class="grid-item-subtitle">AUTOMOTIVE</span>
         </div>
-    </a>
+    </button>
 </div>
                 <div class="portfolio-cta-container">
                     <a href="portfolio.html" class="button-outline button-dark">MORE WORK</a>
@@ -272,7 +272,7 @@
                     </div>
                 </div>
     <div class="testimonials-controls">
-        <button type="button" class="testimonials-arrow testimonials-arrow-prev" aria-label="Previous review" disabled>
+        <button type="button" class="testimonials-arrow testimonials-arrow-prev" aria-label="Previous review" disabled ontouchend="amixTapArrow(-1, event)" onpointerup="amixTapArrow(-1, event)" onclick="amixTapArrow(-1, event)">
             <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
         </button>
         <div class="testimonials-dots" role="group" aria-label="Testimonials">
@@ -282,7 +282,7 @@
             <span class="testimonials-dot" role="button" aria-label="Go to review set 4"><i></i></span>
             <span class="testimonials-dot" role="button" aria-label="Go to review set 5"><i></i></span>
         </div>
-        <button type="button" class="testimonials-arrow testimonials-arrow-next" aria-label="Next review">
+        <button type="button" class="testimonials-arrow testimonials-arrow-next" aria-label="Next review" ontouchend="amixTapArrow(1, event)" onpointerup="amixTapArrow(1, event)" onclick="amixTapArrow(1, event)">
             <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
         </button>
     </div>
@@ -358,45 +358,84 @@
     <span class="back-to-top-label">Top</span>
 </button>
 
-    <script src="script.js?v=ipad-home10"></script>
+    <script src="script.js?v=ipad-home11"></script>
     <script>
-    /* iPad delivers a finger tap as a hover, so the normal click never runs.
-       This listens first and performs the action itself. */
+    /* iPad turns the first tap into a hover and often never fires click.
+       The panels and arrows call these directly. */
     (function () {
-        var last = 0;
-        function recent() {
+        var origin = null;
+        function remember(event) {
+            var point = event.touches && event.touches[0] ? event.touches[0] : event;
+            if (typeof point.clientX !== 'number') return;
+            origin = { x: point.clientX, y: point.clientY };
+        }
+        document.addEventListener('touchstart', remember, true);
+        document.addEventListener('pointerdown', remember, true);
+        function movedTooFar(event) {
+            if (!event || !origin) return false;
+            var point = event.changedTouches && event.changedTouches[0] ? event.changedTouches[0] : event;
+            if (typeof point.clientX !== 'number') return false;
+            return Math.abs(point.clientX - origin.x) > 48 || Math.abs(point.clientY - origin.y) > 48;
+        }
+        function desktopMouseUp(event) {
+            return event && event.type === 'pointerup' && event.pointerType === 'mouse' && (navigator.maxTouchPoints || 0) < 2;
+        }
+        function showTile(el) {
+            var box = document.querySelector('.video-lightbox');
+            var video = box && box.querySelector('.lightbox-video');
+            var src = el && el.getAttribute('data-video-src');
+            if (!box || !video || !src) return;
+            video.src = src;
+            box.classList.add('is-visible');
+            box.style.display = 'flex';
+            box.style.opacity = '1';
+            box.style.visibility = 'visible';
+            box.style.pointerEvents = 'auto';
+            var play = video.play();
+            if (play && play.catch) play.catch(function () {});
+        }
+        function stepTrack(delta) {
+            var track = document.querySelector('.testimonials-track');
+            var cards = document.querySelectorAll('.testimonial-card');
+            if (!track || !cards.length) return;
+            var width = cards[0].getBoundingClientRect().width;
+            if (!(width > 40)) width = window.innerWidth < 900 ? window.innerWidth - 80 : (window.innerWidth - 220) / 3;
+            var visible = window.innerWidth < 900 ? 1 : 3;
+            var max = Math.max(0, cards.length - visible);
+            var next = (window.amixReviewIndex || 0) + delta;
+            if (next < 0) next = 0;
+            if (next > max) next = max;
+            window.amixReviewIndex = next;
+            track.style.setProperty('transform', 'translate3d(' + (-next * (width + 30)) + 'px, 0, 0)', 'important');
+        }
+        window.amixTapTile = function (el, event) {
+            if (!el || desktopMouseUp(event) || movedTooFar(event)) return;
             var now = Date.now();
-            if (now - last < 500) return true;
-            last = now;
-            return false;
-        }
-        if (!window.amixOpenTile) {
-            window.amixOpenTile = function (el) {
-                var box = document.querySelector('.video-lightbox');
-                var video = box && box.querySelector('.lightbox-video');
-                var src = el && el.getAttribute('data-video-src');
-                if (!box || !video || !src) return;
-                video.src = src;
-                box.classList.add('is-visible');
-                var play = video.play();
-                if (play && play.catch) play.catch(function () {});
-            };
-        }
-        if (!window.amixStepReview) {
-            window.amixReviewIndex = 0;
-            window.amixStepReview = function (delta) {
-                var track = document.querySelector('.testimonials-track');
-                var cards = document.querySelectorAll('.testimonial-card');
-                if (!track || !cards.length) return;
-                var width = cards[0].getBoundingClientRect().width + 30;
-                var visible = window.innerWidth < 900 ? 1 : 3;
-                var max = Math.max(0, cards.length - visible);
-                var next = window.amixReviewIndex + delta;
-                if (next < 0) next = 0;
-                if (next > max) next = max;
-                window.amixReviewIndex = next;
-                track.style.transform = 'translate3d(' + (-next * width) + 'px, 0, 0)';
-            };
+            if (window.amixTileAt && now - window.amixTileAt < 500) return;
+            window.amixTileAt = now;
+            if (event && event.preventDefault) event.preventDefault();
+            if (window.amixOpenTile) {
+                try { window.amixOpenTile(el); return; } catch (error) {}
+            }
+            showTile(el);
+        };
+        window.amixTapArrow = function (delta, event) {
+            if (desktopMouseUp(event) || movedTooFar(event)) return;
+            var now = Date.now();
+            if (window.amixArrowAt && now - window.amixArrowAt < 500) return;
+            window.amixArrowAt = now;
+            if (event && event.preventDefault) event.preventDefault();
+            if (window.amixStepReview) {
+                try { window.amixStepReview(delta); return; } catch (error) {}
+            }
+            stepTrack(delta);
+        };
+        if (!window.amixFilmsLoop) {
+            window.amixFilmsLoop = true;
+            (function loopFilms() {
+                if (!document.hidden && window.amixUpdateFilms) window.amixUpdateFilms();
+                window.requestAnimationFrame(loopFilms);
+            })();
         }
         function act(event) {
             var node = event.target;
@@ -405,20 +444,17 @@
             if (!node || !node.closest) return;
             var tile = node.closest('#work .grid-item');
             if (tile) {
-                event.preventDefault();
-                if (recent()) return;
-                window.amixOpenTile(tile);
+                window.amixTapTile(tile, event);
                 return;
             }
             var arrow = node.closest('.testimonials-arrow');
             if (!arrow || arrow.disabled) return;
-            event.preventDefault();
-            if (recent()) return;
-            window.amixStepReview(arrow.className.indexOf('testimonials-arrow-next') !== -1 ? 1 : -1);
+            window.amixTapArrow(arrow.className.indexOf('testimonials-arrow-next') !== -1 ? 1 : -1, event);
         }
         var touch = (navigator.maxTouchPoints || 0) > 0 || ('ontouchend' in window);
         if (!touch) return;
         document.addEventListener('touchend', act, true);
+        document.addEventListener('pointerup', act, true);
         document.addEventListener('click', act, true);
     })();
     </script>
