@@ -43,7 +43,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=ipad-home22">
+    <link rel="stylesheet" href="style.css?v=ipad-home23">
 </head>
 <body class="homepage">
 
@@ -352,6 +352,9 @@
         </div>
     </div>
 
+    <video id="ipad-film" class="ipad-film" playsinline webkit-playsinline preload="none"></video>
+    <button type="button" id="ipad-film-close" aria-label="Close film">CLOSE</button>
+
     <div class="custom-cursor">Play</div>
     <div class="menu-cursor">&rarr;</div>
 
@@ -360,7 +363,7 @@
     <span class="back-to-top-label">Top</span>
 </button>
 
-    <script src="script.js?v=ipad-home22"></script>
+    <script src="script.js?v=ipad-home23"></script>
     <script>
     /* iPad turns the first tap into a hover and often never fires click.
        The panels and arrows call these directly. */
@@ -454,6 +457,11 @@
         }
         window.amixTapTile = function (el, event) {
             if (!el || desktopMouseUp(event) || movedTooFar(event)) return;
+            if (document.documentElement.classList.contains('ipad') && window.amixPlayFilm) {
+                var img = el.querySelector('.grid-item-image img');
+                window.amixPlayFilm(el.getAttribute('data-video-src'), img ? (img.currentSrc || img.getAttribute('src')) : '');
+                return;
+            }
             var now = Date.now();
             if (window.amixTileAt && now - window.amixTileAt < 500) return;
             window.amixTileAt = now;

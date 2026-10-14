@@ -5683,7 +5683,13 @@ html.ipad .video-lightbox .lightbox-video {
     display: none !important;
 }
 
-html.ipad body > video.ipad-film {
+#ipad-film,
+#ipad-film-close {
+    display: none;
+}
+
+html.ipad #ipad-film {
+    display: block !important;
     position: fixed !important;
     left: 0 !important;
     top: -8px !important;
@@ -5694,19 +5700,43 @@ html.ipad body > video.ipad-film {
     z-index: 0 !important;
     opacity: 1 !important;
     background: transparent !important;
-    object-fit: fill !important;
     pointer-events: none !important;
     transform: none !important;
     -webkit-transform: none !important;
 }
 
-html.ipad body > video.ipad-film.is-onstage {
-    left: var(--ipad-video-x) !important;
-    top: var(--ipad-video-y) !important;
-    width: var(--ipad-video-w) !important;
-    height: var(--ipad-video-h) !important;
-    z-index: 1100 !important;
-    visibility: visible !important;
+html.ipad body.ipad-film-open #ipad-film {
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    z-index: 2000 !important;
+    background: #000 !important;
+    object-fit: contain !important;
+    pointer-events: auto !important;
+}
+
+html.ipad #ipad-film-close {
+    display: none;
+}
+
+html.ipad body.ipad-film-open #ipad-film-close {
+    display: block;
+    position: fixed;
+    z-index: 2001;
+    top: 18px;
+    right: 18px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
 }
 
 html.ipad .lightbox-content > .lightbox-video.is-onstage {

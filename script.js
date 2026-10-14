@@ -316,23 +316,38 @@ const lightbox = document.querySelector('.video-lightbox');
 if (lightbox) {
     const lightboxContent = lightbox.querySelector('.lightbox-content');
     let lightboxVideo = lightbox.querySelector('.lightbox-video');
-    /* One player, created when the page loads. iPad will not start a film
-       that is created by the tap, and it will not draw a film inside the overlay. */
-    let ipadFilm = null;
-    if (isIpadDevice()) {
-        ipadFilm = document.createElement('video');
-        ipadFilm.className = 'ipad-film';
+    let ipadFilm = document.getElementById('ipad-film');
+    window.amixPlayFilm = function (src, poster) {
+        if (!src || !isIpadDevice() || !ipadFilm) return;
+        var now = Date.now();
+        if (window.amixFilmAt && now - window.amixFilmAt < 500 && ipadFilm.getAttribute('src') === src) return;
+        window.amixFilmAt = now;
+        if (poster) ipadFilm.poster = poster;
+        ipadFilm.controls = true;
         ipadFilm.setAttribute('playsinline', 'true');
         ipadFilm.setAttribute('webkit-playsinline', 'true');
         ipadFilm.playsInline = true;
-        ipadFilm.controls = false;
-        ipadFilm.preload = 'none';
-        ipadFilm.setAttribute('width', '2');
-        ipadFilm.setAttribute('height', '2');
-        document.body.appendChild(ipadFilm);
-        ipadFilm.addEventListener('playing', function () {
-            lightbox.classList.add('is-playing');
+        document.body.classList.add('ipad-film-open');
+        void ipadFilm.offsetWidth;
+        if (ipadFilm.getAttribute('src') !== src) ipadFilm.src = src;
+        var pending = ipadFilm.play();
+        if (pending && typeof pending.catch === 'function') pending.catch(function () {});
+        if (typeof ipadFilm.webkitEnterFullscreen === 'function') {
+            try { ipadFilm.webkitEnterFullscreen(); } catch (error) {}
+        }
+    };
+    window.amixCloseFilm = function () {
+        if (!ipadFilm) return;
+        ipadFilm.pause();
+        ipadFilm.removeAttribute('src');
+        document.body.classList.remove('ipad-film-open');
+    };
+    if (ipadFilm) {
+        ipadFilm.addEventListener('webkitendfullscreen', function () {
+            window.amixCloseFilm();
         });
+        var ipadFilmClose = document.getElementById('ipad-film-close');
+        if (ipadFilmClose) ipadFilmClose.addEventListener('click', function () { window.amixCloseFilm(); });
     }
     window.amixPrimeTile = function () {};
     const closeButton = lightbox.querySelector('.lightbox-close');
@@ -359,7 +374,7 @@ if (lightbox) {
         if (ipadFilm) {
             ipadFilm.pause();
             ipadFilm.removeAttribute('src');
-            ipadFilm.classList.remove('is-onstage');
+            document.body.classList.remove('ipad-film-open');
         }
         if (!lightboxVideo || lightboxVideo === ipadFilm) return;
         lightboxVideo.pause();
@@ -696,11 +711,7 @@ if (lightbox) {
         const aspect = activeCut ? activeCut.aspect : aspectRatio;
         const poster = posterFor(videoSrc, activeCut);
         if (onIpad) {
-            applyAspect(aspect);
-            lightbox.classList.add('is-visible');
-            lightbox.style.display = 'flex';
-            renderCuts(list, activeIndex);
-            playSource(videoSrc, aspect, poster);
+            if (window.amixPlayFilm) window.amixPlayFilm(videoSrc, poster);
             return;
         }
         renderCuts(list, activeIndex);
