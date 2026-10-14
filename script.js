@@ -361,11 +361,18 @@ if (lightbox) {
 
     function applyAspect(aspectRatio) {
         if (aspectRatio === '9:16') {
-            lightboxVideo.classList.add('controls-hidden');
             lightboxContent.classList.add('is-vertical');
         } else {
             lightboxContent.classList.remove('is-vertical');
         }
+    }
+
+    function revealLightboxVideo() {
+        lightbox.classList.remove('is-loading');
+        if (customLoader) customLoader.classList.remove('is-loading');
+        lightboxVideo.style.opacity = '1';
+        setNativeControls(true);
+        lightboxVideo.classList.remove('controls-hidden');
     }
 
     function updateCutArrows() {
@@ -402,22 +409,36 @@ if (lightbox) {
     }
 
     function playSource(videoSrc, aspectRatio) {
-        if (!videoSrc) return;
+        if (!videoSrc || !lightboxVideo) return;
         const token = ++playToken;
         touchControlsPinned = false;
-        lightboxVideo.pause();
         applyAspect(aspectRatio);
-        if (coarsePointer) concealTouchControls();
-        else setNativeControls(true);
-        if (customLoader) customLoader.classList.add('is-loading');
-        lightbox.classList.add('is-loading');
+        lightboxVideo.setAttribute('playsinline', '');
+        lightboxVideo.setAttribute('webkit-playsinline', '');
+        lightboxVideo.playsInline = true;
+        const onIpad = document.documentElement.classList.contains('ipad');
+        if (onIpad) {
+            revealLightboxVideo();
+        } else if (coarsePointer) {
+            concealTouchControls();
+        } else {
+            setNativeControls(true);
+        }
+        if (!onIpad) {
+            if (customLoader) customLoader.classList.add('is-loading');
+            lightbox.classList.add('is-loading');
+        }
         lightboxVideo.src = videoSrc;
+        try { lightboxVideo.load(); } catch (error) {}
         lightbox.classList.add('is-visible');
         const playPromise = lightboxVideo.play();
         if (playPromise && typeof playPromise.then === 'function') {
             playPromise.then(() => {
                 if (token !== playToken) lightboxVideo.pause();
-            }).catch(() => {});
+            }).catch(() => {
+                if (token !== playToken) return;
+                revealLightboxVideo();
+            });
         }
     }
 
@@ -471,17 +492,19 @@ if (lightbox) {
     let lightboxInertRoots = [];
 
     function setLightboxPageInert(on) {
-        if (on) {
-            lightboxInertRoots = [...document.body.children].filter((el) => el !== lightbox && el.tagName !== 'SCRIPT');
+        try {
+            if (on) {
+                lightboxInertRoots = [...document.body.children].filter((el) => el !== lightbox && el.tagName !== 'SCRIPT');
+                lightboxInertRoots.forEach((el) => {
+                    el.inert = true;
+                });
+                return;
+            }
             lightboxInertRoots.forEach((el) => {
-                el.inert = true;
+                el.inert = false;
             });
-            return;
-        }
-        lightboxInertRoots.forEach((el) => {
-            el.inert = false;
-        });
-        lightboxInertRoots = [];
+            lightboxInertRoots = [];
+        } catch (error) {}
     }
 
     function lockLightboxScroll() {
@@ -534,8 +557,8 @@ if (lightbox) {
         }
         renderCuts(list, activeIndex);
         const activeCut = list[activeIndex];
-        lockLightboxScroll();
         playSource(videoSrc, activeCut ? activeCut.aspect : aspectRatio);
+        try { lockLightboxScroll(); } catch (error) {}
     }
 
     function closeLightbox() {
@@ -581,6 +604,7 @@ if (lightbox) {
     }
 
     lightboxVideo.addEventListener('playing', () => {
+        if (document.documentElement.classList.contains('ipad')) return;
         lightboxVideo.classList.add('controls-hidden');
         concealTouchControls();
     });
@@ -620,8 +644,8 @@ if (lightbox) {
             }
             openedAt = now;
             window.amixTapAt = now;
-            if (event) event.preventDefault();
             openLightbox(item.dataset.videoSrc, item.dataset.aspectRatio, readCuts(item));
+            if (event) event.preventDefault();
         };
         item.addEventListener('click', (event) => {
             openItem(event);
@@ -1181,20 +1205,10 @@ if (testimonialsViewport) {
             mark.style.width = onIpad ? '8px' : '6px';
             mark.style.height = onIpad ? '8px' : '6px';
             mark.style.borderRadius = '50%';
-            mark.style.backgroundColor = i === index ? '#000000' : 'rgba(0,0,0,0.35)';
             if (!onIpad) dot.type = 'button';
             else {
                 dot.setAttribute('role', 'button');
                 dot.tabIndex = 0;
-                dot.style.display = 'inline-flex';
-                dot.style.width = '8px';
-                dot.style.height = '8px';
-                dot.style.margin = '0 5px';
-                dot.style.padding = '0';
-                dot.style.borderRadius = '50%';
-                dot.style.backgroundColor = 'transparent';
-                dot.style.boxShadow = 'inset 0 0 0 8px ' + (i === index ? '#000000' : 'rgba(0,0,0,0.35)');
-                dot.style.verticalAlign = 'middle';
             }
             dot.appendChild(mark);
             dot.className = 'testimonials-dot' + (i === index ? ' is-active' : '');
@@ -1222,8 +1236,17 @@ if (testimonialsViewport) {
 
     function updateControls() {
         const maxIndex = getMaxIndex();
-        if (prevBtn) prevBtn.disabled = index <= 0;
-        if (nextBtn) nextBtn.disabled = index >= maxIndex;
+        /* The left arrow starts disabled. On iPad that keeps swallowing taps
+           after the row has moved. Fade it, and leave it able to receive a tap. */
+        [prevBtn, nextBtn].forEach((button, i) => {
+            if (!button) return;
+            const atEnd = i === 0 ? index <= 0 : index >= maxIndex;
+            button.disabled = false;
+            button.removeAttribute('disabled');
+            button.style.pointerEvents = 'auto';
+            button.style.opacity = atEnd ? '0.35' : '1';
+            button.setAttribute('aria-disabled', atEnd ? 'true' : 'false');
+        });
         if (dotsContainer) {
             const dots = dotsContainer.querySelectorAll('.testimonials-dot');
             if (dots.length !== maxIndex + 1) {
@@ -1234,11 +1257,10 @@ if (testimonialsViewport) {
                 const active = i === index;
                 dot.classList.toggle('is-active', active);
                 dot.setAttribute('aria-current', active ? 'true' : 'false');
+                dot.style.boxShadow = '';
+                dot.style.backgroundColor = '';
                 const mark = dot.querySelector('i');
-                if (mark) mark.style.backgroundColor = active ? '#000000' : 'rgba(0,0,0,0.35)';
-                if (isIpadDevice() && dot.style) {
-                    dot.style.boxShadow = 'inset 0 0 0 8px ' + (active ? '#000000' : 'rgba(0,0,0,0.35)');
-                }
+                if (mark) mark.style.backgroundColor = '';
             });
         }
     }
@@ -1257,6 +1279,7 @@ if (testimonialsViewport) {
     function setIndex(nextIndex) {
         const maxIndex = getMaxIndex();
         index = Math.max(0, Math.min(maxIndex, nextIndex));
+        window.amixReviewIndex = index;
         applyTransform();
     }
 
@@ -1274,8 +1297,12 @@ if (testimonialsViewport) {
         const now = Date.now();
         if (now - touchNavAt < 450) return;
         touchNavAt = now;
-        window.amixTapAt = now;
-        if (!(cardWidth > 40)) measure();
+        if (!(cardWidth > 40)) {
+            try { measure(); } catch (error) {
+                cardWidth = window.innerWidth < 900 ? window.innerWidth - 80 : (window.innerWidth - 220) / 3;
+                gap = gap > 0 ? gap : 30;
+            }
+        }
         setIndex(index + delta);
     }
 

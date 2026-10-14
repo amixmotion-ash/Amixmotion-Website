@@ -5606,18 +5606,45 @@ html.ipad body.homepage .testimonials-dot {
     padding: 0;
     border: 0;
     border-radius: 50%;
-    background: transparent;
-    box-shadow: inset 0 0 0 8px rgba(0, 0, 0, 0.35);
+    background: transparent !important;
+    box-shadow: inset 0 0 0 8px rgba(0, 0, 0, 0.35) !important;
 }
 
 html.ipad body.homepage .testimonials-dot i {
     width: 8px;
     height: 8px;
-    background-color: rgba(0, 0, 0, 0.35);
+    background-color: rgba(0, 0, 0, 0.35) !important;
+    box-shadow: none !important;
 }
 
-html.ipad body.homepage .testimonials-dot.is-active,
+html.ipad body.homepage .testimonials-dot.is-active {
+    background-color: transparent !important;
+    box-shadow: inset 0 0 0 8px #000000 !important;
+}
+
 html.ipad body.homepage .testimonials-dot.is-active i {
-    background-color: #000000;
-    box-shadow: inset 0 0 0 8px #000000;
+    background-color: #000000 !important;
+    box-shadow: none !important;
+}
+
+html.ipad .testimonials-arrow,
+html.ipad .testimonials-arrow:disabled {
+    pointer-events: auto !important;
+}
+
+/* iPad drops aspect-ratio, so the film frame collapses and only the black
+   sheet plus FULL SCREEN and CLOSE remain. The padding gives the frame a height. */
+html.ipad .lightbox-content {
+    box-sizing: content-box !important;
+    height: 0 !important;
+    aspect-ratio: auto !important;
+    padding-top: 56.25%;
+}
+
+html.ipad .lightbox-content.is-vertical {
+    padding-top: 177.78%;
+}
+
+html.ipad .video-lightbox.is-loading .lightbox-video {
+    opacity: 1 !important;
 }

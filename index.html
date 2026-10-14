@@ -43,7 +43,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=ipad-home11">
+    <link rel="stylesheet" href="style.css?v=ipad-home13">
 </head>
 <body class="homepage">
 
@@ -272,7 +272,7 @@
                     </div>
                 </div>
     <div class="testimonials-controls">
-        <button type="button" class="testimonials-arrow testimonials-arrow-prev" aria-label="Previous review" disabled ontouchend="amixTapArrow(-1, event)" onpointerup="amixTapArrow(-1, event)" onclick="amixTapArrow(-1, event)">
+        <button type="button" class="testimonials-arrow testimonials-arrow-prev" aria-label="Previous review" aria-disabled="true" ontouchend="amixTapArrow(-1, event)" onpointerup="amixTapArrow(-1, event)" onclick="amixTapArrow(-1, event)">
             <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
         </button>
         <div class="testimonials-dots" role="group" aria-label="Testimonials">
@@ -336,7 +336,7 @@
                 <button class="lightbox-close" aria-label="Close video preview">CLOSE</button>
                 <div class="custom-loader">
     </div>
-                <video class="lightbox-video" autoplay playsinline></video>
+                <video class="lightbox-video" autoplay playsinline webkit-playsinline></video>
             </div>
             <div class="lightbox-cuts-nav">
                 <button type="button" class="lightbox-cut-arrow lightbox-cut-prev" aria-label="Previous film" disabled>
@@ -358,7 +358,7 @@
     <span class="back-to-top-label">Top</span>
 </button>
 
-    <script src="script.js?v=ipad-home11"></script>
+    <script src="script.js?v=ipad-home13"></script>
     <script>
     /* iPad turns the first tap into a hover and often never fires click.
        The panels and arrows call these directly. */
@@ -385,14 +385,49 @@
             var video = box && box.querySelector('.lightbox-video');
             var src = el && el.getAttribute('data-video-src');
             if (!box || !video || !src) return;
+            video.setAttribute('playsinline', '');
+            video.setAttribute('webkit-playsinline', '');
+            video.playsInline = true;
+            video.controls = true;
+            video.style.opacity = '1';
             video.src = src;
+            try { video.load(); } catch (error) {}
             box.classList.add('is-visible');
+            box.classList.remove('is-loading');
             box.style.display = 'flex';
             box.style.opacity = '1';
             box.style.visibility = 'visible';
             box.style.pointerEvents = 'auto';
             var play = video.play();
             if (play && play.catch) play.catch(function () {});
+        }
+        function paintReviews(next, max) {
+            var dots = document.querySelectorAll('.testimonials-dot');
+            for (var i = 0; i < dots.length; i++) {
+                var on = i === next;
+                dots[i].classList.toggle('is-active', on);
+                dots[i].setAttribute('aria-current', on ? 'true' : 'false');
+                dots[i].style.boxShadow = '';
+                dots[i].style.backgroundColor = '';
+                var mark = dots[i].querySelector('i');
+                if (mark) mark.style.backgroundColor = '';
+            }
+            var prev = document.querySelector('.testimonials-arrow-prev');
+            var nextBtn = document.querySelector('.testimonials-arrow-next');
+            if (prev) {
+                prev.disabled = false;
+                prev.removeAttribute('disabled');
+                prev.style.pointerEvents = 'auto';
+                prev.style.opacity = next <= 0 ? '0.35' : '1';
+                prev.setAttribute('aria-disabled', next <= 0 ? 'true' : 'false');
+            }
+            if (nextBtn) {
+                nextBtn.disabled = false;
+                nextBtn.removeAttribute('disabled');
+                nextBtn.style.pointerEvents = 'auto';
+                nextBtn.style.opacity = next >= max ? '0.35' : '1';
+                nextBtn.setAttribute('aria-disabled', next >= max ? 'true' : 'false');
+            }
         }
         function stepTrack(delta) {
             var track = document.querySelector('.testimonials-track');
@@ -407,17 +442,19 @@
             if (next > max) next = max;
             window.amixReviewIndex = next;
             track.style.setProperty('transform', 'translate3d(' + (-next * (width + 30)) + 'px, 0, 0)', 'important');
+            paintReviews(next, max);
         }
         window.amixTapTile = function (el, event) {
             if (!el || desktopMouseUp(event) || movedTooFar(event)) return;
             var now = Date.now();
             if (window.amixTileAt && now - window.amixTileAt < 500) return;
             window.amixTileAt = now;
-            if (event && event.preventDefault) event.preventDefault();
             if (window.amixOpenTile) {
-                try { window.amixOpenTile(el); return; } catch (error) {}
+                try { window.amixOpenTile(el); }
+                catch (error) { showTile(el); }
+            } else {
+                showTile(el);
             }
-            showTile(el);
         };
         window.amixTapArrow = function (delta, event) {
             if (desktopMouseUp(event) || movedTooFar(event)) return;
@@ -448,7 +485,7 @@
                 return;
             }
             var arrow = node.closest('.testimonials-arrow');
-            if (!arrow || arrow.disabled) return;
+            if (!arrow) return;
             window.amixTapArrow(arrow.className.indexOf('testimonials-arrow-next') !== -1 ? 1 : -1, event);
         }
         var touch = (navigator.maxTouchPoints || 0) > 0 || ('ontouchend' in window);
