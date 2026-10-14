@@ -462,6 +462,9 @@ if (lightbox) {
         const token = ++playToken;
         touchControlsPinned = false;
         applyAspect(aspectRatio);
+        lightbox.classList.remove('is-playing');
+        lightbox.classList.add('is-visible');
+        lightbox.style.display = 'flex';
         if (poster) lightboxVideo.poster = poster;
         lightboxVideo.setAttribute('playsinline', '');
         lightboxVideo.setAttribute('webkit-playsinline', '');
@@ -470,6 +473,8 @@ if (lightbox) {
         const onIpad = document.documentElement.classList.contains('ipad');
         if (onIpad) {
             revealLightboxVideo();
+            if (customLoader) customLoader.classList.add('is-loading');
+            lightbox.classList.add('is-loading');
         } else if (coarsePointer) {
             concealTouchControls();
         } else {
@@ -479,10 +484,7 @@ if (lightbox) {
             if (customLoader) customLoader.classList.add('is-loading');
             lightbox.classList.add('is-loading');
         }
-        lightbox.classList.remove('is-playing');
         lightboxVideo.src = videoSrc;
-        lightbox.classList.add('is-visible');
-        lightbox.style.display = 'flex';
         sizeIpadLightbox();
         const playPromise = lightboxVideo.play();
         if (playPromise && typeof playPromise.then === 'function') {
@@ -494,6 +496,8 @@ if (lightbox) {
                 lightbox.classList.add('is-playing');
             }).catch(() => {
                 if (token !== playToken) return;
+                lightbox.classList.remove('is-loading');
+                if (customLoader) customLoader.classList.remove('is-loading');
                 revealLightboxVideo();
             });
         }
@@ -800,15 +804,17 @@ if (lightbox) {
     const playButton = lightbox.querySelector('.lightbox-play');
     if (playButton) {
         const startFromButton = (event) => {
-            if (event) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
             const pending = lightboxVideo.play();
             if (pending && typeof pending.then === 'function') {
                 pending.then(() => {
                     lightbox.classList.add('is-playing');
+                    lightbox.classList.remove('is-loading');
+                    if (customLoader) customLoader.classList.remove('is-loading');
                 }).catch(() => {});
+            }
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
             }
         };
         playButton.addEventListener('click', startFromButton);

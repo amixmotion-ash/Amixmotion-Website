@@ -43,7 +43,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=ipad-home15">
+    <link rel="stylesheet" href="style.css?v=ipad-home16">
 </head>
 <body class="homepage">
 
@@ -359,7 +359,7 @@
     <span class="back-to-top-label">Top</span>
 </button>
 
-    <script src="script.js?v=ipad-home15"></script>
+    <script src="script.js?v=ipad-home16"></script>
     <script>
     /* iPad turns the first tap into a hover and often never fires click.
        The panels and arrows call these directly. */
@@ -386,19 +386,20 @@
             var video = box && box.querySelector('.lightbox-video');
             var src = el && el.getAttribute('data-video-src');
             if (!box || !video || !src) return;
-            video.setAttribute('playsinline', '');
-            video.setAttribute('webkit-playsinline', '');
-            video.playsInline = true;
-            video.controls = true;
-            video.style.opacity = '1';
-            video.src = src;
-            try { video.load(); } catch (error) {}
+            var thumb = el.querySelector('.grid-item-image img');
             box.classList.add('is-visible');
             box.classList.remove('is-loading');
             box.style.display = 'flex';
             box.style.opacity = '1';
             box.style.visibility = 'visible';
             box.style.pointerEvents = 'auto';
+            video.setAttribute('playsinline', '');
+            video.setAttribute('webkit-playsinline', '');
+            video.playsInline = true;
+            video.controls = true;
+            video.style.opacity = '1';
+            if (thumb) video.poster = thumb.currentSrc || thumb.getAttribute('src') || '';
+            video.src = src;
             var play = video.play();
             if (play && play.catch) play.catch(function () {});
         }
