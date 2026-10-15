@@ -5739,21 +5739,23 @@ html.ipad body.ipad-film-open #ipad-film-close {
     display: none;
 }
 
-html.ipad body.ipad-chooser-open {
-    overflow: hidden;
-}
-
 html.ipad .ipad-chooser.is-open {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: fixed;
-    inset: 0;
-    z-index: 1800;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    z-index: 1800 !important;
     box-sizing: border-box;
     padding: 72px 32px 40px;
-    background: #000;
+    background: #000 !important;
 }
 
 html.ipad .ipad-chooser-close {

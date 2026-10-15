@@ -320,7 +320,8 @@ if (lightbox) {
     window.amixPlayFilm = function (src, poster) {
         if (!src || !isIpadDevice() || !ipadFilm) return;
         var now = Date.now();
-        if (window.amixFilmAt && now - window.amixFilmAt < 500 && ipadFilm.getAttribute('src') === src) return;
+        var same = ipadFilm.getAttribute('src') === src && window.amixFilmAt && (now - window.amixFilmAt < 500);
+        if (same && !ipadFilm.paused) return;
         window.amixFilmAt = now;
         if (poster) ipadFilm.poster = poster;
         ipadFilm.controls = true;
@@ -332,7 +333,7 @@ if (lightbox) {
         });
         document.body.classList.add('ipad-film-open');
         void ipadFilm.offsetWidth;
-        if (ipadFilm.getAttribute('src') !== src) ipadFilm.src = src;
+        if (!same && ipadFilm.getAttribute('src') !== src) ipadFilm.src = src;
         var pending = ipadFilm.play();
         if (pending && typeof pending.catch === 'function') pending.catch(function () {});
         if (typeof ipadFilm.webkitEnterFullscreen === 'function') {
@@ -712,10 +713,31 @@ if (lightbox) {
     window.addEventListener('keydown', preventLightboxPageScroll, { passive: false });
 
     let ipadChooser = null;
+    let ipadChooserReadyAt = 0;
+
+    function placeIpadChooser(box) {
+        box.style.setProperty('display', 'flex', 'important');
+        box.style.setProperty('position', 'fixed', 'important');
+        box.style.setProperty('top', '0', 'important');
+        box.style.setProperty('left', '0', 'important');
+        box.style.setProperty('right', '0', 'important');
+        box.style.setProperty('bottom', '0', 'important');
+        box.style.setProperty('width', '100vw', 'important');
+        box.style.setProperty('min-height', '100vh', 'important');
+        box.style.setProperty('height', '100dvh', 'important');
+        box.style.setProperty('z-index', '1800', 'important');
+        box.style.setProperty('background', '#000', 'important');
+        box.style.setProperty('flex-direction', 'column', 'important');
+        box.style.setProperty('align-items', 'center', 'important');
+        box.style.setProperty('justify-content', 'center', 'important');
+        box.style.setProperty('box-sizing', 'border-box', 'important');
+        box.style.setProperty('padding', '72px 32px 40px', 'important');
+    }
 
     function hideIpadChooser() {
         if (!ipadChooser) return;
         ipadChooser.classList.remove('is-open');
+        ipadChooser.style.setProperty('display', 'none', 'important');
         document.body.classList.remove('ipad-chooser-open');
     }
 
@@ -743,6 +765,10 @@ if (lightbox) {
             image.draggable = false;
             button.appendChild(image);
             var playCut = function (event) {
+                if (Date.now() < ipadChooserReadyAt) {
+                    if (event) event.stopPropagation();
+                    return;
+                }
                 if (event) event.stopPropagation();
                 if (event && event.type !== 'touchend' && event.preventDefault) event.preventDefault();
                 if (window.amixPlayFilm) window.amixPlayFilm(cut.src, cut.poster || '');
@@ -752,8 +778,23 @@ if (lightbox) {
             films.appendChild(button);
         });
         ipadChooser.classList.add('is-open');
-        document.body.classList.add('ipad-chooser-open');
+        placeIpadChooser(ipadChooser);
+        ipadChooserReadyAt = Date.now() + 450;
     }
+
+    window.amixOpenIpad = function (el) {
+        if (!el || !isIpadDevice()) return false;
+        var cuts = readCuts(el);
+        if (cuts.length > 1) {
+            showIpadChooser(cuts);
+            return true;
+        }
+        hideIpadChooser();
+        var img = el.querySelector('.grid-item-image img');
+        var poster = img ? (img.currentSrc || img.getAttribute('src') || '') : '';
+        if (window.amixPlayFilm) window.amixPlayFilm(el.getAttribute('data-video-src'), poster);
+        return true;
+    };
 
     function openLightbox(videoSrc, aspectRatio, cuts) {
         const list = Array.isArray(cuts) && cuts.length > 1 ? cuts : [];
