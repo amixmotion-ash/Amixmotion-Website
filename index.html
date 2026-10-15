@@ -43,7 +43,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=ipad-home27">
+    <link rel="stylesheet" href="style.css?v=ipad-home29">
 </head>
 <body class="homepage">
 
@@ -363,7 +363,7 @@
     <span class="back-to-top-label">Top</span>
 </button>
 
-    <script src="script.js?v=ipad-home27"></script>
+    <script src="script.js?v=ipad-home29"></script>
     <script>
     /* iPad turns the first tap into a hover and often never fires click.
        The panels and arrows call these directly. */
@@ -457,10 +457,7 @@
         }
         window.amixTapTile = function (el, event) {
             if (!el || desktopMouseUp(event) || movedTooFar(event)) return;
-            if (window.amixOpenIpad && window.amixOpenIpad(el)) {
-                if (event && event.stopPropagation) event.stopPropagation();
-                return;
-            }
+            if (window.amixOpenIpad && window.amixOpenIpad(el)) return;
             var now = Date.now();
             if (window.amixTileAt && now - window.amixTileAt < 500) return;
             window.amixTileAt = now;

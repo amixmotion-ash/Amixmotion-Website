@@ -716,22 +716,29 @@ if (lightbox) {
     let ipadChooserReadyAt = 0;
 
     function placeIpadChooser(box) {
+        var y = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        var view = window.visualViewport;
+        var h = window.innerHeight || document.documentElement.clientHeight || 800;
+        if (view && view.height) h = Math.max(h, view.height);
+        h += 48;
         box.style.setProperty('display', 'flex', 'important');
-        box.style.setProperty('position', 'fixed', 'important');
-        box.style.setProperty('top', '0', 'important');
+        box.style.setProperty('position', 'absolute', 'important');
+        box.style.setProperty('top', y + 'px', 'important');
         box.style.setProperty('left', '0', 'important');
-        box.style.setProperty('right', '0', 'important');
-        box.style.setProperty('bottom', '0', 'important');
-        box.style.setProperty('width', '100vw', 'important');
-        box.style.setProperty('min-height', '100vh', 'important');
-        box.style.setProperty('height', '100dvh', 'important');
+        box.style.setProperty('right', 'auto', 'important');
+        box.style.setProperty('bottom', 'auto', 'important');
+        box.style.setProperty('width', '100%', 'important');
+        box.style.setProperty('min-height', '0', 'important');
+        box.style.setProperty('height', h + 'px', 'important');
         box.style.setProperty('z-index', '1800', 'important');
+        box.style.setProperty('margin', '0', 'important');
         box.style.setProperty('background', '#000', 'important');
         box.style.setProperty('flex-direction', 'column', 'important');
         box.style.setProperty('align-items', 'center', 'important');
         box.style.setProperty('justify-content', 'center', 'important');
         box.style.setProperty('box-sizing', 'border-box', 'important');
         box.style.setProperty('padding', '72px 32px 40px', 'important');
+        void box.offsetWidth;
     }
 
     function hideIpadChooser() {
@@ -765,11 +772,7 @@ if (lightbox) {
             image.draggable = false;
             button.appendChild(image);
             var playCut = function (event) {
-                if (Date.now() < ipadChooserReadyAt) {
-                    if (event) event.stopPropagation();
-                    return;
-                }
-                if (event) event.stopPropagation();
+                if (Date.now() < ipadChooserReadyAt) return;
                 if (event && event.type !== 'touchend' && event.preventDefault) event.preventDefault();
                 if (window.amixPlayFilm) window.amixPlayFilm(cut.src, cut.poster || '');
             };
@@ -780,6 +783,13 @@ if (lightbox) {
         ipadChooser.classList.add('is-open');
         placeIpadChooser(ipadChooser);
         ipadChooserReadyAt = Date.now() + 450;
+        if (!window.amixChooserScrollLock) {
+            window.amixChooserScrollLock = function (event) {
+                if (!ipadChooser || !ipadChooser.classList.contains('is-open')) return;
+                event.preventDefault();
+            };
+            document.addEventListener('touchmove', window.amixChooserScrollLock, { passive: false });
+        }
     }
 
     window.amixOpenIpad = function (el) {

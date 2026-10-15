@@ -5740,22 +5740,18 @@ html.ipad body.ipad-film-open #ipad-film-close {
 }
 
 html.ipad .ipad-chooser.is-open {
-    display: flex !important;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    z-index: 1800 !important;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 1800;
     box-sizing: border-box;
+    margin: 0;
     padding: 72px 32px 40px;
-    background: #000 !important;
+    background: #000;
 }
 
 html.ipad .ipad-chooser-close {
