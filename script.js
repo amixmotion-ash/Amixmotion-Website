@@ -747,7 +747,7 @@ if (lightbox) {
             ipadChooser = document.getElementById('ipad-chooser');
         }
         if (!ipadChooser) {
-            ipadChooser = document.createElement('dialog');
+            ipadChooser = document.createElement('div');
             ipadChooser.id = 'ipad-chooser';
             ipadChooser.className = 'ipad-chooser';
             ipadChooser.setAttribute('aria-labelledby', 'ipad-chooser-label');
@@ -762,12 +762,12 @@ if (lightbox) {
         if (document.body.classList.contains('ipad-chooser-open')) return;
         ipadChooserScrollY = window.scrollY || window.pageYOffset || 0;
         document.body.style.top = '-' + ipadChooserScrollY + 'px';
-        document.body.classList.add('ipad-chooser-open');
+        document.body.classList.add('body-no-scroll', 'ipad-chooser-open');
     }
 
     function unlockChooserPage() {
         if (!document.body.classList.contains('ipad-chooser-open')) return;
-        document.body.classList.remove('ipad-chooser-open');
+        document.body.classList.remove('body-no-scroll', 'ipad-chooser-open');
         document.body.style.top = '';
         var root = document.documentElement;
         var previous = root.style.scrollBehavior;
@@ -946,7 +946,7 @@ if (lightbox) {
         document.querySelectorAll('.ipad-film-picks').forEach(function (node) {
             node.remove();
         });
-        var wasOpen = box.classList.contains('is-open') || box.open;
+        var wasOpen = box.classList.contains('is-open');
         var films = box.querySelector('.ipad-chooser-films');
         if (!films) return;
         films.innerHTML = '';
@@ -978,14 +978,8 @@ if (lightbox) {
             films.appendChild(button);
         });
         if (box.parentNode !== document.body) document.body.appendChild(box);
-        lockChooserPage();
         box.classList.add('is-open');
-        paintIpadChooser(box);
-        if (typeof box.showModal === 'function' && !box.open) {
-            try { box.showModal(); } catch (error) {}
-        }
-        if (!box.open) box.setAttribute('open', '');
-        paintIpadChooser(box);
+        lockChooserPage();
         if (!wasOpen) ipadChooserReadyAt = Date.now() + 450;
     }
 
