@@ -43,7 +43,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=ipad-home30">
+    <link rel="stylesheet" href="style.css?v=ipad-home32">
 </head>
 <body class="homepage">
 
@@ -363,7 +363,7 @@
     <span class="back-to-top-label">Top</span>
 </button>
 
-    <script src="script.js?v=ipad-home30"></script>
+    <script src="script.js?v=ipad-home32"></script>
     <script>
     /* iPad turns the first tap into a hover and often never fires click.
        The panels and arrows call these directly. */
@@ -458,6 +458,11 @@
         window.amixTapTile = function (el, event) {
             if (!el || desktopMouseUp(event) || movedTooFar(event)) return;
             if (document.documentElement.classList.contains('ipad') && window.amixPlayFilm) {
+                var pick = event && event.target && event.target.closest && event.target.closest('.ipad-film-pick');
+                if (pick) {
+                    window.amixPlayFilm(pick.getAttribute('data-src'), pick.getAttribute('data-poster') || '');
+                    return;
+                }
                 var img = el.querySelector('.grid-item-image img');
                 window.amixPlayFilm(el.getAttribute('data-video-src'), img ? (img.currentSrc || img.getAttribute('src')) : '');
                 return;

@@ -915,6 +915,11 @@ if (lightbox) {
         let tileTouchAt = 0;
         let openedAt = 0;
         const openItem = (event) => {
+            var pick = event && event.target && event.target.closest && event.target.closest('.ipad-film-pick');
+            if (pick && isIpadDevice() && window.amixPlayFilm) {
+                window.amixPlayFilm(pick.getAttribute('data-src'), pick.getAttribute('data-poster') || '');
+                return;
+            }
             var now = Date.now();
             if ((window.amixTapAt && now - window.amixTapAt < 500) || now - openedAt < 600) return;
             openedAt = now;
@@ -953,6 +958,31 @@ if (lightbox) {
             });
         }
     });
+
+    if (isIpadDevice()) {
+        document.querySelectorAll('.grid-item').forEach(function (item) {
+            if (item.querySelector('.ipad-film-picks')) return;
+            var cuts = readCuts(item);
+            if (cuts.length < 2) return;
+            var row = document.createElement('span');
+            row.className = 'ipad-film-picks';
+            cuts.forEach(function (cut, index) {
+                var pick = document.createElement('span');
+                pick.className = 'ipad-film-pick' + (cut.aspect === '9:16' ? ' is-vertical' : '');
+                pick.setAttribute('data-src', cut.src);
+                pick.setAttribute('data-poster', cut.poster || '');
+                pick.setAttribute('role', 'button');
+                pick.setAttribute('aria-label', 'Play film ' + (index + 1));
+                var image = document.createElement('img');
+                image.src = cut.poster || '';
+                image.alt = '';
+                image.draggable = false;
+                pick.appendChild(image);
+                row.appendChild(pick);
+            });
+            item.appendChild(row);
+        });
+    }
 
     window.amixOpenTile = function (el) {
         if (!el) return;
