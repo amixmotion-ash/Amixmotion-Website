@@ -26,7 +26,8 @@
         transform: translateX(-100%);
         transition: none; /* Temporarily disable animation during load */
       }
-        .video-lightbox {
+        .video-lightbox,
+        .ipad-chooser {
     display: none;
   }
     .visually-hidden {
@@ -43,7 +44,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=ipad-home33">
+    <link rel="stylesheet" href="style.css?v=ipad-home35">
 </head>
 <body class="homepage">
 
@@ -87,6 +88,12 @@
             </div>
         </div>
     </nav>
+
+    <div id="ipad-chooser" class="ipad-chooser" role="dialog" aria-modal="true" aria-labelledby="ipad-chooser-label">
+        <button type="button" class="ipad-chooser-close" aria-label="Close">CLOSE</button>
+        <p class="ipad-chooser-label" id="ipad-chooser-label">Choose a film</p>
+        <div class="ipad-chooser-films"></div>
+    </div>
 
  <section class="hero-video">
     <h1 class="visually-hidden">Amixmotion: Professional Videography and Visual Storytelling</h1>
@@ -363,7 +370,7 @@
     <span class="back-to-top-label">Top</span>
 </button>
 
-    <script src="script.js?v=ipad-home33"></script>
+    <script src="script.js?v=ipad-home35"></script>
     <script>
     /* iPad turns the first tap into a hover and often never fires click.
        The panels and arrows call these directly. */
