@@ -320,8 +320,7 @@ if (lightbox) {
     window.amixPlayFilm = function (src, poster) {
         if (!src || !isIpadDevice() || !ipadFilm) return;
         var now = Date.now();
-        var same = ipadFilm.getAttribute('src') === src && window.amixFilmAt && (now - window.amixFilmAt < 500);
-        if (same && !ipadFilm.paused) return;
+        if (window.amixFilmAt && now - window.amixFilmAt < 500 && ipadFilm.getAttribute('src') === src) return;
         window.amixFilmAt = now;
         if (poster) ipadFilm.poster = poster;
         ipadFilm.controls = true;
@@ -333,7 +332,7 @@ if (lightbox) {
         });
         document.body.classList.add('ipad-film-open');
         void ipadFilm.offsetWidth;
-        if (!same && ipadFilm.getAttribute('src') !== src) ipadFilm.src = src;
+        if (ipadFilm.getAttribute('src') !== src) ipadFilm.src = src;
         var pending = ipadFilm.play();
         if (pending && typeof pending.catch === 'function') pending.catch(function () {});
         if (typeof ipadFilm.webkitEnterFullscreen === 'function') {
@@ -794,12 +793,6 @@ if (lightbox) {
 
     window.amixOpenIpad = function (el) {
         if (!el || !isIpadDevice()) return false;
-        var cuts = readCuts(el);
-        if (cuts.length > 1) {
-            showIpadChooser(cuts);
-            return true;
-        }
-        hideIpadChooser();
         var img = el.querySelector('.grid-item-image img');
         var poster = img ? (img.currentSrc || img.getAttribute('src') || '') : '';
         if (window.amixPlayFilm) window.amixPlayFilm(el.getAttribute('data-video-src'), poster);
@@ -818,11 +811,6 @@ if (lightbox) {
         const aspect = activeCut ? activeCut.aspect : aspectRatio;
         const poster = posterFor(videoSrc, activeCut);
         if (onIpad) {
-            if (list.length > 1) {
-                showIpadChooser(list);
-                return;
-            }
-            hideIpadChooser();
             if (window.amixPlayFilm) window.amixPlayFilm(videoSrc, poster);
             return;
         }
