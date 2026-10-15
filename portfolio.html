@@ -21,8 +21,7 @@
         transform: translateX(-100%);
         transition: none; /* Temporarily disable animation during load */
       }
-        .video-lightbox,
-        .ipad-chooser {
+        .video-lightbox {
     display: none;
   }
     .visually-hidden {
@@ -36,7 +35,7 @@
     border: 0 !important;
   }
     </style>
-    <link rel="stylesheet" href="style.css?v=ipad-home38">
+    <link rel="stylesheet" href="style.css?v=ipad-home39">
 </head>
 <body class="portfolio-page">
 
@@ -82,11 +81,11 @@
         </div>
     </nav>
 
-    <div id="ipad-chooser" class="ipad-chooser" role="dialog" aria-modal="true" aria-labelledby="ipad-chooser-label">
+    <dialog id="ipad-chooser" class="ipad-chooser" aria-labelledby="ipad-chooser-label">
         <button type="button" class="ipad-chooser-close" aria-label="Close">CLOSE</button>
         <p class="ipad-chooser-label" id="ipad-chooser-label">Choose a film</p>
         <div class="ipad-chooser-films"></div>
-    </div>
+    </dialog>
 
     <main class="portfolio-page-main">
         <section class="work-intro">
@@ -389,7 +388,7 @@
     </button>
     <div class="menu-cursor">&rarr;</div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.12.1/rellax.min.js"></script>
-    <script src="script.js?v=ipad-home38"></script>
+    <script src="script.js?v=ipad-home39"></script>
 
     <!-- PASTE THIS NEW SCRIPT TAG HERE -->
     <script>document.body.classList.add('js-page-loaded');</script>
