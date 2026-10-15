@@ -801,57 +801,113 @@ if (lightbox) {
         }
     }
 
-    function showIpadChooser(cuts, anchor) {
-        var box = ensureIpadChooser();
-        if (!box) return;
-        if (anchor) ipadChooserAnchor = anchor;
-        var wasOpen = box.classList.contains('is-open');
-        var films = box.querySelector('.ipad-chooser-films');
-        films.innerHTML = '';
-        var view = window.visualViewport;
-        var viewH = view ? view.height : window.innerHeight;
-        var frame = Math.max(140, Math.min(viewH * 0.42, 340));
-        cuts.forEach(function (cut, index) {
+    function revealIpadPicks(el, cuts) {
+        if (!el || el.querySelector('.ipad-film-picks')) return;
+        var picks = document.createElement('span');
+        picks.className = 'ipad-film-picks';
+        var close = document.createElement('span');
+        close.className = 'ipad-film-picks-close';
+        close.setAttribute('role', 'button');
+        close.textContent = 'CLOSE';
+        var label = document.createElement('span');
+        label.className = 'ipad-film-picks-label';
+        label.textContent = 'Choose a film';
+        var row = document.createElement('span');
+        row.className = 'ipad-film-picks-row';
+        var tileBox = el.getBoundingClientRect();
+        var innerW = Math.max(140, (tileBox.width || 300) - 28);
+        var innerH = Math.max(160, (tileBox.height || 400) - 72);
+        var gap = 8;
+        var portraitPanel = (tileBox.height || 0) >= (tileBox.width || 1);
+        if (portraitPanel) row.style.flexDirection = 'column';
+        var frames = cuts.map(function (cut) {
             var vertical = cut.aspect === '9:16';
-            var button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'ipad-chooser-film' + (vertical ? ' is-vertical' : '');
-            button.setAttribute('data-src', cut.src);
-            button.setAttribute('data-poster', cut.poster || '');
-            button.setAttribute('aria-label', 'Play film ' + (index + 1));
-            button.style.height = Math.round(frame) + 'px';
-            button.style.width = Math.round(frame * (vertical ? 9 / 16 : 16 / 9)) + 'px';
+            var w;
+            var h;
+            if (portraitPanel) {
+                if (vertical) {
+                    h = innerH * 0.42;
+                    w = h * 9 / 16;
+                } else {
+                    w = innerW;
+                    h = w * 9 / 16;
+                }
+            } else {
+                var ratioSum = 0;
+                cuts.forEach(function (item) {
+                    ratioSum += item.aspect === '9:16' ? (9 / 16) : (16 / 9);
+                });
+                h = (innerW - gap * Math.max(0, cuts.length - 1)) / (ratioSum || 1);
+                w = h * (vertical ? 9 / 16 : 16 / 9);
+            }
+            return { vertical: vertical, w: w, h: h };
+        });
+        if (portraitPanel) {
+            var total = gap * Math.max(0, frames.length - 1);
+            frames.forEach(function (frame) { total += frame.h; });
+            if (total > innerH) {
+                var scale = innerH / total;
+                frames.forEach(function (frame) {
+                    frame.w *= scale;
+                    frame.h *= scale;
+                });
+            }
+        }
+        frames.forEach(function (frame, index) {
+            var cut = cuts[index];
+            var pick = document.createElement('span');
+            pick.className = 'ipad-film-pick' + (frame.vertical ? ' is-vertical' : '');
+            pick.setAttribute('role', 'button');
+            pick.setAttribute('data-src', cut.src);
+            pick.setAttribute('data-poster', cut.poster || '');
+            pick.setAttribute('aria-label', 'Play film ' + (index + 1));
+            pick.style.width = Math.round(frame.w) + 'px';
+            pick.style.height = Math.round(frame.h) + 'px';
+            pick.style.maxWidth = 'none';
+            pick.style.flex = '0 0 auto';
             var image = document.createElement('img');
-            image.src = cut.poster || '';
             image.alt = '';
             image.draggable = false;
-            button.appendChild(image);
-            var playCut = function (event) {
-                if (Date.now() < ipadChooserReadyAt) return;
-                if (event && event.type !== 'touchend' && event.preventDefault) event.preventDefault();
-                var fs = document.fullscreenElement || document.webkitFullscreenElement;
-                if (fs === box) {
-                    var exit = document.exitFullscreen || document.webkitExitFullscreen;
-                    if (exit) {
-                        try { exit.call(document); } catch (error) {}
-                    }
-                }
-                if (window.amixPlayFilm) window.amixPlayFilm(cut.src, cut.poster || '');
-            };
-            button.addEventListener('click', playCut);
-            button.addEventListener('touchend', playCut);
-            films.appendChild(button);
+            image.src = cut.poster || '';
+            pick.appendChild(image);
+            row.appendChild(pick);
         });
-        box.classList.add('is-open');
-        pinIpadChooser(box, anchor || ipadChooserAnchor);
-        if (!wasOpen) ipadChooserReadyAt = Date.now() + 450;
+        picks.appendChild(close);
+        picks.appendChild(label);
+        picks.appendChild(row);
+        el.appendChild(picks);
+        el.amixPickReady = Date.now() + 450;
+    }
+
+    window.amixUsePick = function (el, event) {
+        if (!el || !event || !event.target || !event.target.closest) return false;
+        if (!el.contains(event.target)) return false;
+        var pick = event.target.closest('.ipad-film-pick');
+        if (pick) {
+            if (Date.now() < (el.amixPickReady || 0)) return true;
+            if (event.type !== 'touchend' && event.preventDefault) event.preventDefault();
+            if (window.amixPlayFilm) window.amixPlayFilm(pick.getAttribute('data-src'), pick.getAttribute('data-poster') || '');
+            return true;
+        }
+        if (event.target.closest('.ipad-film-picks-close')) {
+            var box = el.querySelector('.ipad-film-picks');
+            if (box) box.remove();
+            if (event.type !== 'touchend' && event.preventDefault) event.preventDefault();
+            return true;
+        }
+        if (el.querySelector('.ipad-film-picks')) return true;
+        return false;
+    };
+
+    function showIpadChooser(cuts, anchor) {
+        revealIpadPicks(anchor, cuts);
     }
 
     window.amixShowChooser = function (el) {
         if (!el || !isIpadDevice()) return false;
         var cuts = readCuts(el);
         if (cuts.length < 2) return false;
-        showIpadChooser(cuts, el);
+        revealIpadPicks(el, cuts);
         return true;
     };
 
@@ -983,6 +1039,7 @@ if (lightbox) {
         let tileTouchAt = 0;
         let openedAt = 0;
         const openItem = (event) => {
+            if (isIpadDevice() && window.amixUsePick && window.amixUsePick(item, event)) return;
             var now = Date.now();
             if ((window.amixTapAt && now - window.amixTapAt < 500) || now - openedAt < 600) return;
             openedAt = now;
