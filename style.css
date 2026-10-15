@@ -5735,6 +5735,99 @@ html.ipad body.ipad-film-open #ipad-film-close {
     cursor: pointer;
 }
 
+.ipad-chooser {
+    display: none;
+}
+
+html.ipad body.ipad-chooser-open {
+    overflow: hidden;
+}
+
+html.ipad .ipad-chooser.is-open {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    z-index: 1800;
+    box-sizing: border-box;
+    padding: 72px 32px 40px;
+    background: #000;
+}
+
+html.ipad .ipad-chooser-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    line-height: 44px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html.ipad .ipad-chooser-label {
+    margin: 0 0 28px;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+    text-align: center;
+}
+
+html.ipad .ipad-chooser-films {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    width: min(1100px, 100%);
+}
+
+html.ipad .ipad-chooser-film {
+    flex: 0 0 auto;
+    height: min(42vh, 340px);
+    width: calc(min(42vh, 340px) * 16 / 9);
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    background: #111;
+    overflow: hidden;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html.ipad .ipad-chooser-film.is-vertical {
+    width: calc(min(42vh, 340px) * 9 / 16);
+}
+
+html.ipad .ipad-chooser-film img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+html.ipad .ipad-chooser-film:active {
+    border-color: #ffffff;
+}
+
 html.ipad .lightbox-content > .lightbox-video.is-onstage {
     display: none !important;
 }
