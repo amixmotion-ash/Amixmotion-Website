@@ -474,13 +474,31 @@ body.menu-is-closing .main-nav {
     transition: color 0.2s ease;
 }
 
+/* Hit area is the word, not the empty panel to its right */
+.main-nav-inner > ul a {
+    width: fit-content;
+    max-width: 100%;
+}
+
 /* Open-menu WORD colors only (not .main-nav-social links).
    Rest: non-page knocked back; .is-page = current page; .is-current = hover (desktop). */
 .main-nav.nav-open .main-nav-inner > ul a {
     color: rgba(255, 255, 255, 0.4);
 }
 .main-nav.nav-open .main-nav-inner > ul a.is-page {
-    color: rgba(255, 255, 255, 0.72);
+    position: relative;
+    color: #ffffff;
+}
+.main-nav.nav-open .main-nav-inner > ul a.is-page::before {
+    content: "";
+    position: absolute;
+    left: -31px;
+    top: 50%;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #ffffff;
+    transform: translateY(-50%);
 }
 .main-nav.nav-open .main-nav-inner > ul a.is-current,
 .main-nav.nav-open .main-nav-inner > ul a:focus-visible {
@@ -564,7 +582,7 @@ body.menu-is-closing .main-nav {
 /* Narrow panel: shrink type & side padding so words stay readable inside the black panel. */
 @container menu-panel (max-width: 420px) {
     .main-nav ul {
-        padding-left: 0.75rem;
+        padding-left: 2.2rem;
         padding-right: 1rem;
     }
     .main-nav a {
@@ -598,7 +616,7 @@ body.menu-is-closing .main-nav {
     }
 
     .main-nav-inner > ul {
-        padding: 0;
+        padding: 0 0 0 2rem;
         text-align: left;
         width: max-content;
         max-width: 100%;
@@ -618,7 +636,7 @@ body.menu-is-closing .main-nav {
     .main-nav.nav-open .main-nav-inner > ul a.is-page,
     .main-nav.nav-open .main-nav-inner > ul a.is-page.is-current,
     .main-nav.nav-open .main-nav-inner > ul a.is-page:focus-visible {
-        color: rgba(255, 255, 255, 0.72);
+        color: #ffffff;
     }
 
     .main-nav-meta {
@@ -778,6 +796,36 @@ body.menu-is-closing .main-nav {
     left: auto;
     bottom: auto;
     transform: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #000000;
+    border: 1px solid #000000;
+    justify-content: center;
+    opacity: 1;
+    animation: scroll-cue-bounce 2s infinite;
+}
+
+.homepage .hero-video .scroll-indicator .scroll-arrow {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    border: 0;
+    display: block;
+    animation: none;
+    transform: none;
+}
+
+@keyframes scroll-cue-bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
 }
 
 /* --- SCROLLING CONTENT WRAPPER --- */
@@ -5104,7 +5152,8 @@ body.homepage.js-home-motion .home-reveal.is-revealed {
         transition-delay: 0s;
     }
 
-    body.homepage .scroll-arrow {
+    body.homepage .scroll-arrow,
+    body.homepage .hero-video .scroll-indicator {
         animation: none;
     }
 
@@ -5129,11 +5178,6 @@ body.homepage.js-home-motion .home-reveal.is-revealed {
     }
 }
 
-/* Homepage: back-to-top is mobile circle only (no desktop TOP block) */
-.homepage .back-to-top {
-    display: none;
-}
-
 .back-to-top {
     position: fixed;
     right: 40px;
@@ -5142,10 +5186,12 @@ body.homepage.js-home-motion .home-reveal.is-revealed {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 7px;
     box-sizing: border-box;
-    padding: 14px 16px;
+    width: 52px;
+    height: 52px;
+    padding: 0;
     border: 1px solid #000000;
+    border-radius: 50%;
     background: #000000;
     color: #ffffff;
     font-family: 'Inter', sans-serif;
@@ -5179,10 +5225,14 @@ body.homepage.js-home-motion .home-reveal.is-revealed {
     outline-offset: 3px;
 }
 
+.back-to-top-label {
+    display: none;
+}
+
 .back-to-top-arrow {
     display: block;
-    width: 12px;
-    height: 12px;
+    width: 22px;
+    height: 22px;
 }
 
 body.body-no-scroll .back-to-top {
@@ -5195,24 +5245,6 @@ body.body-no-scroll .back-to-top {
     .back-to-top {
         right: 16px;
         bottom: 16px;
-        width: 52px;
-        height: 52px;
-        padding: 0;
-        border-radius: 50%;
-    }
-
-    .homepage .back-to-top {
-        display: inline-flex;
-    }
-
-    .back-to-top-label {
-        display: none;
-    }
-
-    .back-to-top-arrow {
-        display: block;
-        width: 22px;
-        height: 22px;
     }
 }
 

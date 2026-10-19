@@ -241,8 +241,10 @@ const backToTop = document.querySelector('.back-to-top');
 
 if (backToTop) {
     const updateBackToTop = () => {
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
         const revealAfter = Math.max(480, window.innerHeight * 0.7);
-        backToTop.classList.toggle('is-visible', window.scrollY > revealAfter);
+        const threshold = Math.min(revealAfter, Math.max(120, maxScroll * 0.4));
+        backToTop.classList.toggle('is-visible', maxScroll > 80 && window.scrollY > threshold);
     };
 
     window.addEventListener('scroll', updateBackToTop, { passive: true });
@@ -1955,7 +1957,7 @@ if (scrollIndicator) {
         if (window.scrollY > 50) {
             scrollIndicator.style.opacity = '0';
         } else {
-            scrollIndicator.style.opacity = '0.8';
+            scrollIndicator.style.opacity = '1';
         }
     });
 }
@@ -2108,7 +2110,6 @@ if (htmlForCursor) {
         ? navRoot.querySelectorAll('.main-nav-inner > ul a')
         : [];
     const navList = navRoot ? navRoot.querySelector('.main-nav-inner > ul') : null;
-    const navItems = navList ? navList.querySelectorAll('li') : [];
     const isMenuLinkNode = (node) =>
         !!(node && node.nodeType === 1 && node.closest && node.closest('.main-nav-inner > ul a'));
     const activateMenuCursor = (e, root) => {
@@ -2156,17 +2157,14 @@ if (htmlForCursor) {
             }
         });
     }
-    navItems.forEach((item) => {
-        const link = item.querySelector('a');
-        if (!link) return;
-        item.addEventListener('pointerover', (e) => {
-            if (!leftForRelated(item, e.relatedTarget)) return;
+    navLinks.forEach((link) => {
+        link.addEventListener('pointerover', (e) => {
+            if (!leftForRelated(link, e.relatedTarget)) return;
             setMenuLinkCurrent(link);
         });
-        item.addEventListener('pointerout', (e) => {
-            if (!leftForRelated(item, e.relatedTarget)) return;
+        link.addEventListener('pointerout', (e) => {
+            if (!leftForRelated(link, e.relatedTarget)) return;
             link.classList.remove('is-current');
-            // Stay dimmed if still inside the list (gap / another li); clear only when leaving ul
             if (!navList || !navList.contains(e.relatedTarget)) {
                 clearMenuLinkHover();
             }
